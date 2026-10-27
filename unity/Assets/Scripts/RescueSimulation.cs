@@ -82,7 +82,7 @@ namespace Purumogu.Rescue
         {
             foreach(var robot in Robots)robot.HasTarget=false;
             if(!(reply["goals"] is JArray goals))return;
-            foreach(var goal in goals){var robot=Robots.Find(r=>r.Id==(string)goal["node_id"]);if(robot==null)continue;robot.ExplorationTarget=RescueEvaluation.Vector(goal["position"]);robot.HasTarget=true;}
+            foreach(var goal in goals){var robot=Robots.Find(r=>r.Id==(string)goal["node_id"]);if(robot==null)continue;robot.ExplorationTarget=RescueEvaluation.Vector(goal["position"]);robot.HoldUntilStep=(int?)goal["hold_until_step"]??0;robot.HasTarget=true;}
         }
         public RescuePacket Observe(string run,long seq)
         {
@@ -125,7 +125,7 @@ namespace Purumogu.Rescue
                 if(truth)TrueOccupied++;if(predicted)PredictedOccupied++;if(truth&&predicted)CorrectOccupied++;
                 if((int)c["observations"]>0){Observed++;if(truth)observedTrue++;if(predicted)observedPredicted++;if(truth&&predicted)observedCorrect++;}
             }
-            Precision=PredictedOccupied>0?(float)CorrectOccupied/PredictedOccupied:0;Recall=TrueOccupied>0?(float)CorrectOccupied/TrueOccupied:0;
+            Precision=PredictedOccupied>0?(float)CorrectOccupied/PredictedOccupied:0;Recall=TruthOccupiedTotal>0?(float)CorrectOccupied/TruthOccupiedTotal:0;
             int union=observedTrue+observedPredicted-observedCorrect;IoU=union>0?(float)observedCorrect/union:0;Coverage=Observed/(32f*21*70);
             int globalUnion=TruthOccupiedTotal+PredictedOccupied-CorrectOccupied;GlobalIoU=globalUnion>0?(float)CorrectOccupied/globalUnion:0;
             float squared=0;int count=0;foreach(var n in (JArray)reply["nodes"])
@@ -143,6 +143,6 @@ namespace Purumogu.Rescue
             LocalizationError=Matched>0?error/Matched:float.NaN;
         }
         public static Vector3 Vector(JToken a)=>new Vector3((float)a[0],(float)a[1],(float)a[2]);
-        public object Snapshot(RescueSimulation sim)=>new{scene=sim.Scene.Spec.Id,steps=sim.Step,lost_nodes=sim.Robots.FindAll(r=>r.Lost).Count,observed_cells=Observed,coverage=Coverage,observed_iou=IoU,global_iou=GlobalIoU,truth_occupied_cells=TruthOccupiedTotal,predicted_occupied_cells=PredictedOccupied,correct_occupied_cells=CorrectOccupied,precision=Precision,recall=Recall,pose_rmse_m=PoseRmse,cues=CueCount,matched=Matched,false_alarms=FalseAlarms,truth_people=sim.Scene.VictimPositions.Count,localization_error_m=float.IsNaN(LocalizationError)?(float?)null:LocalizationError,couplings=sim.Attached,releases=sim.Detached};
+        public object Snapshot(RescueSimulation sim)=>new{scene=sim.Scene.Spec.Id,steps=sim.Step,lost_nodes=sim.Robots.FindAll(r=>r.Lost).Count,observed_cells=Observed,coverage=Coverage,observed_iou=IoU,global_iou=GlobalIoU,truth_occupied_cells=TruthOccupiedTotal,predicted_occupied_cells=PredictedOccupied,correct_occupied_cells=CorrectOccupied,occupancy_precision=Precision,occupancy_recall=Recall,human_precision=CueCount>0?(float?)Matched/CueCount:null,human_recall=sim.Scene.VictimPositions.Count>0?(float?)Matched/sim.Scene.VictimPositions.Count:null,pose_rmse_m=PoseRmse,cues=CueCount,matched=Matched,false_alarms=FalseAlarms,truth_people=sim.Scene.VictimPositions.Count,localization_error_m=float.IsNaN(LocalizationError)?(float?)null:LocalizationError,couplings=sim.Attached,releases=sim.Detached};
     }
 }

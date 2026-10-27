@@ -1,0 +1,255 @@
+{
+  "parent_model": "models/rescue-v8/model.json",
+  "model_sha256": "74ac3f85490a5ea8d4ea9650079075fcfd748fc3c75afd57abf1fc3094bec02f",
+  "fit_split": "train",
+  "selection_split": "valid",
+  "test_accessed": false,
+  "selected": {
+    "sensor_likelihood_mix": 0.25,
+    "geometry_log_likelihood_scale": 0.04,
+    "map_iou_macro": 0.9529296170350565,
+    "map_iou_micro": 0.9519227293720758,
+    "rows": [
+      {
+        "scene": "E01",
+        "iou": 0.9678795483061481,
+        "intersection": 7714,
+        "union": 7970,
+        "family": "E01",
+        "confidence": 1.0
+      },
+      {
+        "scene": "E01",
+        "iou": 0.9720508623945613,
+        "intersection": 7721,
+        "union": 7943,
+        "family": "E01",
+        "confidence": 1.0
+      },
+      {
+        "scene": "E02",
+        "iou": 0.9619441848043797,
+        "intersection": 7204,
+        "union": 7489,
+        "family": "E02",
+        "confidence": 1.0
+      },
+      {
+        "scene": "E02",
+        "iou": 0.9685408299866132,
+        "intersection": 7235,
+        "union": 7470,
+        "family": "E02",
+        "confidence": 1.0
+      },
+      {
+        "scene": "E03",
+        "iou": 0.9688786008230452,
+        "intersection": 7534,
+        "union": 7776,
+        "family": "E03",
+        "confidence": 1.0
+      },
+      {
+        "scene": "E03",
+        "iou": 0.9662533554902212,
+        "intersection": 7559,
+        "union": 7823,
+        "family": "E03",
+        "confidence": 0.9999999998954798
+      },
+      {
+        "scene": "E04",
+        "iou": 0.9596919547763395,
+        "intersection": 5857,
+        "union": 6103,
+        "family": "E04",
+        "confidence": 1.0
+      },
+      {
+        "scene": "E04",
+        "iou": 0.9646555975669899,
+        "intersection": 5868,
+        "union": 6083,
+        "family": "E04",
+        "confidence": 1.0
+      },
+      {
+        "scene": "E05",
+        "iou": 0.9680954700438383,
+        "intersection": 7950,
+        "union": 8212,
+        "family": "E05",
+        "confidence": 1.0
+      },
+      {
+        "scene": "E05",
+        "iou": 0.9706527033609352,
+        "intersection": 7971,
+        "union": 8212,
+        "family": "E05",
+        "confidence": 1.0
+      },
+      {
+        "scene": "M01",
+        "iou": 0.9600282153773807,
+        "intersection": 8166,
+        "union": 8506,
+        "family": "M01",
+        "confidence": 0.9999999995966788
+      },
+      {
+        "scene": "M01",
+        "iou": 0.9605847953216374,
+        "intersection": 8213,
+        "union": 8550,
+        "family": "M01",
+        "confidence": 0.9999999999965543
+      },
+      {
+        "scene": "M02",
+        "iou": 0.9561285592081143,
+        "intersection": 7824,
+        "union": 8183,
+        "family": "M02",
+        "confidence": 0.9620710061535734
+      },
+      {
+        "scene": "M02",
+        "iou": 0.9554961089494164,
+        "intersection": 7858,
+        "union": 8224,
+        "family": "M02",
+        "confidence": 0.9991816794271833
+      },
+      {
+        "scene": "M03",
+        "iou": 0.9612834477859342,
+        "intersection": 8119,
+        "union": 8446,
+        "family": "M03",
+        "confidence": 0.9601572772705756
+      },
+      {
+        "scene": "M03",
+        "iou": 0.9541975744730955,
+        "intersection": 8104,
+        "union": 8493,
+        "family": "M03",
+        "confidence": 0.9999841699084886
+      },
+      {
+        "scene": "M04",
+        "iou": 0.9528879813302217,
+        "intersection": 6533,
+        "union": 6856,
+        "family": "M04",
+        "confidence": 0.998553771639995
+      },
+      {
+        "scene": "M04",
+        "iou": 0.9548959697366507,
+        "intersection": 6563,
+        "union": 6873,
+        "family": "M04",
+        "confidence": 0.9997890823051427
+      },
+      {
+        "scene": "M05",
+        "iou": 0.9064981545688402,
+        "intersection": 8105,
+        "union": 8941,
+        "family": "E05",
+        "confidence": 0.9266587143591447
+      },
+      {
+        "scene": "M05",
+        "iou": 0.9611867053312514,
+        "intersection": 8618,
+        "union": 8966,
+        "family": "M05",
+        "confidence": 0.999998074131144
+      },
+      {
+        "scene": "H01",
+        "iou": 0.9522078477493853,
+        "intersection": 8906,
+        "union": 9353,
+        "family": "H01",
+        "confidence": 0.9999999928063905
+      },
+      {
+        "scene": "H01",
+        "iou": 0.9564522998296422,
+        "intersection": 8983,
+        "union": 9392,
+        "family": "H01",
+        "confidence": 1.0
+      },
+      {
+        "scene": "H02",
+        "iou": 0.9511847301448003,
+        "intersection": 8671,
+        "union": 9116,
+        "family": "H02",
+        "confidence": 0.9999988358596826
+      },
+      {
+        "scene": "H02",
+        "iou": 0.94850207741089,
+        "intersection": 8675,
+        "union": 9146,
+        "family": "H02",
+        "confidence": 0.9999999804424585
+      },
+      {
+        "scene": "H03",
+        "iou": 0.8534744785661881,
+        "intersection": 8143,
+        "union": 9541,
+        "family": "M03",
+        "confidence": 0.8328766406982617
+      },
+      {
+        "scene": "H03",
+        "iou": 0.9488308692460942,
+        "intersection": 9049,
+        "union": 9537,
+        "family": "H03",
+        "confidence": 0.8108971193360511
+      },
+      {
+        "scene": "H04",
+        "iou": 0.9413896525868533,
+        "intersection": 7533,
+        "union": 8002,
+        "family": "H04",
+        "confidence": 0.9999999999994627
+      },
+      {
+        "scene": "H04",
+        "iou": 0.9460377358490566,
+        "intersection": 7521,
+        "union": 7950,
+        "family": "H04",
+        "confidence": 0.9999999999667493
+      },
+      {
+        "scene": "H05",
+        "iou": 0.9542338709677419,
+        "intersection": 9466,
+        "union": 9920,
+        "family": "H05",
+        "confidence": 0.9517048692836652
+      },
+      {
+        "scene": "H05",
+        "iou": 0.9437443290654299,
+        "intersection": 9361,
+        "union": 9919,
+        "family": "H05",
+        "confidence": 0.7324969080829755
+      }
+    ]
+  }
+}

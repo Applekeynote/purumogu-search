@@ -16,7 +16,7 @@ namespace Purumogu.Rescue
         UnityRustBridge bridge;
         Camera physicalCamera,mapCamera,robotCamera;
         Font font;
-        int sceneIndex=0,seed=20261027,port=47120,selectedNode;
+        int sceneIndex=0,seed=20261027,port=47120,selectedNode,maxSteps=9000;
         long sequence,expected=-1;
         string run,status="READY",failure="";
         bool running,paused,waiting,scenePicker,cutaway=true,showTruth,closeup;
@@ -31,8 +31,8 @@ namespace Purumogu.Rescue
         void Start()
         {
             Application.runInBackground=true;Application.targetFrameRate=60;font=Font.CreateDynamicFontFromOSFont(new[]{"Yu Gothic","Segoe UI"},18);
-            var args=Environment.GetCommandLineArgs();for(int i=0;i<args.Length-1;i++){if(args[i]=="--port")int.TryParse(args[i+1],out port);if(args[i]=="--scene")int.TryParse(args[i+1],out sceneIndex);if(args[i]=="--frames"){record=true;frameFolder=args[i+1];Directory.CreateDirectory(frameFolder);}if(args[i]=="--capture-count")int.TryParse(args[i+1],out maxFrames);if(args[i]=="--speed")float.TryParse(args[i+1],NumberStyles.Float,CultureInfo.InvariantCulture,out speed);}
-            sceneIndex=Mathf.Clamp(sceneIndex,0,14);Build();if(record)Begin();
+            var args=Environment.GetCommandLineArgs();for(int i=0;i<args.Length-1;i++){if(args[i]=="--closeup")closeup=args[i+1]=="true";if(args[i]=="--port")int.TryParse(args[i+1],out port);if(args[i]=="--steps")int.TryParse(args[i+1],out maxSteps);if(args[i]=="--seed")int.TryParse(args[i+1],out seed);if(args[i]=="--scene")int.TryParse(args[i+1],out sceneIndex);if(args[i]=="--frames"){record=true;frameFolder=args[i+1];Directory.CreateDirectory(frameFolder);}if(args[i]=="--capture-count")int.TryParse(args[i+1],out maxFrames);if(args[i]=="--speed")float.TryParse(args[i+1],NumberStyles.Float,CultureInfo.InvariantCulture,out speed);}
+            maxSteps=Mathf.Clamp(maxSteps,500,30000);sceneIndex=Mathf.Clamp(sceneIndex,0,14);Build();if(record)Begin();
         }
         void Build()
         {
@@ -70,10 +70,10 @@ namespace Purumogu.Rescue
                     if(bridge.Connected)
                     {
                         // One batch in flight; physics keeps running with the last safe target.
-                        if(!paused&&simulation.Step<9000)
+                        if(!paused&&simulation.Step<maxSteps)
                         {
                             accumulator+=Time.deltaTime*speed;int count=0;
-                            while(accumulator>=.02f&&count++<12&&simulation.Step<9000)
+                            while(accumulator>=.02f&&count++<12&&simulation.Step<maxSteps)
                             {
                                 accumulator-=.02f;simulation.Tick();
                                 if(simulation.Step%25==0&&!waiting)
@@ -87,11 +87,11 @@ namespace Purumogu.Rescue
                             var heartbeat=new RescuePacket{run_id=run,seq_no=sequence++,sim_step=simulation.Step};string json=JsonConvert.SerializeObject(heartbeat);bridge.SendJson(json);audit.Add(json);expected=heartbeat.seq_no;waiting=true;lastSent=Time.realtimeSinceStartup;
                         }
                     }
-                    if(simulation.Step>=9000)
+                    if(simulation.Step>=maxSteps)
                     {
                         simulation.Power(false);
-                        if(!waiting&&(lastMap==null||(long)lastMap["sim_step"]<9000)){var packet=simulation.Observe(run,sequence++);string json=JsonConvert.SerializeObject(packet);bridge.SendJson(json);audit.Add(json);expected=packet.seq_no;waiting=true;lastSent=Time.realtimeSinceStartup;}
-                        if(!waiting&&lastMap!=null&&(long)lastMap["sim_step"]>=9000){running=false;status="TIME BUDGET COMPLETE";Export();}
+                        if(!waiting&&(lastMap==null||(long)lastMap["sim_step"]<maxSteps)){var packet=simulation.Observe(run,sequence++);string json=JsonConvert.SerializeObject(packet);bridge.SendJson(json);audit.Add(json);expected=packet.seq_no;waiting=true;lastSent=Time.realtimeSinceStartup;}
+                        if(!waiting&&lastMap!=null&&(long)lastMap["sim_step"]>=maxSteps){running=false;status="TIME BUDGET COMPLETE";Export();}
                     }
                 }
                 catch(Exception e){failure=e.Message;status="SAFE STOP";running=false;simulation.Power(false);simulation.ReleaseAll();bridge?.Dispose();bridge=null;Export();}
@@ -147,7 +147,7 @@ namespace Purumogu.Rescue
             if(Button(1410,59,80,$"{speed:F0}×"))speed=speed<2?4:1;
             if(Button(1500,59,76,"保存"))Export();
             Header(24,126,770,"01","ロボットと災害現場",$"{status}  ·  {simulation.Step*.02f:F1} s  ·  接続 {simulation.Links.Count} / 累計 {simulation.Attached}  ·  解除 {simulation.Detached}  ·  断面は描画のみ");
-            Header(810,126,766,"02","AIが推定した3Dマップ","青緑：実測  /  紫：学習による補完  /  暗部：未知  /  橙：音響候補・未確認");
+            Header(810,126,766,"02","観測とともに復元する3Dマップ",$"青緑：観測支持 {map.VisibleObservedCells}  /  紫：周辺補完 {map.VisibleCompletionCells}  /  暗部：未表示・未知  /  橙：音響候補");
             if(lastMap==null)Text(850,310,660,90,"観測待ち\n正解の地形は、この画面へ転送しません。",21,Muted);
             for(int i=0;i<map.CuePositions.Count;i++)
             {
@@ -160,13 +160,13 @@ namespace Purumogu.Rescue
             for(int i=0;i<simulation.Robots.Count;i++)
             {
                 var node=simulation.Robots[i];float y=692+i*14.3f;if(i==selectedNode)Fill(new Rect(36,y,744,15),new Color(.10f,.20f,.22f));
-                string row=$"{node.Id}     {node.Energy*100,3:F0}%     {node.BendDegrees,3:F0}°/{node.SpinDegrees,3:F0}°     {(node.PortBusy[0]?1:0)+(node.PortBusy[1]?1:0)}        {node.Peers,2}          {node.Signal,4:F0}       {node.LastSnr,4:F1}       {node.Temperature,4:F1}°     {(node.Lost?"喪失":node.Stuck?"停滞":node.Powered?"稼働":"停止")}";
+                string row=$"{node.Id}     {node.Energy*100,3:F0}%     {node.BendDegrees,3:F0}°/{node.SpinDegrees,3:F0}°     {(node.PortBusy[0]?1:0)+(node.PortBusy[1]?1:0)}        {node.Peers,2}          {node.Signal,4:F0}       {node.LastSnr,4:F1}       {node.Temperature,4:F1}°     {(node.Lost?"喪失":node.Verifying?"確認中":node.Stuck?"停滞":node.Powered?"稼働":"停止")}";
                 Text(42,y,730,20,row,11,node.Lost||node.Stuck?Amber:Ink);if(GUI.Button(new Rect(36,y,744,15),GUIContent.none,GUIStyle.none))selectedNode=i;
             }
             Text(826,630,730,26,"04  推論の評価 / 真値はこの区画だけで使用",18,Ink,true);
             float humanPrecision=evaluation.CueCount>0?(float)evaluation.Matched/evaluation.CueCount:0,humanRecall=simulation.Scene.Spec.Victims>0?(float)evaluation.Matched/simulation.Scene.Spec.Victims:0;
             Metric(832,670,"3D占有IoU / 全領域",$"{evaluation.GlobalIoU*100:F1}%",evaluation.GlobalIoU>=.95f);Metric(1070,670,"要救助者候補の適合率",evaluation.CueCount>0?$"{humanPrecision*100:F1}%":"候補なし",humanPrecision>=.95f);Metric(1320,670,"要救助者候補の再現率",simulation.Scene.Spec.Victims>0?$"{humanRecall*100:F1}%":"負例",humanRecall>=.95f);
-            Text(834,745,700,23,$"目標：3指標とも95%以上  /  観測率 {evaluation.Coverage*100:F1}% · 既観測IoU {evaluation.IoU:F2} · 位置RMSE {evaluation.PoseRmse*100:F1} cm",13,Ink);
+            Text(834,745,700,23,$"全推定地図を評価（右上は観測の進行表示） / 観測率 {evaluation.Coverage*100:F1}% · 既観測IoU {evaluation.IoU:F2} · 位置RMSE {evaluation.PoseRmse*100:F1} cm",13,Ink);
             Text(834,777,700,24,$"候補 {evaluation.CueCount} / 一致 {evaluation.Matched} / 誤警報 {evaluation.FalseAlarms} · 位置誤差 {(float.IsNaN(evaluation.LocalizationError)?"未評価":(evaluation.LocalizationError*100).ToString("F1")+" cm")} · Rust {latency:F0} ms",13,Muted);
             Text(834,810,700,48,string.IsNullOrEmpty(failure)?"評価対象は実験用の局所空隙です。水・粉塵・音響は簡略モデル。実災害の救助性能を保証する検証ではありません。":failure,12,string.IsNullOrEmpty(failure)?Muted:Amber);
             if(scenePicker)

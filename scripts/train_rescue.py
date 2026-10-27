@@ -29,14 +29,18 @@ def fit(features,labels,ridge):
         if np.linalg.norm(delta)<1e-7:break
     return w
 
+def quadratic_audio(x):
+    return list(x)+[x[i]*x[j] for i in range(4) for j in range(i,4)]
+
 def metrics(rows,weights):
     if not rows:return None
-    x=np.column_stack([np.ones(len(rows)),np.array([r['features'] for r in rows])]);y=np.array([r['label'] for r in rows]);p=1/(1+np.exp(-np.clip(x@weights,-40,40)));pred=p>=.5
+    values=[quadratic_audio(r['features']) if len(weights)==15 else r['features'] for r in rows]
+    x=np.column_stack([np.ones(len(rows)),np.array(values)]);y=np.array([r['label'] for r in rows]);p=1/(1+np.exp(-np.clip(x@weights,-40,40)));pred=p>=.5
     tp=int(np.sum(pred&(y==1)));fp=int(np.sum(pred&(y==0)));fn=int(np.sum(~pred&(y==1)))
     return {'samples':len(rows),'accuracy':float(np.mean(pred==y)),'precision':tp/max(1,tp+fp),'recall':tp/max(1,tp+fn),'log_loss':float(-np.mean(y*np.log(p+1e-12)+(1-y)*np.log(1-p+1e-12)))}
 
 def main():
-    parser=argparse.ArgumentParser();parser.add_argument('--ridge',type=float,default=.001);parser.add_argument('--name',default='rescue-v1');parser.add_argument('--fusion',action='store_true');parser.add_argument('--window',type=int,default=1);parser.add_argument('--sensor-mix',type=float,default=1);parser.add_argument('--raw-sensor-maps',action='store_true');parser.add_argument('--signed-prior',action='store_true');parser.add_argument('--geometry-scale',type=float,default=.04);parser.add_argument('--range-angle',action='store_true');args=parser.parse_args()
+    parser=argparse.ArgumentParser();parser.add_argument('--ridge',type=float,default=.001);parser.add_argument('--name',default='rescue-v1');parser.add_argument('--fusion',action='store_true');parser.add_argument('--window',type=int,default=1);parser.add_argument('--sensor-mix',type=float,default=1);parser.add_argument('--raw-sensor-maps',action='store_true');parser.add_argument('--signed-prior',action='store_true');parser.add_argument('--geometry-scale',type=float,default=.04);parser.add_argument('--range-angle',action='store_true');parser.add_argument('--quadratic-audio',action='store_true');args=parser.parse_args()
     raw=ROOT/'experiments/raw/rescue'
     train=list(lines(raw/'features-train.jsonl'));valid=list(lines(raw/'features-valid.jsonl')) if (raw/'features-valid.jsonl').exists() else []
     sensor_manifests=[]
@@ -61,7 +65,7 @@ def main():
             assert manifest['status']=='complete' and manifest['expected_maps']==len(maps),'Incomplete collection must not be fitted or selected'
     weights={};report={}
     for kind in ['acoustic','occupancy']:
-        rows=[r for r in train if r['kind']==kind];w=fit([r['features'] for r in rows],[r['label'] for r in rows],args.ridge);weights[kind]=w.tolist()
+        rows=[r for r in train if r['kind']==kind];features=[quadratic_audio(r['features']) if kind=='acoustic' and args.quadratic_audio else r['features'] for r in rows];w=fit(features,[r['label'] for r in rows],args.ridge);weights[kind]=w.tolist()
         report[kind]={'train':metrics(rows,w),'valid':metrics([r for r in valid if r['kind']==kind],w),'weights':w.tolist()}
     families={}
     for row in lines(raw/'grids-train.jsonl'):
@@ -122,13 +126,14 @@ def main():
         if args.fusion:
             fusion_weights=fit(fusion_x,fusion_y,args.ridge).tolist();report['fusion']={'samples':len(fusion_y),'weights':fusion_weights,'prior':'leave-one-map-out TRAIN prior, never the same map or VALID'}
         if args.window>1:
-            temporal_weights=fit(temporal_x,temporal_y,args.ridge);weights['acoustic']=temporal_weights.tolist();report['temporal_acoustic']={'window_frames':args.window,'samples':len(temporal_y),'weights':weights['acoustic']}
+            temporal_features=[quadratic_audio(x) for x in temporal_x] if args.quadratic_audio else temporal_x
+            temporal_weights=fit(temporal_features,temporal_y,args.ridge);weights['acoustic']=temporal_weights.tolist();report['temporal_acoustic']={'window_frames':args.window,'samples':len(temporal_y),'feature_map':'quadratic-v1' if args.quadratic_audio else 'linear-v1','weights':weights['acoustic']}
         for prototype in prototypes:
             family=prototype['family'];sensor=(sensor_sums[family]+1)/(sensor_counts[family]+2);prototype['sensor_occupancy']=np.round(sensor.flatten(),6).tolist()
         if range_x:
             x=np.column_stack([np.ones(len(range_x)),np.array(range_x)]);y=np.array(range_y);penalty=np.eye(x.shape[1])*args.ridge;penalty[0,0]=0;w=np.linalg.solve(x.T@x/len(y)+penalty,x.T@y/len(y));range_weights=w.tolist();range_sigma=max(.3,float(np.std(x@w-y)));report['acoustic_range']={'samples':len(y),'weights':range_weights,'log_sigma':range_sigma,'instantaneous_features_and_bearing_uncertainty':args.range_angle,'labels':'TRAIN single-source humans only, source position supervised offline; no source position at inference'}
     source_hash=hashlib.sha256((raw/'features-train.jsonl').read_bytes()+(raw/'grids-train.jsonl').read_bytes()+b''.join(sensor_manifests[:1])).hexdigest()
-    model={'version':'rescue-trained-v1','cell_m':.05,'acoustic_weights':weights['acoustic'],'occupancy_weights':weights['occupancy'],'fusion_weights':fusion_weights,'acoustic_window_frames':args.window,'log_range_weights':range_weights,'log_range_sigma':range_sigma,'sensor_likelihood_mix':args.sensor_mix,'geometry_log_likelihood_scale':args.geometry_scale,'signed_geometry_prior':args.signed_prior,'prototypes':prototypes,'train_maps':train_maps,'valid_maps':valid_maps,'data_sha256':source_hash}
+    model={'version':'rescue-trained-v1','cell_m':.05,'acoustic_feature_map':'quadratic-v1' if args.quadratic_audio else 'linear-v1','acoustic_weights':weights['acoustic'],'occupancy_weights':weights['occupancy'],'fusion_weights':fusion_weights,'acoustic_window_frames':args.window,'log_range_weights':range_weights,'log_range_sigma':range_sigma,'sensor_likelihood_mix':args.sensor_mix,'geometry_log_likelihood_scale':args.geometry_scale,'signed_geometry_prior':args.signed_prior,'prototypes':prototypes,'train_maps':train_maps,'valid_maps':valid_maps,'data_sha256':source_hash}
     output=ROOT/'models'/args.name
     output.mkdir(parents=True,exist_ok=False)
     data=json.dumps(model,separators=(',',':'),ensure_ascii=False).encode('utf-8');(output/'model.json').write_bytes(data)

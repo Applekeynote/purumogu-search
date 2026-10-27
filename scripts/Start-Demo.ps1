@@ -1,4 +1,4 @@
-param([int]$Port=47120,[ValidateRange(0,14)][int]$Scene=0,[string]$Model='models/rescue-v4/model.json',[string]$Unity='C:\Program Files\Unity\Hub\Editor\6000.4.1f1\Editor\Unity.exe')
+param([int]$Port=47120,[ValidateRange(0,14)][int]$Scene=0,[string]$Model='models/rescue-v11/model.json',[string]$Unity='C:\Program Files\Unity\Hub\Editor\6000.4.1f1\Editor\Unity.exe')
 $ErrorActionPreference='Stop'
 $projectRoot=Split-Path $PSScriptRoot -Parent
 Push-Location $projectRoot

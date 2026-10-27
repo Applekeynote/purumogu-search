@@ -22,6 +22,8 @@ namespace Purumogu.Rescue
         public bool EvaluationSourceIsHuman { get; private set; }
         public bool Powered=true, Stuck;
         public bool Lost { get; private set; }
+        public int HoldUntilStep;
+        public bool Verifying { get; private set; }
         public Vector3 ExplorationTarget;
         public bool HasTarget;
         public float BendDegrees, SpinDegrees;
@@ -96,7 +98,9 @@ namespace Purumogu.Rescue
         public Vector3 PortDirection(int side)=>Cones[side].transform.forward*(side==0?1:-1);
         public void Motor(int step)
         {
+            Verifying=step<HoldUntilStep;
             if(!Powered||Energy<=0)return;
+            if(Verifying){Energy=Mathf.Max(0,Energy-.000001f);return;}
             Vector3 heading=Vector3.forward;
             if(HasTarget){heading=Vector3.ProjectOnPlane(ExplorationTarget-EstimatedPosition,Vector3.up);if(heading.magnitude>.018f)heading.Normalize();else heading=Vector3.forward;}
             if(EstimatedPosition.z>2.65f)heading=Vector3.back;
@@ -142,7 +146,7 @@ namespace Purumogu.Rescue
                 Lost=true;Powered=false;
                 foreach(var body in new[]{Core,Cones[0],Cones[1]}){body.linearVelocity=Vector3.zero;body.angularVelocity=Vector3.zero;body.isKinematic=true;}
             }
-            if(++progressSteps>=100){Stuck=Vector3.Distance(progressPosition,EstimatedPosition)<.008f;progressPosition=EstimatedPosition;progressSteps=0;}
+            if(++progressSteps>=100){Stuck=Vector3.Distance(progressPosition,EstimatedPosition)<.03f;progressPosition=EstimatedPosition;progressSteps=0;}
             BendDegrees=Vector3.Angle(Core.transform.forward,Cones[0].transform.forward);SpinDegrees=(Quaternion.Inverse(Core.rotation)*Cones[0].rotation).eulerAngles.z;
         }
         public SensorScan Observe(RescueScene scene,int step,IReadOnlyList<RescueRobot> peers)
@@ -199,6 +203,6 @@ namespace Purumogu.Rescue
     }
     [Serializable] public sealed class RescuePacket
     {
-        public string protocol_version="2.0",run_id;public long seq_no,sim_step;public double cell_m=RescueScene.Cell;public bool request_map=true;public List<SensorScan> scans=new List<SensorScan>();
+        public string protocol_version="2.0",run_id;public long seq_no,sim_step;public double cell_m=RescueScene.Cell;public bool request_map=true,request_diagnostics=false;public List<SensorScan> scans=new List<SensorScan>();
     }
 }

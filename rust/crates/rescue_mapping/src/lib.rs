@@ -67,6 +67,8 @@ pub struct Packet {
     pub scans: Vec<Scan>,
     #[serde(default = "default_true")]
     pub request_map: bool,
+    #[serde(default)]
+    pub request_diagnostics: bool,
 }
 #[derive(Clone, Debug, Serialize)]
 pub struct Cell {
@@ -74,6 +76,8 @@ pub struct Cell {
     pub occupancy: f64,
     pub observations: u32,
     pub source: &'static str,
+    /// Uncalibrated ray evidence, before learned completion; absent for unobserved cells.
+    pub sensor_occupancy: Option<f64>,
 }
 #[derive(Clone, Debug, Serialize)]
 pub struct Node {
@@ -86,6 +90,7 @@ pub struct Goal {
     pub node_id: String,
     pub position: V3,
     pub reason: &'static str,
+    pub hold_until_step: u64,
 }
 #[derive(Clone, Debug, Serialize)]
 pub struct Cue {
@@ -95,6 +100,23 @@ pub struct Cue {
     pub radius_m: f64,
     pub observers: usize,
     pub status: &'static str,
+    pub last_seen_step: u64,
+    #[serde(skip)]
+    evidence: CueEvidence,
+}
+#[derive(Clone, Debug, Default)]
+struct CueEvidence {
+    near: f64,
+    human: f64,
+    heat: f64,
+    range_error: f64,
+}
+#[derive(Clone, Debug, Serialize)]
+pub struct Proposal {
+    pub position: V3,
+    pub features: [f64; 12],
+    pub observers: usize,
+    pub first_seen_step: u64,
     pub last_seen_step: u64,
 }
 #[derive(Clone)]
@@ -106,6 +128,33 @@ struct Track {
     hits: u32,
     last_seen: u64,
     spread: f64,
+    first_seen: u64,
+    peak_score: f64,
+    evidence: CueEvidence,
+}
+impl Track {
+    fn proposal(&self, step: u64) -> Proposal {
+        Proposal {
+            position: self.position,
+            observers: self.observers,
+            first_seen_step: self.first_seen,
+            last_seen_step: self.last_seen,
+            features: [
+                self.score,
+                self.peak_score,
+                (1.0 + f64::from(self.hits)).ln() / 5.0,
+                self.observers as f64 / 12.0,
+                self.spread.sqrt() / 0.25,
+                self.radius,
+                (step - self.last_seen) as f64 / 9000.0,
+                (self.last_seen - self.first_seen) as f64 / 9000.0,
+                self.evidence.near / 2.0,
+                self.evidence.human,
+                self.evidence.heat / 2.0,
+                self.evidence.range_error / 3.0,
+            ],
+        }
+    }
 }
 #[derive(Clone, Debug, Serialize)]
 pub struct MapReply {
@@ -125,6 +174,7 @@ pub struct MapReply {
     pub model_version: String,
     pub completion_family: String,
     pub completion_confidence: f64,
+    pub proposals: Vec<Proposal>,
 }
 #[derive(Default, Clone)]
 struct Voxel {
@@ -147,7 +197,10 @@ struct Bearing {
     step: u64,
     pose_sigma: f64,
     radial: Option<(f64, f64)>,
+    human: f64,
+    heat: f64,
 }
+type NodeEvidence = (f64, V3, f64, usize, f64, f64, f64, f64);
 pub struct Mapper {
     run: String,
     cell: f64,
@@ -162,6 +215,10 @@ pub struct Mapper {
     acoustic_history: BTreeMap<String, VecDeque<[f64; 4]>>,
     tracks: Vec<Track>,
     last_cue_step: u64,
+    verify_until: BTreeMap<String, u64>,
+    verify_after: BTreeMap<String, u64>,
+    archived_tracks: Vec<Track>,
+    proposal_mode: bool,
 }
 impl Mapper {
     pub fn new(run: &str, cell: f64) -> Result<Self> {
@@ -183,6 +240,10 @@ impl Mapper {
             acoustic_history: BTreeMap::new(),
             tracks: vec![],
             last_cue_step: 0,
+            verify_until: BTreeMap::new(),
+            verify_after: BTreeMap::new(),
+            archived_tracks: vec![],
+            proposal_mode: false,
         })
     }
     pub fn with_model(run: &str, cell: f64, model: Option<Arc<LearnedModel>>) -> Result<Self> {
@@ -190,6 +251,7 @@ impl Mapper {
         if let Some(m) = &model {
             m.validate()?;
             ensure!((m.cell_m - cell).abs() < 1e-9, "model cell size mismatch");
+            mapper.proposal_mode = !m.track_weights.is_empty();
         }
         mapper.model = model;
         Ok(mapper)
@@ -311,6 +373,7 @@ impl Mapper {
                 );
             }
         }
+        self.proposal_mode |= p.request_diagnostics;
         for s in &p.scans {
             let pose = self.poses.entry(s.node_id.clone()).or_insert(Pose {
                 position: s.deployment_anchor,
@@ -361,12 +424,23 @@ impl Mapper {
             let mean: [f64; 4] = std::array::from_fn(|i| {
                 history.iter().map(|x| x[i]).sum::<f64>() / history.len() as f64
             });
+            if let Some(model) = &self.model
+                && model.human_score(features) > 0.8
+                && s.temperature_delta_c > 0.45
+                && p.sim_step >= *self.verify_after.get(&s.node_id).unwrap_or(&0)
+            {
+                let duration = (model.acoustic_window_frames as u64 * 25 + 400).min(2000);
+                self.verify_until
+                    .insert(s.node_id.clone(), p.sim_step + duration);
+                self.verify_after
+                    .insert(s.node_id.clone(), p.sim_step + duration + 1500);
+            }
             if s.acoustic_snr_db > if self.model.is_some() { -60.0 } else { 2.0 }
                 && norm(s.bearing) > 0.9
             {
                 let weight = if let Some(model) = &self.model {
                     let human = model.human_score(mean);
-                    if human < 0.55 {
+                    if human < if self.proposal_mode { 0.35 } else { 0.55 } {
                         0.0
                     } else {
                         // SNR is already a classifier feature and increases bearing sigma.
@@ -397,6 +471,11 @@ impl Mapper {
                                 s.bearing_sigma_deg,
                             )
                         }),
+                        human: self
+                            .model
+                            .as_ref()
+                            .map_or(s.voice_band_ratio * s.modulation, |m| m.human_score(mean)),
+                        heat: s.temperature_delta_c,
                     });
                 }
             }
@@ -419,6 +498,7 @@ impl Mapper {
                 ),
                 observations: v.count,
                 source: "sensor",
+                sensor_occupancy: Some(1.0 / (1.0 + (-v.log_odds).exp())),
             })
             .collect();
         let mut completion_family = String::new();
@@ -492,6 +572,7 @@ impl Mapper {
                                 occupancy: prior,
                                 observations: 0,
                                 source: "learned_prior",
+                                sensor_occupancy: None,
                             });
                         }
                     }
@@ -541,6 +622,15 @@ impl Mapper {
                 .map_or_else(|| "sensor-baseline".into(), |m| m.version.clone()),
             completion_family,
             completion_confidence,
+            proposals: if p.request_map && p.request_diagnostics {
+                self.tracks
+                    .iter()
+                    .chain(&self.archived_tracks)
+                    .map(|t| t.proposal(p.sim_step))
+                    .collect()
+            } else {
+                vec![]
+            },
         };
         if !p.request_map {
             reply.cells.clear();
@@ -559,7 +649,7 @@ impl Mapper {
                         continue;
                     }
                     let p = self.center(k);
-                    let mut by_node: BTreeMap<&str, (f64, V3, f64, usize)> = BTreeMap::new();
+                    let mut by_node: BTreeMap<&str, NodeEvidence> = BTreeMap::new();
                     for b in &self.bearings {
                         let delta = sub(p, b.origin);
                         let d = norm(delta);
@@ -577,16 +667,33 @@ impl Mapper {
                         });
                         let score =
                             b.weight * (-0.5 * (angle / uncertainty).powi(2)).exp() * radial;
-                        let old = by_node.entry(&b.id).or_insert((0.0, b.origin, 0.0, 0));
+                        let old = by_node
+                            .entry(&b.id)
+                            .or_insert((0.0, b.origin, 0.0, 0, 0.0, 0.0, 0.0, 0.0));
                         old.0 += score;
                         old.2 += uncertainty;
                         old.3 += 1;
+                        old.4 += b.human;
+                        old.5 += b.heat;
+                        old.6 += d;
+                        old.7 += b.radial.map_or(0.0, |(range, sigma)| {
+                            (((d + 0.04) / (range + 0.04)).ln()
+                                / (sigma + b.pose_sigma / (d + 0.04)))
+                                .abs()
+                        });
                     }
                     for item in by_node.values_mut() {
                         item.0 /= item.3 as f64;
                         item.2 /= item.3 as f64;
+                        item.4 /= item.3 as f64;
+                        item.5 /= item.3 as f64;
+                        item.6 /= item.3 as f64;
+                        item.7 /= item.3 as f64;
                     }
-                    let support: Vec<_> = by_node.values().filter(|v| v.0 > 0.16).collect();
+                    let support: Vec<_> = by_node
+                        .values()
+                        .filter(|v| v.0 > if self.proposal_mode { 0.05 } else { 0.16 })
+                        .collect();
                     if support.len() < 3 {
                         continue;
                     }
@@ -601,7 +708,7 @@ impl Mapper {
                     }
                     let score =
                         support.iter().map(|s| s.0).sum::<f64>() / by_node.len().max(1) as f64;
-                    if score > 0.18 {
+                    if score > if self.proposal_mode { 0.06 } else { 0.18 } {
                         let angular =
                             support.iter().map(|s| s.2).sum::<f64>() / support.len() as f64;
                         candidates.push(Cue {
@@ -612,6 +719,15 @@ impl Mapper {
                             observers: support.len(),
                             status: "UNCONFIRMED",
                             last_seen_step: self.last_step,
+                            evidence: CueEvidence {
+                                near: support.iter().map(|s| s.6).fold(f64::INFINITY, f64::min),
+                                human: support.iter().map(|s| s.4).sum::<f64>()
+                                    / support.len() as f64,
+                                heat: support.iter().map(|s| s.5).sum::<f64>()
+                                    / support.len() as f64,
+                                range_error: support.iter().map(|s| s.7).sum::<f64>()
+                                    / support.len() as f64,
+                            },
                         });
                     }
                 }
@@ -643,7 +759,9 @@ impl Mapper {
             true
         });
         candidates.sort_by(|a, b| b.score.total_cmp(&a.score));
-        if let Some(best) = candidates.first().map(|c| c.score) {
+        if let Some(best) = candidates.first().map(|c| c.score)
+            && !self.proposal_mode
+        {
             candidates.retain(|c| c.score >= best * 0.70);
         }
         let mut result: Vec<Cue> = vec![];
@@ -654,15 +772,26 @@ impl Mapper {
             {
                 result.push(c);
             }
-            if result.len() == 3 {
+            if result.len() == if self.proposal_mode { 6 } else { 3 } {
                 break;
             }
         }
         result
     }
     fn track_cues(&mut self, cues: &[Cue], step: u64) -> Vec<Cue> {
-        self.tracks
-            .retain(|t| step - t.last_seen <= if t.hits < 4 { 500 } else { 6000 });
+        let mut active = vec![];
+        for track in self.tracks.drain(..) {
+            if step - track.last_seen <= if track.hits < 4 { 500 } else { 6000 } {
+                active.push(track);
+            } else if self.proposal_mode {
+                self.archived_tracks.push(track);
+            }
+        }
+        self.tracks = active;
+        if self.archived_tracks.len() > 512 {
+            self.archived_tracks
+                .drain(..self.archived_tracks.len() - 512);
+        }
         let mut used = BTreeSet::new();
         for cue in cues {
             let nearest = self
@@ -682,12 +811,20 @@ impl Mapper {
                 track.position = add(track.position, mul(delta, alpha));
                 track.spread = (1.0 - alpha) * track.spread + alpha * dot(delta, delta);
                 track.score = (1.0 - alpha) * track.score + alpha * cue.score;
+                track.peak_score = track.peak_score.max(cue.score);
+                track.evidence = CueEvidence {
+                    near: (1.0 - alpha) * track.evidence.near + alpha * cue.evidence.near,
+                    human: (1.0 - alpha) * track.evidence.human + alpha * cue.evidence.human,
+                    heat: (1.0 - alpha) * track.evidence.heat + alpha * cue.evidence.heat,
+                    range_error: (1.0 - alpha) * track.evidence.range_error
+                        + alpha * cue.evidence.range_error,
+                };
                 track.radius = cue.radius_m;
                 track.observers = track.observers.max(cue.observers);
                 track.hits += 1;
                 track.last_seen = step;
                 used.insert(i);
-            } else if self.tracks.len() < 24 {
+            } else if self.tracks.len() < if self.proposal_mode { 64 } else { 24 } {
                 self.tracks.push(Track {
                     position: cue.position,
                     score: cue.score,
@@ -696,6 +833,9 @@ impl Mapper {
                     hits: 1,
                     last_seen: step,
                     spread: 0.0,
+                    first_seen: step,
+                    peak_score: cue.score,
+                    evidence: cue.evidence.clone(),
                 });
                 used.insert(self.tracks.len() - 1);
             }
@@ -704,6 +844,41 @@ impl Mapper {
         self.current_tracks(step)
     }
     fn current_tracks(&self, step: u64) -> Vec<Cue> {
+        if let Some(model) = &self.model
+            && !model.track_weights.is_empty()
+        {
+            let mut candidates: Vec<_> = self
+                .tracks
+                .iter()
+                .chain(&self.archived_tracks)
+                .filter_map(|t| {
+                    let score = model.track_score(t.proposal(step).features)?;
+                    (score >= model.track_threshold).then(|| Cue {
+                        position: t.position,
+                        score,
+                        radius_m: t.radius.max(t.spread.sqrt() * 2.0),
+                        observers: t.observers,
+                        status: "UNCONFIRMED_LEARNED_TRACK",
+                        last_seen_step: t.last_seen,
+                        evidence: t.evidence.clone(),
+                    })
+                })
+                .collect();
+            candidates.sort_by(|a, b| b.score.total_cmp(&a.score));
+            let mut result: Vec<Cue> = vec![];
+            for cue in candidates {
+                if result
+                    .iter()
+                    .all(|c| norm(sub(c.position, cue.position)) > model.track_nms_m)
+                {
+                    result.push(cue);
+                }
+                if result.len() == 3 {
+                    break;
+                }
+            }
+            return result;
+        }
         let mut cues: Vec<_> = self
             .tracks
             .iter()
@@ -715,6 +890,7 @@ impl Mapper {
                 observers: t.observers,
                 status: "UNCONFIRMED_TRACK",
                 last_seen_step: t.last_seen,
+                evidence: t.evidence.clone(),
             })
             .filter(|c| c.score >= 0.18)
             .collect();
@@ -757,6 +933,17 @@ impl Mapper {
         let mut assigned: Vec<[i32; 2]> = vec![];
         let mut goals = vec![];
         for (id, pose) in &self.poses {
+            if let Some(&until) = self.verify_until.get(id)
+                && until > self.last_step
+            {
+                goals.push(Goal {
+                    node_id: id.clone(),
+                    position: pose.position,
+                    reason: "acoustic and thermal verification dwell",
+                    hold_until_step: until,
+                });
+                continue;
+            }
             let start3 = self.key(pose.position);
             let start = [start3[0], start3[2]];
             let mut queue = VecDeque::from([start]);
@@ -823,6 +1010,7 @@ impl Mapper {
                         (f64::from(waypoint[1]) + 0.5) * self.cell,
                     ],
                     reason: "observed-free route toward an unobserved frontier",
+                    hold_until_step: 0,
                 });
             }
         }
@@ -833,6 +1021,113 @@ impl Mapper {
 #[cfg(test)]
 mod tests {
     use super::*;
+    fn learned_fixture() -> LearnedModel {
+        serde_json::from_value(serde_json::json!({
+            "version":"rescue-trained-v1", "cell_m":0.05,
+            "acoustic_weights":[3.0,0.0,0.0,0.0,0.0], "occupancy_weights":[0.0,1.0,0.0],
+            "acoustic_window_frames":32,
+            "prototypes":(0..15).map(|i|serde_json::json!({"family":format!("fixture{i}"),"occupancy":vec![0.5;learned::GRID_CELLS]})).collect::<Vec<_>>(),
+            "train_maps":["fixture-train"],"valid_maps":["fixture-valid"],"data_sha256":"fixture"
+        })).unwrap()
+    }
+    #[test]
+    fn learned_uncertain_bearing_is_not_discarded_by_a_hard_snr_gate() {
+        let model = Arc::new(learned_fixture());
+        let mut mapper = Mapper::with_model("test", 0.05, Some(model)).unwrap();
+        let mut p = packet();
+        p.request_map = false;
+        p.scans[0].bearing = [0.0, 0.0, 1.0];
+        p.scans[0].bearing_sigma_deg = 45.0;
+        p.scans[0].acoustic_snr_db = -15.0;
+        let reply = mapper.apply(&p).unwrap();
+        assert_eq!(mapper.bearings.len(), 1);
+        assert!(reply.cues.is_empty());
+    }
+    #[test]
+    fn verification_dwell_uses_observed_heat_and_audio_and_expires() {
+        let model = Arc::new(learned_fixture());
+        let mut mapper = Mapper::with_model("test", 0.05, Some(model)).unwrap();
+        let mut p = packet();
+        p.request_map = false;
+        p.scans[0].temperature_delta_c = 0.7;
+        let first = mapper.apply(&p).unwrap();
+        assert_eq!(first.goals[0].hold_until_step, 1225);
+        assert_eq!(first.goals[0].position, p.scans[0].deployment_anchor);
+        p.scans[0].temperature_delta_c = 0.0;
+        for step in [525, 1025, 1525] {
+            p.seq_no += 1;
+            p.sim_step = step;
+            mapper.apply(&p).unwrap();
+        }
+        assert!(mapper.frontiers().iter().all(|g| g.hold_until_step <= 1525));
+    }
+    #[test]
+    fn learned_track_retention_uses_evidence_and_preserves_old_hypotheses() {
+        let mut model = learned_fixture();
+        model.track_weights = vec![0.0; 13];
+        model.track_weights[0] = -3.0;
+        model.track_weights[10] = 5.0;
+        let mut mapper = Mapper::with_model("test", 0.05, Some(Arc::new(model))).unwrap();
+        let mut cue = Cue {
+            position: [0.1, 0.05, 1.0],
+            score: 0.4,
+            radius_m: 0.2,
+            observers: 5,
+            status: "UNCONFIRMED",
+            last_seen_step: 100,
+            evidence: CueEvidence {
+                near: 0.4,
+                human: 0.95,
+                heat: 0.8,
+                range_error: 0.2,
+            },
+        };
+        assert_eq!(mapper.track_cues(&[cue.clone()], 100).len(), 1);
+        assert_eq!(mapper.track_cues(&[], 1000).len(), 1);
+        assert!(mapper.tracks.is_empty());
+        assert_eq!(mapper.archived_tracks.len(), 1);
+        cue.position = [-0.3, 0.05, 2.0];
+        cue.evidence.human = 0.1;
+        assert_eq!(mapper.track_cues(&[cue], 1100).len(), 1);
+        assert_eq!(mapper.current_tracks(9000)[0].position, [0.1, 0.05, 1.0]);
+    }
+    #[test]
+    fn diagnostic_track_archive_is_bounded_and_one_node_stays_unconfirmed() {
+        let mut mapper = Mapper::new("test", 0.05).unwrap();
+        let mut p = packet();
+        p.request_diagnostics = true;
+        p.scans[0].bearing = [0.0, 0.0, 1.0];
+        p.scans[0].acoustic_snr_db = 25.0;
+        p.scans[0].voice_band_ratio = 1.0;
+        p.scans[0].modulation = 1.0;
+        let reply = mapper.apply(&p).unwrap();
+        assert!(reply.cues.is_empty() && reply.proposals.is_empty());
+        let cue = Cue {
+            position: [0.1, 0.05, 1.0],
+            score: 0.4,
+            radius_m: 0.2,
+            observers: 5,
+            status: "UNCONFIRMED",
+            last_seen_step: 0,
+            evidence: CueEvidence::default(),
+        };
+        for i in 1..520 {
+            mapper.track_cues(std::slice::from_ref(&cue), i * 1000);
+        }
+        assert_eq!(mapper.archived_tracks.len(), 512);
+        assert_eq!(mapper.tracks.len(), 1);
+    }
+    #[test]
+    fn quadratic_audio_feature_order_matches_the_training_contract() {
+        let mut model = learned_fixture();
+        model.acoustic_feature_map = "quadratic-v1".into();
+        model.acoustic_weights = vec![
+            0.1, 0.2, 0.3, 0.4, 0.5, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0,
+        ];
+        model.validate().unwrap();
+        let expected = 1.0 / (1.0 + (-1.202f64).exp());
+        assert!((model.human_score([0.5, 0.2, 0.3, 0.4]) - expected).abs() < 1e-12);
+    }
     fn packet() -> Packet {
         Packet {
             protocol_version: VERSION.into(),
@@ -858,6 +1153,7 @@ mod tests {
                 temperature_delta_c: 0.0,
             }],
             request_map: true,
+            request_diagnostics: false,
         }
     }
     #[test]
@@ -963,6 +1259,7 @@ mod tests {
             observers: 8,
             status: "UNCONFIRMED",
             last_seen_step: 0,
+            evidence: CueEvidence::default(),
         };
         for i in 1..4 {
             assert!(
@@ -984,6 +1281,7 @@ mod tests {
             observers: 10,
             status: "UNCONFIRMED",
             last_seen_step: 0,
+            evidence: CueEvidence::default(),
         };
         mapper.track_cues(&[cue], 100);
         assert!(mapper.track_cues(&[], 1000).is_empty());
@@ -999,6 +1297,7 @@ mod tests {
             observers: 6,
             status: "UNCONFIRMED",
             last_seen_step: 0,
+            evidence: CueEvidence::default(),
         };
         for step in [100, 200, 300, 400] {
             mapper.track_cues(std::slice::from_ref(&cue), step);
@@ -1025,6 +1324,8 @@ mod tests {
                 step: 100,
                 pose_sigma: 0.001,
                 radial: Some((distance, 0.3)),
+                human: 1.0,
+                heat: 1.0,
             });
         }
         let cues = mapper.cues();

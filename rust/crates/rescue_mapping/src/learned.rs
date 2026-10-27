@@ -22,6 +22,8 @@ pub struct LearnedModel {
     pub version: String,
     pub cell_m: f64,
     pub acoustic_weights: Vec<f64>,
+    #[serde(default = "default_acoustic_features")]
+    pub acoustic_feature_map: String,
     pub occupancy_weights: Vec<f64>,
     #[serde(default)]
     pub fusion_weights: Vec<f64>,
@@ -37,6 +39,12 @@ pub struct LearnedModel {
     pub geometry_log_likelihood_scale: f64,
     #[serde(default)]
     pub signed_geometry_prior: bool,
+    #[serde(default)]
+    pub track_weights: Vec<f64>,
+    #[serde(default = "default_track_threshold")]
+    pub track_threshold: f64,
+    #[serde(default = "default_track_nms")]
+    pub track_nms_m: f64,
     pub prototypes: Vec<Prototype>,
     pub train_maps: Vec<String>,
     pub valid_maps: Vec<String>,
@@ -48,6 +56,9 @@ fn sigmoid(x: f64) -> f64 {
 fn default_window() -> usize {
     1
 }
+fn default_acoustic_features() -> String {
+    "linear-v1".into()
+}
 fn default_range_sigma() -> f64 {
     0.7
 }
@@ -57,6 +68,12 @@ fn default_sensor_mix() -> f64 {
 fn default_geometry_scale() -> f64 {
     0.04
 }
+fn default_track_threshold() -> f64 {
+    0.5
+}
+fn default_track_nms() -> f64 {
+    0.35
+}
 impl LearnedModel {
     pub fn validate(&self) -> Result<()> {
         ensure!(
@@ -64,7 +81,10 @@ impl LearnedModel {
             "model/schema mismatch"
         );
         ensure!(
-            self.acoustic_weights.len() == 5 && self.occupancy_weights.len() == 3,
+            ((self.acoustic_feature_map == "linear-v1" && self.acoustic_weights.len() == 5)
+                || (self.acoustic_feature_map == "quadratic-v1"
+                    && self.acoustic_weights.len() == 15))
+                && self.occupancy_weights.len() == 3,
             "model feature mismatch"
         );
         ensure!(
@@ -121,16 +141,45 @@ impl LearnedModel {
                 && (0.001..=10.0).contains(&self.geometry_log_likelihood_scale),
             "invalid geometry likelihood scale"
         );
+        ensure!(
+            (self.track_weights.is_empty() || self.track_weights.len() == 13)
+                && self.track_weights.iter().all(|w| w.is_finite())
+                && self.track_threshold.is_finite()
+                && (0.0..=1.0).contains(&self.track_threshold)
+                && self.track_nms_m.is_finite()
+                && (0.15..=0.6).contains(&self.track_nms_m),
+            "invalid track classifier"
+        );
         Ok(())
     }
     pub fn human_score(&self, x: [f64; 4]) -> f64 {
-        sigmoid(
-            self.acoustic_weights[0]
+        let mut logit = self.acoustic_weights[0]
+            + x.iter()
+                .zip(&self.acoustic_weights[1..5])
+                .map(|(a, b)| a * b)
+                .sum::<f64>();
+        if self.acoustic_feature_map == "quadratic-v1" {
+            let mut index = 5;
+            for i in 0..4 {
+                for j in i..4 {
+                    logit += self.acoustic_weights[index] * x[i] * x[j];
+                    index += 1;
+                }
+            }
+        }
+        sigmoid(logit)
+    }
+    pub fn track_score(&self, x: [f64; 12]) -> Option<f64> {
+        if self.track_weights.is_empty() {
+            return None;
+        }
+        Some(sigmoid(
+            self.track_weights[0]
                 + x.iter()
-                    .zip(&self.acoustic_weights[1..])
+                    .zip(&self.track_weights[1..])
                     .map(|(a, b)| a * b)
                     .sum::<f64>(),
-        )
+        ))
     }
     pub fn acoustic_range(&self, x: [f64; 4], bearing_sigma_deg: f64) -> Option<(f64, f64)> {
         if self.log_range_weights.is_empty() {

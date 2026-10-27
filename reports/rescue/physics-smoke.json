@@ -1,0 +1,137 @@
+[
+  {
+    "scene": "E01",
+    "max_bend_deg": 56.35914,
+    "max_travel_m": 1.26365936,
+    "couplings": 7,
+    "releases": 3,
+    "scan_nodes": 6,
+    "lost_nodes": 0
+  },
+  {
+    "scene": "E02",
+    "max_bend_deg": 60.6699638,
+    "max_travel_m": 1.3143791,
+    "couplings": 4,
+    "releases": 3,
+    "scan_nodes": 5,
+    "lost_nodes": 0
+  },
+  {
+    "scene": "E03",
+    "max_bend_deg": 49.63509,
+    "max_travel_m": 1.29776561,
+    "couplings": 3,
+    "releases": 3,
+    "scan_nodes": 6,
+    "lost_nodes": 0
+  },
+  {
+    "scene": "E04",
+    "max_bend_deg": 63.6192322,
+    "max_travel_m": 1.16648054,
+    "couplings": 4,
+    "releases": 3,
+    "scan_nodes": 6,
+    "lost_nodes": 0
+  },
+  {
+    "scene": "E05",
+    "max_bend_deg": 47.2746048,
+    "max_travel_m": 1.28039169,
+    "couplings": 3,
+    "releases": 3,
+    "scan_nodes": 6,
+    "lost_nodes": 0
+  },
+  {
+    "scene": "M01",
+    "max_bend_deg": 75.58796,
+    "max_travel_m": 1.27329648,
+    "couplings": 4,
+    "releases": 3,
+    "scan_nodes": 4,
+    "lost_nodes": 0
+  },
+  {
+    "scene": "M02",
+    "max_bend_deg": 75.6238251,
+    "max_travel_m": 1.09081614,
+    "couplings": 5,
+    "releases": 3,
+    "scan_nodes": 6,
+    "lost_nodes": 0
+  },
+  {
+    "scene": "M03",
+    "max_bend_deg": 73.10778,
+    "max_travel_m": 0.9955245,
+    "couplings": 4,
+    "releases": 3,
+    "scan_nodes": 5,
+    "lost_nodes": 0
+  },
+  {
+    "scene": "M04",
+    "max_bend_deg": 62.3223152,
+    "max_travel_m": 0.8696452,
+    "couplings": 4,
+    "releases": 3,
+    "scan_nodes": 5,
+    "lost_nodes": 0
+  },
+  {
+    "scene": "M05",
+    "max_bend_deg": 70.32763,
+    "max_travel_m": 1.19003665,
+    "couplings": 5,
+    "releases": 3,
+    "scan_nodes": 6,
+    "lost_nodes": 0
+  },
+  {
+    "scene": "H01",
+    "max_bend_deg": 63.1047134,
+    "max_travel_m": 1.22793519,
+    "couplings": 3,
+    "releases": 3,
+    "scan_nodes": 4,
+    "lost_nodes": 0
+  },
+  {
+    "scene": "H02",
+    "max_bend_deg": 96.9243546,
+    "max_travel_m": 1.031213,
+    "couplings": 4,
+    "releases": 3,
+    "scan_nodes": 3,
+    "lost_nodes": 0
+  },
+  {
+    "scene": "H03",
+    "max_bend_deg": 72.78402,
+    "max_travel_m": 0.8430744,
+    "couplings": 3,
+    "releases": 3,
+    "scan_nodes": 5,
+    "lost_nodes": 0
+  },
+  {
+    "scene": "H04",
+    "max_bend_deg": 72.6266556,
+    "max_travel_m": 0.964699268,
+    "couplings": 4,
+    "releases": 3,
+    "scan_nodes": 5,
+    "lost_nodes": 0
+  },
+  {
+    "scene": "H05",
+    "max_bend_deg": 76.99897,
+    "max_travel_m": 1.10752583,
+    "couplings": 3,
+    "releases": 3,
+    "scan_nodes": 5,
+    "lost_nodes": 0
+  }
+]

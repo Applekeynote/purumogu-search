@@ -56,7 +56,7 @@ def cards(metrics=None):
         im.save(OUT/'rescue-results.png')
 
     im,d=base();text(d,110,235,'残る課題も、実測で残す',76,INK,True)
-    entries=[('垂直の25mm段差','乗り越えは未確認。回り込みは確認。'),('音響・熱・水のモデル','簡略化した観測。実測での校正が必要。'),('実機・実災害での救助','未検証。ここでの数値を適用しない。')]
+    entries=[('垂直の25mm段差','乗り越えは不通過。回り込みは通過。'),('音響・熱・水のモデル','簡略化した観測。実測での校正が必要。'),('実機・実災害での救助','未検証。ここでの数値を適用しない。')]
     for n,(label,note) in enumerate(entries):
         y=425+n*155;text(d,115,y,label,38,AMBER,True);text(d,115,y+65,note,34)
     im.save(OUT/'rescue-limits.png')
@@ -71,7 +71,7 @@ def cards(metrics=None):
         im=Image.new('RGBA',(1920,1080),(0,0,0,0));d=ImageDraw.Draw(im)
         d.rectangle((0,0,1919,53),fill=DARK);d.rectangle((0,1026,1919,1079),fill=DARK)
         d.rectangle((0,54,95,1025),fill=DARK);d.rectangle((1824,54,1919,1025),fill=DARK)
-        text(d,100,9,label,27,INK,True);text(d,100,1038,'実アプリの記録 / カットごとに別実行 / 表示値はその時点の推論',23,MUTED)
+        text(d,100,9,label,27,INK,True);text(d,100,1038,'実アプリの記録 / 複数の実行から編集 / 表示値はその時点の推論',23,MUTED)
         im.save(OUT/('rescue-overlay-'+name+'.png'))
     (OUT/'README.md').write_text('Code-typeset still graphics and timestamp-resampled uncut application captures. Creative editing, scaling into the caption matte, shot cuts, fades, music looping/crossfades, normalization, mixing, and final export are performed in DaVinci Resolve.\n',encoding='utf-8')
 

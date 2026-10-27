@@ -1,96 +1,63 @@
-# ぷるもぐサーチ / Purumogu Search
+# ぷるもぐサーチ
 
-小さなノード群を未知の通路へ投入し、衝撃・静止らしさ・無線受信の履歴から、空間構造の候補を絞るUnity × Rustのシミュレーションです。Rustが次の入口と隊形を選び、その命令でUnityのゲートと子ノードが動きます。
+災害後の局所空隙を、全長約7cmの関節ノード12台で調べるUnity × Rustシミュレーターです。中央球と二つの扁平な円錐が曲がり、長軸回りに回転し、仲間と接続・解除します。地震・斜面崩壊・浸水を、易・中・難の各5シーンで扱います。
 
-![実際のUnity実行画面](media/screenshot.png)
+**95%の要求は現在未達です。** 要救助者の位置も変えたVALID 30変種で、モデルv11の実Rust再生は、全領域3D IoU平均95.48%、適合率90.32%、再現率87.50%（28/32人、誤警報3）でした。これは180秒の観測予算によるモデル選択用の結果です。TESTはまだ開いていません。分類器のスキャン正解率を、救助者の検出精度には置き換えません。
 
-**[動作動画](media/purumogu-demo.mp4) · [説明PDF](reports/Purumogu_Search_Report.pdf) · [比較結果](reports/comparison/metrics.json) · [設計と限界](docs/architecture.md)**
+## 動かす
 
-実装範囲は設計書v1.1のPhase 1。5形状、20個の利用枠、5個×3バッチ、親ステーション、CLUSTER / CHAIN_INSERT、Rustの学習・ベイズ推論・期待情報利得制御、4画面、比較・障害試験・リプレイを含みます。3D形状の完全復元や実災害での救助能力を示すものではありません。
-
-## 測れたこと
-
-未使用の50マップをセンサーシード2通りで実行。各方式100エピソード、同じ15個・27秒のシミュレーション予算です。
-
-| 方式 | 全試行のTop-1正解率 | 保留率 | 保留しなかった試行の正解率 |
-|---|---:|---:|---:|
-| GHOST-FLOW | 61% | 79% | 21/21 |
-| 固定入口順・CLUSTER | 60% | 70% | 27/30 |
-| ランダム入口・隊形 | 46% | 76% | 15/24 |
-| 固定入口順・受動流動 | 39% | 95% | 5/5 |
-
-Top-1正解率は、保留した試行も含む最上位候補の一致率です。21/21だけを「精度100%」として扱いません。GHOST-FLOWと固定方式の差は+1ポイント、マップ単位のペア・ブートストラップ95%区間は **-12〜+15ポイント**。固定方式を上回ったとは言えません。ランダムとの差は+15ポイント（同区間+3〜+27）でしたが、この生成器と少数テンプレートの範囲の結果です。
-
-**最大の弱点は未知形状の棄却です。** 別の結合パターンの2マップ×4欠損条件では、8試行中2試行しか保留できず、6試行で誤った断定が残りました。OTHERスコアを信頼できる未知検出確率とは表示しません。数値と失敗例は[評価](reports/analysis.json)に残しています。
-
-## 環境
-
-- Windows x64、Unity **6000.4.1f1**。インストール済み版を固定して使用しています。LTSとは表記しません。
-- Rust **1.94.1**、MSVC C++ビルドツール。`rust-toolchain.toml`と`Cargo.lock`で固定。
-- 学習・推論はCPUで実行。クラウドAI/APIキーは不要。
-- Python 3はTCP結合試験用。PDF・図・動画を再作成するときだけ`scripts/requirements-media.txt`が必要。
-- Unityライセンスは各利用者の有効なライセンスが必要です。UnityライブラリやEditor本体は同梱しません。
-
-## 今日から試す3つの操作
-
-すべてリポジトリのルートで実行します。初回は`rustup toolchain install 1.94.1`を実行してください。
-
-### 1. 画面で探索する
-
-```powershell
-.\scripts\Unity-Task.ps1 init
-.\scripts\Start-Demo.ps1
-```
-
-Rustが先に127.0.0.1:47110で待ち受け、Unityが接続します。ビルド済みプレイヤーがなければEditorが開くので`Assets/Scenes/Main.unity`を開き、Playを押してください。
-
-Prepareで形状と方式を選びStart。Exploreでゲート、Parentの隊形、イベントと候補分布を確認。3バッチ後にResultへ移り、Export logで保存、Go to recovery → Recover and resetで清掃します。Export先はUnityの`persistentDataPath/runs`。通信断・不正応答・タイムアウトでは新規投入と推力を止め、SAFE STOPを表示します。
-
-Windows実行版を自分で作る場合は`.\scripts\Unity-Task.ps1 build`。その後はStart-Demoが`build/PurumoguSearch.exe`を開きます。終了後はStart-Demoが表示したRust PIDを停止してください。実験前に以前のサーバーを閉じてください。
-
-### 2. 同条件で比較する
-
-```powershell
-.\scripts\Run-Experiments.ps1
-.\scripts\Run-Experiments.ps1 -Faults -Port 47112
-```
-
-通常比較は50マップ×2センサーシード×4方式。欠損試験は0/10/20/40%と学習外の結合パターンを使います。生ログは`datasets/generated/v1`、集計は`reports/comparison`、`reports/fault`、`reports/ood`。`python scripts/analyze_results.py`で図とペア比較を更新できます。
-
-全データと別バージョンのモデルを生成する場合は`.\scripts\Run-Experiments.ps1 -Collect`。TRAIN 50 / VALID 15 / 初期TEST 25マップを収集し、比較用TESTは50マップに拡張します。設計書の推奨70/15/15とは異なります。[データ分割の理由](datasets/README.md)と[チェックサム](datasets/manifest.json)を参照してください。
-
-### 3. Unityなしで判断を再生する
-
-```powershell
-cargo run --manifest-path rust/Cargo.toml --release --locked -- replay --model models/m-v1/model.json --events datasets/sample.jsonl
-```
-
-実測イベントから同じ3バッチの候補分布と行動を再計算します。モデルと入力が同じ場合の推論再生を検証しています。PhysXをもう一度動かしたときのビット単位の一致は保証しません。
-
-## 検証
+Windows x64、Unity **6000.4.1f1**、Rust **1.94.1**を使います。Unityは利用者の有効なライセンスが必要です。Rustの依存関係はCargo.lockで固定しています。
 
 ```powershell
 cargo test --manifest-path rust/Cargo.toml --workspace --locked
-cargo clippy --manifest-path rust/Cargo.toml --workspace --all-targets --locked -- -D warnings
-cargo build --manifest-path rust/Cargo.toml --release --locked
-python tests/test_contract.py
-.\scripts\Unity-Task.ps1 smoke
+./scripts/Unity-Task.ps1 build
+./scripts/Start-Demo.ps1 -Model models/rescue-v11/model.json
 ```
 
-Rustは確率の正規化、無情報観測、EIG、空イベント、ID置換・順序不変性、スキーマ拒否、ACK待ち、重複バッチを検証。TCP結合試験は実サーバーに不正フィールド・版・未来時刻・巨大行を送り、切断後も待受けが生きることを確認します。Unity smokeは5形状で投入数、重力移動、衝撃・無線イベントを確認します。GitHub ActionsはWindowsとLinuxでRustと実測リプレイを実行します。UnityのCIビルド用ライセンスは公開していません。
+初回のビルドはUnity Package ManagerとCargoの依存取得にネットワークを使います。推論はCPU上の独立したRustプロセスで行い、127.0.0.1のTCP/JSON LinesでUnityと接続します。
 
-## 構成と使いどころ
+画面は、左上が物理現場と選択機体、右上が推定3Dマップと未確認候補、左下がノード状態、右下が真値との評価です。青緑は距離観測、紫は学習補完、橙は音響候補です。ノード一覧の選択、機体拡大、全接続解除、自動接続、断面表示に対応します。断面表示でもColliderは残ります。
 
-| 場所 | 内容 |
-|---|---|
-| `unity/` | 物理、自己結合型ノード、局所モーター、センサー、4画面、TCPブリッジ |
-| `rust/crates/` | protocol → event_core → graph → likelihood → inference → planner。evaluationはオフライン専用 |
-| `rust/apps/ghost_flow_server/` | train / serve / evaluate / replay |
-| `models/m-v1/` | 学習済み固定モデル、特徴、分割、温度、SHA256SUMS |
-| `datasets/` | 真値を含まない実測サンプルと生成手順 |
-| `reports/` | 全試行CSV/JSON、保留・誤り、95%区間、説明PDF |
-| `media/` | 実行画面の動画、ナレーション、BGM、出典 |
+右上は繰り返し観測の支持が増えたセルから表示します。未観測の形状事前分布を、最初から全域へ描きません。以下は同じデモ実行の11秒と47秒で、集計結果を代表する試行ではありません。
 
-**メリット:** 低コストなCPU推論で行動まで閉じ、イベントと判断を検査できる。**デメリット:** 5つの形状族と簡略センサーへの依存が大きく、未知形状に強くない。次の代替案は、履歴条件付きの予測器、(構造・摩擦・遮蔽)の粒子フィルタ、および独立したRust分類器との比較です。[要件対応表](docs/requirements.md)に今回の簡略化と将来項目を分けて記載しています。
+![11秒：入口側から地図ができる](media/rescue-progress-11s.png)
 
-コードはMIT。音声・BGMはMITの対象外です。動画の音声は**音読さん**、音楽は**Suno AI**を使用しています。[音声・音楽の出典と条件](media/CREDITS.md)を参照してください。YouTube/OmniCampusへのアップロードはこのプロジェクト作成作業の範囲に含めていません。
+![47秒：観測と周辺補完が奥へ広がる](media/rescue-progress-47s.png)
+
+## 今日から試す3例
+
+1. **E02で機構を見る**：`./scripts/Start-Demo.ps1 -Scene 1`。ノードを拡大し、球体に対する屈曲・回転と「全接続を解除」を確認します。
+2. **M02で複数音源を見る**：`./scripts/Start-Demo.ps1 -Scene 6`。候補数と一致数を比較し、橙の表示を確認済みの人と解釈しないでください。
+3. **E05で負例を見る**：`./scripts/Start-Demo.ps1 -Scene 4`。人以外の機械音に対する誤警報を、右下で確認します。
+
+## 検証と学習
+
+```powershell
+./scripts/Unity-Task.ps1 rescue-smoke
+python tests/test_rescue_contract.py
+python scripts/evaluate_rescue_replay.py --model models/rescue-v11/model.json --output reports/rescue/replay.json
+```
+
+再生には収集済みの生ログが必要です。物理試験は15シーンの接続・解除・屈曲・回転・移動、重力落下の喪失処理を確認します。25mm垂直段差は**乗り越え不通過、迂回通過**でした。機構試験の合格を段差走破の保証として扱いません。
+
+- TRAIN 150変種：seed `20400000 + 997*r`、r=0..9。
+- VALID 30変種：seed `20500000 + 997*r`、r=0..1。係数の学習には使わず、設定の選択に使います。
+- 未開封のTEST 45変種：seed `20600000 + 997*r`、r=0..2。最終判定前に開かず、閾値調整にも使いません。
+
+地図は5cmセル、評価領域全体の占有IoUを使います。未観測の真の障害物も分母に含めます。検出は25cm以内の一対一対応で、適合率と再現率を別々に測ります。合格には3指標がすべて95%以上必要です。人の口元・熱の点は変種ごとに独立に配置し、人の座標、人数、ラベル、シーンID、地形は推論サーバーへ送りません。詳細は[設計・条件・失敗例](docs/rescue-v2.md)と[データ生成記録](reports/rescue/generation-2.5.json)を参照してください。
+
+音響分類・距離回帰・占有補正・形状事前分布はTRAINから学習します。候補履歴の判別器はRustのIRLSで学習し、継続時間、位置のばらつき、独立ノード数、音響・温度・距離残差を使います。候補の絶対位置は分類特徴に入れません。Pythonはデータ整形、初段の数値学習、評価・モデル選択を担います。v11の記録は[学習条件](models/rescue-v11/training-report.json)と[実RustでのVALID再生](reports/rescue/learning-v11-valid-policy2.json)にあります。
+
+## できることと弱点
+
+**利点**：物理動作、センサー誤差、推論、真値評価を一つの画面で比較でき、観測と学習による補完を区別できます。ログだけでRustの推論を再生できます。TCPは重複・順序・異常値・真値フィールドを検証します。
+
+**欠点**：接地推進は理想化した接線力です。音響反射・熱・水・粉塵も簡略モデルで、要救助者の全身の占有体積は扱いません。15形状族を超える倒壊形態、実機センサー、実災害での性能は未検証です。優先すべき改善は、複数視点の観測を集める探索、低発声と雑音の分離、実測による校正です。
+
+別の方法として、実測データと小規模実機試験を追加する方が、同じ生成器上で学習回数だけを増やすより実災害への妥当性を検証しやすくなります。本プロジェクトの数値は実災害の救助率を示しません。[NISTの応答ロボット試験](https://www.nist.gov/el/intelligent-systems-division-73500/standard-test-methods-response-robots)も、移動・センサー・通信などの能力を分けて測る枠組みを提供しています。本実装がその標準へ適合したという意味ではありません。
+
+## 原設計と成果物
+
+原設計のイベントグラフ推定、情報獲得型の投入ゲート制御、固定・ランダム・GHOST-FLOWの比較はPhase 1として保持しています。[Phase 1の手順と実測結果](docs/phase1-readme.md)を参照してください。v2では追加指定に従い、機体形状、15災害シーン、模擬センサー、3D地図と人候補の4分割画面を拡張しました。
+
+動画のナレーションは音読さん、音楽はSuno AI、編集・ミックス・最終出力はDaVinci Resolveを使用します。媒体の利用条件は[クレジット](media/CREDITS.md)を参照してください。コードはMITライセンスです。音声・音楽はMITで再許諾していません。

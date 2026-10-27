@@ -1,0 +1,78 @@
+{
+  "generation": "rescue-2.5",
+  "train_seed_base": 20400000,
+  "train_repeats": 10,
+  "train_maps": 150,
+  "valid_seed_base": 20500000,
+  "valid_repeats": 2,
+  "valid_maps": 30,
+  "reserved_test_seed_base": 20600000,
+  "test_repeats": 3,
+  "test_maps": 45,
+  "test_accessed": false,
+  "steps": 9000,
+  "seconds": 180,
+  "guidance_acquisition_model": null,
+  "acquisition_server_sha256": "0359becf8fe8ba37d3c7bcff2350fe5f418f908835761ce787c7c0fe09fce100",
+  "physics_source_sha256": {
+    "unity/Assets/Scripts/RescueController.cs": "a90e96276073431b5883499986563a2e0514c820890d3394b9c5126274361ddd",
+    "unity/Assets/Scripts/RescueMapView.cs": "21dbe5080d80451dc2c5987022f10187cf643a75fca88b22a6bb77c116b718d7",
+    "unity/Assets/Scripts/RescueRobot.cs": "27306900a9661637d2466cb40bbc058a501dcd0ec2846026afe92e40cd9b2a5f",
+    "unity/Assets/Scripts/RescueScene.cs": "921e28f4979cd6eb8216945abac3977f9565a73b1f91782b3645cef7faa13fb8",
+    "unity/Assets/Scripts/RescueSimulation.cs": "cfb6366fe03771d36a83f82816fcd334ddd109a045fa47229e4c6fc6d5fe7bd3",
+    "unity/Assets/Editor/RescueTests.cs": "24823ec5cd5c13ab1d5d183e8ed6567986700cc4955d5b151e69f50f8556f4a0"
+  },
+  "source_placement": {
+    "version": "independent-position-v1",
+    "x_m": [
+      -0.5,
+      0.5
+    ],
+    "y_m": [
+      0.04,
+      0.12
+    ],
+    "z_m": [
+      0.55,
+      2.55
+    ],
+    "H05_z_m": [
+      1.7,
+      2.65
+    ],
+    "minimum_separation_m": 0.55,
+    "free_sphere_radius_m": 0.012,
+    "represents": "mouth/heat source point, not a full human body"
+  },
+  "sensor_convention": "incoherent power mixture; 10log10 power SINR; no human label used for observation mixing",
+  "development_data_archives": [
+    "source-2.1",
+    "source-2.2",
+    "source-2.3",
+    "failed-2.4-attempt"
+  ],
+  "note": "No learned model during acquisition. Frontier guidance uses measured free voxels only. Fixes: velocity limit evaluated after avoidance heading changes; explicit lost node state without relocating bodies. TRAIN/VALID/TEST seeds fixed before final randomized-position model training.",
+  "collection_commit": "a69d126",
+  "source_lf_sha256": {
+    "unity/Assets/Scripts/RescueController.cs": "a90e96276073431b5883499986563a2e0514c820890d3394b9c5126274361ddd",
+    "unity/Assets/Scripts/RescueMapView.cs": "21dbe5080d80451dc2c5987022f10187cf643a75fca88b22a6bb77c116b718d7",
+    "unity/Assets/Scripts/RescueRobot.cs": "27306900a9661637d2466cb40bbc058a501dcd0ec2846026afe92e40cd9b2a5f",
+    "unity/Assets/Scripts/RescueScene.cs": "921e28f4979cd6eb8216945abac3977f9565a73b1f91782b3645cef7faa13fb8",
+    "unity/Assets/Scripts/RescueSimulation.cs": "cfb6366fe03771d36a83f82816fcd334ddd109a045fa47229e4c6fc6d5fe7bd3",
+    "unity/Assets/Editor/RescueTests.cs": "24823ec5cd5c13ab1d5d183e8ed6567986700cc4955d5b151e69f50f8556f4a0"
+  },
+  "data_sha256": {
+    "features-train.jsonl": "fd21ce92483859609b47b34b48def67296b55b64cbc77445aace9da1a2afa012",
+    "grids-train.jsonl": "49d53f938b89154af1c636f47262700454da77537993a24dddf90ab5faa85a92",
+    "features-valid.jsonl": "17fb575e2c2614bd3a782c9f2e3d660f2cd584348ac6410866bd35ffc0fee50e",
+    "grids-valid.jsonl": "7f2f56cdbbcc0bdc975bbd17ad097d34e5197beff47bcadd3d637205ed079e46"
+  },
+  "collection_counts": {
+    "train": 150,
+    "valid": 30
+  },
+  "lost_nodes": {
+    "train": 0,
+    "valid": 0
+  }
+}

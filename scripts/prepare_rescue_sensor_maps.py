@@ -15,11 +15,14 @@ ROOT = Path(__file__).resolve().parents[1]
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--split', choices=['train', 'valid'], required=True)
+    parser.add_argument('--raw', default='experiments/raw/rescue')
+    parser.add_argument('--workers',type=int,choices=[1,2,3,4],default=4)
+    parser.add_argument('--watch-expected',type=int,default=0)
     args = parser.parse_args()
-    raw = ROOT / 'experiments/raw/rescue'
+    raw = ROOT / args.raw
     ground_path = raw / f'grids-{args.split}.jsonl'
     ground = [json.loads(line) for line in ground_path.read_text(encoding='utf-8-sig').splitlines()]
-    assert len(ground) >= 15 and len(ground) % 15 == 0
+    assert args.watch_expected or len(ground) >= 15 and len(ground) % 15 == 0
     assert len({row['map_id'] for row in ground}) == len(ground)
     out = raw / 'sensor-maps'; out.mkdir(exist_ok=True)
     with socket.socket() as probe:
@@ -38,11 +41,16 @@ def main():
         def replay(row):
             audit = raw / f"{row['run_id']}.jsonl"
             destination = out / f"{row['run_id']}.json"
+            metadata=out/f"{row['run_id']}.meta.json"
+            if destination.exists() and metadata.exists():
+                entry=json.loads(metadata.read_bytes())
+                assert entry['sensor_map_sha256']==hashlib.sha256(destination.read_bytes()).hexdigest()
+                return entry
             reply = None
             with socket.create_connection(('127.0.0.1', port), timeout=30) as client, client.makefile('rwb') as stream, audit.open(encoding='utf-8') as source:
                 for line in source:
                     if '"scans":' not in line: continue
-                    stream.write(line.encode('utf-8')); stream.flush()
+                    stream.write(line.replace('"request_diagnostics":true','"request_diagnostics":false').encode('utf-8')); stream.flush()
                     data = stream.readline(8_388_609)
                     assert data and len(data) <= 8_388_608
                     reply = json.loads(data); assert reply.get('type') != 'error', reply
@@ -51,10 +59,18 @@ def main():
             data = json.dumps(reply, separators=(',', ':')).encode('utf-8')
             destination.write_bytes(data)
             print('RAW_SENSOR_MAP', row['map_id'], flush=True)
-            return dict(map_id=row['map_id'], run_id=row['run_id'], sensor_map_sha256=hashlib.sha256(data).hexdigest(), audit_sha256=hashlib.sha256(audit.read_bytes()).hexdigest())
+            entry=dict(map_id=row['map_id'], run_id=row['run_id'], sensor_map_sha256=hashlib.sha256(data).hexdigest(), audit_sha256=hashlib.sha256(audit.read_bytes()).hexdigest())
+            metadata.write_text(json.dumps(entry)+'\n',encoding='utf-8',newline='\n');return entry
 
-        with ThreadPoolExecutor(max_workers=2) as pool:
-            rows = list(pool.map(replay, ground))
+        completed={}
+        with ThreadPoolExecutor(max_workers=args.workers) as pool:
+            while True:
+                ground=[json.loads(line) for line in ground_path.read_text(encoding='utf-8-sig').splitlines()]
+                pending=[r for r in ground if r['run_id'] not in completed]
+                for row in pool.map(replay,pending):completed[row['run_id']]=row
+                if not args.watch_expected or len(completed)>=args.watch_expected:break
+                time.sleep(2)
+        rows=[completed[r['run_id']] for r in ground]
     finally:
         process.terminate(); process.wait(timeout=10)
     manifest = dict(split=args.split, maps=len(rows), model_applied=False, trajectory='Recorded acquisition trajectory; no new physics or guidance', rows=rows)

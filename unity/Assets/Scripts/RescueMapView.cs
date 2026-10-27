@@ -14,6 +14,9 @@ namespace Purumogu.Rescue
         readonly Mesh geometry=new Mesh{name="SensorOccupancyWireframe",indexFormat=IndexFormat.UInt32};
         readonly Material material;
         readonly List<GameObject> markers=new List<GameObject>();
+        readonly Dictionary<Vector3Int,long> firstEvidenceStep=new Dictionary<Vector3Int,long>();
+        public int VisibleObservedCells{get;private set;}
+        public int VisibleCompletionCells{get;private set;}
         public RescueMapView()
         {
             material=new Material(Shader.Find("Sprites/Default"));
@@ -30,17 +33,37 @@ namespace Purumogu.Rescue
         public void Update(JObject reply)
         {
             var vertices=new List<Vector3>();var colors=new List<Color>();var indices=new List<int>();float cell=(float)reply["cell_m"];
+            long step=(long)reply["sim_step"];
+            // Reveal from repeated ray evidence. A globally selected shape family must
+            // not appear as if its unobserved walls had already been scanned.
+            var supported=new HashSet<Vector3Int>();
+            foreach(var c in (JArray)reply["cells"])
+            {
+                var k=(JArray)c["key"];var gridKey=new Vector3Int((int)k[0],(int)k[1],(int)k[2]);
+                float sensor=(float?)c["sensor_occupancy"]??(float)c["occupancy"];
+                if((int)c["observations"]>=2&&sensor>.6f){supported.Add(gridKey);if(!firstEvidenceStep.ContainsKey(gridKey))firstEvidenceStep[gridKey]=step;}
+            }
+            var nearby=new HashSet<Vector3Int>();
+            foreach(var k in supported)for(int dx=-1;dx<=1;dx++)for(int dy=-1;dy<=1;dy++)for(int dz=-1;dz<=1;dz++)nearby.Add(k+new Vector3Int(dx,dy,dz));
+            var display=new Dictionary<Vector3Int,bool>();VisibleObservedCells=VisibleCompletionCells=0;
             var occupied=new HashSet<Vector3Int>();
-            foreach(var c in (JArray)reply["cells"])if((float)c["occupancy"]>.6f){var k=(JArray)c["key"];occupied.Add(new Vector3Int((int)k[0],(int)k[1],(int)k[2]));}
+            foreach(var c in (JArray)reply["cells"])if((float)c["occupancy"]>.6f)
+            {
+                var k=(JArray)c["key"];var gridKey=new Vector3Int((int)k[0],(int)k[1],(int)k[2]);bool measured=supported.Contains(gridKey);
+                if(!measured&&!(step>=500&&nearby.Contains(gridKey)))continue;
+                occupied.Add(gridKey);display[gridKey]=measured;if(measured)VisibleObservedCells++;else VisibleCompletionCells++;
+            }
             int free=0;
             foreach(var token in (JArray)reply["cells"])
             {
                 float p=(float)token["occupancy"];var key=(JArray)token["key"];var center=new Vector3(((int)key[0]+.5f)*cell,((int)key[1]+.5f)*cell,((int)key[2]+.5f)*cell);
+                var gridKey=new Vector3Int((int)key[0],(int)key[1],(int)key[2]);
                 if(p>.60f)
                 {
+                    if(!display.TryGetValue(gridKey,out bool measured))continue;
                     float half=cell*.47f;Color color=Color.Lerp(new Color(.05f,.65f,.84f,.35f),new Color(.3f,1,.82f,1),Mathf.Clamp01((p-.6f)*2.5f));color=Color.Lerp(color,new Color(.65f,.5f,1,.8f),Mathf.Clamp01(center.y/.8f)*.6f);
-                    if(((string)token["source"]??"").Contains("learned_prior"))color=new Color(.62f,.45f,1,.23f);
-                    var gridKey=new Vector3Int((int)key[0],(int)key[1],(int)key[2]);
+                    if(!measured)color=new Color(.62f,.45f,1,.18f);
+                    else color.a*=Mathf.Clamp01((step-firstEvidenceStep[gridKey]+25)/150f);
                     for(int axis=0;axis<3;axis++)for(int sign=-1;sign<=1;sign+=2)
                     {
                         var neighbor=gridKey;neighbor[axis]+=sign;if(occupied.Contains(neighbor))continue;
@@ -50,7 +73,7 @@ namespace Purumogu.Rescue
                         }
                     }
                 }
-                else if(p<.4f&&free++%5==0)
+                else if(p<.4f&&(int)token["observations"]>=2&&free++%12==0)
                 {
                     Line(vertices,colors,indices,center-Vector3.right*cell*.12f,center+Vector3.right*cell*.12f,new Color(.15f,.55f,.55f,.2f));
                 }

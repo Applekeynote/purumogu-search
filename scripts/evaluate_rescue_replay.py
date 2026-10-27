@@ -37,10 +37,10 @@ def wilson(success,total):
     return [max(0,center-half),min(1,center+half)]
 
 def main():
-    parser=argparse.ArgumentParser();parser.add_argument('--model',required=True);parser.add_argument('--split',choices=['valid','test'],default='valid');parser.add_argument('--output',required=True);parser.add_argument('--final-test',action='store_true');parser.add_argument('--server',default='rust/target/release/rescue_server.exe');args=parser.parse_args()
+    parser=argparse.ArgumentParser();parser.add_argument('--model',required=True);parser.add_argument('--split',choices=['valid','test'],default='valid');parser.add_argument('--output',required=True);parser.add_argument('--final-test',action='store_true');parser.add_argument('--server',default='rust/target/release/rescue_server.exe');parser.add_argument('--raw',default='experiments/raw/rescue');args=parser.parse_args()
     assert args.split!='test' or args.final_test,'Explicit --final-test is required to open TEST'
     model_path=(ROOT/args.model).resolve();model=json.loads(model_path.read_text(encoding='utf-8'))
-    truth_path=ROOT/f'experiments/raw/rescue/grids-{args.split}.jsonl';truth=list(lines(truth_path))
+    raw=ROOT/args.raw;truth_path=raw/f'grids-{args.split}.jsonl';truth=list(lines(truth_path))
     ids={r['map_id'] for r in truth};assert not ids&set(model['train_maps'])
     if args.split=='test':assert not ids&set(model['valid_maps'])
     with socket.socket() as probe:probe.bind(('127.0.0.1',0));port=probe.getsockname()[1]
@@ -56,7 +56,7 @@ def main():
             except OSError:time.sleep(.05)
         else:raise TimeoutError('Mapping server unavailable')
         for ground in truth:
-            audit=ROOT/f"experiments/raw/rescue/{ground['run_id']}.jsonl";reply=None;history=[]
+            audit=raw/f"{ground['run_id']}.jsonl";reply=None;history=[]
             with socket.create_connection(('127.0.0.1',port),timeout=30) as client,client.makefile('rwb') as stream,audit.open(encoding='utf-8') as source:
                 for line in source:
                     if '"scans":' not in line:continue

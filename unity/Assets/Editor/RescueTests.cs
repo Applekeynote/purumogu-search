@@ -72,15 +72,17 @@ namespace Purumogu.Editor
         }
         public static void Evaluate()
         {
-            Reset();int port=int.Parse(Arg("-purumoguPort","47120")),steps=int.Parse(Arg("-purumoguSteps","4500")),repeats=int.Parse(Arg("-purumoguRepeats","2")),seedBase=int.Parse(Arg("-purumoguSeedBase","20261027"));string split=Arg("-purumoguSplit","development");bool guidance=Arg("-purumoguGuidance","false")=="true";
-            string path=Path.GetFullPath(Path.Combine(Application.dataPath,"../../reports/rescue/"+split));Directory.CreateDirectory(path);string raw=Path.GetFullPath(Path.Combine(Application.dataPath,"../../experiments/raw/rescue"));Directory.CreateDirectory(raw);
+            Reset();int port=int.Parse(Arg("-purumoguPort","47120")),steps=int.Parse(Arg("-purumoguSteps","4500")),repeats=int.Parse(Arg("-purumoguRepeats","2")),seedBase=int.Parse(Arg("-purumoguSeedBase","20261027"));string split=Arg("-purumoguSplit","development");bool guidance=Arg("-purumoguGuidance","false")=="true",diagnostics=Arg("-purumoguDiagnostics","false")=="true";
+            string path=Path.GetFullPath(Arg("-purumoguReport",Path.Combine(Application.dataPath,"../../reports/rescue/"+split)));Directory.CreateDirectory(path);string raw=Path.GetFullPath(Arg("-purumoguRaw",Path.Combine(Application.dataPath,"../../experiments/raw/rescue")));Directory.CreateDirectory(raw);
+            int sceneFilter=int.Parse(Arg("-purumoguSceneFilter","-1"));
             var outcomes=new List<object>();
-            File.WriteAllText(Path.Combine(path,"manifest.json"),JsonConvert.SerializeObject(new{status="running",generation="rescue-2.5",expected_maps=15*repeats,steps,seed_base=seedBase,split,guidance},Formatting.Indented));
+            File.WriteAllText(Path.Combine(path,"manifest.json"),JsonConvert.SerializeObject(new{status="running",generation="rescue-2.5",controller_revision="progress-3cm-v2",expected_maps=(sceneFilter<0?15:1)*repeats,steps,seed_base=seedBase,split,guidance},Formatting.Indented));
             using(var training=new StreamWriter(Path.Combine(raw,"features-"+split+".jsonl"),false,new UTF8Encoding(false)))
             using(var grids=new StreamWriter(Path.Combine(raw,"grids-"+split+".jsonl"),false,new UTF8Encoding(false)))
             {
             for(int scene=0;scene<15;scene++)for(int repeat=0;repeat<repeats;repeat++)
             {
+                if(sceneFilter>=0&&scene!=sceneFilter)continue;
                 int seed=seedBase+repeat*997;string run=Guid.NewGuid().ToString("N"),mapId="rescue-2.5-"+RescueScene.Catalog[scene].Id+"-"+seed;long seq=0;
                 using(var socket=new TcpClient("127.0.0.1",port))using(var sim=new RescueSimulation(scene,seed))
                 using(var audit=new StreamWriter(Path.Combine(raw,run+".jsonl"),false,new UTF8Encoding(false)))
@@ -90,7 +92,7 @@ namespace Purumogu.Editor
                     for(int step=0;step<steps;step++)
                     {
                         sim.Tick();if(sim.Step%25!=0)continue;
-                        var packet=sim.Observe(run,seq++);packet.request_map=sim.Step+25>steps;string json=JsonConvert.SerializeObject(packet);audit.WriteLine(json);writer.WriteLine(json);string line=reader.ReadLine();if(line==null||line.Length>8388608)throw new IOException("bad map response");var reply=JObject.Parse(line);if((string)reply["type"]=="error")throw new IOException(reply.ToString());if((long)reply["seq_no"]!=packet.seq_no)throw new IOException("sequence mismatch");if(sim.Step==25||sim.Step+25>steps)audit.WriteLine(line);if(guidance)sim.ApplyGuidance(reply);if(packet.request_map)evaluation.Evaluate(sim,reply);
+                        var packet=sim.Observe(run,seq++);packet.request_map=sim.Step+25>steps;packet.request_diagnostics=diagnostics;string json=JsonConvert.SerializeObject(packet);audit.WriteLine(json);writer.WriteLine(json);string line=reader.ReadLine();if(line==null||line.Length>8388608)throw new IOException("bad map response");var reply=JObject.Parse(line);if((string)reply["type"]=="error")throw new IOException(reply.ToString());if((long)reply["seq_no"]!=packet.seq_no)throw new IOException("sequence mismatch");if(sim.Step==25||sim.Step+25>steps)audit.WriteLine(line);if(guidance)sim.ApplyGuidance(reply);if(packet.request_map)evaluation.Evaluate(sim,reply);
                         finalMap=reply;
                         foreach(var scan in packet.scans){var robot=sim.Robots.Find(r=>r.Id==scan.node_id);training.WriteLine(JsonConvert.SerializeObject(new{kind="acoustic",map_id=mapId,split,features=new[]{scan.acoustic_snr_db/20,scan.voice_band_ratio,scan.modulation,scan.temperature_delta_c/2},label=robot.EvaluationSourceIsHuman?1:0}));}
                     }
@@ -104,7 +106,7 @@ namespace Purumogu.Editor
                 }
             }
             }
-            File.WriteAllText(Path.Combine(path,"manifest.json"),JsonConvert.SerializeObject(new{status="complete",generation="rescue-2.5",expected_maps=15*repeats,unity=Application.unityVersion,scenes=15,repeats,steps,seconds=steps*.02,nodes=12,seed_base=seedBase,split,guidance,robot_length_m=.07,robot_mass_kg=.024,cell_m=RescueScene.Cell,inference="Bayesian occupancy / independent-node acoustic bearing fusion",source_placement="independent-position-v1",acoustic_power_db="10log10; all-source power mixture; no human label in observations",truth_to_server=false,targets=new{global_occupancy_iou=.95,human_precision=.95,human_recall=.95}},Formatting.Indented));
+            File.WriteAllText(Path.Combine(path,"manifest.json"),JsonConvert.SerializeObject(new{status="complete",generation="rescue-2.5",controller_revision="progress-3cm-v2",expected_maps=(sceneFilter<0?15:1)*repeats,unity=Application.unityVersion,scenes=sceneFilter<0?15:1,repeats,steps,seconds=steps*.02,nodes=12,seed_base=seedBase,split,guidance,robot_length_m=.07,robot_mass_kg=.024,cell_m=RescueScene.Cell,inference="Bayesian occupancy / independent-node acoustic bearing fusion",source_placement="independent-position-v1",acoustic_power_db="10log10; all-source power mixture; no human label in observations",truth_to_server=false,targets=new{global_occupancy_iou=.95,human_precision=.95,human_recall=.95}},Formatting.Indented));
         }
     }
 }
