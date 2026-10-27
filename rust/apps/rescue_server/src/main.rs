@@ -66,7 +66,7 @@ async fn session(socket: TcpStream, model: Option<Arc<LearnedModel>>) -> Result<
             }
         }
         total += frame.len();
-        anyhow::ensure!(total < 128 * 1024 * 1024, "session input budget exceeded");
+        anyhow::ensure!(total < 384 * 1024 * 1024, "session input budget exceeded");
         let response = (|| -> Result<_> {
             let p: Packet = serde_json::from_slice(&frame)?;
             if mapper.is_none() {

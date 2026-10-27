@@ -1,5 +1,5 @@
 param(
-    [ValidateSet('init','smoke','collect','compare','build','rescue-smoke','rescue-evaluate','rescue-audit')][string]$Task='rescue-smoke',
+    [ValidateSet('init','smoke','collect','compare','build','rescue-smoke','rescue-swarm-smoke','rescue-swarm-evaluate','rescue-evaluate','rescue-audit')][string]$Task='rescue-smoke',
     [string]$Unity='C:\Program Files\Unity\Hub\Editor\6000.4.1f1\Editor\Unity.exe',
     [string]$Output='',
     [string[]]$Extra=@(),

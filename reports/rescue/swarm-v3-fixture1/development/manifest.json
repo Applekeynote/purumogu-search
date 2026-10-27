@@ -1,0 +1,31 @@
+{
+  "status": "complete",
+  "generation": "rescue-3.0",
+  "controller_revision": "whole-scene-drop-dense-v3",
+  "expected_maps": 1,
+  "unity": "6000.4.1f1",
+  "scenes": 1,
+  "repeats": 1,
+  "steps": 1000,
+  "seconds": 20.0,
+  "node_counts": [
+    48
+  ],
+  "seed_base": 20261027,
+  "deployment_seed_base": 31800000,
+  "deployment": "WholeSceneDrop",
+  "split": "development",
+  "guidance": true,
+  "robot_length_m": 0.07,
+  "robot_mass_kg": 0.024,
+  "cell_m": 0.05,
+  "inference": "Bayesian occupancy / independent-node acoustic bearing fusion",
+  "source_placement": "independent-position-v1",
+  "acoustic_power_db": "10log10; all-source power mixture; no human label in observations",
+  "truth_to_server": false,
+  "targets": {
+    "global_occupancy_iou": 0.95,
+    "human_precision": 0.95,
+    "human_recall": 0.95
+  }
+}

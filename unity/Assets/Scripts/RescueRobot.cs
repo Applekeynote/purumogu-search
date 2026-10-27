@@ -22,6 +22,8 @@ namespace Purumogu.Rescue
         public bool EvaluationSourceIsHuman { get; private set; }
         public bool Powered=true, Stuck;
         public bool Lost { get; private set; }
+        public bool Released { get; private set; }=true;
+        public int ReleaseStep { get; private set; }
         public int HoldUntilStep;
         public bool Verifying { get; private set; }
         public Vector3 ExplorationTarget;
@@ -96,10 +98,20 @@ namespace Purumogu.Rescue
         }
         public Vector3 Port(int side)=>Cones[side].transform.TransformPoint(Vector3.forward*(side==0?.0265f:-.0265f));
         public Vector3 PortDirection(int side)=>Cones[side].transform.forward*(side==0?1:-1);
+        public void ConfigureDrop(Quaternion rotation,int releaseStep)
+        {
+            foreach(var body in new[]{Core,Cones[0],Cones[1]}){body.position=DeploymentAnchor+rotation*(body.position-DeploymentAnchor);body.rotation=rotation*body.rotation;body.isKinematic=true;}
+            ReleaseStep=releaseStep;Released=false;
+        }
+        public void ReleaseAt(int step)
+        {
+            if(Released||step<ReleaseStep)return;Released=true;
+            foreach(var body in new[]{Core,Cones[0],Cones[1]}){body.isKinematic=false;body.WakeUp();}
+        }
         public void Motor(int step)
         {
             Verifying=step<HoldUntilStep;
-            if(!Powered||Energy<=0)return;
+            if(!Released||!Powered||Energy<=0)return;
             if(Verifying){Energy=Mathf.Max(0,Energy-.000001f);return;}
             Vector3 heading=Vector3.forward;
             if(HasTarget){heading=Vector3.ProjectOnPlane(ExplorationTarget-EstimatedPosition,Vector3.up);if(heading.magnitude>.018f)heading.Normalize();else heading=Vector3.forward;}
@@ -141,6 +153,7 @@ namespace Purumogu.Rescue
         }
         public void AfterPhysics()
         {
+            if(!Released)return;
             if(!Lost&&(!float.IsFinite(Core.position.x)||!float.IsFinite(Core.position.y)||!float.IsFinite(Core.position.z)||Core.position.y<-.12f||Mathf.Abs(Core.position.x)>1.0f||Core.position.z<-.6f||Core.position.z>3.6f))
             {
                 Lost=true;Powered=false;
@@ -151,11 +164,12 @@ namespace Purumogu.Rescue
         }
         public SensorScan Observe(RescueScene scene,int step,IReadOnlyList<RescueRobot> peers)
         {
-            if(Lost)return null;
+            if(!Released||Lost)return null;
             var actualDelta=Core.position-previousSensorPosition;previousSensorPosition=Core.position;
             yawBias+=Noise(.018f);var drift=Quaternion.Euler(Noise(.6f),yawBias+Noise(.6f),Noise(.6f));
             var delta=drift*actualDelta*(1+Noise(.025f))+new Vector3(Noise(.00008f),Noise(.00008f),Noise(.00008f));EstimatedPosition+=delta;pendingOdometry+=delta;
-            PoseSigma=Mathf.Sqrt(PoseSigma*PoseSigma+.000025f*actualDelta.magnitude+.000000003f);
+            float angularSigma=.6f*Mathf.Deg2Rad;
+            PoseSigma=Mathf.Sqrt(PoseSigma*PoseSigma+.000025f*actualDelta.magnitude+(.025f*.025f+2*angularSigma*angularSigma)*actualDelta.sqrMagnitude+3*.00008f*.00008f);
             var scan=new SensorScan{node_id=Id,deployment_anchor=Array(DeploymentAnchor),odometry_delta=Array(pendingOdometry),pose_sigma_m=PoseSigma};
             for(int ring=0;ring<4;ring++)for(int i=0;i<(ring==0?32:ring==1?16:8);i++)
             {
@@ -187,7 +201,7 @@ namespace Purumogu.Rescue
             scan.voice_band_ratio=Mathf.Clamp01(voicePower/(ambientPower+totalSourcePower)+Noise(.12f+scene.Spec.Noise*.1f));scan.modulation=Mathf.Clamp01(modulationPower/(ambientPower+totalSourcePower)+Noise(.15f));
             float heat=0;foreach(var source in scene.Sources){float d=Vector3.Distance(Core.position,source.Position);heat+=source.Warmth*Mathf.Exp(-d*7)*(Physics.Linecast(Core.position,source.Position,1<<6)?.1f:1);}
             Temperature=heat+Noise(.12f+scene.Spec.Difficulty*.06f);scan.temperature_delta_c=Mathf.Clamp(Temperature,-20,40);
-            Peers=0;Signal=-100;foreach(var peer in peers)if(peer!=this&&!peer.Lost){float distance=Vector3.Distance(Core.position,peer.Core.position);float rssi=Mathf.Clamp(-45-26*Mathf.Log10(Mathf.Max(distance,.04f))-(Physics.Linecast(Core.position,peer.Core.position,1<<6)?28:0)+Noise(4),-120,-10);if(rssi>-78){Peers++;Signal=Mathf.Max(Signal,rssi);}}
+            Peers=0;Signal=-100;foreach(var peer in peers)if(peer!=this&&peer.Released&&!peer.Lost){float distance=Vector3.Distance(Core.position,peer.Core.position);float rssi=Mathf.Clamp(-45-26*Mathf.Log10(Mathf.Max(distance,.04f))-(Physics.Linecast(Core.position,peer.Core.position,1<<6)?28:0)+Noise(4),-120,-10);if(rssi>-78){Peers++;Signal=Mathf.Max(Signal,rssi);}}
             if(random.NextDouble()<scene.Spec.Loss){Dropped++;return null;}Received++;pendingOdometry=Vector3.zero;return scan;
         }
         public static float PowerRatioDb(float signalPower,float noisePower)=>10*Mathf.Log10(Mathf.Max(signalPower,.00001f)/Mathf.Max(noisePower,.00001f));

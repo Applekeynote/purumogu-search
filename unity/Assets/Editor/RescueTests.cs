@@ -17,6 +17,62 @@ namespace Purumogu.Editor
     {
         static string Arg(string name,string fallback){var args=Environment.GetCommandLineArgs();for(int i=0;i<args.Length-1;i++)if(args[i]==name)return args[i+1];return fallback;}
         static void Reset()=>EditorSceneManager.NewScene(NewSceneSetup.EmptyScene,NewSceneMode.Single);
+        public static void DistributedSmoke()
+        {
+            Reset();var results=new List<object>();
+            for(int scene=0;scene<15;scene++)
+            {
+                Vector3[] reference=null;
+                foreach(int count in new[]{24,36,48})
+                using(var sim=new RescueSimulation(scene,20261027+scene*997,count,RescueDeploymentMode.WholeSceneDrop,907231+scene*13))
+                {
+                    var sources=sim.Scene.VictimPositions.ToArray();
+                    if(reference==null)reference=sources;else if(!reference.SequenceEqual(sources))throw new Exception("Changing node count changed victim placement");
+                    if(sim.Robots.Count!=count||sim.Robots.Any(r=>r.Released||!r.Core.isKinematic))throw new Exception("Incorrect drop waiting state");
+                    float minX=sim.Robots.Min(r=>r.DeploymentAnchor.x),maxX=sim.Robots.Max(r=>r.DeploymentAnchor.x),minZ=sim.Robots.Min(r=>r.DeploymentAnchor.z),maxZ=sim.Robots.Max(r=>r.DeploymentAnchor.z);
+                    if(maxX-minX<.8f||maxZ-minZ<2.0f)throw new Exception("Release plan is not distributed across the scene");
+                    foreach(var a in sim.Robots)foreach(var b in sim.Robots)if(a!=b&&Vector3.Distance(a.DeploymentAnchor,b.DeploymentAnchor)<.0849f)throw new Exception("Release bodies overlap");
+                    for(int step=0;step<800;step++)
+                    {
+                        sim.Tick();if(sim.Step%25!=0)continue;var packet=sim.Observe("distributed-smoke",sim.Step/25-1);
+                        foreach(var scan in packet.scans)if(!sim.Robots.Any(r=>r.Id==scan.node_id&&r.Released&&!r.Lost))throw new Exception("An unreleased or lost node transmitted");
+                    }
+                    if(sim.Robots.Any(r=>!r.Released||!float.IsFinite(r.Core.position.x)||!float.IsFinite(r.Core.position.y)||!float.IsFinite(r.Core.position.z)))throw new Exception("Invalid final deployment state");
+                    if(sim.Robots.Any(r=>r.Core.position.y>RescueDeployment.DropHeight-.03f))throw new Exception("A released node did not fall");
+                    sim.Power(false);sim.Docking=false;sim.ReleaseAll();for(int settle=0;settle<150;settle++)sim.Tick();
+                    var before=sim.Robots.Select(r=>r.Core.position).ToArray();
+                    foreach(bool transparent in new[]{false,true})
+                    {
+                        sim.Scene.Cutaway(transparent);
+                        foreach(var collider in sim.Scene.Root.GetComponentsInChildren<Collider>())
+                        {
+                            var renderer=collider.GetComponent<Renderer>();
+                            if(!renderer||!renderer.enabled||!renderer.gameObject.activeInHierarchy)throw new Exception("Invisible collision support: "+collider.name);
+                        }
+                    }
+                    if(!before.SequenceEqual(sim.Robots.Select(r=>r.Core.position)))throw new Exception("View mode moved a robot");
+                    float maximumSupportGap=0,maximumNearestSurface=0;int elevated=0,lateralSupports=0;
+                    var sceneColliders=sim.Scene.Root.GetComponentsInChildren<Collider>();
+                    foreach(var robot in sim.Robots)
+                    {
+                        if(robot.Lost)continue;float gap=float.PositiveInfinity,nearest=float.PositiveInfinity;
+                        foreach(var body in new[]{robot.Core,robot.Cones[0],robot.Cones[1]})
+                        {
+                            if(body.isKinematic||!body.useGravity)throw new Exception("Released body has no active gravity");
+                            if(Physics.Raycast(body.worldCenterOfMass,Vector3.down,out RaycastHit support,.5f,1<<6))gap=Mathf.Min(gap,support.distance);
+                            foreach(var collider in sceneColliders)nearest=Mathf.Min(nearest,Vector3.Distance(body.worldCenterOfMass,collider.ClosestPoint(body.worldCenterOfMass)));
+                        }
+                        // A wedged body can be supported laterally at a slab edge,
+                        // so a downward ray alone cannot identify every real contact.
+                        if(nearest>.04f)throw new Exception($"Unsupported settled node {sim.Scene.Spec.Id}/{robot.Id}: nearest surface={nearest}, downward={gap}");
+                        maximumNearestSurface=Mathf.Max(maximumNearestSurface,nearest);if(float.IsFinite(gap))maximumSupportGap=Mathf.Max(maximumSupportGap,gap);if(gap>.08f)lateralSupports++;if(robot.Core.position.y>.09f)elevated++;
+                    }
+                    results.Add(new{scene=sim.Scene.Spec.Id,nodes=count,released=sim.Robots.Count(r=>r.Released),lost=sim.Robots.Count(r=>r.Lost),span_x=maxX-minX,span_z=maxZ-minZ,couplings=sim.Attached,detachments=sim.Detached,geometry_colliders=sceneColliders.Length,settled_max_downward_surface_gap_m=maximumSupportGap,settled_max_nearest_surface_distance_m=maximumNearestSurface,lateral_or_edge_supports=lateralSupports,elevated_on_visible_geometry=elevated,invisible_collision_surfaces=0});
+                    Debug.Log($"DISTRIBUTED_SMOKE PASS {sim.Scene.Spec.Id} nodes={count} lost={sim.Robots.Count(r=>r.Lost)}");
+                }
+            }
+            string output=Arg("-purumoguOutput",Path.GetFullPath(Path.Combine(Application.dataPath,"../../reports/rescue/distributed-deployment-smoke.json")));Directory.CreateDirectory(Path.GetDirectoryName(output));File.WriteAllText(output,JsonConvert.SerializeObject(new{status="pass",cases=results.Count,drop_height_m=RescueDeployment.DropHeight,scatter_seconds=RescueDeployment.ScatterSteps*.02,rows=results},Formatting.Indented));
+        }
         public static void AuditSources()
         {
             Reset();var rows=new List<object>();int repeats=int.Parse(Arg("-purumoguRepeats","3")),seedBase=int.Parse(Arg("-purumoguSeedBase","20262000"));
@@ -70,21 +126,30 @@ namespace Purumogu.Editor
             }
             Debug.Log("LOST_NODE_FIXTURE PASS / gravity drop is logged as loss, no transform relocation");
         }
-        public static void Evaluate()
+        public static void Evaluate()=>EvaluateImpl(false);
+        public static void EvaluateSwarm()=>EvaluateImpl(true);
+        static void EvaluateImpl(bool swarm)
         {
             Reset();int port=int.Parse(Arg("-purumoguPort","47120")),steps=int.Parse(Arg("-purumoguSteps","4500")),repeats=int.Parse(Arg("-purumoguRepeats","2")),seedBase=int.Parse(Arg("-purumoguSeedBase","20261027"));string split=Arg("-purumoguSplit","development");bool guidance=Arg("-purumoguGuidance","false")=="true",diagnostics=Arg("-purumoguDiagnostics","false")=="true";
             string path=Path.GetFullPath(Arg("-purumoguReport",Path.Combine(Application.dataPath,"../../reports/rescue/"+split)));Directory.CreateDirectory(path);string raw=Path.GetFullPath(Arg("-purumoguRaw",Path.Combine(Application.dataPath,"../../experiments/raw/rescue")));Directory.CreateDirectory(raw);
             int sceneFilter=int.Parse(Arg("-purumoguSceneFilter","-1"));
+            int countFilter=int.Parse(Arg("-purumoguNodeCount","0")),deploymentBase=int.Parse(Arg("-purumoguDeploymentSeedBase","30800000"));
+            int[] counts=swarm?(countFilter==0?new[]{24,36,48}:new[]{countFilter}):new[]{12};
+            if(swarm&&counts.Any(n=>n!=24&&n!=36&&n!=48))throw new ArgumentException("Swarm count must be 24, 36 or 48");
+            string generation=swarm?"rescue-3.0":"rescue-2.5",controllerRevision=swarm?"whole-scene-drop-dense-v3":"progress-3cm-v2";
+            int expectedMaps=(sceneFilter<0?15:1)*repeats*counts.Length;
             var outcomes=new List<object>();
-            File.WriteAllText(Path.Combine(path,"manifest.json"),JsonConvert.SerializeObject(new{status="running",generation="rescue-2.5",controller_revision="progress-3cm-v2",expected_maps=(sceneFilter<0?15:1)*repeats,steps,seed_base=seedBase,split,guidance},Formatting.Indented));
+            File.WriteAllText(Path.Combine(path,"manifest.json"),JsonConvert.SerializeObject(new{status="running",generation,controller_revision=controllerRevision,expected_maps=expectedMaps,steps,seed_base=seedBase,split,guidance,node_counts=counts,deployment_seed_base=deploymentBase},Formatting.Indented));
             using(var training=new StreamWriter(Path.Combine(raw,"features-"+split+".jsonl"),false,new UTF8Encoding(false)))
             using(var grids=new StreamWriter(Path.Combine(raw,"grids-"+split+".jsonl"),false,new UTF8Encoding(false)))
             {
-            for(int scene=0;scene<15;scene++)for(int repeat=0;repeat<repeats;repeat++)
+            for(int scene=0;scene<15;scene++)for(int repeat=0;repeat<repeats;repeat++)foreach(int nodes in counts)
             {
                 if(sceneFilter>=0&&scene!=sceneFilter)continue;
-                int seed=seedBase+repeat*997;string run=Guid.NewGuid().ToString("N"),mapId="rescue-2.5-"+RescueScene.Catalog[scene].Id+"-"+seed;long seq=0;
-                using(var socket=new TcpClient("127.0.0.1",port))using(var sim=new RescueSimulation(scene,seed))
+                int seed=seedBase+repeat*997,deploymentSeed=deploymentBase+scene*10007+repeat*997+nodes*131;
+                string groupId="rescue-world-"+RescueScene.Catalog[scene].Id+"-"+seed;
+                string run=Guid.NewGuid().ToString("N"),mapId=generation+"-"+RescueScene.Catalog[scene].Id+"-"+seed+(swarm?"-N"+nodes+"-D"+deploymentSeed:"");long seq=0;
+                using(var socket=new TcpClient("127.0.0.1",port))using(var sim=new RescueSimulation(scene,seed,nodes,swarm?RescueDeploymentMode.WholeSceneDrop:RescueDeploymentMode.EntranceGrid,deploymentSeed))
                 using(var audit=new StreamWriter(Path.Combine(raw,run+".jsonl"),false,new UTF8Encoding(false)))
                 {
                     socket.NoDelay=true;socket.ReceiveTimeout=30000;socket.SendTimeout=30000;var stream=socket.GetStream();var reader=new StreamReader(stream,Encoding.UTF8);var writer=new StreamWriter(stream,new UTF8Encoding(false)){AutoFlush=true};var evaluation=new RescueEvaluation();
@@ -94,19 +159,19 @@ namespace Purumogu.Editor
                         sim.Tick();if(sim.Step%25!=0)continue;
                         var packet=sim.Observe(run,seq++);packet.request_map=sim.Step+25>steps;packet.request_diagnostics=diagnostics;string json=JsonConvert.SerializeObject(packet);audit.WriteLine(json);writer.WriteLine(json);string line=reader.ReadLine();if(line==null||line.Length>8388608)throw new IOException("bad map response");var reply=JObject.Parse(line);if((string)reply["type"]=="error")throw new IOException(reply.ToString());if((long)reply["seq_no"]!=packet.seq_no)throw new IOException("sequence mismatch");if(sim.Step==25||sim.Step+25>steps)audit.WriteLine(line);if(guidance)sim.ApplyGuidance(reply);if(packet.request_map)evaluation.Evaluate(sim,reply);
                         finalMap=reply;
-                        foreach(var scan in packet.scans){var robot=sim.Robots.Find(r=>r.Id==scan.node_id);training.WriteLine(JsonConvert.SerializeObject(new{kind="acoustic",map_id=mapId,split,features=new[]{scan.acoustic_snr_db/20,scan.voice_band_ratio,scan.modulation,scan.temperature_delta_c/2},label=robot.EvaluationSourceIsHuman?1:0}));}
+                        foreach(var scan in packet.scans){var robot=sim.Robots.Find(r=>r.Id==scan.node_id);training.WriteLine(JsonConvert.SerializeObject(new{kind="acoustic",map_id=mapId,world_group_id=groupId,nodes,deployment_seed=deploymentSeed,split,features=new[]{scan.acoustic_snr_db/20,scan.voice_band_ratio,scan.modulation,scan.temperature_delta_c/2},label=robot.EvaluationSourceIsHuman?1:0}));}
                     }
                     if(finalMap!=null)foreach(var c in (JArray)finalMap["cells"])
                     {
                         var k=(JArray)c["key"];var p=new Vector3(((int)k[0]+.5f)*RescueScene.Cell,((int)k[1]+.5f)*RescueScene.Cell,((int)k[2]+.5f)*RescueScene.Cell);bool truth=Physics.CheckBox(p,Vector3.one*(RescueScene.Cell*.42f),Quaternion.identity,1<<6);float prob=(float)c["occupancy"];training.WriteLine(JsonConvert.SerializeObject(new{kind="occupancy",map_id=mapId,split,features=new[]{Mathf.Log(prob/(1-prob)),Mathf.Log(1+(int)c["observations"])},label=truth?1:0}));
                     }
-                    var row=JObject.FromObject(evaluation.Snapshot(sim));row["seed"]=seed;row["repeat"]=repeat;row["map_id"]=mapId;row["run_id"]=run;row["split"]=split;outcomes.Add(row);File.WriteAllText(Path.Combine(path,"outcomes.json"),JsonConvert.SerializeObject(outcomes,Formatting.Indented));training.Flush();
-                    grids.WriteLine(JsonConvert.SerializeObject(new{scene=sim.Scene.Spec.Id,map_id=mapId,run_id=run,split,occupied_keys=evaluation.TrainingTruthGrid(),victim_positions=sim.Scene.VictimPositions.Select(RescueRobot.Array).ToArray()}));grids.Flush();
-                    Debug.Log($"RESCUE_EVAL {sim.Scene.Spec.Id} repeat={repeat} IoU={evaluation.IoU:F3} coverage={evaluation.Coverage:F3} targets={evaluation.Matched}/{sim.Scene.Spec.Victims} false={evaluation.FalseAlarms}");
+                    var row=JObject.FromObject(evaluation.Snapshot(sim));row["seed"]=seed;row["repeat"]=repeat;row["map_id"]=mapId;row["world_group_id"]=groupId;row["run_id"]=run;row["split"]=split;outcomes.Add(row);File.WriteAllText(Path.Combine(path,"outcomes.json"),JsonConvert.SerializeObject(outcomes,Formatting.Indented));training.Flush();
+                    grids.WriteLine(JsonConvert.SerializeObject(new{scene=sim.Scene.Spec.Id,map_id=mapId,world_group_id=groupId,nodes,deployment_seed=deploymentSeed,run_id=run,split,occupied_keys=evaluation.TrainingTruthGrid(),victim_positions=sim.Scene.VictimPositions.Select(RescueRobot.Array).ToArray()}));grids.Flush();
+                    Debug.Log($"RESCUE_EVAL {sim.Scene.Spec.Id} nodes={nodes} repeat={repeat} IoU={evaluation.IoU:F3} coverage={evaluation.Coverage:F3} targets={evaluation.Matched}/{sim.Scene.Spec.Victims} false={evaluation.FalseAlarms}");
                 }
             }
             }
-            File.WriteAllText(Path.Combine(path,"manifest.json"),JsonConvert.SerializeObject(new{status="complete",generation="rescue-2.5",controller_revision="progress-3cm-v2",expected_maps=(sceneFilter<0?15:1)*repeats,unity=Application.unityVersion,scenes=sceneFilter<0?15:1,repeats,steps,seconds=steps*.02,nodes=12,seed_base=seedBase,split,guidance,robot_length_m=.07,robot_mass_kg=.024,cell_m=RescueScene.Cell,inference="Bayesian occupancy / independent-node acoustic bearing fusion",source_placement="independent-position-v1",acoustic_power_db="10log10; all-source power mixture; no human label in observations",truth_to_server=false,targets=new{global_occupancy_iou=.95,human_precision=.95,human_recall=.95}},Formatting.Indented));
+            File.WriteAllText(Path.Combine(path,"manifest.json"),JsonConvert.SerializeObject(new{status="complete",generation,controller_revision=controllerRevision,expected_maps=expectedMaps,unity=Application.unityVersion,scenes=sceneFilter<0?15:1,repeats,steps,seconds=steps*.02,node_counts=counts,seed_base=seedBase,deployment_seed_base=deploymentBase,deployment=swarm?"WholeSceneDrop":"EntranceGrid",split,guidance,robot_length_m=.07,robot_mass_kg=.024,cell_m=RescueScene.Cell,inference="Bayesian occupancy / independent-node acoustic bearing fusion",source_placement="independent-position-v1",acoustic_power_db="10log10; all-source power mixture; no human label in observations",truth_to_server=false,targets=new{global_occupancy_iou=.95,human_precision=.95,human_recall=.95}},Formatting.Indented));
         }
     }
 }

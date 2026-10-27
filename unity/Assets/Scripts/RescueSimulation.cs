@@ -12,24 +12,28 @@ namespace Purumogu.Rescue
         public readonly List<DockLink> Links=new List<DockLink>();
         public int Step, Attached, Detached;
         public bool Docking=true;
+        public readonly RescueDeploymentMode DeploymentMode;
+        public readonly int DeploymentSeed;
         int cooldown;
         public sealed class DockLink {public RescueRobot A,B;public int PortA,PortB;public ConfigurableJoint Joint;public LineRenderer Line;}
         Material linkMaterial;
 
-        public RescueSimulation(int sceneIndex,int seed,int nodes=12)
+        public RescueSimulation(int sceneIndex,int seed,int nodes=12,RescueDeploymentMode deployment=RescueDeploymentMode.EntranceGrid,int deploymentSeed=907231)
         {
             Physics.simulationMode=SimulationMode.Script;Physics.gravity=new Vector3(0,-9.81f,0);Physics.defaultSolverIterations=16;Physics.defaultSolverVelocityIterations=8;
             Scene=new RescueScene(sceneIndex,seed);linkMaterial=new Material(Shader.Find("Sprites/Default")){color=new Color(.2f,1,.77f)};
+            DeploymentMode=deployment;DeploymentSeed=deploymentSeed;var releases=RescueDeployment.Plan(nodes,deploymentSeed,deployment);
             for(int i=0;i<nodes;i++)
             {
-                int column=i%3,row=i/3;
-                var start=new Vector3((column-1)*.095f,.018f,-.18f+row*.074f);
-                Robots.Add(new RescueRobot("N"+i.ToString("D2"),start,seed+i*109));
+                var pose=releases[i];var robot=new RescueRobot("N"+i.ToString("D2"),pose.Position,seed+i*109);
+                if(deployment==RescueDeploymentMode.WholeSceneDrop)robot.ConfigureDrop(pose.Rotation,pose.Step);
+                Robots.Add(robot);
             }
             Physics.SyncTransforms();
         }
         public void Tick()
         {
+            foreach(var robot in Robots)robot.ReleaseAt(Step);
             foreach(var robot in Robots)robot.Motor(Step);
             if(Scene.Spec.Disaster.Contains("洪水")||Scene.Spec.Disaster.Contains("浸水"))foreach(var robot in Robots)if(robot.Core.position.z>1.0f&&robot.Core.position.y<.035f)robot.Core.AddForce(-robot.Core.linearVelocity*.08f);
             if(Docking&&Step>=cooldown&&Step%10==0)TryDock();
@@ -46,7 +50,7 @@ namespace Purumogu.Rescue
         {
             foreach(var a in Robots)foreach(var b in Robots)
             {
-                if(a.Lost||b.Lost||string.CompareOrdinal(a.Id,b.Id)>=0||Connected(a,b))continue;
+                if(!a.Released||!b.Released||a.Lost||b.Lost||string.CompareOrdinal(a.Id,b.Id)>=0||Connected(a,b))continue;
                 for(int pa=0;pa<2;pa++)for(int pb=0;pb<2;pb++)
                 {
                     if(a.PortBusy[pa]||b.PortBusy[pb])continue;
@@ -143,6 +147,6 @@ namespace Purumogu.Rescue
             LocalizationError=Matched>0?error/Matched:float.NaN;
         }
         public static Vector3 Vector(JToken a)=>new Vector3((float)a[0],(float)a[1],(float)a[2]);
-        public object Snapshot(RescueSimulation sim)=>new{scene=sim.Scene.Spec.Id,steps=sim.Step,lost_nodes=sim.Robots.FindAll(r=>r.Lost).Count,observed_cells=Observed,coverage=Coverage,observed_iou=IoU,global_iou=GlobalIoU,truth_occupied_cells=TruthOccupiedTotal,predicted_occupied_cells=PredictedOccupied,correct_occupied_cells=CorrectOccupied,occupancy_precision=Precision,occupancy_recall=Recall,human_precision=CueCount>0?(float?)Matched/CueCount:null,human_recall=sim.Scene.VictimPositions.Count>0?(float?)Matched/sim.Scene.VictimPositions.Count:null,pose_rmse_m=PoseRmse,cues=CueCount,matched=Matched,false_alarms=FalseAlarms,truth_people=sim.Scene.VictimPositions.Count,localization_error_m=float.IsNaN(LocalizationError)?(float?)null:LocalizationError,couplings=sim.Attached,releases=sim.Detached};
+        public object Snapshot(RescueSimulation sim)=>new{scene=sim.Scene.Spec.Id,steps=sim.Step,nodes=sim.Robots.Count,released_nodes=sim.Robots.FindAll(r=>r.Released).Count,deployment=sim.DeploymentMode.ToString(),deployment_seed=sim.DeploymentSeed,lost_nodes=sim.Robots.FindAll(r=>r.Lost).Count,observed_cells=Observed,coverage=Coverage,observed_iou=IoU,global_iou=GlobalIoU,truth_occupied_cells=TruthOccupiedTotal,predicted_occupied_cells=PredictedOccupied,correct_occupied_cells=CorrectOccupied,occupancy_precision=Precision,occupancy_recall=Recall,human_precision=CueCount>0?(float?)Matched/CueCount:null,human_recall=sim.Scene.VictimPositions.Count>0?(float?)Matched/sim.Scene.VictimPositions.Count:null,pose_rmse_m=PoseRmse,cues=CueCount,matched=Matched,false_alarms=FalseAlarms,truth_people=sim.Scene.VictimPositions.Count,localization_error_m=float.IsNaN(LocalizationError)?(float?)null:LocalizationError,couplings=sim.Attached,releases=sim.Detached};
     }
 }

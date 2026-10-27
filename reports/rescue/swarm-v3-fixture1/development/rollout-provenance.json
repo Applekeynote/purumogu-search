@@ -1,0 +1,27 @@
+{
+  "started_utc": "2026-10-27T12:11:10.3776902Z",
+  "generation": "rescue-3.0",
+  "split": "development",
+  "experiment": "swarm-v3-fixture1",
+  "steps": 1000,
+  "repeats": 1,
+  "seed_base": 20261027,
+  "deployment_seed_base": 31800000,
+  "scene_filter": 1,
+  "node_filter": 48,
+  "deployment": "WholeSceneDrop",
+  "guidance": true,
+  "guidance_policy": "observed-free-frontier+raw-acoustic-probe+distributed-budget",
+  "diagnostics": true,
+  "model": "models/swarm-v3-bootstrap/model.json",
+  "model_sha256": "7a4e9aa4ca12b7b5bebcecc626eda0ab6d485867040084c0b91680a0753a2804",
+  "server_sha256": "566040354b630374b53c5a5267d6a07a3b907e75e7719dbeb5c8340ff802cd65",
+  "source_sha256": {
+    "unity/Assets/Scripts/RescueScene.cs": "c6e22ca9272bdc11d4c01bc4821f70b1e4d10747f80a9eca5eb435443933f0b6",
+    "unity/Assets/Scripts/RescueRobot.cs": "0932cfdfd452a802ffbfe92fbd6201eb8bc6e632ca60cb3148544546b5e6cf5c",
+    "unity/Assets/Scripts/RescueSimulation.cs": "a364074bb0f0efc85cf0c1df0c34a474a8c264eec28bf07cbf50ae1f0a8505d0",
+    "unity/Assets/Scripts/RescueDeployment.cs": "c7e27511fed074fe755af603944bf2894cd7a171e83cb8a93d0554a1a9a45a22",
+    "unity/Assets/Editor/RescueTests.cs": "81b240e83322bd0afebb578a6dde5d2492dda341d2eabbc74bc55364def14f4f"
+  },
+  "protocol_design_sha256": "2ae116a1d8bae8245848baf14ad4e2b3c9eb5d94ef93b8b2eeaf71036d13c2ab"
+}

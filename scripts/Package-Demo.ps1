@@ -1,4 +1,4 @@
-param([string]$Model='models/rescue-v13/model.json',[string]$Output='dist/PurumoguSearch-Windows.zip')
+param([string]$Model='models/swarm-v3-bootstrap/model.json',[string]$Output='dist/PurumoguSearch-Windows.zip')
 $ErrorActionPreference='Stop'
 $projectRoot=Split-Path $PSScriptRoot -Parent
 $playerFolder=Join-Path $projectRoot 'build'
@@ -26,6 +26,11 @@ Purumogu Search / Windows x64 simulation
 Extract the whole ZIP into a writable local folder, then double-click Start-Demo.cmd.
 The Unity application opens with 15 scenes, the articulated robot view, sensor-based
 map progress, node states and evaluation. Use the Explore button to begin a scene.
+Select 24, 36 or 48 nodes after resetting. Drag inside the upper-left physical view
+with the middle mouse button (wheel pressed) or the left button to rotate slowly.
+Use the view reset button to restore the initial angle. Translucent slabs retain
+visible surfaces and outlines; gravity and collisions determine where nodes land.
+The included bootstrap supports the new deployment; its 95% accuracy is unconfirmed.
 The Rust inference service stops when the application closes. Port 47120 must be free.
 PACKAGE-MANIFEST.json identifies the included model and executables by SHA-256.
 The experiment budget is 360 seconds per scene. Running this player does not launch the Unity Editor. Rebuilding requires the pinned

@@ -45,10 +45,12 @@ namespace Purumogu.Rescue
         public readonly List<Vector3> VictimPositions = new List<Vector3>();
         public readonly List<AcousticSource> Sources = new List<AcousticSource>();
         public readonly List<Renderer> Roofs = new List<Renderer>();
+        readonly List<LineRenderer> roofEdges = new List<LineRenderer>();
         public readonly List<Renderer> VictimRenderers = new List<Renderer>();
         public readonly List<Rigidbody> LoosePieces = new List<Rigidbody>();
         public SceneSpec Spec;
         public Material Concrete, Stone, Rust, Ground, Water;
+        Material ghostConcrete,roofEdgeMaterial;
         public PhysicsMaterial Contact;
         readonly List<UnityEngine.Object> resources = new List<UnityEngine.Object>();
         System.Random random;
@@ -68,6 +70,10 @@ namespace Purumogu.Rescue
             Rust = Material(new Color(.36f, .19f, .10f), .28f);
             Ground = Material(new Color(.23f, .26f, .26f), .05f);
             Water = Material(new Color(.12f, .29f, .32f), .7f);
+            // A dedicated included shader avoids runtime Standard/Fade variants
+            // being stripped from the standalone build.
+            ghostConcrete=new Material(Resources.Load<Shader>("RescueSlabGhost"));ghostConcrete.color=new Color(.47f,.63f,.64f,.22f);resources.Add(ghostConcrete);
+            roofEdgeMaterial=new Material(Shader.Find("Sprites/Default"));roofEdgeMaterial.color=new Color(.48f,.74f,.72f,.75f);resources.Add(roofEdgeMaterial);
             bool wet=Spec.Disaster.Contains("洪水")||Spec.Disaster.Contains("浸水");
             Contact = new PhysicsMaterial("RubbleContact") { dynamicFriction = wet?.15f:.38f + Spec.Difficulty * .08f, staticFriction = wet?.22f:.48f, bounciness = .025f };
             resources.Add(Contact);
@@ -121,7 +127,7 @@ namespace Purumogu.Rescue
                 Box("BlindAlley", new Vector3(-1.6f, .25f, 8.8f), new Vector3(1.7f, .65f, .28f), Concrete);
                 Box("RaisedStep", new Vector3(0, .055f, 4.8f), new Vector3(1.5f, .11f, .5f), Stone);
             }
-            int rubbleCount = 28 + Spec.Difficulty * 22;
+            int rubbleCount = 64 + Spec.Difficulty * 40;
             for (int i = 0; i < rubbleCount; i++)
             {
                 float x = Range(-2.5f, 2.5f), z = Range(1.4f, 11.1f);
@@ -136,6 +142,16 @@ namespace Purumogu.Rescue
                 {
                     var body = g.AddComponent<Rigidbody>(); body.mass = .08f; body.linearDamping = 2; body.angularDamping = 2; LoosePieces.Add(body);
                 }
+            }
+            // Larger broken beams/slabs add real occlusion and narrow passages,
+            // while fragments above provide uneven contact at the robot's scale.
+            for(int i=0;i<6+Spec.Difficulty*5;i++)
+            {
+                float z=1.35f+i*(9.6f/(6+Spec.Difficulty*5));
+                var size=new Vector3(Range(.6f,1.35f),Range(.12f,.26f),Range(.25f,.55f));
+                float x=(i%2==0?-1:1)*Range(.9f,1.8f);
+                var beam=Box("BrokenBeam",new Vector3(x,size.y*.40f,z),size,i%3==0?Stone:Concrete);
+                Fracture(beam);beam.transform.localRotation=Quaternion.Euler(Range(-8,8),Range(-50,50),Range(-12,12));
             }
             for (int i = 0; i < 9 + Spec.Difficulty * 8; i++)
             {
@@ -206,8 +222,22 @@ namespace Purumogu.Rescue
         void Roof(string name,Vector3 p,Vector3 size,Vector3 rotation)
         {
             var g=Box(name,p,size,Concrete);g.transform.localRotation=Quaternion.Euler(rotation);Roofs.Add(g.GetComponent<Renderer>());
+            // Visible collider-aligned edges prevent a transparent support from
+            // looking like empty air. These lines never enter physical/sensor rays.
+            for(int axis=0;axis<3;axis++)for(int a=-1;a<=1;a+=2)for(int b=-1;b<=1;b+=2)
+            {
+                var lineObject=new GameObject("SlabContactOutline");lineObject.transform.SetParent(g.transform,false);
+                var line=lineObject.AddComponent<LineRenderer>();line.useWorldSpace=true;line.positionCount=2;line.widthMultiplier=.006f;line.sharedMaterial=roofEdgeMaterial;
+                var start=Vector3.zero;var end=Vector3.zero;start[axis]=-.5f;end[axis]=.5f;start[(axis+1)%3]=end[(axis+1)%3]=a*.5f;start[(axis+2)%3]=end[(axis+2)%3]=b*.5f;
+                line.SetPosition(0,g.transform.TransformPoint(start));line.SetPosition(1,g.transform.TransformPoint(end));roofEdges.Add(line);
+            }
         }
-        public void Cutaway(bool enabled) {foreach(var r in Roofs)r.enabled=!enabled;}
+        public void Cutaway(bool enabled)
+        {
+            // Never hide a load-bearing collision surface.
+            foreach(var r in Roofs){r.enabled=true;r.sharedMaterial=enabled?ghostConcrete:Concrete;}
+            foreach(var edge in roofEdges)edge.enabled=enabled;
+        }
         public void ShowTruth(bool enabled) {foreach(var r in VictimRenderers)r.enabled=enabled;}
         public void Aftershock(int step)
         {

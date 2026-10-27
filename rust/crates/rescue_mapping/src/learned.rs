@@ -106,8 +106,12 @@ pub struct LearnedModel {
     /// Experimental fallback: approach sensor-derived acoustic peaks when coverage has no frontier.
     #[serde(default)]
     pub acoustic_probe: bool,
+    #[serde(default)]
+    pub distributed_swarm: bool,
     pub prototypes: Vec<Prototype>,
     pub train_maps: Vec<String>,
+    #[serde(default)]
+    pub calibration_train_maps: Vec<String>,
     pub valid_maps: Vec<String>,
     pub data_sha256: String,
 }
@@ -179,6 +183,12 @@ impl LearnedModel {
                     .iter()
                     .all(|id| !self.valid_maps.contains(id)),
             "split leakage"
+        );
+        ensure!(
+            self.calibration_train_maps
+                .iter()
+                .all(|id| !self.valid_maps.contains(id)),
+            "calibration/validation split leakage"
         );
         ensure!(
             self.prototypes.iter().all(|p| p.sensor_occupancy.is_empty()

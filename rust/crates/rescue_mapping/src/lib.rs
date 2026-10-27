@@ -12,6 +12,7 @@ fn default_true() -> bool {
 }
 pub const MAX_LINE: usize = 4_194_304;
 pub const MAX_REPLY: usize = 8_388_608;
+pub const MAX_NODES: usize = 48;
 type V3 = [f64; 3];
 fn add(a: V3, b: V3) -> V3 {
     std::array::from_fn(|i| a[i] + b[i])
@@ -133,7 +134,7 @@ struct Track {
     evidence: CueEvidence,
 }
 impl Track {
-    fn proposal(&self, step: u64) -> Proposal {
+    fn proposal(&self, step: u64, observer_denominator: f64) -> Proposal {
         Proposal {
             position: self.position,
             observers: self.observers,
@@ -143,7 +144,7 @@ impl Track {
                 self.score,
                 self.peak_score,
                 (1.0 + f64::from(self.hits)).ln() / 5.0,
-                self.observers as f64 / 12.0,
+                self.observers as f64 / observer_denominator,
                 self.spread.sqrt() / 0.25,
                 self.radius,
                 (step - self.last_seen) as f64 / 9000.0,
@@ -172,6 +173,8 @@ pub struct MapReply {
     pub mean_entropy_bits: f64,
     pub note: &'static str,
     pub model_version: String,
+    pub person_classifier_ready: bool,
+    pub distributed_swarm: bool,
     pub completion_family: String,
     pub completion_confidence: f64,
     pub proposals: Vec<Proposal>,
@@ -253,7 +256,7 @@ impl Mapper {
         if let Some(m) = &model {
             m.validate()?;
             ensure!((m.cell_m - cell).abs() < 1e-9, "model cell size mismatch");
-            mapper.proposal_mode = m.has_track_model();
+            mapper.proposal_mode = m.has_track_model() || m.distributed_swarm;
         }
         mapper.model = model;
         Ok(mapper)
@@ -285,7 +288,7 @@ impl Mapper {
         );
         let encoded = serde_json::to_vec(p)?;
         ensure!(
-            encoded.len() <= MAX_LINE && p.scans.len() <= 20,
+            encoded.len() <= MAX_LINE && p.scans.len() <= MAX_NODES,
             "packet budget exceeded"
         );
         if self.last_seq == Some(p.seq_no) {
@@ -309,7 +312,7 @@ impl Mapper {
                     .iter()
                     .filter(|s| !self.poses.contains_key(&s.node_id))
                     .count()
-                <= 20,
+                <= MAX_NODES,
             "session node budget exceeded"
         );
         // Validate the complete packet before mutating state.
@@ -321,13 +324,18 @@ impl Mapper {
             ensure!(
                 finite(s.deployment_anchor)
                     && finite(s.odometry_delta)
-                    && norm(s.odometry_delta) < self.cell * 12.0,
+                    && norm(s.odometry_delta)
+                        < if s.deployment_anchor[1] > 0.25 {
+                            1.5
+                        } else {
+                            self.cell * 12.0
+                        },
                 "invalid odometry"
             );
             ensure!(
                 s.deployment_anchor[0].abs() <= self.cell * 14.0
-                    && s.deployment_anchor[1].abs() <= self.cell * 5.0
-                    && (-5.0 * self.cell..=self.cell * 4.0).contains(&s.deployment_anchor[2]),
+                    && (-0.15..=1.2).contains(&s.deployment_anchor[1])
+                    && (-0.3..=3.1).contains(&s.deployment_anchor[2]),
                 "anchor is outside deployment zone"
             );
             ensure!(
@@ -483,8 +491,13 @@ impl Mapper {
             }
         }
         self.bearings.retain(|b| p.sim_step - b.step < 1500);
-        if self.bearings.len() > 240 {
-            self.bearings.drain(0..self.bearings.len() - 240);
+        let bearing_budget = if self.model.as_ref().is_some_and(|m| m.distributed_swarm) {
+            self.poses.len().max(12) * 20
+        } else {
+            240
+        };
+        if self.bearings.len() > bearing_budget {
+            self.bearings.drain(0..self.bearings.len() - bearing_budget);
         }
         self.last_seq = Some(p.seq_no);
         self.last_step = p.sim_step;
@@ -625,13 +638,15 @@ impl Mapper {
                 .model
                 .as_ref()
                 .map_or_else(|| "sensor-baseline".into(), |m| m.version.clone()),
+            person_classifier_ready: self.model.as_ref().is_some_and(|m| m.has_track_model()),
+            distributed_swarm: self.model.as_ref().is_some_and(|m| m.distributed_swarm),
             completion_family,
             completion_confidence,
             proposals: if p.request_map && p.request_diagnostics {
                 self.tracks
                     .iter()
                     .chain(&self.archived_tracks)
-                    .map(|t| t.proposal(p.sim_step))
+                    .map(|t| t.proposal(p.sim_step, self.observer_denominator()))
                     .collect()
             } else {
                 vec![]
@@ -857,7 +872,8 @@ impl Mapper {
                 .iter()
                 .chain(&self.archived_tracks)
                 .filter_map(|t| {
-                    let score = model.track_score(t.proposal(step).features)?;
+                    let score = model
+                        .track_score(t.proposal(step, self.observer_denominator()).features)?;
                     (score >= model.track_threshold).then(|| Cue {
                         position: t.position,
                         score,
@@ -913,6 +929,13 @@ impl Mapper {
             }
         }
         result
+    }
+    fn observer_denominator(&self) -> f64 {
+        if self.model.as_ref().is_some_and(|m| m.distributed_swarm) {
+            self.poses.len().max(1) as f64
+        } else {
+            12.0
+        }
     }
     fn frontiers(&self) -> Vec<Goal> {
         let mut free = BTreeSet::new();
@@ -994,9 +1017,14 @@ impl Mapper {
                     best = Some(k);
                 }
             }
+            let probe_nodes = if self.model.as_ref().is_some_and(|m| m.distributed_swarm) {
+                self.poses.len().div_ceil(4).max(3)
+            } else {
+                3
+            };
             let should_probe = self.model.as_ref().is_some_and(|m| m.acoustic_probe)
                 && !self.probe_cues.is_empty()
-                && (ordinal < 3 || best.is_none());
+                && (ordinal < probe_nodes || best.is_none());
             if let Some(target) = best.filter(|_| !should_probe) {
                 assigned.push(target);
                 let mut waypoint = target;
@@ -1078,6 +1106,66 @@ impl Mapper {
 #[cfg(test)]
 mod tests {
     use super::*;
+    #[test]
+    fn distributed_release_accepts_forty_eight_nodes_and_normalizes_observers() {
+        let mut model = learned_fixture();
+        model.distributed_swarm = true;
+        model.acoustic_probe = true;
+        let mut mapper = Mapper::with_model("test", 0.05, Some(Arc::new(model))).unwrap();
+        let mut p = packet();
+        let template = p.scans[0].clone();
+        p.scans.clear();
+        p.sim_step = 100;
+        p.request_diagnostics = true;
+        for i in 0..48 {
+            let mut scan = template.clone();
+            scan.node_id = format!("N{i:02}");
+            scan.deployment_anchor = [
+                -0.5 + (i % 8) as f64 / 7.0,
+                1.05,
+                0.1 + (i / 8) as f64 * 0.2,
+            ];
+            scan.odometry_delta = [0.0, -0.3, 0.0];
+            scan.pose_sigma_m = 0.04;
+            scan.rays.clear();
+            let origin = add(scan.deployment_anchor, scan.odometry_delta);
+            let delta = sub([0.025, 0.025, 0.425], origin);
+            scan.bearing = mul(delta, 1.0 / norm(delta));
+            scan.bearing_sigma_deg = 10.0;
+            scan.temperature_delta_c = 0.0;
+            p.scans.push(scan);
+        }
+        let reply = mapper.apply(&p).unwrap();
+        assert_eq!(reply.nodes.len(), 48);
+        assert!(!reply.proposals.is_empty());
+        assert!(
+            reply
+                .proposals
+                .iter()
+                .all(|p| (0.0..=1.0).contains(&p.features[3]))
+        );
+        assert!(reply.proposals.iter().any(|p| p.observers >= 24));
+        p.seq_no = 1;
+        p.sim_step = 125;
+        for scan in &mut p.scans {
+            scan.odometry_delta = [0.0, -0.7, 0.0];
+        }
+        assert_eq!(
+            mapper.apply(&p).unwrap().nodes.len(),
+            48,
+            "a drop can span two sensor frames"
+        );
+        p.seq_no = 2;
+        p.sim_step = 150;
+        let mut extra = p.scans[0].clone();
+        extra.node_id = "N48".into();
+        p.scans = vec![extra];
+        assert!(
+            mapper.apply(&p).is_err(),
+            "a forty-ninth node must not bypass the cumulative budget"
+        );
+        assert_eq!(mapper.last_seq, Some(1));
+    }
     #[test]
     fn geometry_calibration_and_retained_classification_do_not_change_probe_control() {
         let mut accept = learned_fixture();

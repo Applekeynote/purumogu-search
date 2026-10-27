@@ -1,0 +1,1 @@
+Collection and interface bootstrap for whole-scene 24/36/48-node drops. Acoustic calibration and geometry are transferred from the older twelve-node experiments. The retained-person classifier is deliberately absent; displayed raw tracks are unconfirmed. This is not a 95% acceptance model. New TRAIN/VALID collection, fitting and unopened confirmation are required.
