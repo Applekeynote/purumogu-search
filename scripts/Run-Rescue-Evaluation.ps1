@@ -1,13 +1,28 @@
-param([int]$Port=47122,[int]$Steps=3000,[int]$Repeats=2,[ValidateSet('train','valid','test','development')][string]$Split='development',[int]$SeedBase=20261027,[string]$Model='',[switch]$Guidance,[switch]$SkipBuild,[ValidateRange(-1,14)][int]$Scene=-1,[switch]$Diagnostics,[ValidatePattern('^[a-zA-Z0-9-]*$')][string]$Experiment='',[string]$UnityProject='')
+param([int]$Port=47122,[int]$Steps=3000,[int]$Repeats=2,[ValidateSet('train','valid','test','development')][string]$Split='development',[int]$SeedBase=20261027,[string]$Model='',[switch]$Guidance,[switch]$SkipBuild,[ValidateRange(-1,14)][int]$Scene=-1,[switch]$Diagnostics,[ValidatePattern('^[a-zA-Z0-9-]*$')][string]$Experiment='',[string]$UnityProject='',[switch]$FinalTest)
 $ErrorActionPreference='Stop'
 $projectRoot=Split-Path $PSScriptRoot -Parent
 Push-Location $projectRoot
 try {
+    if($Split -eq 'test'){
+        if(!$FinalTest){throw 'Opening TEST requires -FinalTest and an immutable protocol-lock.json'}
+        $lockPath=Join-Path $projectRoot "reports/rescue/$Experiment/protocol-lock.json"
+        $testLock=Get-Content -LiteralPath $lockPath -Raw | ConvertFrom-Json
+        if(!$Model -or (Get-FileHash -LiteralPath $Model -Algorithm SHA256).Hash.ToLowerInvariant() -ne $testLock.model_sha256){throw 'TEST model differs from the locked model'}
+        if($Steps -ne $testLock.steps -or $Repeats -ne $testLock.test_repeats -or $SeedBase -ne $testLock.test_seed_base -or $Scene -ne -1 -or !$Guidance){throw 'TEST configuration differs from the lock'}
+        if(Test-Path -LiteralPath (Join-Path $projectRoot "experiments/raw/rescue/$Experiment/grids-test.jsonl")){throw 'TEST already exists; never overwrite it'}
+    }
     if(!$SkipBuild){
         cargo build --manifest-path rust/Cargo.toml --release --locked -p rescue_server
         if($LASTEXITCODE){throw 'Rust build failed'}
     }
     if(!(Test-Path -LiteralPath (Join-Path $projectRoot 'rust/target/release/rescue_server.exe'))){throw 'Build rescue_server before using -SkipBuild'}
+    if($Split -eq 'test'){
+        if((Get-FileHash -LiteralPath (Join-Path $projectRoot 'rust/target/release/rescue_server.exe') -Algorithm SHA256).Hash.ToLowerInvariant() -ne $testLock.server_sha256){throw 'TEST inference binary differs from the validated binary'}
+        foreach($entry in $testLock.physical_source_sha256.PSObject.Properties){
+            $sourcePath=if($UnityProject){Join-Path $UnityProject $entry.Name.Substring(6)}else{Join-Path $projectRoot $entry.Name}
+            if((Get-FileHash -LiteralPath $sourcePath -Algorithm SHA256).Hash.ToLowerInvariant() -ne $entry.Value){throw "TEST physical source changed: $($entry.Name)"}
+        }
+    }
     $serverArguments=@('--port',$Port)
     if($Model){$serverArguments+=@('--model',"`"$Model`"")}
     $server=Start-Process -FilePath (Join-Path $projectRoot 'rust/target/release/rescue_server.exe') -ArgumentList $serverArguments -WindowStyle Hidden -PassThru

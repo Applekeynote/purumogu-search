@@ -1,0 +1,26 @@
+{
+  "registered_local_date": "2026-10-27",
+  "reason": "VALID90 exposes weak generalization: best shallow tree candidate has 88/96 matched and 3 false alarms. No candidate meets all acceptance conditions. Do not open fresh confirmation.",
+  "prior_revision": "revision-plan-2.json",
+  "additional_train": {
+    "seed_base": 20409970,
+    "repeats": 10,
+    "maps": 150,
+    "steps": 18000,
+    "nodes": 12,
+    "acquisition_model": "models/rescue-v11/model.json",
+    "guidance": true,
+    "diagnostics": true,
+    "purpose": "Extend TRAIN candidate evidence to 300 independent map variants, without changing sensor or physical generation"
+  },
+  "validation": "Same VALID90; use only TRAIN to fit. Compare the predeclared four shallow tree configurations and linear baseline.",
+  "fresh_confirmation": {
+    "seed_base": 20700000,
+    "repeats": 5,
+    "maps": 75,
+    "steps": 18000,
+    "unopened": true
+  },
+  "historical_test": "Preserve the failed original v13 TEST45. No case-specific tuning from it. All subsequent selection remains TRAIN/VALID-only.",
+  "localization_followup": "If TRAIN/VALID diagnostics show high-scoring offset hypotheses suppressing an accurate nearby proposal, compare evidence-weighted cluster localization on TRAIN/VALID; never change the 25cm matching rule. Register any change before fitting."
+}

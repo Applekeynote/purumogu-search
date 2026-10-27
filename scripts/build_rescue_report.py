@@ -12,7 +12,7 @@ def percentage(value):return f'{value:.1%}'
 
 
 def main():
-    parser=argparse.ArgumentParser();parser.add_argument('--metrics',required=True);parser.add_argument('--model',required=True);parser.add_argument('--screenshot',default='media/rescue-screenshot.png');parser.add_argument('--output',default='reports/Purumogu_Rescue_Report.pdf');args=parser.parse_args()
+    parser=argparse.ArgumentParser();parser.add_argument('--metrics',required=True);parser.add_argument('--model',required=True);parser.add_argument('--screenshot',default='media/rescue-screenshot.png');parser.add_argument('--output',default='reports/Purumogu_Rescue_Report.pdf');parser.add_argument('--prior-test');args=parser.parse_args()
     metric_path=ROOT/args.metrics;model_path=ROOT/args.model;m=json.loads(metric_path.read_text(encoding='utf-8-sig'));model=json.loads(model_path.read_bytes())
     assert hashlib.sha256(model_path.read_bytes()).hexdigest()==m['model_sha256'],'Do not attach scores from a different model'
     assert not set(model['train_maps'])&{row['map_id'] for row in m['rows']}
@@ -40,13 +40,14 @@ def main():
     r.start('15シーンと、独立した配置','易・中・難を各5条件。地震、斜面崩壊、浸水を含む。生存可能性や構造安全性を判定するシミュレーターではない。')
     scenes=[('易','E01','地震：傾いた壁の下'),('易','E02','地震：落下した天井材'),('易','E03','斜面崩壊：土砂の排水路'),('易','E04','洪水：浸水後の通路'),('易','E05','地震：無人倉庫、機械音の負例'),('中','M01','地震：パンケーキ状床板'),('中','M02','地震：V字床、鉄筋、複数音源'),('中','M03','斜面崩壊：閉塞した暗渠'),('中','M04','洪水：流木と湿潤面'),('中','M05','地震・浸水：無人地下室の周期音'),('難','H01','地震：多層床板、袋小路'),('難','H02','地震：階段、鉄筋、不安定な片'),('難','H03','斜面崩壊：岩塊と二次移動'),('難','H04','洪水：半水没設備、遮蔽、複数音源'),('難','H05','地震：低発声の深部空隙')]
     r.table([['難易度','ID','条件']]+scenes,[WIDTH*.12,WIDTH*.14,WIDTH*.74])
-    r.p('瓦礫形状と音源配置はseedで変える。音源の乱数列は地形から独立。口元・熱の観測点として、x=-0.5-0.5m、y=0.04-0.12m、z=0.55-2.55mの自由空間へ置く。H05は深部z=1.7-2.65m。点の周囲12mmに遮蔽物がないことと、複数人の点が55cm以上離れることを検査する。人の全身形状や占有体積はモデル化していない。',SMALL)
+    r.p('瓦礫形状と音源配置はseedで変える。音源の乱数列は地形から独立。口元・熱の観測点として、x=[-0.5,0.5]m、y=[0.04,0.12]m、z=[0.55,2.55]mの自由空間へ置く。H05は深部z=1.7-2.65m。点の周囲12mmに遮蔽物がないことと、複数人の点が55cm以上離れることを検査する。人の全身形状や占有体積はモデル化していない。',SMALL)
     r.p('水は摩擦低下と局所抵抗、粉塵は距離観測欠落として近似。流体解析、地盤変形、建物の構造崩壊解析は行わない。',SMALL)
     r.end()
 
     r.start('学習と評価を混ぜない','正解地形・人ラベル・音源位置は、オフライン学習と評価だけが参照する。推論プロセスへは渡さない。')
     r.table([['分割','変種数','用途'],['TRAIN',len(model['train_maps']),'センサー校正、音響分類、距離回帰、形状の事前分布'],['VALID',len(model['valid_maps']),'モデルと設定の選択'],['今回の集計',f'{split} / {m["maps"]}','固定した指標で全試行を集計']],[WIDTH*.18,WIDTH*.18,WIDTH*.64])
-    r.p('シーンIDは通信に含めず、地形族は観測の尤度から推定する。青緑の実測セルと、紫の学習補完を区別する。補完を観測済みセルに数えない。人の配置は変種ごとに変え、学習に使ったmap_idを評価に再利用しない。')
+    r.p(f'観測予算は1変種あたり{m.get("mission_seconds",180):.0f}秒、ノード12台。'+('喪失ノードは全試行で'+str(m['lost_nodes'])+'台。' if 'lost_nodes' in m else ''))
+    r.p('シーンIDは通信に含めず、地形族は観測の尤度から推定する。右上は繰り返し観測の支持があるセルと周辺の補完から徐々に表示する。右下は全推定地図を評価する。青緑の観測支持と、紫の学習補完を区別する。補完を観測済みセルに数えない。人の配置は変種ごとに変え、学習に使ったmap_idを評価に再利用しない。')
     r.heading('合格条件は3つすべて95%以上')
     r.p('1. 全領域の3D占有IoU：真の占有セルと推定占有セルの交差/和集合。未観測の真の障害物も含める。<br/>2. 人候補の適合率：一致した人の数/全候補数。<br/>3. 人候補の再現率：一致した人の数/真の人数。')
     r.p('地図は5cmセル、x=[-0.8,0.8)、y=[-0.15,0.9)、z=[-0.3,3.2)m。セル中央84%の箱とColliderの交差を真の占有とする。人の一致距離は25cm以内・一対一対応。全マップのIoU平均と、交差/和集合を全マップで合算したIoUの両方を確認する。閾値や領域を結果に合わせて変えない。',SMALL)
@@ -76,7 +77,20 @@ def main():
     r.p('一次資料：<link href="https://docs.unity3d.com/6000.4/Documentation/Manual/class-ConfigurableJoint.html">Unity Configurable Joint</link> / <link href="https://www.st.com/resource/en/datasheet/vl53l5cx.pdf">ST VL53L5CX</link> / <link href="https://www.ni.com/en/shop/labview/using-fast-fourier-transforms-and-power-spectra-in-labview.html">NI パワーとdB</link> / <link href="https://insarag.org/wp-content/uploads/2024/02/AAR_Recommendations-for-INSARAG.pdf">INSARAG 地震対応後の勧告</link>。これらは本モデルの救助性能を認証する資料ではない。',SMALL)
     r.p('映像の音声は音読さん、BGMはSuno AI、編集・ミックス・最終出力はDaVinci Resolve。<link href="https://github.com/Applekeynote/purumogu-search">公開コードと再現手順</link>。',SMALL)
     r.p('モデルSHA-256: '+m['model_sha256']+'<br/>評価真値SHA-256: '+m['truth_sha256'],SMALL)
-    r.end();r.save();print(str(ROOT/args.output))
+    r.end()
+    if args.prior_test:
+        history_path=ROOT/args.prior_test;previous=json.loads(history_path.read_bytes())
+        assert previous['split']=='test' and not previous['target_met'],'History must identify the retained failed TEST'
+        assert previous['model_sha256']!=m['model_sha256'],'Do not describe the same model as an independent revision'
+        r.start('失敗結果を残して、次を測る','最初の最終TESTと、改訂後の結果を区別する。過去の失敗を削除して最初から成功したようには扱わない。')
+        r.table([['結果','最初のTEST / v13',f'今回 / {split}'],['変種数',previous['maps'],m['maps']],['地図IoU 平均',percentage(previous['map_iou_macro']),percentage(m['map_iou_macro'])],['地図IoU 合算',percentage(previous['map_iou_micro']),percentage(m['map_iou_micro'])],['人の適合率',percentage(previous['human_precision']),percentage(m['human_precision'])],['人の再現率',percentage(previous['human_recall']),percentage(m['human_recall'])],['一致 / 真の人数',f"{previous['matched']} / {previous['people']}",f"{m['matched']} / {m['people']}"],['誤警報',previous['false_alarms'],m['false_alarms']]],[WIDTH*.36,WIDTH*.32,WIDTH*.32])
+        r.p('v13はVALID 30変種では条件を満たしたが、固定後のTEST 45変種で再現率が不足した。最初のTESTの個別ケースを係数学習や閾値選択へ取り込まず、追加TRAINとVALIDを使って改訂した。検証を増やした途中の不合格モデルも学習記録に残す。')
+        r.p('改訂後の未使用確認はseed 20700000 + 997*r（r=0..4）、15シーン×5変種と改善前に固定。モデル・推論バイナリ・物理ソース・360秒の予算を固定後に開く。初回の失敗を知った後の改訂なので、初回のTEST結果とは別の確認実験として解釈する。')
+        r.heading('数値の範囲')
+        r.p('15形状族の変種に対する点推定値であり、未知の倒壊形態への一般化や、実災害での性能保証ではない。形状事前分布による補完を使うため、観測だけで全地形を復元したとの意味でもない。実測での校正と、生成器を変えた外部評価が次の検証となる。')
+        r.p('初回TESTモデルSHA-256: '+previous['model_sha256']+'<br/>初回TEST記録SHA-256: '+hashlib.sha256(history_path.read_bytes()).hexdigest(),SMALL)
+        r.end()
+    r.save();print(str(ROOT/args.output))
 
 
 if __name__=='__main__':main()

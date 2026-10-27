@@ -2,7 +2,9 @@
 
 災害後の局所空隙を、全長約7cmの関節ノード12台で調べるUnity × Rustシミュレーターです。中央球と二つの扁平な円錐が曲がり、長軸回りに回転し、仲間と接続・解除します。地震・斜面崩壊・浸水を、易・中・難の各5シーンで扱います。
 
-**95%の要求は現在未達です。** 要救助者の位置も変えたVALID 30変種で、モデルv11の実Rust再生は、全領域3D IoU平均95.48%、適合率90.32%、再現率87.50%（28/32人、誤警報3）でした。これは180秒の観測予算によるモデル選択用の結果です。TESTはまだ開いていません。分類器のスキャン正解率を、救助者の検出精度には置き換えません。
+**最初の最終TESTでは再現率が不足し、95%の合格条件は未達です。** モデルv13はVALID 30変種で全領域3D IoU平均95.67%・合算95.65%、適合率・再現率96.88%でしたが、固定後のTEST 45変種ではIoU平均95.05%・合算95.12%、適合率97.73%、再現率89.58%（43/48人、誤警報1）となりました。観測予算は1変種あたり360秒、12台です。失敗結果を残し、同じTRAINで候補判別器を改善し、VALIDを90変種に増やしています。分類器のスキャン正解率を、救助者の検出精度には置き換えません。
+
+VALID90では浅い決定木でも再現率91.67%にとどまったため、[追加学習計画](reports/rescue/mission360/revision-plan-3.json)に従いTRAINを150変種追加収集中です。次の確認データはまだ開いていません。
 
 ## 動かす
 
@@ -11,7 +13,7 @@ Windows x64、Unity **6000.4.1f1**、Rust **1.94.1**を使います。Unityは�
 ```powershell
 cargo test --manifest-path rust/Cargo.toml --workspace --locked
 ./scripts/Unity-Task.ps1 build
-./scripts/Start-Demo.ps1 -Model models/rescue-v11/model.json
+./scripts/Start-Demo.ps1 -Model models/rescue-v13/model.json
 ```
 
 初回のビルドはUnity Package ManagerとCargoの依存取得にネットワークを使います。推論はCPU上の独立したRustプロセスで行い、127.0.0.1のTCP/JSON LinesでUnityと接続します。
@@ -35,18 +37,22 @@ cargo test --manifest-path rust/Cargo.toml --workspace --locked
 ```powershell
 ./scripts/Unity-Task.ps1 rescue-smoke
 python tests/test_rescue_contract.py
-python scripts/evaluate_rescue_replay.py --model models/rescue-v11/model.json --output reports/rescue/replay.json
+python scripts/evaluate_rescue_replay.py --model models/rescue-v13/model.json --output reports/rescue/replay.json
 ```
 
 再生には収集済みの生ログが必要です。物理試験は15シーンの接続・解除・屈曲・回転・移動、重力落下の喪失処理を確認します。25mm垂直段差は**乗り越え不通過、迂回通過**でした。機構試験の合格を段差走破の保証として扱いません。
 
 - TRAIN 150変種：seed `20400000 + 997*r`、r=0..9。
 - VALID 30変種：seed `20500000 + 997*r`、r=0..1。係数の学習には使わず、設定の選択に使います。
-- 未開封のTEST 45変種：seed `20600000 + 997*r`、r=0..2。最終判定前に開かず、閾値調整にも使いません。
+- 最初のTEST 45変種：seed `20600000 + 997*r`、r=0..2。v13固定後に開封し、再現率不足となりました。係数学習・閾値調整には使いません。
+- 追加VALID 60変種：seed `20501994 + 997*r`、r=0..3。元の30変種と合わせて90変種で選択します。
+- 次の未使用確認75変種：seed `20700000 + 997*r`、r=0..4。改善前に[改訂計画](reports/rescue/mission360/revision-plan-2.json)で固定しました。新モデルを固定するまで開きません。
 
 地図は5cmセル、評価領域全体の占有IoUを使います。未観測の真の障害物も分母に含めます。検出は25cm以内の一対一対応で、適合率と再現率を別々に測ります。合格には3指標がすべて95%以上必要です。人の口元・熱の点は変種ごとに独立に配置し、人の座標、人数、ラベル、シーンID、地形は推論サーバーへ送りません。詳細は[設計・条件・失敗例](docs/rescue-v2.md)と[データ生成記録](reports/rescue/generation-2.5.json)を参照してください。
 
-音響分類・距離回帰・占有補正・形状事前分布はTRAINから学習します。候補履歴の判別器はRustのIRLSで学習し、継続時間、位置のばらつき、独立ノード数、音響・温度・距離残差を使います。候補の絶対位置は分類特徴に入れません。Pythonはデータ整形、初段の数値学習、評価・モデル選択を担います。v11の記録は[学習条件](models/rescue-v11/training-report.json)と[実RustでのVALID再生](reports/rescue/learning-v11-valid-policy2.json)にあります。
+音響分類・距離回帰・占有補正・形状事前分布はTRAINから学習します。候補履歴の判別器はRustのIRLSで学習し、継続時間、位置のばらつき、独立ノード数、音響・温度・距離残差を使います。候補の絶対位置は分類特徴に入れません。Pythonはデータ整形、初段の数値学習、評価・モデル選択を担います。v13の記録は[学習条件](models/rescue-v13/training-report.json)と[実RustでのVALID再生](reports/rescue/mission360/learning-v13-valid.json)にあります。
+
+データ収集からモデル選択までの手順は[学習・再現手順](docs/reproduce-rescue-v2.md)に記載しています。最終TESTを開く前に、モデル・実行バイナリ・物理ソース・時間予算を[評価固定記録](reports/rescue/mission360/protocol-lock.json)へ保存します。
 
 ## できることと弱点
 

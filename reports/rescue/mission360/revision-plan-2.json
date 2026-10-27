@@ -1,0 +1,35 @@
+{
+  "created_utc": "2026-10-27T09:19:41.301830+00:00",
+  "prior_model": "rescue-v13",
+  "prior_model_sha256": "0807c68550375993b0755823efea0ffd8310dbd69ca3cfad7c462809732caf54",
+  "prior_test": {
+    "maps": 45,
+    "people": 48,
+    "matched": 43,
+    "false_alarms": 1,
+    "map_iou_macro": 0.9505382434888888,
+    "map_iou_micro": 0.9511958932216221,
+    "human_precision": 0.9772727272727273,
+    "human_recall": 0.8958333333333334,
+    "target_met": false
+  },
+  "prior_test_use": "Retain as failed result. Do not fit coefficients or choose thresholds using its cases.",
+  "training": "Same TRAIN150 sensor-only candidate evidence; compare regularized shallow boosted trees to linear classifier",
+  "validation": {
+    "original_maps": 30,
+    "additional_maps": 60,
+    "additional_seed_base": 20501994,
+    "additional_repeats": 4,
+    "combined_maps": 90
+  },
+  "fresh_confirmation": {
+    "seed_base": 20700000,
+    "repeats": 5,
+    "maps": 75,
+    "people": 80,
+    "steps": 18000,
+    "nodes": 12,
+    "unopened": true
+  },
+  "selection": "TRAIN fitting and VALID90 selection only; freeze before fresh confirmation; retain all historical failures"
+}

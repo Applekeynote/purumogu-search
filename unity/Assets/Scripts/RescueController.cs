@@ -16,7 +16,7 @@ namespace Purumogu.Rescue
         UnityRustBridge bridge;
         Camera physicalCamera,mapCamera,robotCamera;
         Font font;
-        int sceneIndex=0,seed=20261027,port=47120,selectedNode,maxSteps=9000;
+        int sceneIndex=0,seed=20261027,port=47120,selectedNode,maxSteps=18000;
         long sequence,expected=-1;
         string run,status="READY",failure="";
         bool running,paused,waiting,scenePicker,cutaway=true,showTruth,closeup;

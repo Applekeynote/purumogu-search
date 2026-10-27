@@ -251,7 +251,7 @@ impl Mapper {
         if let Some(m) = &model {
             m.validate()?;
             ensure!((m.cell_m - cell).abs() < 1e-9, "model cell size mismatch");
-            mapper.proposal_mode = !m.track_weights.is_empty();
+            mapper.proposal_mode = m.has_track_model();
         }
         mapper.model = model;
         Ok(mapper)
@@ -845,7 +845,7 @@ impl Mapper {
     }
     fn current_tracks(&self, step: u64) -> Vec<Cue> {
         if let Some(model) = &self.model
-            && !model.track_weights.is_empty()
+            && model.has_track_model()
         {
             let mut candidates: Vec<_> = self
                 .tracks
@@ -1127,6 +1127,51 @@ mod tests {
         model.validate().unwrap();
         let expected = 1.0 / (1.0 + (-1.202f64).exp());
         assert!((model.human_score([0.5, 0.2, 0.3, 0.4]) - expected).abs() < 1e-12);
+    }
+    #[test]
+    fn bounded_tree_score_uses_strict_split_and_rejects_cycles_or_unknown_features() {
+        let mut model = learned_fixture();
+        model.track_bias = 0.3;
+        model.track_trees = vec![learned::DecisionTree {
+            nodes: vec![
+                learned::TreeNode {
+                    feature: Some(0),
+                    threshold: 0.5,
+                    left: 1,
+                    right: 2,
+                    value: 0.0,
+                },
+                learned::TreeNode {
+                    feature: None,
+                    threshold: 0.0,
+                    left: 0,
+                    right: 0,
+                    value: -1.0,
+                },
+                learned::TreeNode {
+                    feature: None,
+                    threshold: 0.0,
+                    left: 0,
+                    right: 0,
+                    value: 1.0,
+                },
+            ],
+        }];
+        model.validate().unwrap();
+        assert!(model.has_track_model());
+        let mut x = [0.0; 12];
+        x[0] = 0.499;
+        assert!((model.track_score(x).unwrap() - 1.0 / (1.0 + 0.7f64.exp())).abs() < 1e-12);
+        x[0] = 0.5;
+        assert!((model.track_score(x).unwrap() - 1.0 / (1.0 + (-1.3f64).exp())).abs() < 1e-12);
+        model.track_trees[0].nodes[0].left = 0;
+        assert!(model.validate().is_err());
+        model.track_trees[0].nodes[0].left = 1;
+        model.track_trees[0].nodes[0].feature = Some(12);
+        assert!(model.validate().is_err());
+        model.track_trees[0].nodes[0].feature = Some(0);
+        model.track_trees[0].nodes[2].value = f64::NAN;
+        assert!(model.validate().is_err());
     }
     fn packet() -> Packet {
         Packet {

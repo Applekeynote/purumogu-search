@@ -1,0 +1,31 @@
+{
+  "created_utc": "2026-10-27T09:02:30.109105+00:00",
+  "test_accessed_at_creation": false,
+  "model": "models/rescue-v13/model.json",
+  "model_sha256": "0807c68550375993b0755823efea0ffd8310dbd69ca3cfad7c462809732caf54",
+  "server_sha256": "db3912d0ab755c3ca341c406415e78427f69e8d5e41585bf393c8c04edac1a62",
+  "validation_report_sha256": "ddbb35c8c34872414e65c39ad99489cdb7f4e2d97090958a071e90c3e0568869",
+  "steps": 18000,
+  "seconds": 360,
+  "nodes": 12,
+  "test_seed_base": 20600000,
+  "test_repeats": 3,
+  "test_maps": 45,
+  "source_placement": "independent-position-v1",
+  "guidance": true,
+  "controller_revision": "progress-3cm-v2",
+  "map_threshold": 0.6,
+  "match_radius_m": 0.25,
+  "targets": {
+    "map_iou_macro": 0.95,
+    "map_iou_micro": 0.95,
+    "human_precision": 0.95,
+    "human_recall": 0.95
+  },
+  "physical_source_sha256": {
+    "unity/Assets/Scripts/RescueScene.cs": "921e28f4979cd6eb8216945abac3977f9565a73b1f91782b3645cef7faa13fb8",
+    "unity/Assets/Scripts/RescueRobot.cs": "cbb1cce1c039b9f71ed696e53be5b04b5e38c19bbef47cd51e7ece6a90e48f9a",
+    "unity/Assets/Scripts/RescueSimulation.cs": "9664ec72c6e0d9780dc682f90eceba1ff81975f950346fe1f203440c1c60c73a",
+    "unity/Assets/Editor/RescueTests.cs": "400b6ebacea776e0c6504a9fa7aae45f80c17b34ea865c1b2ce04d89cfdbda5a"
+  }
+}

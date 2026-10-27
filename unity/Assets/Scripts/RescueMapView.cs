@@ -88,7 +88,7 @@ namespace Purumogu.Rescue
             foreach(var cue in (JArray)reply["cues"])
             {
                 Vector3 center=RescueEvaluation.Vector(cue["position"]);float radius=(float)cue["radius_m"];
-                CuePositions.Add(center);CueLabels.Add($"候補 {(char)('A'+number++)} / 未確認\n優先度 {(float)cue["score"]:F2} · {(int)cue["observers"]} ノード\n不確かさ ±{radius*100:F0} cm");
+                CuePositions.Add(center);CueLabels.Add($"候補 {(char)('A'+number++)} / 未確認\n優先度 {(float)cue["score"]:F2} · {(int)cue["observers"]} ノード\n探索半径 約{radius*100:F0} cm");
                 for(int plane=0;plane<3;plane++)
                 {
                     var ring=new GameObject("UnconfirmedAcousticEnvelope");ring.layer=8;ring.transform.SetParent(Root.transform,false);var line=ring.AddComponent<LineRenderer>();line.sharedMaterial=material;line.startColor=line.endColor=new Color(1,.63f,.22f,.8f);line.startWidth=line.endWidth=.003f;line.positionCount=65;

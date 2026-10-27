@@ -18,6 +18,60 @@ pub struct Prototype {
 }
 #[derive(Clone, Deserialize, Serialize)]
 #[serde(deny_unknown_fields)]
+pub struct TreeNode {
+    pub feature: Option<usize>,
+    pub threshold: f64,
+    pub left: usize,
+    pub right: usize,
+    pub value: f64,
+}
+#[derive(Clone, Deserialize, Serialize)]
+#[serde(deny_unknown_fields)]
+pub struct DecisionTree {
+    pub nodes: Vec<TreeNode>,
+}
+impl DecisionTree {
+    pub fn validate(&self) -> Result<()> {
+        ensure!(
+            !self.nodes.is_empty() && self.nodes.len() <= 31,
+            "tree size budget"
+        );
+        for (i, node) in self.nodes.iter().enumerate() {
+            ensure!(
+                node.threshold.is_finite() && node.value.is_finite() && node.value.abs() <= 16.0,
+                "non-finite tree"
+            );
+            if let Some(feature) = node.feature {
+                ensure!(
+                    feature < 12
+                        && node.left > i
+                        && node.right > i
+                        && node.left < self.nodes.len()
+                        && node.right < self.nodes.len(),
+                    "invalid tree edge"
+                );
+            }
+        }
+        Ok(())
+    }
+    pub fn score(&self, x: &[f64; 12]) -> f64 {
+        let mut index = 0;
+        loop {
+            let node = &self.nodes[index];
+            if let Some(feature) = node.feature {
+                index = if x[feature] < node.threshold {
+                    node.left
+                } else {
+                    node.right
+                };
+            } else {
+                return node.value;
+            }
+        }
+    }
+}
+#[derive(Clone, Deserialize, Serialize)]
+#[serde(deny_unknown_fields)]
 pub struct LearnedModel {
     pub version: String,
     pub cell_m: f64,
@@ -41,6 +95,10 @@ pub struct LearnedModel {
     pub signed_geometry_prior: bool,
     #[serde(default)]
     pub track_weights: Vec<f64>,
+    #[serde(default)]
+    pub track_trees: Vec<DecisionTree>,
+    #[serde(default)]
+    pub track_bias: f64,
     #[serde(default = "default_track_threshold")]
     pub track_threshold: f64,
     #[serde(default = "default_track_nms")]
@@ -150,6 +208,15 @@ impl LearnedModel {
                 && (0.15..=0.6).contains(&self.track_nms_m),
             "invalid track classifier"
         );
+        ensure!(
+            self.track_trees.len() <= 256
+                && self.track_bias.is_finite()
+                && self.track_bias.abs() <= 40.0,
+            "invalid tree ensemble"
+        );
+        for tree in &self.track_trees {
+            tree.validate()?;
+        }
         Ok(())
     }
     pub fn human_score(&self, x: [f64; 4]) -> f64 {
@@ -170,6 +237,11 @@ impl LearnedModel {
         sigmoid(logit)
     }
     pub fn track_score(&self, x: [f64; 12]) -> Option<f64> {
+        if !self.track_trees.is_empty() {
+            return Some(sigmoid(
+                self.track_bias + self.track_trees.iter().map(|t| t.score(&x)).sum::<f64>(),
+            ));
+        }
         if self.track_weights.is_empty() {
             return None;
         }
@@ -180,6 +252,9 @@ impl LearnedModel {
                     .map(|(a, b)| a * b)
                     .sum::<f64>(),
         ))
+    }
+    pub fn has_track_model(&self) -> bool {
+        !self.track_weights.is_empty() || !self.track_trees.is_empty()
     }
     pub fn acoustic_range(&self, x: [f64; 4], bearing_sigma_deg: f64) -> Option<(f64, f64)> {
         if self.log_range_weights.is_empty() {

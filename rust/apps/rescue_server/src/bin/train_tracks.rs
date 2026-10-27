@@ -3,6 +3,8 @@ use anyhow::{Result, ensure};
 use rescue_mapping::learned::LearnedModel;
 use serde_json::Value;
 use std::fs;
+#[path = "../boosting.rs"]
+mod boosting;
 
 fn sigmoid(value: f64) -> f64 {
     1.0 / (1.0 + (-value.clamp(-40.0, 40.0)).exp())
@@ -112,12 +114,12 @@ fn fit(x: &[Vec<f64>], y: &[f64], ridge: f64) -> Result<Vec<f64>> {
 fn main() -> Result<()> {
     let args: Vec<_> = std::env::args().collect();
     ensure!(
-        matches!(args.len(), 6 | 7),
-        "usage: train_tracks TRAIN.json BASE_MODEL.json OUTPUT.json RIDGE DATA_SHA256 [track|occupancy|fusion]"
+        matches!(args.len(), 6 | 7 | 9),
+        "usage: train_tracks TRAIN.json BASE_MODEL.json OUTPUT.json RIDGE DATA_SHA256 [track|occupancy|fusion|track-boost] [DEPTH ROUNDS]"
     );
     let mode = args.get(6).map_or("track", String::as_str);
     let features = match mode {
-        "track" => 12,
+        "track" | "track-boost" => 12,
         "occupancy" => 2,
         "fusion" => 3,
         _ => anyhow::bail!("unknown fitting mode"),
@@ -164,12 +166,25 @@ fn main() -> Result<()> {
             );
         }
     }
-    let weights = fit(&x, &y, args[4].parse()?)?;
-    match mode {
-        "track" => model.track_weights = weights,
-        "occupancy" => model.occupancy_weights = weights,
-        "fusion" => model.fusion_weights = weights,
-        _ => unreachable!(),
+    if mode == "track-boost" {
+        let depth = args.get(7).map_or(Ok(2), |s| s.parse::<usize>())?;
+        let rounds = args.get(8).map_or(Ok(60), |s| s.parse::<usize>())?;
+        let (bias, trees) = boosting::fit(&x, &y, depth, rounds)?;
+        model.track_weights.clear();
+        model.track_bias = bias;
+        model.track_trees = trees;
+    } else {
+        let weights = fit(&x, &y, args[4].parse()?)?;
+        match mode {
+            "track" => model.track_weights = weights,
+            "occupancy" => model.occupancy_weights = weights,
+            "fusion" => model.fusion_weights = weights,
+            _ => unreachable!(),
+        }
+        if mode == "track" {
+            model.track_trees.clear();
+            model.track_bias = 0.0;
+        }
     }
     model.data_sha256 = args[5].clone();
     model.validate()?;

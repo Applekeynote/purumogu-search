@@ -1,4 +1,4 @@
-param([int]$Scene=6,[int]$Port=47121,[int]$Frames=600,[int]$Speed=4,[string]$Shot='rescue-preview',[string]$Model='models/rescue-v11/model.json',[int]$Steps=18000,[string]$Server='rust/target/release/rescue_server.exe',[switch]$Closeup)
+param([int]$Scene=6,[int]$Port=47121,[int]$Frames=600,[int]$Speed=4,[string]$Shot='rescue-preview',[string]$Model='models/rescue-v13/model.json',[int]$Steps=18000,[string]$Server='rust/target/release/rescue_server.exe',[switch]$Closeup)
 $ErrorActionPreference='Stop'
 $projectRoot=Split-Path $PSScriptRoot -Parent
 $server=Join-Path $projectRoot $Server
