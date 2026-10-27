@@ -1,0 +1,10 @@
+{
+  "project_version": "0.1.0",
+  "protocol": "1.0",
+  "feature_schema": "event-graph-v1-16",
+  "unity": "6000.4.1f1",
+  "rustc": "1.94.1 (e408947bf 2026-03-25)",
+  "model_sha256": "a6a397a16a8826b6dcc34c557672c287727f90a03ef3a51addfbdcc6e14e8d67",
+  "cargo_lock_sha256": "f69e1329add5aa64ea977fb2a156be48c4cd97ac798bc2bcb65b09d74ce88712",
+  "reproducibility": "Exact replay of the observations; PhysX reruns are not guaranteed bitwise identical."
+}

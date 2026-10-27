@@ -1,0 +1,24 @@
+{
+  "schema": "event-graph-v1-16",
+  "features": [
+    "impact_per_node",
+    "impact_mean",
+    "still_fraction",
+    "radio_per_node",
+    "radio_rssi_mean",
+    "radio_rssi_sd",
+    "largest_component_ratio",
+    "radio_components_per_node",
+    "timeout_per_node",
+    "recontact_per_node",
+    "first_impact_s",
+    "coupling_per_node",
+    "quality_mean",
+    "missing_ratio",
+    "elapsed_s",
+    "prior_deployed_fraction"
+  ],
+  "presence_masks": true,
+  "channels": 32,
+  "context": "entry and formation index the likelihood table; prior deployed count is a feature"
+}

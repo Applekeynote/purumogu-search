@@ -1,0 +1,17 @@
+{
+  "file": "media/purumogu-demo.mp4",
+  "editor": "DaVinci Resolve Studio 21.1",
+  "sha256": "cbbc6ff5cb54fc9f58eaba06465b865221ebcd50390d68b52f455e29f2c9a20c",
+  "bytes": 19234185,
+  "size": [
+    1920,
+    1080
+  ],
+  "fps": 30.0,
+  "decoded_frames": 3450,
+  "decoded_duration_s": 115.0,
+  "integrated_lufs": -16.0,
+  "true_peak_dbfs": -1.7,
+  "black_intervals_0_2s_or_longer": [],
+  "checks": "all frames decode; no interior black interval >=0.2s; unclipped audio; six representative rendered frames reviewed"
+}

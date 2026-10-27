@@ -1,0 +1,20 @@
+* text=auto eol=lf
+
+# Keep measured evidence and checksum inputs byte-for-byte on every platform.
+models/** -text whitespace=cr-at-eol
+datasets/** -text whitespace=cr-at-eol
+reports/*.json -text whitespace=cr-at-eol
+reports/**/*.json -text whitespace=cr-at-eol
+reports/**/*.csv -text whitespace=cr-at-eol
+rust/Cargo.lock -text whitespace=cr-at-eol
+
+*.pdf binary
+*.png binary
+*.mp4 binary
+*.mp3 binary
+
+# Unity serializes empty YAML values with a trailing space.
+*.asset whitespace=-blank-at-eol
+*.unity whitespace=-blank-at-eol
+*.meta whitespace=-blank-at-eol
+*.mat whitespace=-blank-at-eol

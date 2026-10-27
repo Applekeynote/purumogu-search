@@ -1,0 +1,27 @@
+name: Rust and data contract
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  rust:
+    strategy:
+      matrix:
+        os: [windows-latest, ubuntu-latest]
+    runs-on: ${{ matrix.os }}
+    defaults:
+      run:
+        working-directory: rust
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: 1.94.1
+          components: rustfmt, clippy
+      - run: cargo fmt --all -- --check
+      - run: cargo clippy --workspace --all-targets --locked -- -D warnings
+      - run: cargo test --workspace --locked
+      - run: cargo build --release --locked
+      - name: Replay measured sample
+        run: cargo run --release --locked -- replay --model ../models/m-v1/model.json --events ../datasets/sample.jsonl
+      - name: TCP faults and measured replay regression
+        run: python ../tests/test_contract.py

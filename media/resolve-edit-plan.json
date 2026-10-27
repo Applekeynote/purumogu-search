@@ -1,0 +1,36 @@
+{
+  "editor": "DaVinci Resolve Studio 21.1.0.14",
+  "project": "Purumogu_Search_Film_20261027",
+  "timeline": "Purumogu_Film_v01",
+  "start_timecode": "00:00:00:00",
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "duration_frames": 3450,
+  "frame_ranges": "start inclusive, end exclusive; all asset paths relative to media/",
+  "video": [
+    {"asset":"resolve_sources/01-title.png", "record_start":0, "duration":300, "fade_in":18, "fade_out":10},
+    {"asset":"resolve_sources/family-0.mp4", "source_start":30, "source_end":780, "record_start":300, "zoom":0.91},
+    {"asset":"resolve_sources/family-4.mp4", "source_start":240, "source_end":840, "record_start":1050, "zoom":0.91},
+    {"asset":"resolve_sources/family-0-macro.mp4", "source_start":390, "source_end":840, "record_start":1650, "zoom":0.91},
+    {"asset":"resolve_sources/05-results.png", "record_start":2100, "duration":600},
+    {"asset":"resolve_sources/06-limits.png", "record_start":2700, "duration":450},
+    {"asset":"resolve_sources/07-credits.png", "record_start":3150, "duration":300, "fade_out":24}
+  ],
+  "overlays": [
+    {"asset":"resolve_sources/02-observe.png", "record_start":300, "duration":750, "track":2},
+    {"asset":"resolve_sources/03-infer.png", "record_start":1050, "duration":600, "track":2},
+    {"asset":"resolve_sources/04-couple.png", "record_start":1650, "duration":450, "track":2}
+  ],
+  "audio": [
+    {"asset":"narration-ondoku.mp3", "record_start":120, "source_start":0, "source_end":2886, "track":1, "normalization":"ITU-R BS.1770-4", "target_lufs":-16, "gain_db":-0.3, "fade_in":5, "fade_out":10},
+    {"asset":"purumogu-small-traces.mp3", "record_start":0, "source_start":0, "source_end":1894, "track":2, "normalization":"ITU-R BS.1770-4", "target_lufs":-30, "gain_db":-14.7, "fade_in":30, "fade_out":60},
+    {"asset":"purumogu-small-traces.mp3", "record_start":1835, "source_start":0, "source_end":1614, "track":3, "normalization":"ITU-R BS.1770-4", "target_lufs":-30, "gain_db":-14.9, "fade_in":60, "fade_out":90}
+  ],
+  "notes": [
+    "Still cards and overlays were placed as adjacent identical 150-frame blocks because Resolve's scripting append uses the default still duration. These boundaries create no visible cuts.",
+    "Different source recordings are separate executions. The macro shot is labeled on screen. No synthetic motion or retimed physics.",
+    "H.264 Master was loaded before configuration. Native H.264 / MP4, 6000 kbps CBR set in the Deliver UI, AAC 48 kHz, Rec.709 / Gamma 2.4, network optimization. The full 3450-frame timeline was exported in Resolve.",
+    "The editable local DRP is excluded from Git because it contains local absolute media paths. This plan and all referenced media are public."
+  ]
+}

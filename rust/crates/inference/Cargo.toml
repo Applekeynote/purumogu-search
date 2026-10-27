@@ -1,0 +1,10 @@
+[package]
+name = "inference"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[dependencies]
+protocol.workspace = true
+likelihood.workspace = true
+graph.workspace = true

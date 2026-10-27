@@ -1,0 +1,8 @@
+[
+  "STRAIGHT",
+  "T_BRANCH",
+  "DEAD_END",
+  "REJOIN",
+  "NARROWING",
+  "OTHER"
+]

@@ -1,0 +1,98 @@
+[
+  {
+    "run_id": "fa25f911e71c45dc95a88432dbfcb912",
+    "batch": 0,
+    "beliefs": [
+      {
+        "probability": 0.10123210123210123,
+        "topology_id": "STRAIGHT"
+      },
+      {
+        "probability": 0.1518481518481519,
+        "topology_id": "T_BRANCH"
+      },
+      {
+        "probability": 0.1518481518481519,
+        "topology_id": "DEAD_END"
+      },
+      {
+        "probability": 0.4555444555444554,
+        "topology_id": "REJOIN"
+      },
+      {
+        "probability": 0.10123210123210123,
+        "topology_id": "NARROWING"
+      },
+      {
+        "probability": 0.038295038295038296,
+        "topology_id": "OTHER"
+      }
+    ],
+    "abstain": true,
+    "entropy_bits": 2.1918193898220664
+  },
+  {
+    "run_id": "fa25f911e71c45dc95a88432dbfcb912",
+    "batch": 1,
+    "beliefs": [
+      {
+        "probability": 0.0944502699133947,
+        "topology_id": "STRAIGHT"
+      },
+      {
+        "probability": 0.1416754048700921,
+        "topology_id": "T_BRANCH"
+      },
+      {
+        "probability": 0.1416754048700921,
+        "topology_id": "DEAD_END"
+      },
+      {
+        "probability": 0.425026214610276,
+        "topology_id": "REJOIN"
+      },
+      {
+        "probability": 0.0944502699133947,
+        "topology_id": "NARROWING"
+      },
+      {
+        "probability": 0.10272243582275037,
+        "topology_id": "OTHER"
+      }
+    ],
+    "abstain": true,
+    "entropy_bits": 2.3038344597076486
+  },
+  {
+    "run_id": "fa25f911e71c45dc95a88432dbfcb912",
+    "batch": 2,
+    "beliefs": [
+      {
+        "probability": 0.017816800869594678,
+        "topology_id": "STRAIGHT"
+      },
+      {
+        "probability": 0.026725201304392026,
+        "topology_id": "T_BRANCH"
+      },
+      {
+        "probability": 0.026725201304392026,
+        "topology_id": "DEAD_END"
+      },
+      {
+        "probability": 0.8017560391317604,
+        "topology_id": "REJOIN"
+      },
+      {
+        "probability": 0.07126720347837873,
+        "topology_id": "NARROWING"
+      },
+      {
+        "probability": 0.055709553911481885,
+        "topology_id": "OTHER"
+      }
+    ],
+    "abstain": true,
+    "entropy_bits": 1.1420658530104042
+  }
+]

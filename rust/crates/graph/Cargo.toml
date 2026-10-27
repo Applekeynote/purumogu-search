@@ -1,0 +1,9 @@
+[package]
+name = "graph"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[dependencies]
+protocol.workspace = true
+event_core.workspace = true

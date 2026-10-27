@@ -1,0 +1,93 @@
+{
+  "ghost_minus_fixed_accuracy": {
+    "mean_difference": 0.01,
+    "ci95": [
+      -0.12,
+      0.15
+    ],
+    "maps": 50,
+    "bootstrap_seed": 20261027
+  },
+  "ghost_minus_random_accuracy": {
+    "mean_difference": 0.15,
+    "ci95": [
+      0.03,
+      0.27
+    ],
+    "maps": 50,
+    "bootstrap_seed": 20261027
+  },
+  "active_cluster_minus_passive_depth_m": {
+    "mean_difference": 0.17913432555,
+    "ci95": [
+      0.09743355209375004,
+      0.2686779309299999
+    ],
+    "maps": 50,
+    "bootstrap_seed": 20261027
+  },
+  "active_cluster_minus_passive_passed_nodes": {
+    "mean_difference": 0.43,
+    "ci95": [
+      0.08,
+      0.8502499999999963
+    ],
+    "maps": 50,
+    "bootstrap_seed": 20261027
+  },
+  "physical": {
+    "ghost_flow": {
+      "mean_depth_m": 0.7791366220899999,
+      "mean_passed_nodes": 1.03,
+      "selected_episodes": 21
+    },
+    "fixed": {
+      "mean_depth_m": 0.7877433982700001,
+      "mean_passed_nodes": 1.03,
+      "selected_episodes": 30
+    },
+    "random": {
+      "mean_depth_m": 0.6441049002,
+      "mean_passed_nodes": 0.88,
+      "selected_episodes": 24
+    },
+    "passive": {
+      "mean_depth_m": 0.6086090727200001,
+      "mean_passed_nodes": 0.6,
+      "selected_episodes": 5
+    }
+  },
+  "faults": [
+    {
+      "packet_loss": 0.0,
+      "episodes": 10,
+      "accuracy": 0.5,
+      "abstention_rate": 0.7
+    },
+    {
+      "packet_loss": 0.1,
+      "episodes": 10,
+      "accuracy": 0.6,
+      "abstention_rate": 0.6
+    },
+    {
+      "packet_loss": 0.2,
+      "episodes": 10,
+      "accuracy": 0.6,
+      "abstention_rate": 0.5
+    },
+    {
+      "packet_loss": 0.4,
+      "episodes": 10,
+      "accuracy": 0.4,
+      "abstention_rate": 0.5
+    }
+  ],
+  "ood": {
+    "episodes": 8,
+    "maps": 2,
+    "abstained": 2,
+    "confidently_wrong": 6
+  },
+  "model_sha256": "a6a397a16a8826b6dcc34c557672c287727f90a03ef3a51addfbdcc6e14e8d67"
+}

@@ -1,0 +1,59 @@
+{
+  "version": "unity-events-v1",
+  "unity": "6000.4.1f1",
+  "files": {
+    "observations.jsonl": {
+      "bytes": 589616117,
+      "sha256": "26189525e33a88de37f7154f4e635ad05097dc6e75d5cdd0fe6d9ee46ae3a30c"
+    },
+    "truth.jsonl": {
+      "bytes": 126364,
+      "sha256": "380e92d657c22f50ae76916e6f60ece8e83971ffbc6d49717ead8c54d323e112"
+    },
+    "comparison.jsonl": {
+      "bytes": 498952749,
+      "sha256": "3f338795f53e3608a7374afa58c828c02cb56214e026d43bf1d2df8fabfdea67"
+    },
+    "comparison-truth.jsonl": {
+      "bytes": 93134,
+      "sha256": "dfb3d193120b402d55d2d0ac03ecec684ae2908dcdd244028867aa7d80043b70"
+    },
+    "fault.jsonl": {
+      "bytes": 54843338,
+      "sha256": "e484ce2ffd94b6e6fbed072434798417b498d57ae3524802d36f00bc92dd4a03"
+    },
+    "fault-truth.jsonl": {
+      "bytes": 11316,
+      "sha256": "bf715a99fca564fdd0bd974914347a12736cedc154b0a21e5b168bec71ce5479"
+    }
+  },
+  "collection": {
+    "episodes": 540,
+    "maps": 18,
+    "steps": 450,
+    "unity": "6000.4.1f1",
+    "elapsed_seconds": 164.58991039999998,
+    "physics_dt": 0.02,
+    "seed_scheme": "map=2026000+index*97; physics=map+10000; sensor=42100+index*19"
+  },
+  "partition_maps": {
+    "train": 50,
+    "valid": 15,
+    "test": 25
+  },
+  "comparison": {
+    "episodes": 400,
+    "maps": 50,
+    "policies": [
+      "ghost_flow",
+      "random",
+      "fixed",
+      "passive"
+    ],
+    "sensor_repeats": 2,
+    "node_budget": 15,
+    "reserve": 5
+  },
+  "policy_seed": "9001 + map_index*37 + repeat*101",
+  "packet_loss": "correlated receiver scan loss; no unreceived-peer identities are exposed"
+}

@@ -1,0 +1,63 @@
+{
+  "selection_rule": "First measured GHOST-FLOW run containing a chain command; prediction correctness not considered. Demo is separate from evaluation.",
+  "truth": {
+    "run_id": "fd5485dbc3e747c783a0004320ca4955",
+    "map_id": "map-0-13",
+    "label": 0,
+    "split": "test",
+    "policy": "ghost_flow",
+    "map_seed": 2027261,
+    "physics_seed": 2037261,
+    "sensor_seed": 42347,
+    "max_depth_m": 1.22826767,
+    "passed_nodes": 5,
+    "packet_loss": 0.0
+  },
+  "actions": [
+    {
+      "action_id": "a-000",
+      "delay_steps": 0,
+      "entry_id": 1,
+      "expected_information_gain_bits": 0.36820892478092127,
+      "formation_mode": "CLUSTER",
+      "model_version": "ghost-flow-v1-full",
+      "node_count": 5,
+      "policy": "ghost_flow",
+      "protocol_version": "1.0",
+      "run_id": "fd5485dbc3e747c783a0004320ca4955",
+      "seq_no": 0,
+      "timestamp_ms": 0,
+      "type": "action"
+    },
+    {
+      "action_id": "a-001",
+      "delay_steps": 0,
+      "entry_id": 2,
+      "expected_information_gain_bits": 0.3424636064121578,
+      "formation_mode": "CHAIN_INSERT",
+      "model_version": "ghost-flow-v1-full",
+      "node_count": 5,
+      "policy": "ghost_flow",
+      "protocol_version": "1.0",
+      "run_id": "fd5485dbc3e747c783a0004320ca4955",
+      "seq_no": 47,
+      "timestamp_ms": 9000,
+      "type": "action"
+    },
+    {
+      "action_id": "a-002",
+      "delay_steps": 0,
+      "entry_id": 2,
+      "expected_information_gain_bits": 0.16260079853303322,
+      "formation_mode": "CHAIN_INSERT",
+      "model_version": "ghost-flow-v1-full",
+      "node_count": 5,
+      "policy": "ghost_flow",
+      "protocol_version": "1.0",
+      "run_id": "fd5485dbc3e747c783a0004320ca4955",
+      "seq_no": 94,
+      "timestamp_ms": 18000,
+      "type": "action"
+    }
+  ]
+}

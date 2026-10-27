@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/Applekeynote/purumogu-search/blob/main/configs/protocol.schema.json",
+  "title": "Unity to Rust packet, protocol 1.0",
+  "description": "One UTF-8 JSON object per newline, at most 1048576 bytes. Rust additionally enforces session, monotonic sequence/clock, ACK, sensor ranges and budget invariants; see protocol and event_core crates. No coordinates or truth fields are accepted.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["protocol_version", "type", "run_id", "seq_no", "sim_step", "timestamp_ms"],
+  "properties": {
+    "protocol_version": {"const": "1.0"},
+    "type": {"enum": ["hello", "action_ack", "observation_batch", "heartbeat", "run_end"]},
+    "run_id": {"type": "string", "minLength": 1, "maxLength": 96},
+    "seq_no": {"type": "integer", "minimum": 0},
+    "sim_step": {"type": "integer", "minimum": 0},
+    "timestamp_ms": {"type": "integer", "minimum": 0},
+    "events": {"type": "array", "maxItems": 2000, "items": {"$ref": "#/$defs/event"}, "default": []},
+    "batch_end": {"type": "boolean", "default": false},
+    "action_id": {"type": "string", "default": ""},
+    "entry_id": {"type": "integer", "minimum": 0, "maximum": 2, "default": 0},
+    "formation_mode": {"enum": ["", "CLUSTER", "CHAIN_INSERT"], "default": ""},
+    "node_count": {"type": "integer", "minimum": 0, "maximum": 10, "default": 0},
+    "remaining_nodes": {"type": "integer", "minimum": 0, "maximum": 100, "default": 0},
+    "accepted": {"type": "boolean", "default": false},
+    "policy": {"type": "string", "default": ""},
+    "policy_seed": {"type": "integer", "minimum": 0, "default": 0}
+  },
+  "allOf": [{"if": {"properties": {"type": {"const": "hello"}}}, "then": {"required": ["policy"], "properties": {"policy": {"enum": ["ghost_flow", "fixed", "random", "passive"]}}}}],
+  "$defs": {
+    "event": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["node_id", "t_ms", "node_time_ms", "kind"],
+      "properties": {
+        "node_id": {"type": "string", "minLength": 1, "maxLength": 48},
+        "t_ms": {"type": "integer", "minimum": 0},
+        "node_time_ms": {"type": "integer"},
+        "kind": {"enum": ["NODE_SPAWN", "NODE_DEPLOYED", "IMPACT", "STILL_START", "STILL_END", "PEER_HEARD", "PEER_TIMEOUT", "OBSERVATION_GAP", "PARENT_CMD", "COUPLE_START", "COUPLE_END", "THRUST_ON", "THRUST_OFF", "GATE_OPENED", "GATE_CLOSED"]},
+        "peer_id": {"type": "string", "maxLength": 48, "default": ""},
+        "value": {"type": "number", "default": 0},
+        "quality": {"type": "number", "minimum": 0, "maximum": 1, "default": 0}
+      }
+    }
+  }
+}

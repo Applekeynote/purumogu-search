@@ -1,0 +1,11 @@
+{
+  "source_shot": "family-4",
+  "capture_frames": 760,
+  "source_wall_duration_s": 45.77894,
+  "output_frames": 1373,
+  "fps": 30,
+  "sim_step_first": 0,
+  "sim_step_last": 1350,
+  "motion_synthesis": false,
+  "method": "previous captured frame at each 1/30 second wall-clock instant"
+}

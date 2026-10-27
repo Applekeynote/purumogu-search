@@ -1,0 +1,10 @@
+[package]
+name = "planner"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[dependencies]
+protocol.workspace = true
+likelihood.workspace = true
+inference.workspace = true

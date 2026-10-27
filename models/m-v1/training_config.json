@@ -1,0 +1,10 @@
+{
+  "k": 16,
+  "alpha": 1,
+  "kmeans_iterations": 25,
+  "temperature": 1.0,
+  "temperature_selection": "minimum episode-level VALID log loss",
+  "abstain_threshold": 0.75,
+  "support_radius_sq": 11.421199529916617,
+  "test_used_for_tuning": false
+}

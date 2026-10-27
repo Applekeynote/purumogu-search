@@ -1,0 +1,1 @@
+Source assets for DaVinci Resolve. PNG cards are typeset in code. Source MP4 clips are uncut application recordings, resampled by their saved wall-clock timestamps to 30 fps without motion synthesis. Creative editing, fades, audio normalization, mixing, and final delivery are performed in Resolve.
