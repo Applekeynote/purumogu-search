@@ -19,7 +19,7 @@ namespace Purumogu.Editor {
         [MenuItem("Purumogu/Create main scene")]
         public static void Initialize(){
             EditorSceneManager.NewScene(NewSceneSetup.EmptyScene,NewSceneMode.Single);
-            var go=new GameObject("PurumoguApplication");go.AddComponent<AppController>();
+            var go=new GameObject("PurumoguApplication");go.AddComponent<Purumogu.Rescue.RescueController>();
             EditorSceneManager.SaveScene(SceneManager.GetActiveScene(),"Assets/Scenes/Main.unity");
             EditorBuildSettings.scenes=new[]{new EditorBuildSettingsScene("Assets/Scenes/Main.unity",true)};
             PlayerSettings.companyName="Purumogu Research";PlayerSettings.productName="Purumogu Search";PlayerSettings.defaultScreenWidth=1600;PlayerSettings.defaultScreenHeight=900;PlayerSettings.runInBackground=true;
@@ -28,7 +28,7 @@ namespace Purumogu.Editor {
             foreach(string shader in new[]{"Standard","Sprites/Default"}){string asset="Assets/Resources/"+shader.Replace('/','_')+".mat";if(!File.Exists(asset))AssetDatabase.CreateAsset(new Material(Shader.Find(shader)),asset);}
             AssetDatabase.SaveAssets();Debug.Log("PURUMOGU_INITIALIZED");
         }
-        public static void Run(){try{string task=Arg("-purumoguTask","init");if(task=="init")Initialize();else if(task=="collect")Collect();else if(task=="compare")Compare();else if(task=="smoke")Smoke();else if(task=="build")Build();else throw new ArgumentException("unknown task");EditorApplication.Exit(0);}catch(Exception e){Debug.LogException(e);EditorApplication.Exit(1);}}
+        public static void Run(){try{string task=Arg("-purumoguTask","init");if(task=="init")Initialize();else if(task=="collect")Collect();else if(task=="compare")Compare();else if(task=="smoke")Smoke();else if(task=="rescue-smoke")RescueTests.Smoke();else if(task=="rescue-audit")RescueTests.AuditSources();else if(task=="rescue-evaluate")RescueTests.Evaluate();else if(task=="build")Build();else throw new ArgumentException("unknown task");EditorApplication.Exit(0);}catch(Exception e){Debug.LogException(e);EditorApplication.Exit(1);}}
         static string Output=>Arg("-purumoguOutput",Path.GetFullPath(Path.Combine(Application.dataPath,"../../datasets/generated")));
         static void ResetScene(){EditorSceneManager.NewScene(NewSceneSetup.EmptyScene,NewSceneMode.Single);}
         static ObservationPacket Packet(SimulationWorld w,string run,ActionCommand a,ref long sequence,List<SensorEvent> events,bool end){return new ObservationPacket{run_id=run,seq_no=++sequence,sim_step=w.Step,timestamp_ms=w.Step*20L,events=events,batch_end=end,action_id=a.action_id,entry_id=a.entry_id,formation_mode=a.formation_mode,node_count=a.node_count,remaining_nodes=20-w.Deployed};}

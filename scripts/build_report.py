@@ -100,7 +100,7 @@ def main():
     r.heading('今日から行う3つの操作')
     r.p('1. 画面で動かす：<font name="Courier" size="9">scripts/Start-Demo.ps1</font>。Rustを先に起動し、UnityのPrepareでStart。初回は<font name="Courier" size="9">scripts/Unity-Task.ps1 init</font>でシーンを生成する。')
     r.p('2. 同条件で比較：<font name="Courier" size="9">scripts/Run-Experiments.ps1</font>。通信欠損と未知形状は<font name="Courier" size="9">-Faults</font>。全量収集と別モデルの生成は<font name="Courier" size="9">-Collect</font>。')
-    r.p('3. Unityなしで再生：<font name="Courier" size="8.5">cargo run --manifest-path rust/Cargo.toml --release --locked -- replay<br/>--model models/m-v1/model.json --events datasets/sample.jsonl</font>')
+    r.p('3. Unityなしで再生：<font name="Courier" size="8.5">cargo run --manifest-path rust/Cargo.toml --release --locked -p ghost_flow_server -- replay<br/>--model models/m-v1/model.json --events datasets/sample.jsonl</font>')
     r.heading('今回の境界')
     r.p('利点は、CPUで小さく始め、観測と判断の根拠を残して行動まで閉じられること。弱点は、少数の形状族と簡略センサーに依存し、任意の構造や未知形状には弱いこと。直線と狭窄は同じ連結性を持つため、今回の分類には通路属性の識別も含まれる。')
     r.p('親の電波指令損失、ANCHOR_PULL、RELAY、柔軟な結合機構、GNN、3D occupancy、Human-Cue、実機接続は今後の項目。長期目標のConnectivity F1、voxel IoU、人由来兆候の検出性能は測定していない。')

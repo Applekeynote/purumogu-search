@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Rescue sensor packet 2.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["protocol_version", "run_id", "seq_no", "sim_step", "cell_m", "scans"],
+  "properties": {
+    "protocol_version": {"const": "2.0"},
+    "run_id": {"type": "string", "minLength": 1, "maxLength": 96},
+    "seq_no": {"type": "integer", "minimum": 0},
+    "sim_step": {"type": "integer", "minimum": 0},
+    "cell_m": {"const": 0.05},
+    "request_map": {"type": "boolean", "default": true},
+    "scans": {"type": "array", "maxItems": 20, "items": {"$ref": "#/$defs/scan"}}
+  },
+  "$defs": {
+    "vector": {"type": "array", "minItems": 3, "maxItems": 3, "items": {"type": "number"}},
+    "ray": {
+      "type": "object", "additionalProperties": false,
+      "required": ["direction", "distance_m", "hit"],
+      "properties": {
+        "direction": {"$ref": "#/$defs/vector"},
+        "distance_m": {"type": "number", "minimum": 0, "maximum": 2},
+        "hit": {"type": "boolean"}
+      }
+    },
+    "scan": {
+      "type": "object", "additionalProperties": false,
+      "required": ["node_id", "deployment_anchor", "odometry_delta", "pose_sigma_m", "rays", "bearing", "bearing_sigma_deg", "acoustic_snr_db", "voice_band_ratio", "modulation", "temperature_delta_c"],
+      "properties": {
+        "node_id": {"type": "string", "minLength": 1, "maxLength": 48},
+        "deployment_anchor": {"$ref": "#/$defs/vector"},
+        "odometry_delta": {"$ref": "#/$defs/vector"},
+        "pose_sigma_m": {"type": "number", "minimum": 0, "maximum": 2},
+        "rays": {"type": "array", "maxItems": 64, "items": {"$ref": "#/$defs/ray"}},
+        "bearing": {"$ref": "#/$defs/vector"},
+        "bearing_sigma_deg": {"type": "number", "minimum": 3, "maximum": 180},
+        "acoustic_snr_db": {"type": "number", "minimum": -60, "maximum": 80},
+        "voice_band_ratio": {"type": "number", "minimum": 0, "maximum": 1},
+        "modulation": {"type": "number", "minimum": 0, "maximum": 1},
+        "temperature_delta_c": {"type": "number", "minimum": -20, "maximum": 40}
+      }
+    }
+  },
+  "$comment": "Runtime additionally validates unit vectors, deployment bounds, displacement norm <0.6m, immutable anchors, unique IDs, contiguous sequence from zero, <=500-step clock increments, finite values, frame/session budgets and exact duplicate idempotence. Ground-truth geometry/positions/labels are forbidden at every nesting level."
+}

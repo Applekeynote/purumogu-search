@@ -1,0 +1,16 @@
+param([int]$Scene=6,[int]$Port=47121,[int]$Frames=600,[int]$Speed=4,[string]$Shot='rescue-preview',[string]$Model='models/rescue-v4/model.json')
+$ErrorActionPreference='Stop'
+$projectRoot=Split-Path $PSScriptRoot -Parent
+$server=Join-Path $projectRoot 'rust\target\release\rescue_server.exe'
+$player=Join-Path $projectRoot 'build\PurumoguSearch.exe'
+$framesPath=Join-Path $projectRoot "media\frames\$Shot"
+New-Item -ItemType Directory -Force -Path $framesPath | Out-Null
+$serverArgs=@('--port',$Port)
+$trainedModel=Join-Path $projectRoot $Model
+if(!(Test-Path -LiteralPath $trainedModel)){throw "Trained model missing: $trainedModel"}
+$serverArgs+=@('--model',"`"$trainedModel`"")
+$service=Start-Process -FilePath $server -ArgumentList $serverArgs -WindowStyle Hidden -PassThru
+try {
+    $process=Start-Process -FilePath $player -ArgumentList @('-screen-width','1600','-screen-height','900','-screen-fullscreen','0','--port',$Port,'--scene',$Scene,'--speed',$Speed,'--capture-count',$Frames,'--frames',"`"$framesPath`"",'-logFile',"`"$(Join-Path $projectRoot "tmp\record-$Shot.log")`"") -WindowStyle Normal -Wait -PassThru
+    if($process.ExitCode -ne 0){throw 'Rescue player failed'}
+}finally{if(!$service.HasExited){Stop-Process -Id $service.Id}}

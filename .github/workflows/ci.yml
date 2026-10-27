@@ -22,6 +22,8 @@ jobs:
       - run: cargo test --workspace --locked
       - run: cargo build --release --locked
       - name: Replay measured sample
-        run: cargo run --release --locked -- replay --model ../models/m-v1/model.json --events ../datasets/sample.jsonl
+        run: cargo run --release --locked -p ghost_flow_server -- replay --model ../models/m-v1/model.json --events ../datasets/sample.jsonl
       - name: TCP faults and measured replay regression
         run: python ../tests/test_contract.py
+      - name: Rescue protocol TCP faults and map persistence
+        run: python ../tests/test_rescue_contract.py
