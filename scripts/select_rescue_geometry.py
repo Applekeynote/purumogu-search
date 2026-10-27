@@ -1,6 +1,7 @@
 """VALID-only selection of geometry likelihood mixture/scale; all fitted weights stay TRAIN-only."""
 from pathlib import Path
 import argparse,hashlib,json,sys
+from rescue_dataset import node_count,validate_model_splits
 ROOT=Path(__file__).resolve().parents[1]
 if (ROOT/'tmp/media-runtime').exists():sys.path.insert(0,str(ROOT/'tmp/media-runtime'))
 import numpy as np
@@ -9,6 +10,7 @@ import numpy as np
 def main():
     parser=argparse.ArgumentParser();parser.add_argument('--source',default='models/rescue-v5/model.json');parser.add_argument('--output-model',default='rescue-v6');parser.add_argument('--report',default='reports/rescue/geometry-selection-v6.json');parser.add_argument('--raw',default='experiments/raw/rescue');args=parser.parse_args()
     source=ROOT/args.source;model=json.loads(source.read_bytes())
+    validate_model_splits(model)
     raw=ROOT/args.raw;ground=[json.loads(line) for line in (raw/'grids-valid.jsonl').read_text(encoding='utf-8-sig').splitlines()]
     assert len(ground)>=15 and len(ground)%15==0 and not {row['map_id'] for row in ground}&set(model['train_maps'])
     assert {row['map_id'] for row in ground}==set(model['valid_maps'])
@@ -43,10 +45,14 @@ def main():
                 logits=w[0]+w[1]*logodds+w[2]*np.log1p(count)+w[3]*prior_feature
                 predicted=prior>.65;predicted[index]=logits>np.log(.6/.4)
                 intersection=int(np.sum(predicted&truth));union=int(np.sum(predicted|truth))
-                rows.append(dict(scene=ground['scene'],iou=intersection/union,intersection=intersection,union=union,family=model['prototypes'][int(np.argmax(weights))]['family'],confidence=float(np.max(weights))))
+                rows.append(dict(scene=ground['scene'],map_id=ground['map_id'],nodes=node_count(ground),iou=intersection/union,intersection=intersection,union=union,family=model['prototypes'][int(np.argmax(weights))]['family'],confidence=float(np.max(weights))))
             macro=float(np.mean([r['iou'] for r in rows]));micro=sum(r['intersection'] for r in rows)/sum(r['union'] for r in rows)
-            results.append(dict(sensor_likelihood_mix=mixture,geometry_log_likelihood_scale=scale,map_iou_macro=macro,map_iou_micro=micro,rows=rows))
-    results.sort(key=lambda r:min(r['map_iou_macro'],r['map_iou_micro']),reverse=True)
+            by_count={}
+            for nodes in sorted({r['nodes'] for r in rows}):
+                group=[r for r in rows if r['nodes']==nodes]
+                by_count[str(nodes)]=dict(map_iou_macro=float(np.mean([r['iou'] for r in group])),map_iou_micro=sum(r['intersection'] for r in group)/max(1,sum(r['union'] for r in group)))
+            results.append(dict(sensor_likelihood_mix=mixture,geometry_log_likelihood_scale=scale,map_iou_macro=macro,map_iou_micro=micro,by_node_count=by_count,rows=rows))
+    results.sort(key=lambda r:min([r['map_iou_macro'],r['map_iou_micro']]+[value for bucket in r['by_node_count'].values() for value in bucket.values()]),reverse=True)
     report=dict(split='valid',source_model_sha256=hashlib.sha256(source.read_bytes()).hexdigest(),test_accessed=False,selection='maximum minimum of macro/micro global IoU; thresholds and domain fixed',candidates=results)
     (ROOT/args.report).write_text(json.dumps(report,indent=2)+'\n',encoding='utf-8',newline='\n')
     best=results[0];model['sensor_likelihood_mix']=best['sensor_likelihood_mix'];model['geometry_log_likelihood_scale']=best['geometry_log_likelihood_scale']

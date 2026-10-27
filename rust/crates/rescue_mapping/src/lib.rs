@@ -1168,13 +1168,22 @@ mod tests {
     }
     #[test]
     fn geometry_calibration_and_retained_classification_do_not_change_probe_control() {
+        for (distributed, bootstrap) in [(false, false), (true, false), (true, true)] {
+            check_classifier_independent_control(distributed, bootstrap);
+        }
+    }
+    fn check_classifier_independent_control(distributed: bool, bootstrap: bool) {
         let mut accept = learned_fixture();
         accept.acoustic_probe = true;
+        accept.distributed_swarm = distributed;
         accept.track_weights = vec![0.0; 13];
         accept.track_weights[0] = 8.0;
         accept.occupancy_weights[0] = 2.0;
         let mut reject = accept.clone();
         reject.track_weights[0] = -8.0;
+        if bootstrap {
+            reject.track_weights.clear();
+        }
         reject.occupancy_weights[0] = -2.0;
         let mut a = Mapper::with_model("test", 0.05, Some(Arc::new(accept))).unwrap();
         let mut b = Mapper::with_model("test", 0.05, Some(Arc::new(reject))).unwrap();
@@ -1210,7 +1219,8 @@ mod tests {
                 serde_json::to_value(&right.goals).unwrap()
             );
             had_goal |= !left.goals.is_empty();
-            different_cues |= left.cues.len() != right.cues.len();
+            different_cues |= serde_json::to_value(&left.cues).unwrap()
+                != serde_json::to_value(&right.cues).unwrap();
             different_maps |= left
                 .cells
                 .iter()

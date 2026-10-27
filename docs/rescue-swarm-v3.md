@@ -32,6 +32,10 @@ READY中のノードは、まだ投下していない待機位置にある。「
 
 収集は `./scripts/Run-Swarm-Evaluation.ps1 -Split train` と `-Split valid -Port 47129` を順に実行する。既存ログは上書きしない。最終TESTはVALID合格後にモデル・推論バイナリ・5つの物理評価ソース・事前登録条件を固定してから一度だけ開く。
 
+前処理は `prepare_rescue_sensor_maps.py --split train --raw experiments/raw/rescue/swarm-v3 --server rust/target/swarm/release/rescue_server.exe --watch-expected 225` と `export_rescue_acquisition_tracks.py --split train --raw experiments/raw/rescue/swarm-v3 --report reports/rescue/swarm-v3/train --watch-expected 225` を使う。VALIDはsplit/reportをvalid、expectedを90に変える。前者は未校正の距離地図、後者は収集時にRustが既に出力した候補履歴を保存する。成長中のJSONLは末尾改行のある完全な記録だけを読む。
+
+`./scripts/Train-Swarm.ps1` は収集と前処理の完了を待ち、TRAINで占有・形状・候補履歴を学習し、VALIDで設定を選び、実RustでVALIDを再生する。形状学習の交差検証は、同じ現場の全台数を一緒に除外する。候補は線形モデルと深さ2/3・60/100本の浅い木を比較し、台数別の最悪成績から選ぶ。音響・距離の校正は旧TRAIN150から固定して継承する。この処理はTESTを開かない。VALID未達なら、その結果を残して観測やモデルの改善へ進む。
+
 **利点**：入口付近に限らず観測でき、台数の効果を同じ現場で比較できる。床板の透視表示と任意角度の視点で、接地や引っ掛かりを確認できる。
 
 **弱点**：落下による電子部品の破損、要救助者の全身体積、実際の音響・熱流体は未再現で、推進も理想化している。実機データを追加して移動・通信・観測を別々に検証する方が、合成データの学習回数だけを増やすより実災害への妥当性を確認しやすい。

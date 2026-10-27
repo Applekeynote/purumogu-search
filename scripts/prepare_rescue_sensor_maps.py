@@ -8,6 +8,7 @@ import os
 import socket
 import subprocess
 import time
+from rescue_dataset import complete_jsonl,final_acquisition_reply
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -18,16 +19,18 @@ def main():
     parser.add_argument('--raw', default='experiments/raw/rescue')
     parser.add_argument('--workers',type=int,choices=[1,2,3,4],default=4)
     parser.add_argument('--watch-expected',type=int,default=0)
+    parser.add_argument('--server',default='rust/target/release/rescue_server.exe')
     args = parser.parse_args()
     raw = ROOT / args.raw
     ground_path = raw / f'grids-{args.split}.jsonl'
-    ground = [json.loads(line) for line in ground_path.read_text(encoding='utf-8-sig').splitlines()]
+    ground = complete_jsonl(ground_path)
     assert args.watch_expected or len(ground) >= 15 and len(ground) % 15 == 0
     assert len({row['map_id'] for row in ground}) == len(ground)
     out = raw / 'sensor-maps'; out.mkdir(exist_ok=True)
     with socket.socket() as probe:
         probe.bind(('127.0.0.1', 0)); port = probe.getsockname()[1]
-    binary = ROOT / 'rust/target/release' / ('rescue_server.exe' if os.name == 'nt' else 'rescue_server')
+    binary = ROOT / args.server
+    binary_hash=hashlib.sha256(binary.read_bytes()).hexdigest()
     process = subprocess.Popen([str(binary), '--port', str(port)], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     try:
         deadline = time.monotonic() + 10
@@ -42,10 +45,13 @@ def main():
             audit = raw / f"{row['run_id']}.jsonl"
             destination = out / f"{row['run_id']}.json"
             metadata=out/f"{row['run_id']}.meta.json"
+            deadline=time.monotonic()+10
+            while final_acquisition_reply(audit) is None:
+                if time.monotonic()>deadline:raise RuntimeError(f'Incomplete acquisition audit: {audit}')
+                time.sleep(.1)
             if destination.exists() and metadata.exists():
                 entry=json.loads(metadata.read_bytes())
-                assert entry['sensor_map_sha256']==hashlib.sha256(destination.read_bytes()).hexdigest()
-                return entry
+                if entry.get('server_sha256')==binary_hash and entry['sensor_map_sha256']==hashlib.sha256(destination.read_bytes()).hexdigest() and entry['audit_sha256']==hashlib.sha256(audit.read_bytes()).hexdigest():return entry
             reply = None
             with socket.create_connection(('127.0.0.1', port), timeout=30) as client, client.makefile('rwb') as stream, audit.open(encoding='utf-8') as source:
                 for line in source:
@@ -59,13 +65,13 @@ def main():
             data = json.dumps(reply, separators=(',', ':')).encode('utf-8')
             destination.write_bytes(data)
             print('RAW_SENSOR_MAP', row['map_id'], flush=True)
-            entry=dict(map_id=row['map_id'], run_id=row['run_id'], sensor_map_sha256=hashlib.sha256(data).hexdigest(), audit_sha256=hashlib.sha256(audit.read_bytes()).hexdigest())
+            entry=dict(map_id=row['map_id'], run_id=row['run_id'], server_sha256=binary_hash,sensor_map_sha256=hashlib.sha256(data).hexdigest(), audit_sha256=hashlib.sha256(audit.read_bytes()).hexdigest())
             metadata.write_text(json.dumps(entry)+'\n',encoding='utf-8',newline='\n');return entry
 
         completed={}
         with ThreadPoolExecutor(max_workers=args.workers) as pool:
             while True:
-                ground=[json.loads(line) for line in ground_path.read_text(encoding='utf-8-sig').splitlines()]
+                ground=complete_jsonl(ground_path)
                 pending=[r for r in ground if r['run_id'] not in completed]
                 for row in pool.map(replay,pending):completed[row['run_id']]=row
                 if not args.watch_expected or len(completed)>=args.watch_expected:break

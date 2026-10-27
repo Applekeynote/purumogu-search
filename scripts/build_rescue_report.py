@@ -3,6 +3,7 @@ from pathlib import Path
 import argparse,hashlib,json,sys
 from collections import defaultdict
 from xml.sax.saxutils import escape
+from rescue_dataset import assert_disjoint_worlds,validate_model_splits
 ROOT=Path(__file__).resolve().parents[1]
 if (ROOT/'tmp/media-runtime').exists():sys.path.insert(0,str(ROOT/'tmp/media-runtime'))
 from build_report import Report,SMALL,WIDTH
@@ -16,8 +17,12 @@ def main():
     metric_path=ROOT/args.metrics;model_path=ROOT/args.model;m=json.loads(metric_path.read_text(encoding='utf-8-sig'));model=json.loads(model_path.read_bytes())
     assert hashlib.sha256(model_path.read_bytes()).hexdigest()==m['model_sha256'],'Do not attach scores from a different model'
     assert not set(model['train_maps'])&{row['map_id'] for row in m['rows']}
-    assert all(row['map_id'].startswith('rescue-2.5-') for row in m['rows']),'Older fixed-position/SNR diagnostics are not final evidence'
-    generation=json.loads((ROOT/'reports/rescue/generation-2.5.json').read_text(encoding='utf-8-sig'))
+    validate_model_splits(model);swarm=bool(model.get('distributed_swarm'))
+    assert all(row['map_id'].startswith('rescue-3.0-' if swarm else 'rescue-2.5-') for row in m['rows']),'Do not mix deployment generations'
+    assert_disjoint_worlds([row['map_id'] for row in m['rows']],model['train_maps']+model.get('calibration_train_maps',[]))
+    if swarm:
+        assert set(m['by_node_count'])=={'24','36','48'}
+        assert not m['target_met'] or all(bucket['target_met'] for bucket in m['by_node_count'].values())
     screenshot=ROOT/args.screenshot;assert screenshot.exists()
     status='3指標が95%以上' if m['target_met'] else '95%の合格条件には未達'
     split=m['split'].upper();r=Report(ROOT/args.output)
@@ -27,7 +32,7 @@ def main():
     r.image(screenshot)
     r.p('図1　実アプリの4画面。左上は物理現場と機体拡大、右上は推定地図と音響候補、左下は各機体の状態、右下は真値との比較。この画像は別のデモ実行で、下表の集計結果を代表する試行ではない。',SMALL)
     r.table([['評価データ','全領域3D IoU','検出の適合率','検出の再現率'],[f'{split} / {m["maps"]}変種',percentage(m['map_iou_macro']),percentage(m['human_precision']),percentage(m['human_recall'])]],[WIDTH*.28,WIDTH*.24,WIDTH*.24,WIDTH*.24])
-    r.p(f'<b>{status}</b>。人数は{m["people"]}、位置が一致した人は{m["matched"]}、誤警報は{m["false_alarms"]}。分類器のスキャン正解率を、この3指標の代わりには使わない。')
+    r.p(f'<b>{status}</b>。延べ対象数は{m["people"]}、位置一致は{m["matched"]}、誤警報は{m["false_alarms"]}。分類器のスキャン正解率を、この3指標の代わりには使わない。'+('同じ現場を3台数で測り、各台数も個別に判定する。' if swarm else ''))
     r.end()
 
     r.start('機構と観測の前提','機体寸法・質量・駆動力は仮の工学パラメーターであり、実機の測定値ではない。')
@@ -46,19 +51,34 @@ def main():
 
     r.start('学習と評価を混ぜない','正解地形・人ラベル・音源位置は、オフライン学習と評価だけが参照する。推論プロセスへは渡さない。')
     training_rows=[['TRAIN',len(model['train_maps']),'センサー校正、音響・候補分類、距離回帰、形状の事前分布']]
-    if args.training_subsets:
+    if swarm:
+        training_rows=[['TRAIN / 校正',len(model['calibration_train_maps']),'旧条件の音響・距離の校正値を固定して継承'],['TRAIN / 新条件',len(model['train_maps']),'散布と瓦礫増量後の占有補正・形状・候補履歴']]
+    elif args.training_subsets:
         subsets=json.loads((ROOT/args.training_subsets).read_bytes());assert subsets['candidate_training_maps']==len(model['train_maps'])
         training_rows=[['TRAIN / 基礎',subsets['sensor_and_geometry_training_maps'],'音響・距離・占有補正・形状事前分布'],['TRAIN / 候補',subsets['candidate_training_maps'],'候補履歴の分類（基礎学習用の変種を含む）']]
     r.table([['分割','変種数','用途']]+training_rows+[['VALID',len(model['valid_maps']),'モデルと設定の選択'],['今回の集計',f'{split} / {m["maps"]}','固定した指標で全試行を集計']],[WIDTH*.18,WIDTH*.18,WIDTH*.64])
-    r.p(f'観測予算は1変種あたり{m.get("mission_seconds",180):.0f}秒、ノード12台。'+('喪失ノードは全試行で'+str(m['lost_nodes'])+'台。' if 'lost_nodes' in m else ''))
+    r.p(f'観測予算は1試行あたり{m.get("mission_seconds",180):.0f}秒、ノード'+('24・36・48台を別々に測る。' if swarm else '12台。')+('喪失ノードは全試行で'+str(m['lost_nodes'])+'台。' if 'lost_nodes' in m else ''))
     r.p('シーンIDは通信に含めず、地形族は観測の尤度から推定する。右上は繰り返し観測の支持があるセルと周辺の補完から徐々に表示する。右下は全推定地図を評価する。青緑の観測支持と、紫の学習補完を区別する。補完を観測済みセルに数えない。人の配置は変種ごとに変え、学習に使ったmap_idを評価に再利用しない。')
     r.heading('合格条件は3つすべて95%以上')
     r.p('1. 全領域の3D占有IoU：真の占有セルと推定占有セルの交差/和集合。未観測の真の障害物も含める。<br/>2. 人候補の適合率：一致した人の数/全候補数。<br/>3. 人候補の再現率：一致した人の数/真の人数。')
     r.p('地図は5cmセル、x=[-0.8,0.8)、y=[-0.15,0.9)、z=[-0.3,3.2)m。セル中央84%の箱とColliderの交差を真の占有とする。人の一致距離は25cm以内・一対一対応。全マップのIoU平均と、交差/和集合を全マップで合算したIoUの両方を確認する。閾値や領域を結果に合わせて変えない。',SMALL)
-    r.p(f'全体IoUの合算値は{m["map_iou_micro"]:.1%}。位置が一致した人{m["matched"]}/{m["people"]}、誤警報{m["false_alarms"]}。'+('今回はモデル選択用のVALID結果で、最終TESTの結果ではない。' if m['split']=='valid' else 'このTESTを係数学習や閾値調整には使用していない。'))
+    r.p(f'全体IoUの合算値は{m["map_iou_micro"]:.1%}。位置一致{m["matched"]}/{m["people"]}、誤警報{m["false_alarms"]}。'+('今回はモデル選択用のVALID結果で、最終TESTの結果ではない。' if m['split']=='valid' else 'このTESTを係数学習や閾値調整には使用していない。'))
     if m.get('human_precision_wilson95') and m.get('human_recall_wilson95'):
         p=m['human_precision_wilson95'];q=m['human_recall_wilson95'];r.p(f'<link href="https://doi.org/10.1080/01621459.1927.10502953">Wilson 95%区間</link>（各人を独立試行とする参考値）：適合率{p[0]:.1%}-{p[1]:.1%}、再現率{q[0]:.1%}-{q[1]:.1%}。同一マップや形状族の相関は補正していない。点推定値の95%到達は、実災害で95%を保証することとは異なる。',SMALL)
     r.end()
+
+    if swarm:
+        r.start('台数ごとの成績と、散布の条件','同じ現場の24・36・48台は一つの世界グループにまとめ、学習用と評価用に分割しない。')
+        count_rows=[['台数','試行','IoU平均 / 合算','適合率','再現率','誤警報']]
+        for count,bucket in sorted(m['by_node_count'].items(),key=lambda item:int(item[0])):
+            count_rows.append([count,bucket['maps'],percentage(bucket['map_iou_macro'])+' / '+percentage(bucket['map_iou_micro']),percentage(bucket['human_precision']),percentage(bucket['human_recall']),bucket['false_alarms']])
+        r.table(count_rows,[WIDTH*.10,WIDTH*.10,WIDTH*.29,WIDTH*.18,WIDTH*.18,WIDTH*.15])
+        r.p('合格は、各台数と全体の両方でIoU平均・合算、適合率、再現率がすべて95%以上の場合に限る。同じ現場・音源を3回測るため、延べ検出対象数を独立した人数とは解釈しない。')
+        r.table([['散布と地形','固定した条件'],['散布','高さ1.05m、12秒間の順次放出。x=-0.57〜0.57m、z=0.1〜2.7mへ層化乱数で分散。重力と衝突で着地。'],['初期位置の仮定','指令した放出点を既知のアンカーとし、その後の相対変位・姿勢に誤差を加える。現在の真の位置は送らない。'],['障害物','易・中・難で瓦礫64・104・144片、梁片6・11・16本、鉄筋9・17・25本。衝突と観測遮蔽に用いる。'],['接地表示','床板は通常表示または半透明と輪郭で残す。不可視のColliderだけを残さない。'],['接地診断','15シーン×3台数、1620台で重力と可視の地形を確認。推進停止・接続解除後、最寄り接触面まで最大約9.5mm、喪失0。検出精度とは別の機構試験。']],[WIDTH*.23,WIDTH*.77])
+        r.heading('視点を変えて確認する')
+        r.p('左上の映像内でホイールを押し込みドラッグ、または左ドラッグ。低感度・速度制限・上下制限を適用する。一時停止中も動かせ、「視点を戻す」で初期角度へ戻る。')
+        r.p('未再現の条件：衝撃による電子回路の損傷、要救助者の全身体積、実際の音響伝搬・熱流体。実機測定と生成器の異なる外部評価が必要である。',SMALL)
+        r.end()
 
     r.start('条件ごとの結果','同じ物理時間とノード数で、失敗した試行も含めて測る。無人条件の再現率は定義しない。')
     grouped=defaultdict(list)
@@ -75,7 +95,10 @@ def main():
 
     r.start('今日から試す3つの操作','Windows x64 / Unity 6000.4.1f1 / Rust 1.94.1 / CPU学習・推論。Unityの有効なライセンスは各利用者が用意する。')
     command_model=escape(args.model)
-    for title,command,note in [('1. アプリを動かす',f'scripts/Unity-Task.ps1 build<br/>scripts/Start-Demo.ps1 -Model {command_model}','シーン選択、ノード拡大、接続解除、断面表示、評価を同じ画面で比較する。'),('2. 機構と通信を検証する','scripts/Unity-Task.ps1 rescue-smoke<br/>python tests/test_rescue_contract.py','接続・解除・屈曲・回転・落下故障と、実TCPの不正入力・重複・分割フレームを確認する。'),('3. 記録した観測を再生する',f'python scripts/evaluate_rescue_replay.py<br/>--model {command_model} --output reports/rescue/replay.json','推論だけを再生する。最終TESTの読み出しには明示フラグが必要。生ログの生成・学習条件は公開リポジトリの手順に従う。')]:
+    physics_task='rescue-swarm-smoke' if swarm else 'rescue-smoke'
+    replay_options=f' --raw experiments/raw/rescue/swarm-v3<br/>--rollout-report reports/rescue/swarm-v3/{m["split"]}' if swarm else ''
+    if m['split']=='test':replay_options+=' --split test --final-test'
+    for title,command,note in [('1. アプリを動かす',f'scripts/Unity-Task.ps1 build<br/>scripts/Start-Demo.ps1 -Model {command_model}','シーン選択、ノード拡大、接続解除、透視表示、評価を同じ画面で比較する。'),('2. 機構と通信を検証する',f'scripts/Unity-Task.ps1 {physics_task}<br/>python tests/test_rescue_contract.py','機構と実TCPの不正入力・重複・分割フレームを確認する。'),('3. 記録した観測を再生する',f'python scripts/evaluate_rescue_replay.py<br/>--model {command_model}{replay_options}<br/>--output reports/rescue/replay.json','推論だけを再生する。最終TESTの読み出しには明示フラグが必要。生ログの生成・学習条件は公開リポジトリの手順に従う。')]:
         r.heading(title);r.p('<font name="Courier" size="8.5">'+command+'</font>');r.p(note,SMALL)
     r.p('利点：物理動作、観測、推論、真値評価を同時に比較でき、学習補完と観測を分離できる。欠点：駆動・音響・熱・水は近似で、全身の要救助者形状や実機の制約を十分に表していない。',SMALL)
     r.p('一次資料：<link href="https://docs.unity3d.com/6000.4/Documentation/Manual/class-ConfigurableJoint.html">Unity Configurable Joint</link> / <link href="https://www.st.com/resource/en/datasheet/vl53l5cx.pdf">ST VL53L5CX</link> / <link href="https://www.ni.com/en/shop/labview/using-fast-fourier-transforms-and-power-spectra-in-labview.html">NI パワーとdB</link> / <link href="https://insarag.org/wp-content/uploads/2024/02/AAR_Recommendations-for-INSARAG.pdf">INSARAG 地震対応後の勧告</link>。これらは本モデルの救助性能を認証する資料ではない。',SMALL)
@@ -89,9 +112,10 @@ def main():
         r.start('評価履歴と再検証の条件','初回TESTの未達を受けて、TRAINとVALIDを追加。今回の結果を初回のTESTとは別に集計する。')
         r.table([['結果','最初のTEST / v13',f'今回 / {split}'],['変種数',previous['maps'],m['maps']],['地図IoU 平均',percentage(previous['map_iou_macro']),percentage(m['map_iou_macro'])],['地図IoU 合算',percentage(previous['map_iou_micro']),percentage(m['map_iou_micro'])],['人の適合率',percentage(previous['human_precision']),percentage(m['human_precision'])],['人の再現率',percentage(previous['human_recall']),percentage(m['human_recall'])],['一致 / 真の人数',f"{previous['matched']} / {previous['people']}",f"{m['matched']} / {m['people']}"],['誤警報',previous['false_alarms'],m['false_alarms']]],[WIDTH*.36,WIDTH*.32,WIDTH*.32])
         r.p('v13はVALID 30変種では条件を満たしたが、固定後のTEST 45変種で再現率が不足した。最初のTESTの個別ケースを係数学習や閾値選択へ取り込まず、追加TRAINとVALIDを使って改訂した。検証を増やした途中の不合格モデルも学習記録に残す。')
+        if swarm:r.p('初回は12台・入口整列、今回は24・36・48台の全域散布と瓦礫増量で条件が異なる。表の差を同一条件での性能改善量とは解釈しない。',SMALL)
         if model.get('track_trees'):
             r.p(f'今回の候補判別は浅いNewton木{len(model["track_trees"])}本。学習率0.1、葉のL2係数5、最小12候補で正則化し、深さ2/3と60/100ラウンドの設定をVALIDで比較した。採用閾値は{model["track_threshold"]:.3f}、候補抑制距離は{model["track_nms_m"]:.2f}m。絶対座標を分類特徴へ入れない。更新式は<link href="https://arxiv.org/abs/1603.02754">Chen・Guestrin (2016)</link>の二次近似と正則化を参考にした独自実装である。',SMALL)
-        r.p('改訂後の未使用確認はseed 20700000 + 997*r（r=0..4）、15シーン×5変種と改善前に固定。モデル・推論バイナリ・物理ソース・360秒の予算を固定後に開く。初回の失敗を知った後の改訂なので、初回のTEST結果とは別の確認実験として解釈する。')
+        r.p(('散布・瓦礫増量後の未使用確認はseed 20700000 + 997*r（r=0..2）、15シーン×3現場×3台数の135試行として、収集前に事前登録した。' if swarm else '改訂後の未使用確認はseed 20700000 + 997*r（r=0..4）、15シーン×5変種と改善前に固定。')+'モデル・推論バイナリ・物理ソース・360秒の予算を固定後に開く。初回の失敗を知った後の改訂なので、初回のTEST結果とは別の確認実験として解釈する。')
         r.heading('数値の範囲')
         r.p('15形状族の変種に対する点推定値であり、未知の倒壊形態への一般化や、実災害での性能保証ではない。形状事前分布による補完を使うため、観測だけで全地形を復元したとの意味でもない。実測での校正と、生成器を変えた外部評価が次の検証となる。')
         r.p('初回TESTモデルSHA-256: '+previous['model_sha256']+'<br/>初回TEST記録SHA-256: '+hashlib.sha256(history_path.read_bytes()).hexdigest(),SMALL)

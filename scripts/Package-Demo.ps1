@@ -1,4 +1,4 @@
-param([string]$Model='models/swarm-v3-bootstrap/model.json',[string]$Output='dist/PurumoguSearch-Windows.zip')
+param([string]$Model='models/swarm-v3-bootstrap/model.json',[string]$Output='dist/PurumoguSearch-Windows.zip',[string]$Server='rust/target/release/rescue_server.exe')
 $ErrorActionPreference='Stop'
 $projectRoot=Split-Path $PSScriptRoot -Parent
 $playerFolder=Join-Path $projectRoot 'build'
@@ -6,10 +6,10 @@ if(!(Test-Path -LiteralPath (Join-Path $playerFolder 'PurumoguSearch.exe'))){thr
 $stage=Join-Path $projectRoot ('tmp/package-'+[Guid]::NewGuid().ToString('N'))
 New-Item -ItemType Directory -Path $stage | Out-Null
 Get-ChildItem -LiteralPath $playerFolder -Force | Where-Object {$_.Name -notmatch 'BackUpThisFolder|BurstDebugInformation'} | Copy-Item -Destination $stage -Recurse
-Copy-Item -LiteralPath (Join-Path $projectRoot 'rust/target/release/rescue_server.exe') -Destination $stage
+Copy-Item -LiteralPath $(if([IO.Path]::IsPathRooted($Server)){$Server}else{Join-Path $projectRoot $Server}) -Destination (Join-Path $stage 'rescue_server.exe')
 Copy-Item -LiteralPath (Join-Path $projectRoot $Model) -Destination (Join-Path $stage 'model.json')
 Copy-Item -LiteralPath (Join-Path $projectRoot 'LICENSE') -Destination $stage
-$fingerprints=[ordered]@{created_utc=[DateTime]::UtcNow.ToString('o');source_model=$Model;steps=18000;seconds=360;files=[ordered]@{}}
+$fingerprints=[ordered]@{created_utc=[DateTime]::UtcNow.ToString('o');source_model=$Model;source_server=$Server;steps=18000;seconds=360;node_counts=@(24,36,48);deployment='WholeSceneDrop';files=[ordered]@{}}
 foreach($name in @('PurumoguSearch.exe','rescue_server.exe','model.json')){$fingerprints.files[$name]=(Get-FileHash -LiteralPath (Join-Path $stage $name) -Algorithm SHA256).Hash.ToLowerInvariant()}
 $fingerprints | ConvertTo-Json -Depth 5 | Set-Content -LiteralPath (Join-Path $stage 'PACKAGE-MANIFEST.json') -Encoding utf8NoBOM
 $launcher=@'
@@ -30,7 +30,7 @@ Select 24, 36 or 48 nodes after resetting. Drag inside the upper-left physical v
 with the middle mouse button (wheel pressed) or the left button to rotate slowly.
 Use the view reset button to restore the initial angle. Translucent slabs retain
 visible surfaces and outlines; gravity and collisions determine where nodes land.
-The included bootstrap supports the new deployment; its 95% accuracy is unconfirmed.
+The included model and measured status are identified in the manifest and repository.
 The Rust inference service stops when the application closes. Port 47120 must be free.
 PACKAGE-MANIFEST.json identifies the included model and executables by SHA-256.
 The experiment budget is 360 seconds per scene. Running this player does not launch the Unity Editor. Rebuilding requires the pinned

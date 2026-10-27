@@ -22,7 +22,7 @@ def cards(metrics=None,prior_test=None):
     text(d,115,465,'7 cm の群れで、災害後の空隙を調べる。',43)
     d.line((115,655,1805,655),fill=LINE,width=2)
     text(d,115,710,'UNITY × RUST',32,MINT,True)
-    text(d,115,778,'15 シーン  /  関節と着脱  /  観測からの3D推定',34,MUTED)
+    text(d,115,778,'15 シーン  /  24・36・48 台  /  関節と着脱',34,MUTED)
     text(d,115,950,'シミュレーションによる実装・検証',26,MUTED)
     im.save(OUT/'rescue-title.png')
 
@@ -50,8 +50,12 @@ def cards(metrics=None,prior_test=None):
             xx=x+int(.95*460);d.line((xx,632,xx,671),fill=INK,width=2)
         status='3指標の目標に到達' if m['target_met'] else '95%の合格条件には未達'
         if m['split']=='valid' and m['target_met']:status='VALIDで目標に到達 / 最終TESTは別途確認'
-        text(d,115,760,status,48,MINT if m['target_met'] else AMBER,True)
-        text(d,115,866,f"{m['split'].upper()}  /  {m['maps']} マップ  /  真の人数 {m['people']}  /  一致 {m['matched']}・誤警報 {m['false_alarms']}",30,MUTED)
+        distributed=set(m.get('by_node_count',{}))=={'24','36','48'}
+        if distributed:
+            for index,(count,bucket) in enumerate(sorted(m['by_node_count'].items(),key=lambda item:int(item[0]))):
+                text(d,115,686+index*34,f"{count} 台   地図 {bucket['map_iou_macro']:.1%}   適合率 {bucket['human_precision']:.1%}   再現率 {bucket['human_recall']:.1%}",25,MUTED)
+        text(d,115,810 if distributed else 760,status,38 if distributed else 48,MINT if m['target_met'] else AMBER,True)
+        text(d,115,876 if distributed else 866,f"{m['split'].upper()}  /  {m['maps']} 試行  /  延べ対象数 {m['people']}  /  一致 {m['matched']}・誤警報 {m['false_alarms']}",28,MUTED)
         text(d,115,940,'位置一致は25cm以内・一対一対応  /  地図は未観測の障害物も含む全領域IoU',27,MUTED)
         if prior_test:
             previous=json.loads((ROOT/prior_test).read_bytes());assert previous['split']=='test' and not previous['target_met']

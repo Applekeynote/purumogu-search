@@ -27,3 +27,5 @@ jobs:
         run: python ../tests/test_contract.py
       - name: Rescue protocol TCP faults and map persistence
         run: python ../tests/test_rescue_contract.py
+      - name: Paired-world split and complete-record regression
+        run: python ../tests/test_rescue_dataset.py
