@@ -1,0 +1,14 @@
+{
+  "registered_local_date": "2026-10-27",
+  "purpose": "Collect a further TRAIN-only block concurrently using identical simulator sources, in case TRAIN300 remains below the fixed VALID90 acceptance conditions. No agents are used.",
+  "seed_base": 20419940,
+  "repeats": 10,
+  "maps": 150,
+  "steps": 18000,
+  "nodes": 12,
+  "acquisition_model": "models/rescue-v11/model.json",
+  "guidance": true,
+  "diagnostics": true,
+  "conditional_use": "First fit the prespecified configurations on TRAIN300. Only if all fail the fixed VALID90 conditions, extend to TRAIN450 and compare the same configurations. Preserve all results. Stop unused prefetch if TRAIN300 succeeds.",
+  "fresh_confirmation": "Still unopened: 20700000+997*r, r=0..4, 75 maps. Freeze the selected model before opening."
+}

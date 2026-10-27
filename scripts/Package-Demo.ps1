@@ -9,11 +9,14 @@ Get-ChildItem -LiteralPath $playerFolder -Force | Where-Object {$_.Name -notmatc
 Copy-Item -LiteralPath (Join-Path $projectRoot 'rust/target/release/rescue_server.exe') -Destination $stage
 Copy-Item -LiteralPath (Join-Path $projectRoot $Model) -Destination (Join-Path $stage 'model.json')
 Copy-Item -LiteralPath (Join-Path $projectRoot 'LICENSE') -Destination $stage
+$fingerprints=[ordered]@{created_utc=[DateTime]::UtcNow.ToString('o');source_model=$Model;steps=18000;seconds=360;files=[ordered]@{}}
+foreach($name in @('PurumoguSearch.exe','rescue_server.exe','model.json')){$fingerprints.files[$name]=(Get-FileHash -LiteralPath (Join-Path $stage $name) -Algorithm SHA256).Hash.ToLowerInvariant()}
+$fingerprints | ConvertTo-Json -Depth 5 | Set-Content -LiteralPath (Join-Path $stage 'PACKAGE-MANIFEST.json') -Encoding utf8NoBOM
 $launcher=@'
 @echo off
 setlocal
 cd /d "%~dp0"
-powershell.exe -NoProfile -Command "$ErrorActionPreference='Stop'; $service=Start-Process -FilePath '.\rescue_server.exe' -ArgumentList @('--port','47120','--model','model.json') -WindowStyle Hidden -PassThru; try { Start-Process -FilePath '.\PurumoguSearch.exe' -ArgumentList @('--port','47120','--steps','18000') -Wait } finally { if(!$service.HasExited){Stop-Process -Id $service.Id} }"
+powershell.exe -NoProfile -Command "$ErrorActionPreference='Stop'; $probe=[Net.Sockets.TcpListener]::new([Net.IPAddress]::Loopback,47120); try{$probe.Start()}catch{throw 'Port 47120 is busy. Close another demo first.'}finally{$probe.Stop()}; $service=Start-Process -FilePath '.\rescue_server.exe' -ArgumentList @('--port','47120','--model','model.json') -WindowStyle Hidden -PassThru; try { if($service.WaitForExit(150)){throw 'Inference server failed to start'}; Start-Process -FilePath '.\PurumoguSearch.exe' -ArgumentList @('--port','47120','--steps','18000') -Wait } finally { if(!$service.HasExited){Stop-Process -Id $service.Id} }"
 if errorlevel 1 pause
 '@
 Set-Content -LiteralPath (Join-Path $stage 'Start-Demo.cmd') -Value $launcher -Encoding ascii
@@ -24,6 +27,7 @@ Extract the whole ZIP into a writable local folder, then double-click Start-Demo
 The Unity application opens with 15 scenes, the articulated robot view, sensor-based
 map progress, node states and evaluation. Use the Explore button to begin a scene.
 The Rust inference service stops when the application closes. Port 47120 must be free.
+PACKAGE-MANIFEST.json identifies the included model and executables by SHA-256.
 The experiment budget is 360 seconds per scene. Running this player does not launch the Unity Editor. Rebuilding requires the pinned
 Unity Editor and its valid license.
 

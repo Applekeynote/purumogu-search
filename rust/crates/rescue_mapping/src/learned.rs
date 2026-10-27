@@ -103,6 +103,9 @@ pub struct LearnedModel {
     pub track_threshold: f64,
     #[serde(default = "default_track_nms")]
     pub track_nms_m: f64,
+    /// Experimental fallback: approach sensor-derived acoustic peaks when coverage has no frontier.
+    #[serde(default)]
+    pub acoustic_probe: bool,
     pub prototypes: Vec<Prototype>,
     pub train_maps: Vec<String>,
     pub valid_maps: Vec<String>,

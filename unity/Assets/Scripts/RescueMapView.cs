@@ -12,6 +12,7 @@ namespace Purumogu.Rescue
         public readonly List<Vector3> CuePositions=new List<Vector3>();
         public readonly List<string> CueLabels=new List<string>();
         readonly Mesh geometry=new Mesh{name="SensorOccupancyWireframe",indexFormat=IndexFormat.UInt32};
+        readonly Mesh gridGeometry=new Mesh{name="MapCoordinateGrid"};
         readonly Material material;
         readonly List<GameObject> markers=new List<GameObject>();
         readonly Dictionary<Vector3Int,long> firstEvidenceStep=new Dictionary<Vector3Int,long>();
@@ -24,7 +25,7 @@ namespace Purumogu.Rescue
             var vertices=new List<Vector3>();var colors=new List<Color>();var indices=new List<int>();
             for(int i=-15;i<=15;i+=3)Line(vertices,colors,indices,new Vector3(i*.05f,-.025f,-.3f),new Vector3(i*.05f,-.025f,3.2f),new Color(.1f,.28f,.32f,.6f));
             for(int i=-6;i<=64;i+=3)Line(vertices,colors,indices,new Vector3(-.75f,-.025f,i*.05f),new Vector3(.75f,-.025f,i*.05f),new Color(.1f,.28f,.32f,.6f));
-            var grid=new GameObject("MapCoordinateGrid");grid.layer=8;grid.transform.SetParent(Root.transform,false);var mesh=new Mesh();mesh.SetVertices(vertices);mesh.SetColors(colors);mesh.SetIndices(indices,MeshTopology.Lines,0);grid.AddComponent<MeshFilter>().sharedMesh=mesh;grid.AddComponent<MeshRenderer>().sharedMaterial=material;
+            var grid=new GameObject("MapCoordinateGrid");grid.layer=8;grid.transform.SetParent(Root.transform,false);gridGeometry.SetVertices(vertices);gridGeometry.SetColors(colors);gridGeometry.SetIndices(indices,MeshTopology.Lines,0);grid.AddComponent<MeshFilter>().sharedMesh=gridGeometry;grid.AddComponent<MeshRenderer>().sharedMaterial=material;
         }
         static void Line(List<Vector3> vertices,List<Color> colors,List<int> indices,Vector3 a,Vector3 b,Color color)
         {
@@ -97,6 +98,6 @@ namespace Purumogu.Rescue
                 }
             }
         }
-        public void Dispose(){if(Root)Object.DestroyImmediate(Root);Object.DestroyImmediate(geometry);Object.DestroyImmediate(material);}
+        public void Dispose(){if(Root)Object.DestroyImmediate(Root);Object.DestroyImmediate(geometry);Object.DestroyImmediate(gridGeometry);Object.DestroyImmediate(material);}
     }
 }

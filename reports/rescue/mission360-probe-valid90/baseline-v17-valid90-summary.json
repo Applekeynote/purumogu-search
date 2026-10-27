@@ -1,0 +1,19 @@
+{
+  "status": "Historical twelve-node entrance-deployment baseline; superseded by user request for 24/36/48-node whole-scene drops before confirmation",
+  "source": "Actual Unity/Rust rollouts; aggregate of saved outcomes",
+  "maps": 90,
+  "nodes": 12,
+  "mission_seconds": 360,
+  "matched": 91,
+  "false_alarms": 5,
+  "people": 96,
+  "map_iou_macro": 0.9558792997333334,
+  "map_iou_micro": 0.9554447422384915,
+  "human_precision": 0.9479166666666666,
+  "human_recall": 0.9479166666666666,
+  "lost_nodes": 0,
+  "model_sha256": "616cb646f784d1dd28005dd9e250a9678a0a358bf8b54b9a6d8ca02143d7aea8",
+  "server_sha256": "bffb6183c71a95879c838d6d58f32ae8b2a55bc3ebb2a3c54f504e7725aadd05",
+  "target_met": false,
+  "confirmation75_opened": false
+}

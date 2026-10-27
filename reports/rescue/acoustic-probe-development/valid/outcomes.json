@@ -1,0 +1,31 @@
+[
+  {
+    "scene": "H05",
+    "steps": 18000,
+    "lost_nodes": 0,
+    "observed_cells": 29002,
+    "coverage": 0.6165391,
+    "observed_iou": 0.9255754,
+    "global_iou": 0.958743036,
+    "truth_occupied_cells": 9829,
+    "predicted_occupied_cells": 9494,
+    "correct_occupied_cells": 9458,
+    "occupancy_precision": 0.996208131,
+    "occupancy_recall": 0.9622545,
+    "human_precision": 1.0,
+    "human_recall": 1.0,
+    "pose_rmse_m": 0.0302828532,
+    "cues": 1,
+    "matched": 1,
+    "false_alarms": 0,
+    "truth_people": 1,
+    "localization_error_m": 0.101079866,
+    "couplings": 32,
+    "releases": 32,
+    "seed": 20501994,
+    "repeat": 0,
+    "map_id": "rescue-2.5-H05-20501994",
+    "run_id": "284770fe0f774ae0bb8036df97a51f68",
+    "split": "valid"
+  }
+]

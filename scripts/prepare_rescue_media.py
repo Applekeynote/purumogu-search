@@ -16,7 +16,7 @@ def base():
     d.rectangle((110,100,168,105),fill=MINT);text(d,110,126,'PURUMOGU SEARCH  /  DISASTER VOID STUDY',24,MUTED)
     return im,d
 
-def cards(metrics=None):
+def cards(metrics=None,prior_test=None):
     OUT.mkdir(parents=True,exist_ok=True)
     im,d=base();text(d,110,280,'ぷるもぐサーチ',105,INK,True)
     text(d,115,465,'7 cm の群れで、災害後の空隙を調べる。',43)
@@ -53,6 +53,9 @@ def cards(metrics=None):
         text(d,115,760,status,48,MINT if m['target_met'] else AMBER,True)
         text(d,115,866,f"{m['split'].upper()}  /  {m['maps']} マップ  /  真の人数 {m['people']}  /  一致 {m['matched']}・誤警報 {m['false_alarms']}",30,MUTED)
         text(d,115,940,'位置一致は25cm以内・一対一対応  /  地図は未観測の障害物も含む全領域IoU',27,MUTED)
+        if prior_test:
+            previous=json.loads((ROOT/prior_test).read_bytes());assert previous['split']=='test' and not previous['target_met']
+            text(d,115,988,f"初回TESTの再現率 {previous['human_recall']:.1%} は未達。改訂後の結果を別に集計。",24,MUTED)
         im.save(OUT/'rescue-results.png')
 
     im,d=base();text(d,110,235,'残る課題も、実測で残す',76,INK,True)
@@ -76,6 +79,6 @@ def cards(metrics=None):
     (OUT/'README.md').write_text('Code-typeset still graphics and timestamp-resampled uncut application captures. Creative editing, scaling into the caption matte, shot cuts, fades, music looping/crossfades, normalization, mixing, and final export are performed in DaVinci Resolve.\n',encoding='utf-8')
 
 if __name__=='__main__':
-    parser=argparse.ArgumentParser();parser.add_argument('--metrics');parser.add_argument('shots',nargs='*');args=parser.parse_args()
-    cards(args.metrics);capture.OUT=OUT
+    parser=argparse.ArgumentParser();parser.add_argument('--metrics');parser.add_argument('--prior-test');parser.add_argument('shots',nargs='*');args=parser.parse_args()
+    cards(args.metrics,args.prior_test);capture.OUT=OUT
     for shot in args.shots:capture.clip(shot)

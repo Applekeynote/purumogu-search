@@ -16,6 +16,10 @@ $logPath=Join-Path $logRoot "unity-$Task$logSuffix.log"
 $arguments=@('-batchmode','-nographics','-projectPath',"`"$unityProject`"",'-executeMethod','Purumogu.Editor.ProjectTools.Run','-purumoguTask',$Task,'-logFile',"`"$logPath`"")
 if ($Output) { $arguments+=@('-purumoguOutput',"`"$Output`"") }
 $arguments+=$Extra
-$process=Start-Process -FilePath $Unity -ArgumentList $arguments -WindowStyle Hidden -PassThru -Wait
+$process=Start-Process -FilePath $Unity -ArgumentList $arguments -WindowStyle Hidden -PassThru
+# Start-Process -Wait also waits for descendant licensing helpers shared by other
+# Editor runs. Wait for this Editor only, so an independent run cannot hold us open.
+$process.WaitForExit()
+$process.Refresh()
 if ($process.ExitCode -ne 0) { Get-Content -LiteralPath $logPath -Tail 60; throw "Unity task failed ($($process.ExitCode)); see $logPath" }
 Write-Host "Completed $Task. Log: $logPath"

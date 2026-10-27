@@ -219,6 +219,7 @@ pub struct Mapper {
     verify_after: BTreeMap<String, u64>,
     archived_tracks: Vec<Track>,
     proposal_mode: bool,
+    probe_cues: Vec<Cue>,
 }
 impl Mapper {
     pub fn new(run: &str, cell: f64) -> Result<Self> {
@@ -244,6 +245,7 @@ impl Mapper {
             verify_after: BTreeMap::new(),
             archived_tracks: vec![],
             proposal_mode: false,
+            probe_cues: vec![],
         })
     }
     pub fn with_model(run: &str, cell: f64, model: Option<Arc<LearnedModel>>) -> Result<Self> {
@@ -589,6 +591,9 @@ impl Mapper {
             / cells.len().max(1) as f64;
         let cues = if p.sim_step >= self.last_cue_step + 100 {
             let instantaneous = self.cues();
+            if self.model.as_ref().is_some_and(|m| m.acoustic_probe) {
+                self.probe_cues.clone_from(&instantaneous);
+            }
             self.last_cue_step = p.sim_step;
             self.track_cues(&instantaneous, p.sim_step)
         } else {
@@ -932,7 +937,7 @@ impl Mapper {
         };
         let mut assigned: Vec<[i32; 2]> = vec![];
         let mut goals = vec![];
-        for (id, pose) in &self.poses {
+        for (ordinal, (id, pose)) in self.poses.iter().enumerate() {
             if let Some(&until) = self.verify_until.get(id)
                 && until > self.last_step
             {
@@ -989,7 +994,10 @@ impl Mapper {
                     best = Some(k);
                 }
             }
-            if let Some(target) = best {
+            let should_probe = self.model.as_ref().is_some_and(|m| m.acoustic_probe)
+                && !self.probe_cues.is_empty()
+                && (ordinal < 3 || best.is_none());
+            if let Some(target) = best.filter(|_| !should_probe) {
                 assigned.push(target);
                 let mut waypoint = target;
                 while previous[&waypoint] != start {
@@ -1012,6 +1020,55 @@ impl Mapper {
                     reason: "observed-free route toward an unobserved frontier",
                     hold_until_step: 0,
                 });
+            } else if should_probe {
+                // Coverage can finish before a weak sound is close enough to classify.
+                // Assign peaks to separate nodes using only raw bearing evidence and
+                // observed-free routes. Neither retained classifier scores nor truth enter.
+                let cue = &self.probe_cues[ordinal % self.probe_cues.len()];
+                let point = |k: [i32; 2]| {
+                    [
+                        (f64::from(k[0]) + 0.5) * self.cell,
+                        pose.position[1],
+                        (f64::from(k[1]) + 0.5) * self.cell,
+                    ]
+                };
+                if norm(sub(pose.position, cue.position)) <= 0.15 {
+                    goals.push(Goal {
+                        node_id: id.clone(),
+                        position: pose.position,
+                        reason: "acoustic probe sampling at a sensor-derived peak",
+                        hold_until_step: self.last_step + 100,
+                    });
+                    continue;
+                }
+                let target = distance
+                    .iter()
+                    .filter(|(k, d)| {
+                        **d >= 2
+                            && norm(sub(point(**k), cue.position)) + self.cell
+                                < norm(sub(pose.position, cue.position))
+                    })
+                    .min_by(|(a, da), (b, db)| {
+                        (norm(sub(point(**a), cue.position)) + f64::from(**da) * 0.002).total_cmp(
+                            &(norm(sub(point(**b), cue.position)) + f64::from(**db) * 0.002),
+                        )
+                    })
+                    .map(|(k, _)| *k);
+                if let Some(target) = target {
+                    let mut route = vec![target];
+                    let mut cursor = target;
+                    while previous[&cursor] != start {
+                        cursor = previous[&cursor];
+                        route.push(cursor);
+                    }
+                    let waypoint = *route.last().expect("nonempty acoustic route");
+                    goals.push(Goal {
+                        node_id: id.clone(),
+                        position: point(waypoint),
+                        reason: "observed-free acoustic probe route",
+                        hold_until_step: 0,
+                    });
+                }
             }
         }
         goals
@@ -1021,6 +1078,124 @@ impl Mapper {
 #[cfg(test)]
 mod tests {
     use super::*;
+    #[test]
+    fn geometry_calibration_and_retained_classification_do_not_change_probe_control() {
+        let mut accept = learned_fixture();
+        accept.acoustic_probe = true;
+        accept.track_weights = vec![0.0; 13];
+        accept.track_weights[0] = 8.0;
+        accept.occupancy_weights[0] = 2.0;
+        let mut reject = accept.clone();
+        reject.track_weights[0] = -8.0;
+        reject.occupancy_weights[0] = -2.0;
+        let mut a = Mapper::with_model("test", 0.05, Some(Arc::new(accept))).unwrap();
+        let mut b = Mapper::with_model("test", 0.05, Some(Arc::new(reject))).unwrap();
+        let mut p = packet();
+        let template = p.scans[0].clone();
+        p.scans.clear();
+        for (i, x) in [-0.2, 0.0, 0.2].into_iter().enumerate() {
+            let mut scan = template.clone();
+            scan.node_id = format!("N{i}");
+            scan.deployment_anchor = [x, 0.025, 0.0];
+            scan.odometry_delta = [0.0; 3];
+            scan.rays = vec![Ray {
+                direction: [0.0, 0.0, 1.0],
+                distance_m: 0.8,
+                hit: false,
+            }];
+            let direction = sub([0.025, 0.025, 0.425], scan.deployment_anchor);
+            scan.bearing = mul(direction, 1.0 / norm(direction));
+            scan.bearing_sigma_deg = 10.0;
+            scan.temperature_delta_c = 0.0;
+            p.scans.push(scan);
+        }
+        let mut different_cues = false;
+        let mut different_maps = false;
+        let mut had_goal = false;
+        for sequence in 0..20 {
+            p.seq_no = sequence;
+            p.sim_step = (sequence + 1) * 25;
+            let left = a.apply(&p).unwrap();
+            let right = b.apply(&p).unwrap();
+            assert_eq!(
+                serde_json::to_value(&left.goals).unwrap(),
+                serde_json::to_value(&right.goals).unwrap()
+            );
+            had_goal |= !left.goals.is_empty();
+            different_cues |= left.cues.len() != right.cues.len();
+            different_maps |= left
+                .cells
+                .iter()
+                .zip(&right.cells)
+                .any(|(x, y)| x.occupancy != y.occupancy);
+        }
+        assert!(
+            had_goal && different_cues && different_maps,
+            "exercise actual independent control, classifier, and map outputs"
+        );
+    }
+    #[test]
+    fn acoustic_probe_requires_evidence_and_routes_around_an_observed_barrier() {
+        let mut model = learned_fixture();
+        model.acoustic_probe = true;
+        let mut mapper = Mapper::with_model("probe", 0.05, Some(Arc::new(model))).unwrap();
+        let position = [0.025, 0.025, 0.025];
+        mapper.poses.insert(
+            "N00".into(),
+            Pose {
+                position,
+                sigma: 0.001,
+                anchor: position,
+            },
+        );
+        for x in -16..16 {
+            for z in -6..64 {
+                mapper.voxels.insert(
+                    [x, 0, z],
+                    Voxel {
+                        log_odds: -2.0,
+                        count: 4,
+                    },
+                );
+            }
+        }
+        assert!(
+            mapper.frontiers().is_empty(),
+            "an enabled probe must not invent sound evidence"
+        );
+        mapper.voxels.insert(
+            [1, 0, 0],
+            Voxel {
+                log_odds: 2.0,
+                count: 4,
+            },
+        );
+        mapper.probe_cues.push(Cue {
+            position: [0.425, 0.025, 0.025],
+            score: 0.2,
+            radius_m: 0.3,
+            observers: 3,
+            status: "UNCONFIRMED",
+            last_seen_step: 0,
+            evidence: CueEvidence::default(),
+        });
+        let goals = mapper.frontiers();
+        assert_eq!(goals.len(), 1);
+        let next = mapper.key(goals[0].position);
+        assert_ne!(next, [1, 0, 0], "never aim through the observed barrier");
+        assert!(mapper.voxels[&next].log_odds < -0.5);
+        assert!(
+            (norm(sub(goals[0].position, position)) - 0.05).abs() < 1e-9,
+            "take the next free cell, without cutting a route corner"
+        );
+        let mut disabled = learned_fixture();
+        disabled.acoustic_probe = false;
+        mapper.model = Some(Arc::new(disabled));
+        assert!(
+            mapper.frontiers().is_empty(),
+            "legacy policy remains unchanged when disabled"
+        );
+    }
     fn learned_fixture() -> LearnedModel {
         serde_json::from_value(serde_json::json!({
             "version":"rescue-trained-v1", "cell_m":0.05,

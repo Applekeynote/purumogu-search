@@ -1,0 +1,11 @@
+{
+  "registered_local_date": "2026-10-27",
+  "status": "Conditional development proposal; disabled in all current acquisition models",
+  "trigger": "Only if the prespecified TRAIN300 and TRAIN450 classifiers fail the unchanged VALID90 acceptance conditions",
+  "motivation": "VALID-only diagnostics show weak or occluded sounds and some accurate proposals suppressed by stronger offset hypotheses. Additional classifier fitting cannot recover a source for which there is no localized evidence.",
+  "policy": "At most three nodes approach instantaneous sensor-derived acoustic peaks while other nodes retain coverage. Nodes with no coverage frontier may also probe. Paths use only observed-free cells, taking the next adjacent cell without crossing a known blocked cell. Existing heat/voice verification dwell remains unchanged.",
+  "inputs": "No truth positions, source counts, human labels, or scene IDs. Raw bearing peaks are separate from the learned retained-track classifier.",
+  "guard": "The acoustic_probe model option defaults to false. No current TRAIN/VALID acquisition trajectory changes. Any enabled-policy evaluation must be rolled out again and recorded separately; old trajectories must not be represented as including this policy.",
+  "development": "Compare failed VALID H05 seed20501994 under the old and enabled policy before considering a full VALID90 rollout. Do not inspect original TEST cases.",
+  "confirmation": "Fresh75 remains unopened. Any adopted policy and model must be frozen and pass full actual VALID evaluation before confirmation."
+}

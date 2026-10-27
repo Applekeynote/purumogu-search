@@ -41,7 +41,7 @@ def choose(rows,model,threshold,nms):
     return dict(matched=tp,false_alarms=fp,people=people,human_precision=tp/max(1,tp+fp),human_recall=tp/max(1,people),rows=details)
 
 def main():
-    parser=argparse.ArgumentParser();parser.add_argument('--base',default='models/rescue-v9/model.json');parser.add_argument('--name',default='rescue-v11');parser.add_argument('--ridge',type=float,default=.001);parser.add_argument('--raw',default='experiments/raw/rescue');parser.add_argument('--report',default='reports/rescue/valid');parser.add_argument('--proposal-model');parser.add_argument('--train-pool');parser.add_argument('--boost',action='store_true');parser.add_argument('--depth',type=int,choices=[1,2,3,4],default=2);parser.add_argument('--rounds',type=int,default=60);args=parser.parse_args()
+    parser=argparse.ArgumentParser();parser.add_argument('--base',default='models/rescue-v9/model.json');parser.add_argument('--name',default='rescue-v11');parser.add_argument('--ridge',type=float,default=.001);parser.add_argument('--raw',default='experiments/raw/rescue');parser.add_argument('--report',default='reports/rescue/valid');parser.add_argument('--proposal-model');parser.add_argument('--train-pool');parser.add_argument('--boost',action='store_true');parser.add_argument('--depth',type=int,choices=[1,2,3,4],default=2);parser.add_argument('--rounds',type=int,default=60);parser.add_argument('--trainer',default='rust/target/release/train_tracks.exe');args=parser.parse_args()
     raw=ROOT/args.raw;pool=ROOT/args.train_pool if args.train_pool else raw/'track-proposals';base=ROOT/args.base;model=json.loads(base.read_bytes())
     manifest=json.loads((pool/'manifest-train.json').read_bytes())
     proposal_model_path=ROOT/args.proposal_model if args.proposal_model else base
@@ -53,6 +53,15 @@ def main():
     assert {r['map_id'] for r in train}==set(model['train_maps']) and all(r['split']=='train' for r in train)
     valid_manifest=json.loads((ROOT/args.report/'manifest.json').read_text(encoding='utf-8-sig'))
     assert valid_manifest['status']=='complete' and valid_manifest['controller_revision']=='progress-3cm-v2'
+    valid_provenance_path=ROOT/args.report/'rollout-provenance.json'
+    valid_provenance=json.loads(valid_provenance_path.read_text(encoding='utf-8-sig')) if valid_provenance_path.exists() else None
+    if valid_provenance:
+        acquisition_path=ROOT/valid_provenance['model'];acquisition=json.loads(acquisition_path.read_bytes())
+        assert hashlib.sha256(acquisition_path.read_bytes()).hexdigest()==valid_provenance['model_sha256']
+        for field in ['acoustic_weights','acoustic_feature_map','acoustic_window_frames','log_range_weights','log_range_sigma']:
+            assert acquisition.get(field)==model.get(field),'Recorded VALID paths require unchanged control-generating acoustic parameters'
+        assert acquisition.get('acoustic_probe',False)==model.get('acoustic_probe',False),'Probe policy requires new VALID rollouts'
+        assert bool(acquisition.get('track_weights') or acquisition.get('track_trees'))==bool(model.get('track_weights') or model.get('track_trees'))
     valid=[]
     for line in (raw/'grids-valid.jsonl').read_text(encoding='utf-8-sig').splitlines():
         row=json.loads(line);audit=raw/f"{row['run_id']}.jsonl"
@@ -64,7 +73,7 @@ def main():
     train_path=pool/'training.json';train_path.write_text(json.dumps(train,separators=(',',':')),encoding='utf-8')
     train_hash=hashlib.sha256(train_path.read_bytes()).hexdigest();source_hash=hashlib.sha256(base.read_bytes()+train_path.read_bytes()).hexdigest()
     output=ROOT/'models'/args.name;output.mkdir(parents=True,exist_ok=False);model_path=output/'model.json'
-    command=[str(ROOT/'rust/target/release/train_tracks.exe'),str(train_path),str(base),str(model_path),str(args.ridge),source_hash]
+    command=[str(ROOT/args.trainer),str(train_path),str(base),str(model_path),str(args.ridge),source_hash]
     if args.boost:command+=['track-boost',str(args.depth),str(args.rounds)]
     subprocess.run(command,check=True)
     fitted=json.loads(model_path.read_bytes())
@@ -83,6 +92,7 @@ def main():
                 train_labels='Offline distance <0.25m to any TRAIN person source; duplicate proposals allowed before NMS',
                 parent_model_sha256=hashlib.sha256(base.read_bytes()).hexdigest(),proposal_model_sha256=hashlib.sha256(proposal_model_path.read_bytes()).hexdigest(),train_proposal_sha256=train_hash,model_sha256=model_hash,
                 valid_controller_revision=valid_manifest['controller_revision'],test_accessed=False,valid_proposal_oracle_matched=oracle,
+                valid_guidance_policy=valid_provenance.get('guidance_policy') if valid_provenance else 'See merged source provenance',
                 selected=selected,valid=choose(valid,fitted,selected['threshold'],selected['nms_m']),train=choose(train,fitted,selected['threshold'],selected['nms_m']),selection_grid=grid,
                 note='Python proposal scoring is a selection diagnostic. Acceptance requires independent actual Rust replay and final unopened TEST.')
     (output/'training-report.json').write_text(json.dumps(report,indent=2)+'\n',encoding='utf-8',newline='\n')

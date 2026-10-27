@@ -1,0 +1,23 @@
+{
+  "status": "Single VALID development diagnostic; not aggregate acceptance",
+  "source_point_identical": true,
+  "old": {
+    "collection": "mission360-valid90",
+    "map_id": "rescue-2.5-H05-20501994",
+    "run_id": "2d6e3e4e177d4c80b6839379d1580153",
+    "closest_estimated_node_distance_m": 0.10966855761992877,
+    "scans": 7078,
+    "instant_voice_and_heat_gate_samples": 36,
+    "audit_sha256": "e5ff25f9978bd873ab88eb1a9e92d53018efd4ec50a43f6b62894adc07b8597c"
+  },
+  "new": {
+    "collection": "acoustic-probe-development",
+    "map_id": "rescue-2.5-H05-20501994",
+    "run_id": "284770fe0f774ae0bb8036df97a51f68",
+    "closest_estimated_node_distance_m": 0.06975469005758844,
+    "scans": 7016,
+    "instant_voice_and_heat_gate_samples": 237,
+    "audit_sha256": "40e37b0f7acfe49f3a243457b24b4f36361e1168a76b6b68318d6b7559710de9"
+  },
+  "note": "Distances use integrated noisy odometry, not actual simulator poses. Truth is read only by this offline diagnostic. Physics trajectories may vary; full VALID90 and unopened confirmation remain required."
+}

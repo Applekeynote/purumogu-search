@@ -1,0 +1,12 @@
+{
+  "status": "Experimental control-only revision; no coefficients refitted",
+  "parent_model_sha256": "2b23e3503a79defccce9cad5bd11a393233a5a8bdb809a36d6a8bf756e32902e",
+  "model_sha256": "616cb646f784d1dd28005dd9e250a9678a0a358bf8b54b9a6d8ca02143d7aea8",
+  "changed": [
+    "acoustic_probe: true"
+  ],
+  "development_case": "VALID H05 seed20501994; full rollout evaluation required before any acceptance claim",
+  "train_maps": 450,
+  "valid_maps": 90,
+  "confirmation75_unopened": true
+}

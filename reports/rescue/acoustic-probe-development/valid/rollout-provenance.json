@@ -1,0 +1,21 @@
+{
+  "started_utc": "2026-10-27T10:33:45.9553562Z",
+  "split": "valid",
+  "experiment": "acoustic-probe-development",
+  "steps": 18000,
+  "repeats": 1,
+  "seed_base": 20501994,
+  "scene_filter": 14,
+  "guidance": true,
+  "guidance_policy": "observed-free-frontier+raw-acoustic-probe",
+  "diagnostics": true,
+  "model": "models/rescue-v17-probe/model.json",
+  "model_sha256": "616cb646f784d1dd28005dd9e250a9678a0a358bf8b54b9a6d8ca02143d7aea8",
+  "server_sha256": "bffb6183c71a95879c838d6d58f32ae8b2a55bc3ebb2a3c54f504e7725aadd05",
+  "source_sha256": {
+    "unity/Assets/Scripts/RescueScene.cs": "921e28f4979cd6eb8216945abac3977f9565a73b1f91782b3645cef7faa13fb8",
+    "unity/Assets/Scripts/RescueRobot.cs": "cbb1cce1c039b9f71ed696e53be5b04b5e38c19bbef47cd51e7ece6a90e48f9a",
+    "unity/Assets/Scripts/RescueSimulation.cs": "9664ec72c6e0d9780dc682f90eceba1ff81975f950346fe1f203440c1c60c73a",
+    "unity/Assets/Editor/RescueTests.cs": "400b6ebacea776e0c6504a9fa7aae45f80c17b34ea865c1b2ce04d89cfdbda5a"
+  }
+}
