@@ -29,6 +29,7 @@ namespace Purumogu.Rescue
         JObject lastMap;
         readonly List<string> audit=new List<string>();
         bool record;string frameFolder;int frame,maxFrames=1400;float captureAt;
+        string filmView="";
         readonly List<string> frameTimes=new List<string>{"frame_index,wall_time_s,sim_step"};
         static readonly Color Background=new Color(.035f,.055f,.07f),Panel=new Color(.065f,.09f,.108f),Ink=new Color(.96f,.98f,.98f),Muted=new Color(.76f,.85f,.87f),Mint=new Color(.4f,1,.84f),Amber=new Color(1,.76f,.44f);
         static readonly Rect WorldArea=new Rect(24,166,770,406),MapArea=new Rect(810,166,766,406);
@@ -37,7 +38,7 @@ namespace Purumogu.Rescue
         {
             Application.runInBackground=true;Application.targetFrameRate=60;font=Font.CreateDynamicFontFromOSFont(new[]{"Yu Gothic","Segoe UI"},18);
             var args=Environment.GetCommandLineArgs();for(int i=0;i<args.Length-1;i++){if(args[i]=="--closeup")closeup=args[i+1]=="true";if(args[i]=="--port")int.TryParse(args[i+1],out port);if(args[i]=="--steps")int.TryParse(args[i+1],out maxSteps);if(args[i]=="--seed")int.TryParse(args[i+1],out seed);if(args[i]=="--scene")int.TryParse(args[i+1],out sceneIndex);if(args[i]=="--frames"){record=true;frameFolder=args[i+1];Directory.CreateDirectory(frameFolder);}if(args[i]=="--capture-count")int.TryParse(args[i+1],out maxFrames);if(args[i]=="--speed")float.TryParse(args[i+1],NumberStyles.Float,CultureInfo.InvariantCulture,out speed);}
-            for(int i=0;i<args.Length-1;i++){if(args[i]=="--nodes")int.TryParse(args[i+1],out nodeCount);if(args[i]=="--deployment-seed")int.TryParse(args[i+1],out deploymentSeed);if(args[i]=="--deployment")entranceDeployment=args[i+1]=="entrance";}
+            for(int i=0;i<args.Length-1;i++){if(args[i]=="--nodes")int.TryParse(args[i+1],out nodeCount);if(args[i]=="--deployment-seed")int.TryParse(args[i+1],out deploymentSeed);if(args[i]=="--deployment")entranceDeployment=args[i+1]=="entrance";if(args[i]=="--film-view")filmView=args[i+1];}
             nodeCount=nodeCount==36?36:nodeCount==48?48:entranceDeployment&&nodeCount==12?12:24;
             maxSteps=Mathf.Clamp(maxSteps,500,30000);sceneIndex=Mathf.Clamp(sceneIndex,0,14);Build();if(record)Begin();
         }
@@ -121,6 +122,17 @@ namespace Purumogu.Rescue
             map.SetViewport(MapArea.width/1600f*Screen.width,MapArea.height/900f*Screen.height,1.30f/mapCamera.orthographicSize);map.SetSelectedNode(simulation.Robots[Mathf.Clamp(selectedNode,0,simulation.Robots.Count-1)].Id);
             var robotTarget=simulation.Robots[Mathf.Clamp(selectedNode,0,simulation.Robots.Count-1)].Core.position;robotCamera.enabled=!closeup;robotCamera.transform.position=robotTarget+new Vector3(.060f,.055f,-.065f);robotCamera.transform.LookAt(robotTarget);
             for(int i=0;i<simulation.Robots.Count;i++)foreach(var renderer in simulation.Robots[i].Root.GetComponentsInChildren<Renderer>())renderer.gameObject.layer=i==selectedNode?9:0;
+            if(filmView!="")
+            {
+                bool mapping=filmView=="map",macro=filmView=="robot";
+                robotCamera.enabled=false;physicalCamera.enabled=!mapping;mapCamera.enabled=mapping;
+                var camera=mapping?mapCamera:physicalCamera;camera.rect=new Rect(0,0,1,1);camera.backgroundColor=new Color(.018f,.029f,.039f);
+                float t=Time.realtimeSinceStartup;var focus=macro?robotTarget:new Vector3(0,.15f,1.32f);
+                var offset=macro?new Vector3(.062f,.044f,-.057f):mapping?new Vector3(2.35f,1.95f,-2.4f):new Vector3(2.3f,1.75f,-1.6f);
+                offset=Quaternion.AngleAxis(Mathf.Sin(t*.024f)*12,Vector3.up)*offset;camera.transform.position=focus+offset;camera.transform.LookAt(focus);
+                camera.orthographicSize=macro?.043f:mapping?1.12f:1.08f;physicalCamera.cullingMask=macro?1<<9:~(1<<8);
+                map.SetViewport(Screen.width,Screen.height,1.30f/mapCamera.orthographicSize);
+            }
         }
         void OnApplicationFocus(bool focused){if(!focused){physicalView.Cancel();inferenceView.Cancel();}}
         void Export()
@@ -191,6 +203,7 @@ namespace Purumogu.Rescue
         }
         void OnGUI()
         {
+            if(filmView!="")return;
             if(simulation==null)return;GUI.matrix=Matrix4x4.Scale(new Vector3(Screen.width/1600f,Screen.height/900f,1));
             if(utilityMenu!=""&&Event.current.type==EventType.MouseDown&&Event.current.mousePosition.y>122&&!UtilityBounds.Contains(Event.current.mousePosition)){utilityMenu="";Event.current.Use();}
             physicalView.Input(WorldArea,scenePicker||utilityMenu!="",4121);inferenceView.Input(MapArea,scenePicker||utilityMenu!="",4122);

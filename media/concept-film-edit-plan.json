@@ -1,0 +1,540 @@
+{
+  "project": "Purumogu_Concept_Film_20261028",
+  "timeline": "Signals_in_the_Void_MASTER",
+  "duration_s": 149.5,
+  "fps": 30,
+  "start_frame": 108000,
+  "source_note": "Uncut Unity/Rust captures and labeled mechanism illustrations. Still artwork is wrapped as unanimated alpha-preserving MOV source media because Resolve's image insert API ignores source trims. Shot cuts, motion, compositing, fades, audio normalization and final export are performed in Resolve. End-frame positions use measured exclusive frame boundaries.",
+  "video": [
+    {
+      "file": "opening-art.mov",
+      "start_s": 0,
+      "end_s": 11.5,
+      "source_s": 0,
+      "track": 1,
+      "properties": {},
+      "name": "01 opening.png"
+    },
+    {
+      "file": "noto-road.mov",
+      "start_s": 11.5,
+      "end_s": 20.5,
+      "source_s": 0,
+      "track": 1,
+      "properties": {
+        "ZoomX": 0.7,
+        "ZoomY": 0.7,
+        "Pan": 350
+      },
+      "name": "02 noto-road.jpg"
+    },
+    {
+      "file": "question-art.mov",
+      "start_s": 20.5,
+      "end_s": 31.05,
+      "source_s": 0,
+      "track": 1,
+      "properties": {},
+      "name": "03 question.png"
+    },
+    {
+      "file": "comparison-art.mov",
+      "start_s": 31.05,
+      "end_s": 39.5,
+      "source_s": 0,
+      "track": 1,
+      "properties": {},
+      "name": "04 comparison.png"
+    },
+    {
+      "file": "branches-art.mov",
+      "start_s": 39.5,
+      "end_s": 46.5,
+      "source_s": 0,
+      "track": 1,
+      "properties": {},
+      "name": "05 branches.png"
+    },
+    {
+      "file": "robot-stage.mp4",
+      "start_s": 46.5,
+      "end_s": 50.5,
+      "source_s": 0.5,
+      "track": 1,
+      "properties": {},
+      "name": "06 robot-stage.mp4"
+    },
+    {
+      "file": "robot-stage.mp4",
+      "start_s": 50.5,
+      "end_s": 54,
+      "source_s": 4,
+      "track": 1,
+      "properties": {},
+      "name": "07 robot-stage.mp4"
+    },
+    {
+      "file": "film31-world-e02.mp4",
+      "start_s": 54,
+      "end_s": 65.5,
+      "source_s": 0,
+      "track": 1,
+      "properties": {},
+      "name": "08 film31-world-e02.mp4"
+    },
+    {
+      "file": "robot-stage.mp4",
+      "start_s": 65.5,
+      "end_s": 72.6,
+      "source_s": 8,
+      "track": 1,
+      "properties": {},
+      "name": "09 robot-stage.mp4"
+    },
+    {
+      "file": "robot-stage.mp4",
+      "start_s": 72.6,
+      "end_s": 78.8,
+      "source_s": 15,
+      "track": 1,
+      "properties": {},
+      "name": "10 robot-stage.mp4"
+    },
+    {
+      "file": "stop-art.mov",
+      "start_s": 78.8,
+      "end_s": 79.85,
+      "source_s": 0,
+      "track": 1,
+      "properties": {},
+      "name": "11 stop.png"
+    },
+    {
+      "file": "contact-art.mov",
+      "start_s": 79.85,
+      "end_s": 81.1,
+      "source_s": 0,
+      "track": 1,
+      "properties": {},
+      "name": "12 contact.png"
+    },
+    {
+      "file": "disconnect-art.mov",
+      "start_s": 81.1,
+      "end_s": 83.35,
+      "source_s": 0,
+      "track": 1,
+      "properties": {},
+      "name": "13 disconnect.png"
+    },
+    {
+      "file": "evidence-art.mov",
+      "start_s": 83.35,
+      "end_s": 91.35,
+      "source_s": 0,
+      "track": 1,
+      "properties": {},
+      "name": "14 evidence.png"
+    },
+    {
+      "file": "film31-map-h04-n36.mp4",
+      "start_s": 91.35,
+      "end_s": 98.5,
+      "source_s": 8,
+      "track": 1,
+      "properties": {},
+      "name": "15 film31-map-h04-n36.mp4"
+    },
+    {
+      "file": "guidance-art.mov",
+      "start_s": 98.5,
+      "end_s": 103.8,
+      "source_s": 0,
+      "track": 1,
+      "properties": {},
+      "name": "16 guidance.png"
+    },
+    {
+      "file": "film31-map-h04-n36.mp4",
+      "start_s": 103.8,
+      "end_s": 111.5,
+      "source_s": 30,
+      "track": 1,
+      "properties": {},
+      "name": "17 film31-map-h04-n36.mp4"
+    },
+    {
+      "file": "black-art.mov",
+      "start_s": 111.5,
+      "end_s": 123.6,
+      "source_s": 0,
+      "track": 1,
+      "properties": {},
+      "name": "18 black.png"
+    },
+    {
+      "file": "robot-stage.mp4",
+      "start_s": 123.6,
+      "end_s": 131.5,
+      "source_s": 0,
+      "track": 1,
+      "properties": {},
+      "name": "19 robot-stage.mp4"
+    },
+    {
+      "file": "robot-stage.mp4",
+      "start_s": 131.5,
+      "end_s": 139.5,
+      "source_s": 0,
+      "track": 1,
+      "properties": {},
+      "name": "20 robot-stage.mp4"
+    },
+    {
+      "file": "credits-art.mov",
+      "start_s": 139.5,
+      "end_s": 149.5,
+      "source_s": 0,
+      "track": 1,
+      "properties": {},
+      "name": "21 credits.png"
+    },
+    {
+      "file": "overlay-noto-art.mov",
+      "start_s": 11.5,
+      "end_s": 20.5,
+      "source_s": 0,
+      "track": 2
+    },
+    {
+      "file": "overlay-hero-title-art.mov",
+      "start_s": 48.1,
+      "end_s": 50.5,
+      "source_s": 0,
+      "track": 2
+    },
+    {
+      "file": "overlay-size-art.mov",
+      "start_s": 50.5,
+      "end_s": 54,
+      "source_s": 0,
+      "track": 2
+    },
+    {
+      "file": "overlay-drop-art.mov",
+      "start_s": 54,
+      "end_s": 65.5,
+      "source_s": 0,
+      "track": 2
+    },
+    {
+      "file": "overlay-coupling-art.mov",
+      "start_s": 65.5,
+      "end_s": 72.6,
+      "source_s": 0,
+      "track": 2
+    },
+    {
+      "file": "overlay-mapping-art.mov",
+      "start_s": 91.35,
+      "end_s": 98.5,
+      "source_s": 0,
+      "track": 2
+    },
+    {
+      "file": "overlay-candidate-art.mov",
+      "start_s": 103.8,
+      "end_s": 111.5,
+      "source_s": 0,
+      "track": 2
+    },
+    {
+      "file": "overlay-scenarios-art.mov",
+      "start_s": 111.5,
+      "end_s": 123.6,
+      "source_s": 0,
+      "track": 2
+    },
+    {
+      "file": "overlay-mission-art.mov",
+      "start_s": 123.6,
+      "end_s": 131.5,
+      "source_s": 0,
+      "track": 2
+    },
+    {
+      "file": "overlay-end-art.mov",
+      "start_s": 131.5,
+      "end_s": 139.5,
+      "source_s": 0,
+      "track": 2
+    },
+    {
+      "file": "film31-world-e02.mp4",
+      "start_s": 111.5,
+      "end_s": 123.6,
+      "source_s": 4,
+      "track": 5,
+      "properties": {
+        "ZoomX": 0.31,
+        "ZoomY": 0.31,
+        "Pan": -625
+      }
+    },
+    {
+      "file": "film31-world-e03.mp4",
+      "start_s": 111.5,
+      "end_s": 123.6,
+      "source_s": 4,
+      "track": 6,
+      "properties": {
+        "ZoomX": 0.31,
+        "ZoomY": 0.31,
+        "Pan": 0
+      }
+    },
+    {
+      "file": "film31-world-h04.mp4",
+      "start_s": 111.5,
+      "end_s": 123.6,
+      "source_s": 4,
+      "track": 7,
+      "properties": {
+        "ZoomX": 0.31,
+        "ZoomY": 0.31,
+        "Pan": 625
+      }
+    },
+    {
+      "file": "cinema-matte-art.mov",
+      "start_s": 0,
+      "end_s": 149.5,
+      "source_s": 0,
+      "track": 3
+    },
+    {
+      "file": "caption-aa.mov",
+      "start_s": 2.8,
+      "end_s": 10.9,
+      "text": "大規模災害では、救助隊も救助犬も、\n同時に発生するすべての現場を捜索するには必ず不足します。",
+      "track": 4,
+      "source_s": 0
+    },
+    {
+      "file": "caption-ab.mov",
+      "start_s": 11.5,
+      "end_s": 20.45,
+      "text": "2024年の能登半島地震では、全国から救助部隊が集結しても、\n道路の寸断が現場への到達を阻みました。",
+      "track": 4,
+      "source_s": 0
+    },
+    {
+      "file": "caption-ac.mov",
+      "start_s": 21.5,
+      "end_s": 25.7,
+      "text": "限られた救助資源を、どこに最初に向けるのか。",
+      "track": 4,
+      "source_s": 0
+    },
+    {
+      "file": "caption-ad.mov",
+      "start_s": 25.7,
+      "end_s": 29.7,
+      "text": "その判断に必要な情報すら、瓦礫の奥からは届きません。",
+      "track": 4,
+      "source_s": 0
+    },
+    {
+      "file": "caption-ae.mov",
+      "start_s": 31.05,
+      "end_s": 35.15,
+      "text": "ドローンは上空や飛行可能な空間の把握に、",
+      "track": 4,
+      "source_s": 0
+    },
+    {
+      "file": "caption-af.mov",
+      "start_s": 35.15,
+      "end_s": 39.05,
+      "text": "蛇型ロボットは細い経路の詳細観察に強みがあります。",
+      "track": 4,
+      "source_s": 0
+    },
+    {
+      "file": "caption-ag.mov",
+      "start_s": 39.5,
+      "end_s": 45.85,
+      "text": "しかし、複雑に分岐した瓦礫内部の広範囲を、\n同時に調べることは容易ではありません。",
+      "track": 4,
+      "source_s": 0
+    },
+    {
+      "file": "caption-ah.mov",
+      "start_s": 46.5,
+      "end_s": 49.9,
+      "text": "そこで考えたのが、ぷるもぐサーチです。",
+      "track": 4,
+      "source_s": 0
+    },
+    {
+      "file": "caption-ai.mov",
+      "start_s": 50.5,
+      "end_s": 58.6,
+      "text": "約7センチの小型ノードを多数散布し、瓦礫の隙間へ分散させることで、\n一度に探索できる範囲を広げます。",
+      "track": 4,
+      "source_s": 0
+    },
+    {
+      "file": "caption-aj.mov",
+      "start_s": 59.5,
+      "end_s": 65.8,
+      "text": "親に探索方針を与えれば、ドローンなどを機体ごとに操縦するような\n個別操作は必要ありません。",
+      "track": 4,
+      "source_s": 0
+    },
+    {
+      "file": "caption-ak.mov",
+      "start_s": 65.8,
+      "end_s": 72.6,
+      "text": "ノード同士が連結・分離し、隊列を組み替えながら、\n狭所の奥まで潜り込むことを目指します。",
+      "track": 4,
+      "source_s": 0
+    },
+    {
+      "file": "caption-al.mov",
+      "start_s": 72.6,
+      "end_s": 77.75,
+      "text": "独自性は、進めた場所だけを地図にするのではないこと。",
+      "track": 4,
+      "source_s": 0
+    },
+    {
+      "file": "caption-am.mov",
+      "start_s": 77.75,
+      "end_s": 82.3,
+      "text": "止まった。接触した。通信が途切れた。",
+      "track": 4,
+      "source_s": 0
+    },
+    {
+      "file": "caption-an.mov",
+      "start_s": 83.35,
+      "end_s": 90.5,
+      "text": "通常は失敗や欠損として扱われる反応も、\n見えない空洞や閉塞を推定する手がかりに変えます。",
+      "track": 4,
+      "source_s": 0
+    },
+    {
+      "file": "caption-ao.mov",
+      "start_s": 91.35,
+      "end_s": 98.3,
+      "text": "AIは散布したノード群の観測を統合し、\n空洞のつながりや、人の気配が疑われる場所を推定。",
+      "track": 4,
+      "source_s": 0
+    },
+    {
+      "file": "caption-ap.mov",
+      "start_s": 98.5,
+      "end_s": 103.45,
+      "text": "さらに次の投入先を判断し、探索範囲を効率的に広げます。",
+      "track": 4,
+      "source_s": 0
+    },
+    {
+      "file": "caption-aq.mov",
+      "start_s": 104.3,
+      "end_s": 111.5,
+      "text": "狙いは、広い被災地の中から、救助隊が優先して確認すべき箇所を\n迅速に絞り込むことです。",
+      "track": 4,
+      "source_s": 0
+    },
+    {
+      "file": "caption-ar.mov",
+      "start_s": 111.5,
+      "end_s": 117.3,
+      "text": "今回、UnityとRustを使い、\n倒壊・斜面崩壊・浸水後の閉塞を想定した環境で、",
+      "track": 4,
+      "source_s": 0
+    },
+    {
+      "file": "caption-as.mov",
+      "start_s": 117.3,
+      "end_s": 123.6,
+      "text": "協調侵入と空間推定の有効性を検証しました。",
+      "track": 4,
+      "source_s": 0
+    },
+    {
+      "file": "caption-at.mov",
+      "start_s": 123.6,
+      "end_s": 131.45,
+      "text": "限られた人員・資材を、一刻も早く、\n救助が必要な可能性の高い場所へ向かわせるために。",
+      "track": 4,
+      "source_s": 0
+    },
+    {
+      "file": "caption-au.mov",
+      "start_s": 132.6,
+      "end_s": 137.2,
+      "text": "救助の手が足りないときこそ、捜索の手がかりを広く、速く集める。",
+      "track": 4,
+      "source_s": 0
+    },
+    {
+      "file": "caption-av.mov",
+      "start_s": 137.2,
+      "end_s": 139.05,
+      "text": "ぷるもぐサーチです。",
+      "track": 4,
+      "source_s": 0
+    }
+  ],
+  "audio": [
+    {
+      "file": "narration.mp3",
+      "start_s": 2.5,
+      "end_s": 139.2,
+      "source_s": 0,
+      "track": 1,
+      "target_lufs": -17.5,
+      "fade_in": 2,
+      "fade_out": 6
+    },
+    {
+      "file": "music.mp3",
+      "start_s": 0,
+      "end_s": 67,
+      "source_s": 0,
+      "track": 2,
+      "target_lufs": -28,
+      "fade_in": 30,
+      "fade_out": 60
+    },
+    {
+      "file": "music.mp3",
+      "start_s": 65,
+      "end_s": 132,
+      "source_s": 0,
+      "track": 3,
+      "target_lufs": -28,
+      "fade_in": 60,
+      "fade_out": 60
+    },
+    {
+      "file": "music.mp3",
+      "start_s": 130,
+      "end_s": 149.5,
+      "source_s": 47,
+      "track": 2,
+      "target_lufs": -23,
+      "fade_in": 60,
+      "fade_out": 75
+    }
+  ],
+  "native_fusion": {
+    "motion_items": 20,
+    "soft_glow": "Two actual map clips; Gain0.8 Threshold0.05 Size2 Blend0.3",
+    "title_fades_frames": 8,
+    "still_artwork_motion": "Subtle native Transform expressions; reaction cards ease in over10frames"
+  }
+}

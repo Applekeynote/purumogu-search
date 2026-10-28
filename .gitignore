@@ -9,6 +9,10 @@
 /datasets/generated/
 /experiments/raw/
 /media/frames/
+/media/purumogu-concept-film.mp4
+/media/concept_film_sources/robot-stage/
+/media/concept_film_sources/*.mp4
+/media/concept_film_sources/*.mov
 *.csproj
 *.sln
 *.user

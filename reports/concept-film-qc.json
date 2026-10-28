@@ -1,0 +1,39 @@
+{
+  "file": "media/purumogu-concept-film.mp4",
+  "editor": "DaVinci Resolve Studio 21.1",
+  "timeline": "Signals_in_the_Void_MASTER",
+  "sha256": "0b5fd3eef5dec638189b167b1bd22d58ec52f9b0834892edd66ec1989be7530b",
+  "bytes": 140413891,
+  "size": [
+    1920,
+    1080
+  ],
+  "fps": 30.0,
+  "frames": 4485,
+  "duration_s": 149.5,
+  "integrated_lufs": -17.3,
+  "true_peak_dbfs": -3.7,
+  "black_intervals": [],
+  "representative_frames": [
+    6,
+    15,
+    24,
+    34,
+    43,
+    49,
+    52,
+    59,
+    69,
+    75,
+    80,
+    86,
+    95,
+    107,
+    115,
+    127,
+    136,
+    144
+  ],
+  "checks": "All frames decoded; exact planned duration; no interior essentially empty black interval >=0.2s; unclipped audio; rendered visual samples require human/agent review",
+  "visual_review": "passed: 18 rendered samples reviewed, readable captions, no unintended overlap or missing source media"
+}
