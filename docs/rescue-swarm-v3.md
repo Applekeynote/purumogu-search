@@ -4,35 +4,35 @@
 
 ## 操作
 
-左上の映像内でホイールを押し込んだままドラッグすると、現場を中心に視点が回る。左ドラッグも同じ操作になる。右上やノード一覧から始めたドラッグでは現場の視点を変えない。「視点を戻す」で初期角度へ滑らかに戻る。一時停止中と機体拡大中にも操作できる。
+左上・右上の映像内でホイールを押し込んだままドラッグすると、その画面を中心に視点が回る。左ドラッグも同じ操作になる。ホイール回転で拡大・縮小し、二つの視点は独立して動く。各画面の「戻す」で初期角度と倍率へ滑らかに戻る。一時停止中と機体拡大中にも操作できる。[現行3.1の操作・細密点群・危険表示](rescue-interface-v31.md)を参照。
 
-基準画面1600×900の1pxあたり0.16度、各軸の回転速度上限60度/秒、平滑化時間0.075秒とし、上下を制限して反転を防ぐ。ホイールを回すだけでは視点を変えない。感度はシミュレーションの1倍・4倍速度や一時停止の影響を受けない。
+基準画面1600×900の1pxあたり0.16度、各軸の回転速度上限60度/秒、平滑化時間0.075秒とし、上下を制限して反転を防ぐ。感度はシミュレーションの1倍・4倍速度や一時停止の影響を受けない。
 
 実装はUnityの[Event.delta](https://docs.unity3d.com/6000.0/Documentation/ScriptReference/Event-delta.html)と[GUIUtility.hotControl](https://docs.unity3d.com/6000.0/Documentation/ScriptReference/GUIUtility-hotControl.html)を使い、映像内で始めたドラッグだけを捕捉する。
 
 ## 落下と障害物
 
-READY中のノードは、まだ投下していない待機位置にある。「散布・探索開始」で12秒間にわたり順次解放し、重力と衝突で落下させる。現在の地形や要救助者位置を使って、都合のよい着地点へ移し替えない。放出位置の既知の座標を初期アンカーとして使い、その後は誤差を含む相対変位と姿勢を送る。
+READY中のノードは、まだ投下していない待機位置にある。「散布・探索を開始」で12秒間にわたり順次解放し、重力と衝突で落下させる。現在の地形や要救助者位置を使って、都合のよい着地点へ移し替えない。放出位置の既知の座標を初期アンカーとして使い、その後は誤差を含む相対変位と姿勢を送る。
 
-旧断面表示は、床板のRendererを無効にしてColliderを残していた。このため実際には床板上のノードが空中を動くように見えた。現在は床板を半透明と輪郭で残し、「床板を透視」を解除すると通常の不透明表示へ戻る。専用シェーダーは実行版にも含める。見え方を変えても物理形状は変わらない。
+旧断面表示は、床板のRendererを無効にしてColliderを残していた。このため実際には床板上のノードが空中を動くように見えた。現在は床板を半透明と輪郭で残し、「透視」を解除すると通常の不透明表示へ戻る。専用シェーダーは実行版にも含める。見え方を変えても物理形状は変わらない。
 
 小瓦礫は易64・中104・難144片、梁片は6・11・16本、鉄筋は9・17・25本とする。装飾だけでなく衝突と観測の遮蔽に用いる。モデル化した領域は局所空隙であり、実寸の家屋全体を再現したものではない。
 
 ## 今日から試す3例
 
 1. `./scripts/Start-Demo.ps1 -Scene 1 -Nodes 24`：E02で投下を始め、床板の上に落ちた機体を横から確認する。透視表示を切り替えると接地先が分かる。
-2. `./scripts/Start-Demo.ps1 -Scene 6 -Nodes 36`：M02で一時停止し、低い視点と上からの視点を比べ、最後に「視点を戻す」を押す。
+2. `./scripts/Start-Demo.ps1 -Scene 6 -Nodes 36`：M02で一時停止し、低い視点と上からの視点を比べ、最後に各画面の「戻す」を押す。
 3. `./scripts/Start-Demo.ps1 -Scene 13 -Nodes 48`：H04でノード一覧を末尾までスクロールし、N47を選択して機体拡大を確認する。
 
 ## 検証と学習条件
 
 `./scripts/Unity-Task.ps1 rescue-swarm-smoke` は15シーン×3台数を検証する。1620台の投下、重力、透視の有無にかかわらず見える衝突面、接地を確認した。接続を解除して推進を止めた後の診断では、全機体が可視の地形に接し、機体中心から最寄り面までの最大距離は約9.5mm、喪失0台だった。この結果は検出精度を意味しない。
 
-[事前登録](../reports/rescue/swarm-v3/protocol-design.json)ではTRAIN225試行、VALID90試行、未使用TEST135試行とする。同じ現場seedの3台数を同じ分割に保つ。各試行360秒、3D占有は5cmセルの全領域IoU、検出は25cm以内の一対一対応で測る。各台数と全体で、IoU平均・合算、要救助者適合率・再現率がすべて95%以上の場合のみ合格とする。
+[3.1事前登録](../reports/rescue/swarm-v31/protocol-design.json)ではTRAIN225試行、VALID90試行、未使用TEST135試行とする。旧3.0の途中記録は保全し、中央球接続と環境観測を含む現行条件で再収集する。同じ現場seedの3台数を同じ分割に保つ。各試行360秒、3D占有は5cmセルの全領域IoU、検出は25cm以内の一対一対応で測る。各台数と全体で、IoU平均・合算、要救助者適合率・再現率がすべて95%以上の場合のみ合格とする。
 
 収集は `./scripts/Run-Swarm-Evaluation.ps1 -Split train` と `-Split valid -Port 47129` を順に実行する。既存ログは上書きしない。最終TESTはVALID合格後にモデル・推論バイナリ・5つの物理評価ソース・事前登録条件を固定してから一度だけ開く。
 
-前処理は `prepare_rescue_sensor_maps.py --split train --raw experiments/raw/rescue/swarm-v3 --server rust/target/swarm/release/rescue_server.exe --watch-expected 225` と `export_rescue_acquisition_tracks.py --split train --raw experiments/raw/rescue/swarm-v3 --report reports/rescue/swarm-v3/train --watch-expected 225` を使う。VALIDはsplit/reportをvalid、expectedを90に変える。前者は未校正の距離地図、後者は収集時にRustが既に出力した候補履歴を保存する。成長中のJSONLは末尾改行のある完全な記録だけを読む。
+前処理は `prepare_rescue_sensor_maps.py --split train --raw experiments/raw/rescue/swarm-v31 --server rust/target/release/rescue_server.exe --watch-expected 225` と `export_rescue_acquisition_tracks.py --split train --raw experiments/raw/rescue/swarm-v31 --report reports/rescue/swarm-v31/train --watch-expected 225` を使う。VALIDはsplit/reportをvalid、expectedを90に変える。前者は未校正の距離地図、後者は収集時にRustが既に出力した候補履歴を保存する。成長中のJSONLは末尾改行のある完全な記録だけを読む。
 
 `./scripts/Train-Swarm.ps1` は収集と前処理の完了を待ち、TRAINで占有・形状・候補履歴を学習し、VALIDで設定を選び、実RustでVALIDを再生する。形状学習の交差検証は、同じ現場の全台数を一緒に除外する。候補は線形モデルと深さ2/3・60/100本の浅い木を比較し、台数別の最悪成績から選ぶ。音響・距離の校正は旧TRAIN150から固定して継承する。この処理はTESTを開かない。VALID未達なら、その結果を残して観測やモデルの改善へ進む。
 
