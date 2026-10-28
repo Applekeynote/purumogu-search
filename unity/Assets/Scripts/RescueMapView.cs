@@ -5,99 +5,136 @@ using UnityEngine.Rendering;
 
 namespace Purumogu.Rescue
 {
-    /// Render only the server's reconstructed cells, poses and unconfirmed cues.
+    /// Fine observed endpoints overlay a faint 5cm evidence scaffold; neither is ground truth.
     public sealed class RescueMapView : System.IDisposable
     {
-        public readonly GameObject Root=new GameObject("InferredMapOnly");
+        public static readonly Color PersonColor=new Color(1,.70f,.18f),GasColor=new Color(1,.30f,.48f),WaterColor=new Color(.32f,.64f,1);
+        public sealed class AlertMark {public string Kind,Id,Label;public Vector3 Position;public float Radius;public Color Color;}
+        public readonly List<AlertMark> Alerts=new List<AlertMark>();
         public readonly List<Vector3> CuePositions=new List<Vector3>();
         public readonly List<string> CueLabels=new List<string>();
-        readonly Mesh geometry=new Mesh{name="SensorOccupancyWireframe",indexFormat=IndexFormat.UInt32};
-        readonly Mesh gridGeometry=new Mesh{name="MapCoordinateGrid"};
-        readonly Material material;
+        public readonly GameObject Root=new GameObject("InferredMapOnly");
+        readonly Mesh points=new Mesh{name="ObservedVoxelSurfacePoints",indexFormat=IndexFormat.UInt32};
+        readonly Mesh grid=new Mesh{name="QuietCoordinateGrid"},trail=new Mesh{name="EstimatedSelectedNodeTrail"};
+        readonly Material pointMaterial,lineMaterial;
+        readonly List<Vector3> vertices=new List<Vector3>(),uv=new List<Vector3>();
+        readonly List<Color> colors=new List<Color>();
+        readonly List<int> indices=new List<int>();
         readonly List<GameObject> markers=new List<GameObject>();
-        readonly Dictionary<Vector3Int,long> firstEvidenceStep=new Dictionary<Vector3Int,long>();
+        readonly Dictionary<Vector3Int,long> firstEvidence=new Dictionary<Vector3Int,long>();
+        readonly Dictionary<string,List<Vector3>> trajectories=new Dictionary<string,List<Vector3>>();
+        static readonly Vector2[] Corners={new Vector2(-1,-1),new Vector2(-1,1),new Vector2(1,1),new Vector2(1,-1)};
+        string selected="N00";
         public int VisibleObservedCells{get;private set;}
         public int VisibleCompletionCells{get;private set;}
+        public int GasZones{get;private set;}
+        public int WaterZones{get;private set;}
+        public int GasObservedNodes{get;private set;}
+        public int WaterObservedNodes{get;private set;}
+        public int SurfacePoints{get;private set;}
+        public int FineObservedPoints{get;private set;}
         public RescueMapView()
         {
-            material=new Material(Shader.Find("Sprites/Default"));
-            var g=new GameObject("ObservedSurface");g.layer=8;g.transform.SetParent(Root.transform,false);g.AddComponent<MeshFilter>().sharedMesh=geometry;g.AddComponent<MeshRenderer>().sharedMaterial=material;
-            var vertices=new List<Vector3>();var colors=new List<Color>();var indices=new List<int>();
-            for(int i=-15;i<=15;i+=3)Line(vertices,colors,indices,new Vector3(i*.05f,-.025f,-.3f),new Vector3(i*.05f,-.025f,3.2f),new Color(.1f,.28f,.32f,.6f));
-            for(int i=-6;i<=64;i+=3)Line(vertices,colors,indices,new Vector3(-.75f,-.025f,i*.05f),new Vector3(.75f,-.025f,i*.05f),new Color(.1f,.28f,.32f,.6f));
-            var grid=new GameObject("MapCoordinateGrid");grid.layer=8;grid.transform.SetParent(Root.transform,false);gridGeometry.SetVertices(vertices);gridGeometry.SetColors(colors);gridGeometry.SetIndices(indices,MeshTopology.Lines,0);grid.AddComponent<MeshFilter>().sharedMesh=gridGeometry;grid.AddComponent<MeshRenderer>().sharedMaterial=material;
+            pointMaterial=new Material(Resources.Load<Shader>("RescueMapPoint"));lineMaterial=new Material(Shader.Find("Sprites/Default"));
+            MeshObject("ObservedSurfacePoints",points,pointMaterial);MeshObject("MapGrid",grid,lineMaterial);MeshObject("NodeEstimatedTrail",trail,lineMaterial);points.MarkDynamic();trail.MarkDynamic();
+            var v=new List<Vector3>();var c=new List<Color>();var ix=new List<int>();var faint=new Color(.19f,.25f,.28f,.26f);
+            for(int x=-8;x<=8;x+=2)Line(v,c,ix,new Vector3(x*.1f,-.035f,-.3f),new Vector3(x*.1f,-.035f,3.2f),faint);
+            for(int z=-3;z<=32;z+=2)Line(v,c,ix,new Vector3(-.8f,-.035f,z*.1f),new Vector3(.8f,-.035f,z*.1f),faint);
+            grid.SetVertices(v);grid.SetColors(c);grid.SetIndices(ix,MeshTopology.Lines,0);grid.RecalculateBounds();
         }
-        static void Line(List<Vector3> vertices,List<Color> colors,List<int> indices,Vector3 a,Vector3 b,Color color)
+        void MeshObject(string name,Mesh mesh,Material material)
+        {var g=new GameObject(name);g.layer=8;g.transform.SetParent(Root.transform,false);g.AddComponent<MeshFilter>().sharedMesh=mesh;g.AddComponent<MeshRenderer>().sharedMaterial=material;}
+        public void SetViewport(float width,float height,float zoom=1){pointMaterial.SetVector("_ViewportSize",new Vector4(Mathf.Max(1,width),Mathf.Max(1,height),0,0));pointMaterial.SetFloat("_PointScale",Mathf.Clamp(zoom,.65f,2.6f));}
+        public void SetSelectedNode(string id){if(selected==id)return;selected=id;BuildTrail();}
+        void Point(Vector3 center,Color color,float size)
         {
-            int n=vertices.Count;vertices.Add(a);vertices.Add(b);colors.Add(color);colors.Add(color);indices.Add(n);indices.Add(n+1);
+            int n=vertices.Count;foreach(var corner in Corners){vertices.Add(center);colors.Add(color);uv.Add(new Vector3(corner.x,corner.y,size));}
+            indices.Add(n);indices.Add(n+1);indices.Add(n+2);indices.Add(n);indices.Add(n+2);indices.Add(n+3);
+        }
+        static void Line(List<Vector3> v,List<Color> c,List<int> ix,Vector3 a,Vector3 b,Color color)
+        {int n=v.Count;v.Add(a);v.Add(b);c.Add(color);c.Add(color);ix.Add(n);ix.Add(n+1);}
+        static Vector3Int Key(JToken c){var k=c["key"];return new Vector3Int((int)k[0],(int)k[1],(int)k[2]);}
+        Color ObservedColor(Vector3 center)
+        {
+            var color=Color.Lerp(new Color(.17f,.43f,.45f,.86f),new Color(.57f,.78f,.73f,.95f),Mathf.Clamp01(center.y/.7f));
+            foreach(var alert in Alerts)if(alert.Kind!="person"&&Mathf.Abs(center.y-alert.Position.y)<.17f&&new Vector2(center.x-alert.Position.x,center.z-alert.Position.z).magnitude<alert.Radius){color=alert.Color;color.a=.95f;if(alert.Kind=="gas")break;}
+            return color;
         }
         public void Update(JObject reply)
         {
-            var vertices=new List<Vector3>();var colors=new List<Color>();var indices=new List<int>();float cell=(float)reply["cell_m"];
-            long step=(long)reply["sim_step"];
-            // Reveal from repeated ray evidence. A globally selected shape family must
-            // not appear as if its unobserved walls had already been scanned.
-            var supported=new HashSet<Vector3Int>();
-            foreach(var c in (JArray)reply["cells"])
-            {
-                var k=(JArray)c["key"];var gridKey=new Vector3Int((int)k[0],(int)k[1],(int)k[2]);
-                float sensor=(float?)c["sensor_occupancy"]??(float)c["occupancy"];
-                if((int)c["observations"]>=2&&sensor>.6f){supported.Add(gridKey);if(!firstEvidenceStep.ContainsKey(gridKey))firstEvidenceStep[gridKey]=step;}
-            }
-            var nearby=new HashSet<Vector3Int>();
-            foreach(var k in supported)for(int dx=-1;dx<=1;dx++)for(int dy=-1;dy<=1;dy++)for(int dz=-1;dz<=1;dz++)nearby.Add(k+new Vector3Int(dx,dy,dz));
-            var display=new Dictionary<Vector3Int,bool>();VisibleObservedCells=VisibleCompletionCells=0;
-            var occupied=new HashSet<Vector3Int>();
-            foreach(var c in (JArray)reply["cells"])if((float)c["occupancy"]>.6f)
-            {
-                var k=(JArray)c["key"];var gridKey=new Vector3Int((int)k[0],(int)k[1],(int)k[2]);bool measured=supported.Contains(gridKey);
-                if(!measured&&!(step>=500&&nearby.Contains(gridKey)))continue;
-                occupied.Add(gridKey);display[gridKey]=measured;if(measured)VisibleObservedCells++;else VisibleCompletionCells++;
-            }
-            int free=0;
-            foreach(var token in (JArray)reply["cells"])
-            {
-                float p=(float)token["occupancy"];var key=(JArray)token["key"];var center=new Vector3(((int)key[0]+.5f)*cell,((int)key[1]+.5f)*cell,((int)key[2]+.5f)*cell);
-                var gridKey=new Vector3Int((int)key[0],(int)key[1],(int)key[2]);
-                if(p>.60f)
-                {
-                    if(!display.TryGetValue(gridKey,out bool measured))continue;
-                    float half=cell*.47f;Color color=Color.Lerp(new Color(.05f,.65f,.84f,.35f),new Color(.3f,1,.82f,1),Mathf.Clamp01((p-.6f)*2.5f));color=Color.Lerp(color,new Color(.65f,.5f,1,.8f),Mathf.Clamp01(center.y/.8f)*.6f);
-                    if(!measured)color=new Color(.62f,.45f,1,.18f);
-                    else color.a*=Mathf.Clamp01((step-firstEvidenceStep[gridKey]+25)/150f);
-                    for(int axis=0;axis<3;axis++)for(int sign=-1;sign<=1;sign+=2)
-                    {
-                        var neighbor=gridKey;neighbor[axis]+=sign;if(occupied.Contains(neighbor))continue;
-                        for(int edge=0;edge<4;edge++)
-                        {
-                            int along=(axis+1+edge%2)%3,fixedAxis=(axis+2-edge%2+3)%3;var start=center;var end=center;start[axis]+=sign*half;end[axis]+=sign*half;start[along]-=half;end[along]+=half;float side=edge<2?-1:1;start[fixedAxis]+=side*half;end[fixedAxis]+=side*half;Line(vertices,colors,indices,start,end,color);
-                        }
-                    }
-                }
-                else if(p<.4f&&(int)token["observations"]>=2&&free++%12==0)
-                {
-                    Line(vertices,colors,indices,center-Vector3.right*cell*.12f,center+Vector3.right*cell*.12f,new Color(.15f,.55f,.55f,.2f));
-                }
-            }
-            geometry.Clear();geometry.SetVertices(vertices);geometry.SetColors(colors);geometry.SetIndices(indices,MeshTopology.Lines,0);geometry.RecalculateBounds();
-            foreach(var marker in markers)if(marker)Object.DestroyImmediate(marker);markers.Clear();CuePositions.Clear();CueLabels.Clear();
-            foreach(var node in (JArray)reply["nodes"])
-            {
-                var sphere=GameObject.CreatePrimitive(PrimitiveType.Sphere);sphere.name="Estimated_"+(string)node["node_id"];sphere.layer=8;sphere.transform.SetParent(Root.transform,false);sphere.transform.position=RescueEvaluation.Vector(node["estimated_position"]);sphere.transform.localScale=Vector3.one*.018f;Object.DestroyImmediate(sphere.GetComponent<Collider>());sphere.GetComponent<Renderer>().sharedMaterial=material;markers.Add(sphere);
-            }
+            float cell=(float)reply["cell_m"];long step=(long)reply["sim_step"];
+            foreach(var marker in markers)if(marker)Object.DestroyImmediate(marker);markers.Clear();Alerts.Clear();CueLabels.Clear();CuePositions.Clear();
+            GasZones=WaterZones=0;GasObservedNodes=(int?)reply["gas_observed_nodes"]??0;WaterObservedNodes=(int?)reply["water_observed_nodes"]??0;
             int number=0;
             foreach(var cue in (JArray)reply["cues"])
             {
-                Vector3 center=RescueEvaluation.Vector(cue["position"]);float radius=(float)cue["radius_m"];
-                CuePositions.Add(center);CueLabels.Add($"候補 {(char)('A'+number++)} / 未確認\n優先度 {(float)cue["score"]:F2} · {(int)cue["observers"]} ノード\n探索半径 約{radius*100:F0} cm");
-                for(int plane=0;plane<3;plane++)
+                var p=RescueEvaluation.Vector(cue["position"]);float radius=(float)cue["radius_m"];string id=((char)('A'+number++)).ToString();
+                var label=$"人候補 {id} / 未確認  ·  {(int)cue["observers"]}ノード  ·  優先度 {(float)cue["score"]:F2}";
+                CuePositions.Add(p);CueLabels.Add(label);Alerts.Add(new AlertMark{Kind="person",Id=id,Label=label,Position=p,Radius=radius,Color=PersonColor});
+            }
+            if(reply["hazards"] is JArray hazards)foreach(var hazard in hazards)
+            {
+                bool gas=(string)hazard["kind"]=="gas";string id=gas?"G"+(++GasZones):"W"+(++WaterZones);float value=(float)hazard["value"];int observers=(int)hazard["observers"];
+                Alerts.Add(new AlertMark{Kind=gas?"gas":"water",Id=id,Position=RescueEvaluation.Vector(hazard["position"]),Radius=(float)hazard["radius_m"],Color=gas?GasColor:WaterColor,
+                    Label=gas?$"ガス反応 {id}  ·  相対値 {value:F2}  ·  {observers}ノード":$"浸水 {id}  ·  水深 {value*100:F1}cm  ·  {observers}ノード"});
+            }
+            Alerts.Sort((a,b)=>{int rank(string kind)=>kind=="person"?0:kind=="gas"?1:2;int result=rank(a.Kind).CompareTo(rank(b.Kind));return result!=0?result:string.CompareOrdinal(a.Id,b.Id);});
+            var supported=new HashSet<Vector3Int>();
+            foreach(var c in (JArray)reply["cells"])
+            {var k=Key(c);float sensor=(float?)c["sensor_occupancy"]??(float)c["occupancy"];if((int)c["observations"]>=2&&sensor>.6f){supported.Add(k);if(!firstEvidence.ContainsKey(k))firstEvidence[k]=step;}}
+            var nearby=new HashSet<Vector3Int>();foreach(var k in supported)for(int x=-1;x<=1;x++)for(int y=-1;y<=1;y++)for(int z=-1;z<=1;z++)nearby.Add(k+new Vector3Int(x,y,z));
+            var display=new Dictionary<Vector3Int,bool>();foreach(var c in (JArray)reply["cells"])if((float)c["occupancy"]>.6f){var k=Key(c);bool measured=supported.Contains(k);if(measured||(step>=500&&nearby.Contains(k)))display[k]=measured;}
+            bool fine=(float?)reply["surface_resolution_m"]>0;FineObservedPoints=0;
+            vertices.Clear();colors.Clear();indices.Clear();uv.Clear();VisibleObservedCells=VisibleCompletionCells=0;
+            foreach(var entry in display)
+            {
+                var k=entry.Key;bool measured=entry.Value;if(measured)VisibleObservedCells++;else VisibleCompletionCells++;
+                var center=(new Vector3(k.x,k.y,k.z)+Vector3.one*.5f)*cell;
+                var color=measured?ObservedColor(center):new Color(.53f,.43f,.72f,.22f);
+                if(measured)
                 {
-                    var ring=new GameObject("UnconfirmedAcousticEnvelope");ring.layer=8;ring.transform.SetParent(Root.transform,false);var line=ring.AddComponent<LineRenderer>();line.sharedMaterial=material;line.startColor=line.endColor=new Color(1,.63f,.22f,.8f);line.startWidth=line.endWidth=.003f;line.positionCount=65;
-                    for(int i=0;i<=64;i++){float a=i*Mathf.PI*2/64;Vector3 p=plane==0?new Vector3(Mathf.Cos(a),0,Mathf.Sin(a)):plane==1?new Vector3(Mathf.Cos(a),Mathf.Sin(a),0):new Vector3(0,Mathf.Cos(a),Mathf.Sin(a));line.SetPosition(i,center+p*radius);}
-                    markers.Add(ring);
+                    color.a*=Mathf.Clamp01((step-firstEvidence[k]+25)/125f);
+                    if(fine)color.a*=.28f;
+                }
+                for(int axis=0;axis<3;axis++)for(int sign=-1;sign<=1;sign+=2)
+                {
+                    var neighbor=k;neighbor[axis]+=sign;if(display.ContainsKey(neighbor))continue;int density=measured?2:1;
+                    for(int u=0;u<density;u++)for(int v=0;v<density;v++)
+                    {
+                        var p=center;p[axis]+=sign*cell*.49f;p[(axis+1)%3]+=(u-(density-1)*.5f)*cell*.54f;p[(axis+2)%3]+=(v-(density-1)*.5f)*cell*.54f;
+                        int hash=(k.x*73856093)^(k.y*19349663)^(k.z*83492791)^(axis*37+u*11+v*19);p[(axis+1)%3]+=((hash&1023)/1023f-.5f)*cell*.04f;Point(p,color,measured?(fine?.85f:1.9f):1.05f);
+                    }
                 }
             }
+            if(fine&&reply["surface_points"] is JArray samples)foreach(JArray sample in samples)
+            {
+                var p=new Vector3((float)sample[0],(float)sample[1],(float)sample[2]);var color=ObservedColor(p);
+                color.a*=(float)sample[3]*Mathf.Clamp01((step-(float)sample[4]+25)/100f)*Mathf.Clamp01(1-(step-(float)sample[5])/1500f);
+                Point(p,color,2.15f);FineObservedPoints++;
+            }
+            SurfacePoints=vertices.Count/4;
+            foreach(var node in (JArray)reply["nodes"])
+            {
+                string id=(string)node["node_id"];var p=RescueEvaluation.Vector(node["estimated_position"]);
+                if(!trajectories.TryGetValue(id,out var history)){history=new List<Vector3>();trajectories[id]=history;}
+                if(history.Count==0||Vector3.Distance(history[history.Count-1],p)>.012f){history.Add(p);if(history.Count>384)history.RemoveAt(0);}
+                Point(p,id==selected?Color.white:new Color(.78f,.87f,.90f,.6f),id==selected?5:3);
+            }
+            foreach(var alert in Alerts){Point(alert.Position,alert.Color,7);if(alert.Kind=="person"){Ring(alert,0);Ring(alert,1);}else if(alert.Kind=="gas"){Ring(alert,0);Triangle(alert);}else{Ring(alert,0);WaterWaves(alert);}}
+            points.Clear();points.SetVertices(vertices);points.SetColors(colors);points.SetUVs(0,uv);points.SetTriangles(indices,0);points.RecalculateBounds();BuildTrail();
         }
-        public void Dispose(){if(Root)Object.DestroyImmediate(Root);Object.DestroyImmediate(geometry);Object.DestroyImmediate(gridGeometry);Object.DestroyImmediate(material);}
+        void Ring(AlertMark alert,int plane)
+        {var p=new Vector3[65];for(int i=0;i<p.Length;i++){float a=i*Mathf.PI*2/64;p[i]=alert.Position+(plane==0?new Vector3(Mathf.Cos(a),0,Mathf.Sin(a)):new Vector3(Mathf.Cos(a),Mathf.Sin(a),0))*alert.Radius;}Stroke("Unconfirmed_"+alert.Kind,p,alert.Color,.0035f);}
+        void Triangle(AlertMark a)=>Stroke("GasWarningTriangle",new[]{a.Position+new Vector3(0,.07f,0),a.Position+new Vector3(-.04f,0,0),a.Position+new Vector3(.04f,0,0),a.Position+new Vector3(0,.07f,0)},a.Color,.005f);
+        void WaterWaves(AlertMark a)
+        {for(int row=-1;row<=1;row++){var p=new Vector3[24];for(int i=0;i<p.Length;i++){float x=(i/23f-.5f)*a.Radius*1.4f;p[i]=a.Position+new Vector3(x,.005f,row*a.Radius*.33f+Mathf.Sin(i*.65f)*.008f);}Stroke("WaterWave",p,a.Color,.004f);}}
+        void Stroke(string name,Vector3[] positions,Color color,float width)
+        {var g=new GameObject(name);g.layer=8;g.transform.SetParent(Root.transform,false);var line=g.AddComponent<LineRenderer>();line.sharedMaterial=lineMaterial;line.startColor=line.endColor=color;line.startWidth=line.endWidth=width;line.positionCount=positions.Length;line.SetPositions(positions);markers.Add(g);}
+        void BuildTrail()
+        {
+            var v=new List<Vector3>();var c=new List<Color>();var ix=new List<int>();if(trajectories.TryGetValue(selected,out var positions))for(int i=1;i<positions.Count;i++)Line(v,c,ix,positions[i-1],positions[i],new Color(.72f,.83f,.83f,.16f+i/(float)positions.Count*.2f));
+            trail.Clear();trail.SetVertices(v);trail.SetColors(c);trail.SetIndices(ix,MeshTopology.Lines,0);trail.RecalculateBounds();
+        }
+        public void Dispose(){if(Root)Object.DestroyImmediate(Root);Object.DestroyImmediate(points);Object.DestroyImmediate(grid);Object.DestroyImmediate(trail);Object.DestroyImmediate(pointMaterial);Object.DestroyImmediate(lineMaterial);}
     }
 }

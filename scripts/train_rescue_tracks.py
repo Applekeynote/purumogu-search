@@ -59,7 +59,7 @@ def main():
     train=[json.loads((pool/f"{r['run_id']}.json").read_bytes()) for r in manifest['rows']]
     assert {r['map_id'] for r in train}==set(model['train_maps']) and all(r['split']=='train' for r in train)
     valid_manifest=json.loads((ROOT/args.report/'manifest.json').read_text(encoding='utf-8-sig'))
-    assert valid_manifest['status']=='complete' and valid_manifest['controller_revision'] in ['progress-3cm-v2','whole-scene-drop-dense-v3']
+    assert valid_manifest['status']=='complete' and valid_manifest['controller_revision'] in ['progress-3cm-v2','whole-scene-drop-dense-v3','whole-scene-spherical-env-v31']
     valid_provenance_path=ROOT/args.report/'rollout-provenance.json'
     valid_provenance=json.loads(valid_provenance_path.read_text(encoding='utf-8-sig')) if valid_provenance_path.exists() else None
     if valid_provenance:

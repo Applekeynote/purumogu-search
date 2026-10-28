@@ -20,9 +20,8 @@ namespace Purumogu.Rescue
         int nodeCount=24,deploymentSeed=907231;
         bool entranceDeployment;
         Vector2 nodeScroll;
-        Vector2 orbitTarget,orbitAngles,orbitVelocity;
-        int orbitControl;
-        const float OrbitSensitivity=.16f,OrbitMaxSpeed=60f;
+        readonly RescueViewport physicalView=new RescueViewport(),inferenceView=new RescueViewport();
+        string utilityMenu="";
         long sequence,expected=-1;
         string run,status="READY",failure="";
         bool running,paused,waiting,scenePicker,cutaway=true,showTruth,closeup;
@@ -87,19 +86,19 @@ namespace Purumogu.Rescue
                                 accumulator-=.02f;simulation.Tick();
                                 if(simulation.Step%25==0&&!waiting)
                                 {
-                                    var packet=simulation.Observe(run,sequence++);string json=JsonConvert.SerializeObject(packet);bridge.SendJson(json);audit.Add(json);expected=packet.seq_no;waiting=true;lastSent=Time.realtimeSinceStartup;
+                                    var packet=simulation.Observe(run,sequence++);packet.request_surface=true;string json=JsonConvert.SerializeObject(packet);bridge.SendJson(json);audit.Add(json);expected=packet.seq_no;waiting=true;lastSent=Time.realtimeSinceStartup;
                                 }
                             }
                         }
                         if(paused&&!waiting&&Time.realtimeSinceStartup-lastSent>5)
                         {
-                            var heartbeat=new RescuePacket{run_id=run,seq_no=sequence++,sim_step=simulation.Step};string json=JsonConvert.SerializeObject(heartbeat);bridge.SendJson(json);audit.Add(json);expected=heartbeat.seq_no;waiting=true;lastSent=Time.realtimeSinceStartup;
+                            var heartbeat=new RescuePacket{run_id=run,seq_no=sequence++,sim_step=simulation.Step,request_surface=true};string json=JsonConvert.SerializeObject(heartbeat);bridge.SendJson(json);audit.Add(json);expected=heartbeat.seq_no;waiting=true;lastSent=Time.realtimeSinceStartup;
                         }
                     }
                     if(simulation.Step>=maxSteps)
                     {
                         simulation.Power(false);
-                        if(!waiting&&(lastMap==null||(long)lastMap["sim_step"]<maxSteps)){var packet=simulation.Observe(run,sequence++);string json=JsonConvert.SerializeObject(packet);bridge.SendJson(json);audit.Add(json);expected=packet.seq_no;waiting=true;lastSent=Time.realtimeSinceStartup;}
+                        if(!waiting&&(lastMap==null||(long)lastMap["sim_step"]<maxSteps)){var packet=simulation.Observe(run,sequence++);packet.request_surface=true;string json=JsonConvert.SerializeObject(packet);bridge.SendJson(json);audit.Add(json);expected=packet.seq_no;waiting=true;lastSent=Time.realtimeSinceStartup;}
                         if(!waiting&&lastMap!=null&&(long)lastMap["sim_step"]>=maxSteps){running=false;status="TIME BUDGET COMPLETE";Export();}
                     }
                 }
@@ -114,38 +113,16 @@ namespace Purumogu.Rescue
         void UpdateCameras()
         {
             if(!physicalCamera||simulation==null)return;
-            // Unscaled wall time keeps camera sensitivity independent of mission speed/pause.
-            float dt=Mathf.Clamp(Time.unscaledDeltaTime,.0001f,.05f);
-            orbitAngles.x=Mathf.SmoothDampAngle(orbitAngles.x,orbitTarget.x,ref orbitVelocity.x,.075f,OrbitMaxSpeed,dt);
-            orbitAngles.y=Mathf.SmoothDampAngle(orbitAngles.y,orbitTarget.y,ref orbitVelocity.y,.075f,OrbitMaxSpeed,dt);
+            physicalView.Step(Time.unscaledDeltaTime);inferenceView.Step(Time.unscaledDeltaTime);
             var target=closeup?simulation.Robots[Mathf.Clamp(selectedNode,0,simulation.Robots.Count-1)].Core.position:new Vector3(0,entranceDeployment?.06f:.32f,1.30f);
             var initialOffset=closeup?new Vector3(.085f,.065f,-.065f):new Vector3(2.05f,2f,-.6f)-target;
-            float yaw=Mathf.Atan2(initialOffset.x,initialOffset.z)*Mathf.Rad2Deg+orbitAngles.x;
-            float pitch=Mathf.Clamp(Mathf.Atan2(initialOffset.y,new Vector2(initialOffset.x,initialOffset.z).magnitude)*Mathf.Rad2Deg+orbitAngles.y,12,80)*Mathf.Deg2Rad;
-            var offset=new Vector3(Mathf.Sin(yaw*Mathf.Deg2Rad)*Mathf.Cos(pitch),Mathf.Sin(pitch),Mathf.Cos(yaw*Mathf.Deg2Rad)*Mathf.Cos(pitch))*initialOffset.magnitude;
-            physicalCamera.transform.position=target+offset;physicalCamera.transform.LookAt(target);physicalCamera.orthographicSize=closeup?.072f:entranceDeployment?1.12f:1.38f;
-            float orbit=Time.realtimeSinceStartup*.025f;var focus=new Vector3(0,.18f,1.25f);mapCamera.transform.position=focus+new Vector3(Mathf.Cos(orbit)*2.9f,2.1f,-Mathf.Sin(orbit)*.7f-2.4f);mapCamera.transform.LookAt(focus);mapCamera.orthographicSize=1.20f;
+            physicalView.Apply(physicalCamera,target,initialOffset,closeup?.072f:entranceDeployment?1.12f:1.38f);
+            inferenceView.Apply(mapCamera,new Vector3(0,.16f,1.28f),new Vector3(2.35f,1.95f,-2.4f),1.30f);
+            map.SetViewport(MapArea.width/1600f*Screen.width,MapArea.height/900f*Screen.height,1.30f/mapCamera.orthographicSize);map.SetSelectedNode(simulation.Robots[Mathf.Clamp(selectedNode,0,simulation.Robots.Count-1)].Id);
             var robotTarget=simulation.Robots[Mathf.Clamp(selectedNode,0,simulation.Robots.Count-1)].Core.position;robotCamera.enabled=!closeup;robotCamera.transform.position=robotTarget+new Vector3(.060f,.055f,-.065f);robotCamera.transform.LookAt(robotTarget);
             for(int i=0;i<simulation.Robots.Count;i++)foreach(var renderer in simulation.Robots[i].Root.GetComponentsInChildren<Renderer>())renderer.gameObject.layer=i==selectedNode?9:0;
         }
-        void OrbitInput()
-        {
-            var e=Event.current;int id=GUIUtility.GetControlID("RescuePhysicalOrbit".GetHashCode(),FocusType.Passive);
-            // Capture only a drag that begins in the physical pane. Middle is primary;
-            // left drag is also available on touchpads without a middle button.
-            if(e.type==EventType.MouseDown&&(e.button==2||e.button==0)&&WorldArea.Contains(e.mousePosition)&&!scenePicker&&GUIUtility.hotControl==0)
-            {GUIUtility.hotControl=id;orbitControl=id;e.Use();}
-            else if(e.type==EventType.MouseDrag&&GUIUtility.hotControl==id&&orbitControl==id)
-            {
-                orbitTarget.x=Mathf.Repeat(orbitTarget.x+e.delta.x*OrbitSensitivity+180,360)-180;
-                // Shared safe range for the overview and the selected-node detail.
-                orbitTarget.y=Mathf.Clamp(orbitTarget.y+e.delta.y*OrbitSensitivity,-18,40);e.Use();
-            }
-            else if(e.rawType==EventType.MouseUp&&GUIUtility.hotControl==id&&orbitControl==id)
-            {GUIUtility.hotControl=0;orbitControl=0;e.Use();}
-        }
-        void ResetView(){orbitTarget=Vector2.zero;}
-        void OnApplicationFocus(bool focused){if(!focused&&orbitControl!=0){if(GUIUtility.hotControl==orbitControl)GUIUtility.hotControl=0;orbitControl=0;}}
+        void OnApplicationFocus(bool focused){if(!focused){physicalView.Cancel();inferenceView.Cancel();}}
         void Export()
         {
             if(audit.Count==0)return;string path=Path.Combine(Application.persistentDataPath,"rescue-runs");Directory.CreateDirectory(path);var output=Path.Combine(path,run+".jsonl");File.WriteAllLines(output,audit);if(lastMap!=null)File.AppendAllText(output,lastMap.ToString(Formatting.None)+Environment.NewLine);File.WriteAllText(Path.Combine(path,run+"-evaluation.json"),JsonConvert.SerializeObject(evaluation.Snapshot(simulation),Formatting.Indented));
@@ -156,64 +133,112 @@ namespace Purumogu.Rescue
         {
             var style=new GUIStyle(GUI.skin.label){font=font,fontSize=size,fontStyle=bold?FontStyle.Bold:FontStyle.Normal,wordWrap=true};style.normal.textColor=color;GUI.Label(new Rect(x,y,w,h),value,style);
         }
-        bool Button(float x,float y,float width,string label,bool selected=false,float height=30)
+        void Rounded(Rect area,Color color)
         {
-            Fill(new Rect(x,y,width,height),selected?new Color(.12f,.32f,.29f):new Color(.12f,.17f,.20f));var style=new GUIStyle(GUI.skin.button){font=font,fontSize=13};style.normal.background=null;style.hover.background=null;style.active.background=null;style.normal.textColor=selected?Mint:Ink;return GUI.Button(new Rect(x,y,width,height),label,style);
+            GUI.DrawTexture(area,Texture2D.whiteTexture,ScaleMode.StretchToFill,true,0,color,0,7);
+        }
+        bool Button(float x,float y,float width,string label,bool selected=false,float height=30,bool primary=false)
+        {
+            var rect=new Rect(x,y,width,height);var bg=primary?Mint:selected?new Color(.13f,.29f,.27f):new Color(.105f,.145f,.17f);
+            if(rect.Contains(Event.current.mousePosition)&&GUI.enabled)bg=Color.Lerp(bg,Color.white,.07f);Rounded(rect,bg);
+            var style=new GUIStyle(GUI.skin.button){font=font,fontSize=primary?15:12,fontStyle=primary?FontStyle.Bold:FontStyle.Normal};style.normal.background=null;style.hover.background=null;style.active.background=null;style.focused.background=null;
+            style.normal.textColor=primary?Background:selected?Mint:Ink;style.hover.textColor=style.normal.textColor;style.active.textColor=style.normal.textColor;
+            return GUI.Button(rect,label,style);
         }
         void Header(float x,float y,float width,string number,string title,string note)
         {
             Fill(new Rect(x,y,width,38),Panel);Text(x+12,y+8,28,28,number,12,Mint,true);Text(x+46,y+6,width-100,28,title,18,Ink,true);Text(x+12,y+452,width-24,30,note,12,Muted);
         }
+        Rect UtilityBounds=>new Rect(utilityMenu=="view"?1030:1164,122,260,utilityMenu=="view"?100:100);
+        void UtilityOverlay()
+        {
+            if(utilityMenu=="")return;var area=UtilityBounds;Rounded(area,new Color(.055f,.08f,.105f,.99f));
+            if(utilityMenu=="view")
+            {
+                if(Button(area.x+10,area.y+12,240,"評価用の真値 "+(showTruth?"ON":"OFF"),showTruth,32)){showTruth=!showTruth;simulation.Scene.ShowTruth(showTruth);utilityMenu="";}
+                if(Button(area.x+10,area.y+54,240,"両画面の視点を戻す",false,32)){physicalView.Reset();inferenceView.Reset();utilityMenu="";}
+            }
+            else
+            {
+                if(Button(area.x+10,area.y+12,240,"自動接続 "+(simulation.Docking?"ON":"OFF"),simulation.Docking,32)){simulation.Docking=!simulation.Docking;if(!simulation.Docking)simulation.ReleaseAll();utilityMenu="";}
+                if(Button(area.x+10,area.y+54,240,"すべての接続を解除",false,32)){simulation.ReleaseAll();utilityMenu="";}
+            }
+        }
+        void Badge(float x,float y,float width,string label,Color color)
+        {Rounded(new Rect(x,y,width,27),new Color(.04f,.065f,.08f,.92f));Fill(new Rect(x+8,y+9,3,9),color);Text(x+18,y+5,width-22,22,label,12,Color.Lerp(color,Color.white,.25f),true);}
+        void MapOverlay()
+        {
+            float x=MapArea.x+14,y=MapArea.y+12;
+            Badge(x,y,132,$"人候補 {map.CuePositions.Count}",RescueMapView.PersonColor);
+            Badge(x+140,y,168,map.GasZones>0?$"ガス反応 {map.GasZones}域":map.GasObservedNodes>0?"ガス反応 未検出":"ガス 未観測",RescueMapView.GasColor);
+            Badge(x+316,y,160,map.WaterZones>0?$"浸水 {map.WaterZones}域":map.WaterObservedNodes>0?"浸水反応 未検出":"浸水 未観測",RescueMapView.WaterColor);
+            Text(x,y+35,710,20,"観測した範囲の反応です。未観測部分の安全を示すものではありません。",10,Muted);
+            if(lastMap==null)Text(MapArea.x+70,MapArea.y+160,650,90,"観測待ち\n探索を始めると、観測した場所から地図が現れます。",18,Muted);
+            var pinCounts=new Dictionary<string,int>();
+            foreach(var alert in map.Alerts)
+            {
+                if(!pinCounts.ContainsKey(alert.Kind))pinCounts[alert.Kind]=0;if(pinCounts[alert.Kind]++>=3)continue;
+                var p=mapCamera.WorldToViewportPoint(alert.Position);if(p.z<=0||p.x<.02f||p.x>.94f||p.y<.16f||p.y>.82f)continue;
+                float px=MapArea.x+p.x*MapArea.width,py=MapArea.y+(1-p.y)*MapArea.height;
+                Rounded(new Rect(px+5,py-10,32,24),new Color(.025f,.04f,.05f,.92f));Text(px+9,py-8,29,22,alert.Id,12,Color.Lerp(alert.Color,Color.white,.25f),true);
+            }
+            var kinds=new HashSet<string>();int row=0;
+            foreach(var alert in map.Alerts)
+            {
+                if(!kinds.Add(alert.Kind))continue;float ay=MapArea.yMax-80+row++*24;
+                Rounded(new Rect(x,ay,MapArea.width-28,22),new Color(.025f,.045f,.06f,.88f));Text(x+9,ay+2,MapArea.width-45,21,alert.Label,11,Color.Lerp(alert.Color,Color.white,.25f),true);
+            }
+        }
         void OnGUI()
         {
-            if(simulation==null)return;GUI.matrix=Matrix4x4.Scale(new Vector3(Screen.width/1600f,Screen.height/900f,1));OrbitInput();
+            if(simulation==null)return;GUI.matrix=Matrix4x4.Scale(new Vector3(Screen.width/1600f,Screen.height/900f,1));
+            if(utilityMenu!=""&&Event.current.type==EventType.MouseDown&&Event.current.mousePosition.y>122&&!UtilityBounds.Contains(Event.current.mousePosition)){utilityMenu="";Event.current.Use();}
+            physicalView.Input(WorldArea,scenePicker||utilityMenu!="",4121);inferenceView.Input(MapArea,scenePicker||utilityMenu!="",4122);
             Fill(new Rect(0,0,1600,122),Background);Fill(new Rect(0,572,1600,328),Background);Fill(new Rect(0,122,24,450),Background);Fill(new Rect(794,122,16,450),Background);Fill(new Rect(1576,122,24,450),Background);
-            Text(24,16,550,38,"PURUMOGU / 災害空隙サーチ",27,Ink,true);Text(26,56,750,25,"7 cm articulated swarm · sensor-only 3D reconstruction · simulation",13,Muted);
             var spec=RescueScene.Catalog[sceneIndex];
-            if(Button(24,88,430,$"{spec.Id}  {spec.Name}  /  {new[]{"易","中","難"}[spec.Difficulty]}",scenePicker))scenePicker=!scenePicker;
-            Text(470,91,540,28,spec.Disaster+" / "+spec.Feature,14,Muted);
-            if(Button(1030,18,120,running?(paused?"再開":"一時停止"):"散布・探索開始",running)){if(running)paused=!paused;else Begin();}
-            if(Button(1160,18,100,"リセット"))Build();
-            if(Button(1270,18,130,"全接続を解除"))simulation.ReleaseAll();
-            if(Button(1410,18,166,"自動接続 "+(simulation.Docking?"ON":"OFF"),simulation.Docking)){simulation.Docking=!simulation.Docking;if(!simulation.Docking)simulation.ReleaseAll();}
-            if(Button(1030,59,120,"機体拡大",closeup))closeup=!closeup;
-            if(Button(1160,59,100,"床板を透視",cutaway)){cutaway=!cutaway;simulation.Scene.Cutaway(cutaway);}
-            if(Button(1270,59,130,"評価用の真値",showTruth)){showTruth=!showTruth;simulation.Scene.ShowTruth(showTruth);}
-            if(Button(1410,59,80,$"{speed:F0}×"))speed=speed<2?4:1;
-            if(Button(1500,59,76,"保存"))Export();
+            Text(24,13,450,23,"PURUMOGU   /   FIELD SYSTEM",12,Mint,true);Text(24,39,460,38,"災害空隙サーチ",27,Ink,true);
+            Text(510,16,490,22,"LOCAL VOID  ·  07 CM  ·  SENSOR FUSION",11,Muted);Text(510,43,490,26,spec.Disaster+" / "+spec.Feature,13,Ink);
+            Rounded(new Rect(1030,22,100,38),Panel);Text(1041,32,84,24,running?(paused?"一時停止中":"探索中"):failure!=""?"停止":"準備完了",12,running?Mint:Muted,true);
+            if(Button(1142,22,82,$"{speed:F0}×",false,38))speed=speed<2?4:1;
+            if(Button(1238,22,198,running?(paused?"探索を再開":"一時停止"):"散布・探索を開始",false,38,true)){if(running)paused=!paused;else Begin();}
+            if(Button(1448,22,128,"リセット",false,38))Build();
+            if(Button(24,86,430,$"{spec.Id}   {spec.Name}   /   {new[]{"易","中","難"}[spec.Difficulty]}  ▾",scenePicker))scenePicker=!scenePicker;
             bool previousEnabled=GUI.enabled;GUI.enabled=!running;
-            if(Button(1030,96,120,$"ノード {nodeCount} 台",false,24)){nodeCount=nodeCount==24?36:nodeCount==36?48:24;entranceDeployment=false;Build();}
-            if(Button(1160,96,210,"散布を変更（現場全域）",false,24)){deploymentSeed++;entranceDeployment=false;Build();}
-            GUI.enabled=previousEnabled;Text(1380,98,196,22,running?"設定変更はリセット後":$"配置seed {deploymentSeed}",11,Muted);
+            Text(480,94,38,22,"台数",12,Muted);
+            for(int i=0;i<3;i++){int count=new[]{24,36,48}[i];if(Button(520+i*56,86,50,count.ToString(),nodeCount==count)){nodeCount=count;entranceDeployment=false;Build();}}
+            if(Button(700,86,134,"配置を変える")){deploymentSeed++;entranceDeployment=false;Build();}
+            GUI.enabled=previousEnabled;Text(848,94,172,22,running?"設定変更はリセット後":"現場全域に分散投下",11,Muted);
+            if(Button(1030,86,122,"表示設定  ▾",utilityMenu=="view"))utilityMenu=utilityMenu=="view"?"":"view";
+            if(Button(1164,86,160,$"接続 {simulation.Links.Count}  /  {(simulation.Docking?"自動":"手動")}  ▾",utilityMenu=="dock"))utilityMenu=utilityMenu=="dock"?"":"dock";
+            if(Button(1336,86,112,"記録を保存"))Export();Text(1464,94,112,22,$"{maxSteps*.02f:F0} s / CPU",11,Muted);
             Header(24,126,770,"01","ロボットと災害現場",$"{status}  ·  {simulation.Step*.02f:F1} s  ·  接続 {simulation.Links.Count} / 累計 {simulation.Attached}  ·  解除 {simulation.Detached}  ·  透視中も床板に接地");
-            Text(422,139,240,22,"ホイール押込・左ドラッグで回転",11,Muted);
-            if(Button(666,132,116,"視点を戻す",false,25))ResetView();
-            Header(810,126,766,"02","観測とともに復元する3Dマップ",$"青緑：観測支持 {map.VisibleObservedCells}  /  紫：周辺補完 {map.VisibleCompletionCells}  /  暗部：未表示・未知  /  橙：音響候補");
-            if(lastMap==null)Text(850,310,660,90,"観測待ち\n正解の地形は、この画面へ転送しません。",21,Muted);
-            for(int i=0;i<map.CuePositions.Count;i++)
-            {
-                var p=mapCamera.WorldToViewportPoint(map.CuePositions[i]);float pinX=MapArea.x+p.x*MapArea.width,pinY=MapArea.y+(1-p.y)*MapArea.height;Text(pinX,pinY,32,28,((char)('A'+i)).ToString(),18,Amber,true);
-                float x=MapArea.xMax-202,y=180+i*89;Fill(new Rect(x,y,195,80),new Color(.06f,.10f,.12f,.95f));Text(x+8,y+5,182,72,map.CueLabels[i],13,Amber,true);
-            }
-            if(lastMap!=null&&map.CuePositions.Count==0)Text(832,180,700,30,"要救助者候補：保留 / 独立した観測の一致がまだ不足",14,Amber);
+            Text(365,140,212,20,"ドラッグ回転 / ホイール拡縮",10,Muted);
+            if(Button(584,132,60,"機体",closeup,25)){closeup=!closeup;physicalView.ResetZoom();}
+            if(Button(650,132,60,"透視",cutaway,25)){cutaway=!cutaway;simulation.Scene.Cutaway(cutaway);}
+            if(Button(716,132,66,"戻す",false,25))physicalView.Reset();
+            Header(810,126,766,"02","逐次3Dマッピング",$"青緑：細密観測点 {map.FineObservedPoints:N0}  /  紫：補完 {map.VisibleCompletionCells}  /  表示集約 1cm・評価セル 5cm  /  白：推定ノード");
+            Text(1230,140,256,20,"ドラッグ回転 / ホイール拡縮",10,Muted);if(Button(1498,132,66,"戻す",false,25))inferenceView.Reset();
+            MapOverlay();
             Fill(new Rect(24,620,770,256),Panel);Fill(new Rect(810,620,766,256),Panel);
             Text(38,630,730,26,$"03  各ノードの状態 / 投下 {simulation.Robots.FindAll(r=>r.Released).Count} / {simulation.Robots.Count} 台",18,Ink,true);Text(42,666,730,22,"NODE    電池      関節 / 回転     接続    受信peer    RSSI     音響SNR    Δ温度    状態",12,Muted,true);
             nodeScroll=GUI.BeginScrollView(new Rect(36,690,744,178),nodeScroll,new Rect(0,0,722,Mathf.Max(178,simulation.Robots.Count*17)),false,true);
             for(int i=0;i<simulation.Robots.Count;i++)
             {
                 var node=simulation.Robots[i];float y=i*17;if(i==selectedNode)Fill(new Rect(0,y,722,17),new Color(.10f,.20f,.22f));
-                string row=$"{node.Id}     {node.Energy*100,3:F0}%     {node.BendDegrees,3:F0}°/{node.SpinDegrees,3:F0}°     {(node.PortBusy[0]?1:0)+(node.PortBusy[1]?1:0)}        {node.Peers,2}          {node.Signal,4:F0}       {node.LastSnr,4:F1}       {node.Temperature,4:F1}°     {(!node.Released?"投下待機":node.Lost?"喪失":node.Verifying?"確認中":node.Stuck?"停滞":node.Powered?"稼働":"停止")}";
+                string row=$"{node.Id}     {node.Energy*100,3:F0}%     {node.BendDegrees,3:F0}°/{node.SpinDegrees,3:F0}°     {node.ConnectionCount}        {node.Peers,2}          {node.Signal,4:F0}       {node.LastSnr,4:F1}       {node.Temperature,4:F1}°     {(!node.Released?"投下待機":node.Lost?"喪失":node.Verifying?"確認中":node.Stuck?"停滞":node.Powered?"稼働":"停止")}";
                 Text(6,y,710,20,row,11,node.Lost||node.Stuck?Amber:Ink);if(GUI.Button(new Rect(0,y,722,17),GUIContent.none,GUIStyle.none))selectedNode=i;
             }
             GUI.EndScrollView();
+            var sensorNode=simulation.Robots[Mathf.Clamp(selectedNode,0,simulation.Robots.Count-1)];Text(548,636,232,23,$"{sensorNode.Id}  ガス {sensorNode.GasLevel:F2} / 水深 {sensorNode.WaterDepth*100:F1}cm",11,Muted);
             Text(826,630,730,26,"04  推論の評価 / 真値はこの区画だけで使用",18,Ink,true);
             float humanPrecision=evaluation.CueCount>0?(float)evaluation.Matched/evaluation.CueCount:0,humanRecall=simulation.Scene.Spec.Victims>0?(float)evaluation.Matched/simulation.Scene.Spec.Victims:0;
             Metric(832,670,"3D占有IoU / 全領域",$"{evaluation.GlobalIoU*100:F1}%",evaluation.GlobalIoU>=.95f);Metric(1070,670,"要救助者候補の適合率",evaluation.CueCount>0?$"{humanPrecision*100:F1}%":"候補なし",humanPrecision>=.95f);Metric(1320,670,"要救助者候補の再現率",simulation.Scene.Spec.Victims>0?$"{humanRecall*100:F1}%":"負例",humanRecall>=.95f);
             Text(834,745,700,23,$"全推定地図を評価（右上は観測の進行表示） / 観測率 {evaluation.Coverage*100:F1}% · 既観測IoU {evaluation.IoU:F2} · 位置RMSE {evaluation.PoseRmse*100:F1} cm",13,Ink);
             Text(834,777,700,24,$"候補 {evaluation.CueCount} / 一致 {evaluation.Matched} / 誤警報 {evaluation.FalseAlarms} · 位置誤差 {(float.IsNaN(evaluation.LocalizationError)?"未評価":(evaluation.LocalizationError*100).ToString("F1")+" cm")} · Rust {latency:F0} ms",13,Muted);
             bool bootstrap=lastMap!=null&&(bool?)lastMap["person_classifier_ready"]==false;
-            string context=bootstrap?"新しい散布条件の検証用モデルです。候補は未確認で、精度は評価中です。":"評価対象は実験用の局所空隙です。水・粉塵・音響は簡略モデル。実災害の救助性能を保証する検証ではありません。";
+            string context=bootstrap?"中央球の接続・環境センサーを加えた条件は再評価中です。ガスは模擬の相対反応です。":"地図・人候補と環境反応を区別して表示します。ガス反応は実測濃度や確定した漏洩位置を表しません。";
             Text(834,810,700,48,string.IsNullOrEmpty(failure)?context:failure,12,string.IsNullOrEmpty(failure)?Muted:Amber);
+            UtilityOverlay();
             if(scenePicker)
             {
                 Fill(new Rect(24,125,750,460),new Color(.045f,.075f,.09f,.99f));Text(40,138,710,28,"15 SCENES / 易・中・難 各5",18,Mint,true);

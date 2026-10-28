@@ -74,6 +74,20 @@ class RescueWireTests(unittest.TestCase):
         self.send(stream, packet(seq=1, step=50)); full = self.receive(stream)
         self.assertTrue(full['cells']); self.assertGreater(full['observed_cells'], 0)
 
+    def test_environment_and_fine_surface_are_observed_data_with_independent_units(self):
+        _,stream=self.connect();p=packet();p['request_surface']=True
+        p['scans'][0].update(gas_level=.8,water_depth_m=.025)
+        second=copy.deepcopy(p['scans'][0]);second['node_id']='N01';second['deployment_anchor'][0]=.03;p['scans'].append(second)
+        self.send(stream,p);first=self.receive(stream)
+        self.assertEqual({h['kind'] for h in first['hazards']},{'gas','water'})
+        self.assertEqual(first['gas_observed_nodes'],2);self.assertEqual(first['water_observed_nodes'],2)
+        p['seq_no']=1;p['sim_step']=50;self.send(stream,p);second=self.receive(stream)
+        self.assertEqual(second['surface_resolution_m'],.01);self.assertTrue(second['surface_points'])
+        self.assertTrue(all(len(row)==6 for row in second['surface_points']))
+        for field,value in [('gas_level',1.1),('water_depth_m',-.01)]:
+            sock,bad_stream=self.connect();invalid=packet();invalid['scans'][0][field]=value;self.send(bad_stream,invalid)
+            self.assertTrue(self.receive(bad_stream)['safe_stop']);bad_stream.close();sock.close()
+
     def test_truth_version_and_sequence_faults_stop_only_the_session(self):
         invalid = []
         p = packet(); p['world_position'] = [0, 0, 0]; invalid.append(p)

@@ -1,16 +1,16 @@
 param(
     [ValidateSet('train','valid','test','development')][string]$Split='development',
     [string]$Model='models/swarm-v3-bootstrap/model.json',
-    [ValidatePattern('^[a-zA-Z0-9-]+$')][string]$Experiment='swarm-v3',
+    [ValidatePattern('^[a-zA-Z0-9-]+$')][string]$Experiment='swarm-v31',
     [int]$Port=47128,[int]$Steps=18000,[int]$Repeats=0,[int]$SeedBase=0,[int]$DeploymentSeedBase=0,
     [ValidateSet(0,24,36,48)][int]$Nodes=0,[ValidateRange(-1,14)][int]$Scene=-1,
-    [string]$Server='rust/target/swarm/release/rescue_server.exe',[string]$UnityProject='',[switch]$FinalTest
+    [string]$Server='rust/target/release/rescue_server.exe',[string]$UnityProject='',[switch]$FinalTest
 )
 $ErrorActionPreference='Stop'
 $projectRoot=Split-Path $PSScriptRoot -Parent
 Push-Location $projectRoot
 try {
-    $designPath=Join-Path $projectRoot 'reports/rescue/swarm-v3/protocol-design.json'
+    $designPath=Join-Path $projectRoot 'reports/rescue/swarm-v31/protocol-design.json'
     $design=Get-Content -LiteralPath $designPath -Raw | ConvertFrom-Json
     if($Split -ne 'development'){
         $config=$design.splits.$Split
@@ -39,11 +39,11 @@ try {
     $portProbe=[Net.Sockets.TcpListener]::new([Net.IPAddress]::Loopback,$Port)
     try{$portProbe.Start()}catch{throw "Inference port $Port is already in use"}finally{$portProbe.Stop()}
     New-Item -ItemType Directory -Force -Path $rawRoot,$reportPath | Out-Null
-    [ordered]@{started_utc=[DateTime]::UtcNow.ToString('o');generation='rescue-3.0';split=$Split;experiment=$Experiment;steps=$Steps;repeats=$Repeats;seed_base=$SeedBase;deployment_seed_base=$DeploymentSeedBase;scene_filter=$Scene;node_filter=$Nodes;deployment='WholeSceneDrop';guidance=$true;guidance_policy='observed-free-frontier+raw-acoustic-probe+distributed-budget';diagnostics=$true;model=$Model;model_sha256=$modelHash;server_sha256=$serverHash;source_sha256=$sourceHashes;protocol_design_sha256=$designHash}|ConvertTo-Json -Depth 8|Set-Content -LiteralPath (Join-Path $reportPath 'rollout-provenance.json') -Encoding utf8NoBOM
+    [ordered]@{started_utc=[DateTime]::UtcNow.ToString('o');generation=$design.generation;split=$Split;experiment=$Experiment;steps=$Steps;repeats=$Repeats;seed_base=$SeedBase;deployment_seed_base=$DeploymentSeedBase;scene_filter=$Scene;node_filter=$Nodes;deployment='WholeSceneDrop';guidance=$true;guidance_policy='observed-free-frontier+raw-acoustic-probe+distributed-budget';diagnostics=$true;model=$Model;model_sha256=$modelHash;server_sha256=$serverHash;source_sha256=$sourceHashes;protocol_design_sha256=$designHash}|ConvertTo-Json -Depth 8|Set-Content -LiteralPath (Join-Path $reportPath 'rollout-provenance.json') -Encoding utf8NoBOM
     $serviceProcess=Start-Process -FilePath $serverPath -ArgumentList @('--port',$Port,'--model',"`"$modelPath`"") -WindowStyle Hidden -PassThru
     try {
         if($serviceProcess.WaitForExit(150)){throw 'Inference server exited during startup'}
-        & ./scripts/Unity-Task.ps1 rescue-swarm-evaluate -Project $UnityProject -Extra @('-purumoguPort',"$Port",'-purumoguSteps',"$Steps",'-purumoguRepeats',"$Repeats",'-purumoguSplit',$Split,'-purumoguSeedBase',"$SeedBase",'-purumoguDeploymentSeedBase',"$DeploymentSeedBase",'-purumoguNodeCount',"$Nodes",'-purumoguSceneFilter',"$Scene",'-purumoguRaw',"`"$rawRoot`"",'-purumoguReport',"`"$reportPath`"",'-purumoguDiagnostics','true','-purumoguGuidance','true')
+        & ./scripts/Unity-Task.ps1 rescue-swarm-evaluate -Project $UnityProject -Extra @('-purumoguGeneration',$design.generation,'-purumoguPort',"$Port",'-purumoguSteps',"$Steps",'-purumoguRepeats',"$Repeats",'-purumoguSplit',$Split,'-purumoguSeedBase',"$SeedBase",'-purumoguDeploymentSeedBase',"$DeploymentSeedBase",'-purumoguNodeCount',"$Nodes",'-purumoguSceneFilter',"$Scene",'-purumoguRaw',"`"$rawRoot`"",'-purumoguReport',"`"$reportPath`"",'-purumoguDiagnostics','true','-purumoguGuidance','true')
         foreach($entry in $sourceHashes.GetEnumerator()){$sourcePath=if($UnityProject){Join-Path $UnityProject $entry.Key.Substring(6)}else{$entry.Key};if((Get-FileHash -LiteralPath $sourcePath -Algorithm SHA256).Hash.ToLowerInvariant() -ne $entry.Value){throw "Rollout source changed during collection: $($entry.Key)"}}
     } finally {if(!$serviceProcess.HasExited){Stop-Process -Id $serviceProcess.Id}}
 } finally {Pop-Location}

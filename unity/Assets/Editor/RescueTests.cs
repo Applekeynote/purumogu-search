@@ -17,6 +17,53 @@ namespace Purumogu.Editor
     {
         static string Arg(string name,string fallback){var args=Environment.GetCommandLineArgs();for(int i=0;i<args.Length-1;i++)if(args[i]==name)return args[i+1];return fallback;}
         static void Reset()=>EditorSceneManager.NewScene(NewSceneSetup.EmptyScene,NewSceneMode.Single);
+        public static void DockingSmoke()
+        {
+            Reset();var rows=new List<object>();
+            foreach(string type in new[]{"tip-tip","sphere-sphere","tip-sphere"})using(var sim=new RescueSimulation(0,20261028,2))
+            {
+                PlaceFixture(sim.Robots[0],new Vector3(0,.08f,0),Quaternion.identity);
+                PlaceFixture(sim.Robots[1],type=="sphere-sphere"?new Vector3(.022f,.08f,0):new Vector3(0,.08f,type=="tip-tip"?.072f:.044f),type=="tip-sphere"?Quaternion.Euler(0,90,0):Quaternion.identity);
+                Physics.SyncTransforms();int testA=type=="sphere-sphere"?2:0,testB=type=="tip-tip"?1:type=="sphere-sphere"?3:2;
+                Debug.Log($"DOCK_FIXTURE {type} coreA={sim.Robots[0].Core.position:F4} coreB={sim.Robots[1].Core.position:F4} portA={sim.Robots[0].Port(testA):F4} portB={sim.Robots[1].Port(testB):F4} dot={Vector3.Dot(sim.Robots[0].PortDirection(testA),sim.Robots[1].PortDirection(testB))} blocked={Physics.Linecast(sim.Robots[0].Port(testA),sim.Robots[1].Port(testB),1<<6)}");
+                sim.TryDock();if(sim.Links.Count!=1)throw new Exception("Missing or duplicate docking: "+type);
+                var link=sim.Links[0];bool sphereA=link.PortA>=2,sphereB=link.PortB>=2;
+                if(type=="sphere-sphere"&&(!sphereA||!sphereB)||type=="tip-sphere"&&sphereA==sphereB||type=="tip-tip"&&(sphereA||sphereB))throw new Exception("Wrong dock bodies: "+type);
+                if(link.Joint.GetComponent<Rigidbody>()!=link.A.PortBody(link.PortA)||link.Joint.connectedBody!=link.B.PortBody(link.PortB))throw new Exception("Dock joint uses wrong rigid body");
+                int pa=link.PortA,pb=link.PortB;sim.TryDock();if(sim.Links.Count!=1)throw new Exception("Duplicate or cyclic dock");
+                sim.ReleaseAll();if(sim.Links.Count!=0||sim.Robots.Any(r=>r.ConnectionCount!=0))throw new Exception("Port was not freed");
+                rows.Add(new{type,port_a=pa,port_b=pb,status="pass"});
+            }
+            using(var sim=new RescueSimulation(0,20261028,2))
+            {
+                PlaceFixture(sim.Robots[0],new Vector3(0,.08f,0),Quaternion.identity);PlaceFixture(sim.Robots[1],new Vector3(.022f,.08f,0),Quaternion.identity);
+                var wall=GameObject.CreatePrimitive(PrimitiveType.Cube);wall.layer=6;wall.transform.position=new Vector3(.011f,.08f,0);wall.transform.localScale=new Vector3(.001f,.03f,.03f);Physics.SyncTransforms();sim.TryDock();
+                if(sim.Links.Count!=0)throw new Exception("Magnetic connection passed through debris");UnityEngine.Object.DestroyImmediate(wall);rows.Add(new{type="occluded-sphere",status="pass"});
+            }
+            using(var dry=new RescueScene(0,20261028))if(dry.GasReactionAt(new Vector3(0,.01f,1.5f))!=0||dry.WaterDepthAt(new Vector3(0,.01f,1.5f))!=0)throw new Exception("Dry scene produced a hidden hazard");
+            using(var wet=new RescueScene(13,20261028))
+            {
+                if(!wet.GasLeakPosition.HasValue||wet.GasReactionAt(wet.GasLeakPosition.Value)<.8f)throw new Exception("Gas sensor fixture has no reaction");
+                bool found=false;for(float x=-.5f;x<=.5f;x+=.1f)for(float z=1.1f;z<2.4f;z+=.1f)if(wet.WaterDepthAt(new Vector3(x,.012f,z))>.004f)found=true;
+                if(!found)throw new Exception("Water sensor fixture has no reaction");
+            }
+            CheckMapReveal();
+            string output=Path.GetFullPath(Path.Combine(Application.dataPath,"../../reports/rescue/spherical-docking-smoke.json"));Directory.CreateDirectory(Path.GetDirectoryName(output));File.WriteAllText(output,JsonConvert.SerializeObject(new{status="pass",ports_per_node=RescueRobot.PortCount,rows,environment_fixture="gas/water/dry verified",progressive_map="unobserved hidden; measured revealed; only nearby completion",truth_positions_to_server=false},Formatting.Indented));Debug.Log("SPHERICAL_DOCKING_SMOKE PASS");
+        }
+        static void CheckMapReveal()
+        {
+            using(var view=new RescueMapView())
+            {
+                var reply=JObject.FromObject(new{cell_m=.05,sim_step=100,cells=new[]{new{key=new[]{0,0,0},occupancy=.9,sensor_occupancy=.9,observations=0},new{key=new[]{1,0,0},occupancy=.9,sensor_occupancy=.1,observations=0},new{key=new[]{10,0,10},occupancy=.9,sensor_occupancy=.1,observations=0}},nodes=new object[0],cues=new object[0]});
+                view.Update(reply);if(view.VisibleObservedCells!=0||view.VisibleCompletionCells!=0||view.SurfacePoints!=0)throw new Exception("Unobserved prior appeared in the map");
+                reply["cells"][0]["observations"]=2;view.Update(reply);if(view.VisibleObservedCells!=1||view.VisibleCompletionCells!=0||view.SurfacePoints==0)throw new Exception("Observation reveal failed");
+                reply["sim_step"]=600;view.Update(reply);if(view.VisibleObservedCells!=1||view.VisibleCompletionCells!=1)throw new Exception("Completion expanded beyond the observed neighborhood");
+            }
+        }
+        static void PlaceFixture(RescueRobot robot,Vector3 target,Quaternion rotation)
+        {
+            var origin=robot.Core.position;foreach(var body in new[]{robot.Core,robot.Cones[0],robot.Cones[1]}){var p=target+rotation*(body.position-origin);var q=rotation*body.rotation;body.transform.SetPositionAndRotation(p,q);body.position=p;body.rotation=q;body.linearVelocity=Vector3.zero;body.angularVelocity=Vector3.zero;}
+        }
         public static void DistributedSmoke()
         {
             Reset();var results=new List<object>();
@@ -136,7 +183,8 @@ namespace Purumogu.Editor
             int countFilter=int.Parse(Arg("-purumoguNodeCount","0")),deploymentBase=int.Parse(Arg("-purumoguDeploymentSeedBase","30800000"));
             int[] counts=swarm?(countFilter==0?new[]{24,36,48}:new[]{countFilter}):new[]{12};
             if(swarm&&counts.Any(n=>n!=24&&n!=36&&n!=48))throw new ArgumentException("Swarm count must be 24, 36 or 48");
-            string generation=swarm?"rescue-3.0":"rescue-2.5",controllerRevision=swarm?"whole-scene-drop-dense-v3":"progress-3cm-v2";
+            string generation=swarm?Arg("-purumoguGeneration","rescue-3.1"):"rescue-2.5",controllerRevision=swarm?"whole-scene-spherical-env-v31":"progress-3cm-v2";
+            if(swarm&&generation!="rescue-3.1")throw new ArgumentException("This physical revision requires generation rescue-3.1");
             int expectedMaps=(sceneFilter<0?15:1)*repeats*counts.Length;
             var outcomes=new List<object>();
             File.WriteAllText(Path.Combine(path,"manifest.json"),JsonConvert.SerializeObject(new{status="running",generation,controller_revision=controllerRevision,expected_maps=expectedMaps,steps,seed_base=seedBase,split,guidance,node_counts=counts,deployment_seed_base=deploymentBase},Formatting.Indented));

@@ -11,7 +11,7 @@ def main():
     raw=ROOT/args.raw;report=ROOT/args.report;base=ROOT/args.base;model=json.loads(base.read_bytes());manifest=json.loads((report/'manifest.json').read_text(encoding='utf-8-sig'));assert manifest['status']=='complete' and manifest['split']=='train'
     ground=[json.loads(line) for line in (raw/'grids-train.jsonl').read_text(encoding='utf-8-sig').splitlines()]
     if args.replace_splits:
-        assert manifest['generation']=='rescue-3.0' and model['distributed_swarm']
+        assert manifest['generation'] in ['rescue-3.0','rescue-3.1'] and model['distributed_swarm']
         valid=[json.loads(line) for line in (raw/'grids-valid.jsonl').read_text(encoding='utf-8-sig').splitlines()]
         valid_manifest=json.loads((report.parent/'valid/manifest.json').read_text(encoding='utf-8-sig'))
         assert valid_manifest['status']=='complete' and valid_manifest['expected_maps']==len(valid)

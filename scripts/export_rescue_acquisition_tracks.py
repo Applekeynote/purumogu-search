@@ -17,7 +17,7 @@ def main():
     parser.add_argument('--watch-expected',type=int,default=0)
     args=parser.parse_args();raw=ROOT/args.raw;report=ROOT/args.report
     provenance=json.loads((report/'rollout-provenance.json').read_text(encoding='utf-8-sig'))
-    assert provenance['diagnostics'] and provenance['generation']=='rescue-3.0' and provenance['split']==args.split
+    assert provenance['diagnostics'] and provenance['generation'] in ['rescue-3.0','rescue-3.1'] and provenance['split']==args.split
     model_path=ROOT/provenance['model'];model_hash=hashlib.sha256(model_path.read_bytes()).hexdigest()
     assert model_hash==provenance['model_sha256']
     out=raw/'track-proposals';out.mkdir(exist_ok=True);completed={}

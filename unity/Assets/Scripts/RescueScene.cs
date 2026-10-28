@@ -52,6 +52,8 @@ namespace Purumogu.Rescue
         public Material Concrete, Stone, Rust, Ground, Water;
         Material ghostConcrete,roofEdgeMaterial;
         public PhysicsMaterial Contact;
+        public float WaterHeight {get;private set;}
+        public Vector3? GasLeakPosition {get;private set;}
         readonly List<UnityEngine.Object> resources = new List<UnityEngine.Object>();
         System.Random random;
 
@@ -69,12 +71,13 @@ namespace Purumogu.Rescue
             Stone = Material(new Color(.32f, .30f, .26f), .04f);
             Rust = Material(new Color(.36f, .19f, .10f), .28f);
             Ground = Material(new Color(.23f, .26f, .26f), .05f);
-            Water = Material(new Color(.12f, .29f, .32f), .7f);
+            Water = new Material(Resources.Load<Shader>("RescueSlabGhost"));Water.color=new Color(.08f,.32f,.72f,.26f);resources.Add(Water);
             // A dedicated included shader avoids runtime Standard/Fade variants
             // being stripped from the standalone build.
             ghostConcrete=new Material(Resources.Load<Shader>("RescueSlabGhost"));ghostConcrete.color=new Color(.47f,.63f,.64f,.22f);resources.Add(ghostConcrete);
             roofEdgeMaterial=new Material(Shader.Find("Sprites/Default"));roofEdgeMaterial.color=new Color(.48f,.74f,.72f,.75f);resources.Add(roofEdgeMaterial);
             bool wet=Spec.Disaster.Contains("洪水")||Spec.Disaster.Contains("浸水");
+            WaterHeight=wet?.012f+Spec.Difficulty*.009f:0;
             Contact = new PhysicsMaterial("RubbleContact") { dynamicFriction = wet?.15f:.38f + Spec.Difficulty * .08f, staticFriction = wet?.22f:.48f, bounciness = .025f };
             resources.Add(Contact);
             Box("Foundation", new Vector3(0, -.16f, 5.1f), new Vector3(6.0f, .3f, 12.8f), Ground);
@@ -107,13 +110,16 @@ namespace Purumogu.Rescue
                     var log = Box("Driftwood", new Vector3((i % 2 == 0 ? -.65f : .65f), .13f, 1.8f + i * 1.55f), new Vector3(2.1f, .18f, .24f), Stone);
                     log.transform.localRotation = Quaternion.Euler(0, (i % 2 == 0 ? 32 : -32), 6);
                 }
-                var water = Box("ShallowResidualWaterVisual", new Vector3(0, .015f, 7), new Vector3(4.8f, .008f, 6), Water);
-                UnityEngine.Object.DestroyImmediate(water.GetComponent<Collider>());
             }
             else
             {
                 Box("Partition", new Vector3(.45f, .36f, 5), new Vector3(.24f, .8f, 6.5f), Concrete);
                 Roof("BasementRoof", new Vector3(0, 1.2f, 6), new Vector3(5.2f, .22f, 8), new Vector3(4, 0, 0));
+            }
+            if(wet)
+            {
+                var water=Box("ResidualWaterSurface",new Vector3(0,WaterHeight/Scale,7),new Vector3(4.8f,.008f,6),Water);
+                UnityEngine.Object.DestroyImmediate(water.GetComponent<Collider>());
             }
             if (Spec.Difficulty > 0)
             {
@@ -160,6 +166,7 @@ namespace Purumogu.Rescue
                 bar.transform.localScale = new Vector3(.025f,Range(.18f,.5f),.025f)*Scale;
                 bar.transform.localRotation = Quaternion.Euler(70,Range(0,180),Range(-25,25)); bar.GetComponent<Renderer>().sharedMaterial = Rust;
             }
+            if(layout==4||layout==9||layout==13){Physics.SyncTransforms();GasLeakPosition=SampleSourcePocket(new System.Random(seed^0x3511a9^(index*613)));}
             var sourceRandom=new System.Random(seed ^ 0x4f1bbcdc ^ (index*397));
             for (int i = 0; i < Spec.Victims; i++)
             {
@@ -173,6 +180,21 @@ namespace Purumogu.Rescue
         }
 
         float Range(float a,float b) => a+(b-a)*(float)random.NextDouble();
+        public float GasReactionAt(Vector3 position)
+        {
+            if(!GasLeakPosition.HasValue)return 0;
+            var delta=position-GasLeakPosition.Value;
+            float exponent=(delta.x*delta.x+delta.z*delta.z)/(.40f*.40f)+delta.y*delta.y/(.22f*.22f);
+            return .95f*Mathf.Exp(-.5f*exponent)*(Physics.Linecast(position,GasLeakPosition.Value,1<<6)?.4f:1);
+        }
+        public float WaterDepthAt(Vector3 position)
+        {
+            var probe=position-Vector3.up*.0096f;
+            if(WaterHeight<=0||Mathf.Abs(probe.x)>.6f||probe.z<1f||probe.z>2.5f||probe.y>WaterHeight+.001f)return 0;
+            float floor=-.0025f;
+            if(Physics.Raycast(probe+Vector3.up*.003f,Vector3.down,out RaycastHit hit,.15f,1<<6))floor=hit.point.y;
+            return Mathf.Clamp(WaterHeight-floor,0,.15f);
+        }
         Vector3 SampleSourcePocket(System.Random sourceRandom)
         {
             // Separate RNG: changing the acoustic placement never changes rubble geometry.

@@ -1,0 +1,10 @@
+{
+  "observed_utc": "2026-10-28T00:48:26.1147142Z",
+  "status": "interrupted_before_completion",
+  "train_complete_cases": 84,
+  "valid_complete_cases": 86,
+  "inference_acceptance_established": false,
+  "reason": "No collection or training processes were running when work resumed; manifests still report running. Partial results retained. New spherical docking changes physical behavior and requires a separate evaluation generation.",
+  "frozen_unity_sources": "tmp/swarm-v3-frozen",
+  "test_accessed": false
+}

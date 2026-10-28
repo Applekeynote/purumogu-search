@@ -3,7 +3,9 @@ use anyhow::{Result, ensure};
 use serde::{Deserialize, Serialize};
 use std::collections::{BTreeMap, BTreeSet, VecDeque};
 use std::sync::Arc;
+pub mod hazards;
 pub mod learned;
+pub mod surface;
 use learned::LearnedModel;
 
 pub const VERSION: &str = "2.0";
@@ -56,6 +58,11 @@ pub struct Scan {
     pub voice_band_ratio: f64,
     pub modulation: f64,
     pub temperature_delta_c: f64,
+    /// Relative simulated gas reaction, not a calibrated ppm or %LEL reading.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub gas_level: Option<f64>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub water_depth_m: Option<f64>,
 }
 #[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(deny_unknown_fields)]
@@ -70,6 +77,8 @@ pub struct Packet {
     pub request_map: bool,
     #[serde(default)]
     pub request_diagnostics: bool,
+    #[serde(default)]
+    pub request_surface: bool,
 }
 #[derive(Clone, Debug, Serialize)]
 pub struct Cell {
@@ -178,6 +187,11 @@ pub struct MapReply {
     pub completion_family: String,
     pub completion_confidence: f64,
     pub proposals: Vec<Proposal>,
+    pub hazards: Vec<hazards::Hazard>,
+    pub gas_observed_nodes: usize,
+    pub water_observed_nodes: usize,
+    pub surface_resolution_m: Option<f64>,
+    pub surface_points: Vec<[f64; 6]>,
 }
 #[derive(Default, Clone)]
 struct Voxel {
@@ -223,6 +237,8 @@ pub struct Mapper {
     archived_tracks: Vec<Track>,
     proposal_mode: bool,
     probe_cues: Vec<Cue>,
+    environment: hazards::HazardMap,
+    fine_surface: surface::SurfaceMap,
 }
 impl Mapper {
     pub fn new(run: &str, cell: f64) -> Result<Self> {
@@ -249,6 +265,8 @@ impl Mapper {
             archived_tracks: vec![],
             proposal_mode: false,
             probe_cues: vec![],
+            environment: hazards::HazardMap::default(),
+            fine_surface: surface::SurfaceMap::default(),
         })
     }
     pub fn with_model(run: &str, cell: f64, model: Option<Arc<LearnedModel>>) -> Result<Self> {
@@ -367,6 +385,13 @@ impl Mapper {
                     && (-20.0..=40.0).contains(&s.temperature_delta_c),
                 "cue outside range"
             );
+            ensure!(
+                s.gas_level
+                    .is_none_or(|v| v.is_finite() && (0.0..=1.0).contains(&v))
+                    && s.water_depth_m
+                        .is_none_or(|v| v.is_finite() && (0.0..=0.15).contains(&v)),
+                "invalid environmental observation"
+            );
             for r in &s.rays {
                 ensure!(
                     finite(r.direction)
@@ -398,6 +423,26 @@ impl Mapper {
                 self.rejected += 1;
                 continue;
             }
+            if let Some(value) = s.gas_level {
+                self.environment.observe(
+                    "gas",
+                    origin,
+                    value,
+                    s.pose_sigma_m,
+                    &s.node_id,
+                    p.sim_step,
+                );
+            }
+            if let Some(value) = s.water_depth_m {
+                self.environment.observe(
+                    "water",
+                    origin,
+                    value,
+                    s.pose_sigma_m,
+                    &s.node_id,
+                    p.sim_step,
+                );
+            }
             let reliability = 1.0 / (1.0 + (s.pose_sigma_m / self.cell).powi(2));
             let mut observed = BTreeMap::new();
             for ray in &s.rays {
@@ -410,6 +455,13 @@ impl Mapper {
                         .or_insert(false);
                 }
                 if ray.hit {
+                    if p.request_surface {
+                        self.fine_surface.observe(
+                            add(origin, mul(ray.direction, ray.distance_m)),
+                            reliability,
+                            p.sim_step,
+                        );
+                    }
                     observed.insert(
                         self.key(add(origin, mul(ray.direction, ray.distance_m))),
                         true,
@@ -632,6 +684,15 @@ impl Mapper {
             goals: self.frontiers(),
             observed_cells: self.voxels.len(),
             rejected_scans: self.rejected,
+            hazards: self.environment.current(p.sim_step),
+            gas_observed_nodes: self.environment.gas_nodes.len(),
+            water_observed_nodes: self.environment.water_nodes.len(),
+            surface_resolution_m: p.request_surface.then_some(0.01),
+            surface_points: if p.request_surface {
+                self.fine_surface.current(p.sim_step)
+            } else {
+                vec![]
+            },
             mean_entropy_bits: entropy,
             note: "Sensor observations and learned geometry completion are distinguished. Cue scores are uncalibrated search priorities, not confirmed people.",
             model_version: self
@@ -654,6 +715,21 @@ impl Mapper {
         };
         if !p.request_map {
             reply.cells.clear();
+        }
+        if !reply.surface_points.is_empty() {
+            let cell_bytes = serde_json::to_vec(&reply.cells)?.len();
+            let limit = MAX_REPLY.saturating_sub(cell_bytes + 262_144) / 96;
+            if limit == 0 {
+                reply.surface_points.clear();
+            } else if reply.surface_points.len() > limit {
+                let stride = reply.surface_points.len().div_ceil(limit);
+                reply.surface_points = reply
+                    .surface_points
+                    .into_iter()
+                    .step_by(stride)
+                    .take(limit)
+                    .collect();
+            }
         }
         self.cached = Some((encoded, reply.clone()));
         Ok(reply)
@@ -1469,9 +1545,12 @@ mod tests {
                 voice_band_ratio: 0.0,
                 modulation: 0.0,
                 temperature_delta_c: 0.0,
+                gas_level: None,
+                water_depth_m: None,
             }],
             request_map: true,
             request_diagnostics: false,
+            request_surface: false,
         }
     }
     #[test]
@@ -1481,6 +1560,62 @@ mod tests {
         assert!(r.cells.iter().any(|c| c.key[2] == 10 && c.occupancy > 0.5));
         assert!(r.cells.iter().any(|c| c.key[2] == 3 && c.occupancy < 0.5));
         assert!(r.cues.is_empty());
+    }
+    #[test]
+    fn fine_surface_is_visual_only_and_does_not_change_acceptance_voxels_or_control() {
+        let mut a = Mapper::new("test", 0.05).unwrap();
+        let mut b = Mapper::new("test", 0.05).unwrap();
+        let mut p = packet();
+        for i in 0..4 {
+            p.seq_no = i;
+            p.sim_step = (i + 1) * 25;
+            let plain = a.apply(&p).unwrap();
+            let mut fine = p.clone();
+            fine.request_surface = true;
+            let shown = b.apply(&fine).unwrap();
+            assert_eq!(
+                serde_json::to_value(&plain.cells).unwrap(),
+                serde_json::to_value(&shown.cells).unwrap()
+            );
+            assert_eq!(
+                serde_json::to_value(&plain.goals).unwrap(),
+                serde_json::to_value(&shown.goals).unwrap()
+            );
+            assert_eq!(
+                serde_json::to_value(&plain.cues).unwrap(),
+                serde_json::to_value(&shown.cues).unwrap()
+            );
+            assert!(serde_json::to_vec(&shown).unwrap().len() <= MAX_REPLY);
+            if i > 0 {
+                assert!(!shown.surface_points.is_empty());
+            }
+        }
+    }
+    #[test]
+    fn environmental_reactions_use_only_estimated_poses_and_validate_before_mutation() {
+        let mut mapper = Mapper::new("test", 0.05).unwrap();
+        let mut p = packet();
+        p.scans[0].gas_level = Some(0.8);
+        p.scans[0].water_depth_m = Some(0.025);
+        let mut second = p.scans[0].clone();
+        second.node_id = "N1".into();
+        second.deployment_anchor[0] = 0.03;
+        p.scans.push(second);
+        let mut invalid = p.clone();
+        invalid.scans[1].water_depth_m = Some(-0.1);
+        assert!(mapper.apply(&invalid).is_err());
+        assert!(mapper.poses.is_empty());
+        assert!(mapper.environment.current(25).is_empty());
+        let reply = mapper.apply(&p).unwrap();
+        assert_eq!(reply.gas_observed_nodes, 2);
+        assert_eq!(reply.water_observed_nodes, 2);
+        assert_eq!(reply.hazards.len(), 2);
+        assert!(
+            reply
+                .hazards
+                .iter()
+                .all(|h| h.position[0] >= 0.0 && h.position[0] <= 0.03 && h.observers == 2)
+        );
     }
     #[test]
     fn duplicates_are_idempotent_and_changed_payload_rejected() {

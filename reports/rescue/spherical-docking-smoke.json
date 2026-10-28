@@ -1,0 +1,31 @@
+{
+  "status": "pass",
+  "ports_per_node": 6,
+  "rows": [
+    {
+      "type": "tip-tip",
+      "port_a": 0,
+      "port_b": 1,
+      "status": "pass"
+    },
+    {
+      "type": "sphere-sphere",
+      "port_a": 2,
+      "port_b": 3,
+      "status": "pass"
+    },
+    {
+      "type": "tip-sphere",
+      "port_a": 0,
+      "port_b": 2,
+      "status": "pass"
+    },
+    {
+      "type": "occluded-sphere",
+      "status": "pass"
+    }
+  ],
+  "environment_fixture": "gas/water/dry verified",
+  "progressive_map": "unobserved hidden; measured revealed; only nearby completion",
+  "truth_positions_to_server": false
+}

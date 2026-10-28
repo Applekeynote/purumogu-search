@@ -14,9 +14,13 @@ namespace Purumogu.Rescue
         public Rigidbody Core;
         public readonly Rigidbody[] Cones = new Rigidbody[2];
         public readonly ConfigurableJoint[] Hinges = new ConfigurableJoint[2];
-        public readonly bool[] PortBusy = new bool[2];
+        public const int PortCount=6; // Two cone tips and four exposed spherical faces.
+        public readonly bool[] PortBusy = new bool[PortCount];
+        static readonly Vector3[] SphereNormals={Vector3.right,Vector3.left,Vector3.up,Vector3.down};
+        public int ConnectionCount { get {int count=0;foreach(bool busy in PortBusy)if(busy)count++;return count;} }
         public Vector3 DeploymentAnchor, EstimatedPosition;
         public float Energy=1, Impact, LastSnr, PoseSigma, Temperature, Signal=-100;
+        public float GasLevel,WaterDepth;
         public int Peers, Received, Dropped;
         /// Offline training label only; this robot object is never serialized to Rust.
         public bool EvaluationSourceIsHuman { get; private set; }
@@ -31,6 +35,7 @@ namespace Purumogu.Rescue
         public float BendDegrees, SpinDegrees;
         readonly List<UnityEngine.Object> resources=new List<UnityEngine.Object>();
         readonly System.Random random;
+        readonly System.Random environmentalRandom;
         Vector3 previousSensorPosition, pendingOdometry;
         int progressSteps,avoidUntil;
         Vector3 progressPosition,avoidHeading;
@@ -39,7 +44,7 @@ namespace Purumogu.Rescue
 
         public RescueRobot(string id,Vector3 position,int seed)
         {
-            Id=id;random=new System.Random(seed);DeploymentAnchor=EstimatedPosition=previousSensorPosition=position;
+            Id=id;random=new System.Random(seed);environmentalRandom=new System.Random(seed^0x21507221);DeploymentAnchor=EstimatedPosition=previousSensorPosition=position;
             progressPosition=position;
             Root=new GameObject(id+"_ArticulatedRobot");
             var shell=MakeMaterial(new Color(.56f,.59f,.55f),.78f,.7f);
@@ -67,6 +72,12 @@ namespace Purumogu.Rescue
                 var ring=GameObject.CreatePrimitive(PrimitiveType.Sphere);ring.name="BallSeat";ring.transform.SetParent(g.transform,false);ring.transform.localScale=new Vector3(.018f,.018f,.009f);ring.GetComponent<Renderer>().sharedMaterial=shell;UnityEngine.Object.DestroyImmediate(ring.GetComponent<Collider>());
                 var panel=GameObject.CreatePrimitive(PrimitiveType.Cube);panel.name="ConeSensorPanel";panel.transform.SetParent(g.transform,false);panel.transform.localPosition=new Vector3(0,.0067f,sign*.0115f);panel.transform.localScale=new Vector3(.0095f,.0005f,.014f);panel.transform.localRotation=Quaternion.Euler(sign*12,0,0);panel.GetComponent<Renderer>().sharedMaterial=dark;UnityEngine.Object.DestroyImmediate(panel.GetComponent<Collider>());
                 var tip=GameObject.CreatePrimitive(PrimitiveType.Sphere);tip.name="MagneticDockPort";tip.transform.SetParent(g.transform,false);tip.transform.localPosition=Vector3.forward*(sign*.0265f);tip.transform.localScale=new Vector3(.0045f,.0045f,.002f);tip.GetComponent<Renderer>().sharedMaterial=trim;UnityEngine.Object.DestroyImmediate(tip.GetComponent<Collider>());
+            }
+            for(int port=2;port<PortCount;port++)
+            {
+                var pad=GameObject.CreatePrimitive(PrimitiveType.Sphere);pad.name="SphericalMagneticPort_"+(port-2);pad.transform.SetParent(Core.transform,false);
+                pad.transform.localPosition=SphereNormals[port-2]*.0096f;pad.transform.localRotation=Quaternion.FromToRotation(Vector3.forward,SphereNormals[port-2]);pad.transform.localScale=new Vector3(.0034f,.0034f,.0007f);
+                pad.GetComponent<Renderer>().sharedMaterial=trim;UnityEngine.Object.DestroyImmediate(pad.GetComponent<Collider>());
             }
             foreach(var a in Core.GetComponents<Collider>())foreach(var cone in Cones)foreach(var b in cone.GetComponents<Collider>())Physics.IgnoreCollision(a,b);
         }
@@ -96,11 +107,12 @@ namespace Purumogu.Rescue
             for(int i=0;i<sides;i++){int next=(i+1)%sides;if(sign>0)triangles.AddRange(new[]{first,next,i,first+1,3*sides+i,3*sides+next});else triangles.AddRange(new[]{first,i,next,first+1,3*sides+next,3*sides+i});}
             var mesh=new Mesh{name="FlattenedRoundedTaper"};mesh.SetVertices(vertices);mesh.SetTriangles(triangles,0);mesh.RecalculateNormals();mesh.RecalculateBounds();return mesh;
         }
-        public Vector3 Port(int side)=>Cones[side].transform.TransformPoint(Vector3.forward*(side==0?.0265f:-.0265f));
-        public Vector3 PortDirection(int side)=>Cones[side].transform.forward*(side==0?1:-1);
+        public Rigidbody PortBody(int port)=>port<2?Cones[port]:Core;
+        public Vector3 Port(int port)=>port<2?Cones[port].transform.TransformPoint(Vector3.forward*(port==0?.0265f:-.0265f)):Core.transform.TransformPoint(SphereNormals[port-2]*.0095f);
+        public Vector3 PortDirection(int port)=>port<2?Cones[port].transform.forward*(port==0?1:-1):Core.transform.TransformDirection(SphereNormals[port-2]);
         public void ConfigureDrop(Quaternion rotation,int releaseStep)
         {
-            foreach(var body in new[]{Core,Cones[0],Cones[1]}){body.position=DeploymentAnchor+rotation*(body.position-DeploymentAnchor);body.rotation=rotation*body.rotation;body.isKinematic=true;}
+            foreach(var body in new[]{Core,Cones[0],Cones[1]}){var p=DeploymentAnchor+rotation*(body.position-DeploymentAnchor);var q=rotation*body.rotation;body.transform.SetPositionAndRotation(p,q);body.position=p;body.rotation=q;body.isKinematic=true;}
             ReleaseStep=releaseStep;Released=false;
         }
         public void ReleaseAt(int step)
@@ -202,10 +214,14 @@ namespace Purumogu.Rescue
             float heat=0;foreach(var source in scene.Sources){float d=Vector3.Distance(Core.position,source.Position);heat+=source.Warmth*Mathf.Exp(-d*7)*(Physics.Linecast(Core.position,source.Position,1<<6)?.1f:1);}
             Temperature=heat+Noise(.12f+scene.Spec.Difficulty*.06f);scan.temperature_delta_c=Mathf.Clamp(Temperature,-20,40);
             Peers=0;Signal=-100;foreach(var peer in peers)if(peer!=this&&peer.Released&&!peer.Lost){float distance=Vector3.Distance(Core.position,peer.Core.position);float rssi=Mathf.Clamp(-45-26*Mathf.Log10(Mathf.Max(distance,.04f))-(Physics.Linecast(Core.position,peer.Core.position,1<<6)?28:0)+Noise(4),-120,-10);if(rssi>-78){Peers++;Signal=Mathf.Max(Signal,rssi);}}
+            GasLevel=Mathf.Clamp01(Mathf.Lerp(GasLevel,scene.GasReactionAt(Core.position),.45f)+EnvironmentalNoise(.018f));
+            float depth=scene.WaterDepthAt(Core.position);WaterDepth=depth>0?Mathf.Clamp(depth+EnvironmentalNoise(.0008f),0,.15f):0;
+            scan.gas_level=GasLevel;scan.water_depth_m=WaterDepth;
             if(random.NextDouble()<scene.Spec.Loss){Dropped++;return null;}Received++;pendingOdometry=Vector3.zero;return scan;
         }
         public static float PowerRatioDb(float signalPower,float noisePower)=>10*Mathf.Log10(Mathf.Max(signalPower,.00001f)/Mathf.Max(noisePower,.00001f));
         float Noise(float sigma){double u=Math.Max(1e-9,random.NextDouble());return(float)(Math.Sqrt(-2*Math.Log(u))*Math.Cos(2*Math.PI*random.NextDouble())*sigma);}
+        float EnvironmentalNoise(float sigma){double u=Math.Max(1e-9,environmentalRandom.NextDouble());return(float)(Math.Sqrt(-2*Math.Log(u))*Math.Cos(2*Math.PI*environmentalRandom.NextDouble())*sigma);}
         public static double[] Array(Vector3 v)=>new[]{(double)v.x,v.y,v.z};
         public void Dispose(){if(Root)UnityEngine.Object.DestroyImmediate(Root);foreach(var r in resources)if(r)UnityEngine.Object.DestroyImmediate(r);}
     }
@@ -213,10 +229,10 @@ namespace Purumogu.Rescue
     [Serializable] public sealed class RangeRay {public double[] direction;public double distance_m;public bool hit;}
     [Serializable] public sealed class SensorScan
     {
-        public string node_id;public double[] deployment_anchor,odometry_delta,bearing;public double pose_sigma_m,bearing_sigma_deg,acoustic_snr_db,voice_band_ratio,modulation,temperature_delta_c;public List<RangeRay> rays=new List<RangeRay>();
+        public string node_id;public double[] deployment_anchor,odometry_delta,bearing;public double pose_sigma_m,bearing_sigma_deg,acoustic_snr_db,voice_band_ratio,modulation,temperature_delta_c;public double? gas_level,water_depth_m;public List<RangeRay> rays=new List<RangeRay>();
     }
     [Serializable] public sealed class RescuePacket
     {
-        public string protocol_version="2.0",run_id;public long seq_no,sim_step;public double cell_m=RescueScene.Cell;public bool request_map=true,request_diagnostics=false;public List<SensorScan> scans=new List<SensorScan>();
+        public string protocol_version="2.0",run_id;public long seq_no,sim_step;public double cell_m=RescueScene.Cell;public bool request_map=true,request_diagnostics=false,request_surface=false;public List<SensorScan> scans=new List<SensorScan>();
     }
 }

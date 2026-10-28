@@ -50,13 +50,17 @@ namespace Purumogu.Rescue
         {
             foreach(var a in Robots)foreach(var b in Robots)
             {
-                if(!a.Released||!b.Released||a.Lost||b.Lost||string.CompareOrdinal(a.Id,b.Id)>=0||Connected(a,b))continue;
-                for(int pa=0;pa<2;pa++)for(int pb=0;pb<2;pb++)
+                if(!a.Released||!b.Released||a.Lost||b.Lost||string.CompareOrdinal(a.Id,b.Id)>=0)continue;
+                if((a.Core.position-b.Core.position).sqrMagnitude>.08f*.08f)continue;
+                if(Connected(a,b))continue;bool linked=false;
+                for(int pa=0;pa<RescueRobot.PortCount&&!linked;pa++)for(int pb=0;pb<RescueRobot.PortCount;pb++)
                 {
                     if(a.PortBusy[pa]||b.PortBusy[pb])continue;
-                    if(Vector3.Distance(a.Port(pa),b.Port(pb))>.009f||Vector3.Dot(a.PortDirection(pa),b.PortDirection(pb))>-.65f)continue;
-                    if((a.Cones[pa].linearVelocity-b.Cones[pb].linearVelocity).magnitude>.1f)continue;
-                    Attach(a,pa,b,pb);
+                    var pointA=a.Port(pa);var pointB=b.Port(pb);float capture=pa<2&&pb<2?.009f:.005f;
+                    if(Vector3.Distance(pointA,pointB)>capture||Vector3.Dot(a.PortDirection(pa),b.PortDirection(pb))>-.65f)continue;
+                    if((a.PortBody(pa).GetPointVelocity(pointA)-b.PortBody(pb).GetPointVelocity(pointB)).magnitude>.1f)continue;
+                    if(Physics.Linecast(pointA,pointB,1<<6))continue;
+                    Attach(a,pa,b,pb);linked=true;break;
                 }
             }
         }
@@ -68,8 +72,9 @@ namespace Purumogu.Rescue
         }
         void Attach(RescueRobot a,int pa,RescueRobot b,int pb)
         {
-            var joint=a.Cones[pa].gameObject.AddComponent<ConfigurableJoint>();joint.connectedBody=b.Cones[pb];joint.autoConfigureConnectedAnchor=false;
-            joint.anchor=a.Cones[pa].transform.InverseTransformPoint(a.Port(pa));joint.connectedAnchor=b.Cones[pb].transform.InverseTransformPoint(b.Port(pb));
+            var bodyA=a.PortBody(pa);var bodyB=b.PortBody(pb);
+            var joint=bodyA.gameObject.AddComponent<ConfigurableJoint>();joint.connectedBody=bodyB;joint.autoConfigureConnectedAnchor=false;
+            joint.anchor=bodyA.transform.InverseTransformPoint(a.Port(pa));joint.connectedAnchor=bodyB.transform.InverseTransformPoint(b.Port(pb));
             joint.xMotion=joint.yMotion=joint.zMotion=ConfigurableJointMotion.Locked;joint.angularXMotion=joint.angularYMotion=joint.angularZMotion=ConfigurableJointMotion.Limited;
             joint.lowAngularXLimit=new SoftJointLimit{limit=-45};joint.highAngularXLimit=new SoftJointLimit{limit=45};joint.angularYLimit=joint.angularZLimit=new SoftJointLimit{limit=45};joint.breakForce=.8f;joint.breakTorque=.005f;joint.enableCollision=false;
             var g=new GameObject("Dock_"+a.Id+"_"+b.Id);g.transform.SetParent(Scene.Root.transform,false);var line=g.AddComponent<LineRenderer>();line.sharedMaterial=linkMaterial;line.startWidth=line.endWidth=.0018f;line.positionCount=2;

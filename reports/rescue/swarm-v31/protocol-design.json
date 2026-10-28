@@ -1,0 +1,102 @@
+{
+  "status": "Preregistered for spherical docking and local environmental observations, before generation-3.1 collection",
+  "generation": "rescue-3.1",
+  "node_counts": [
+    24,
+    36,
+    48
+  ],
+  "scenes": 15,
+  "mission_steps": 18000,
+  "mission_seconds": 360,
+  "geometry_revision": "dense-rubble-v3 + spherical docking + gas/water observation revision31",
+  "debris_by_difficulty": {
+    "fractured_pieces": [
+      64,
+      104,
+      144
+    ],
+    "broken_beams": [
+      6,
+      11,
+      16
+    ],
+    "exposed_rebar": [
+      9,
+      17,
+      25
+    ],
+    "contact_visibility": "Opaque or translucent slabs with collider-aligned outlines; never invisible collision supports"
+  },
+  "deployment": {
+    "mode": "WholeSceneDrop",
+    "height_m": 1.05,
+    "duration_seconds": 12,
+    "x_range_m": [
+      -0.57,
+      0.57
+    ],
+    "z_range_m": [
+      0.1,
+      2.7
+    ],
+    "method": "Stratified random positions across the entire modeled scene; random yaw and small pitch/roll; shuffled release order; gravity and collisions determine landing",
+    "minimum_initial_center_spacing_m": 0.085,
+    "seed_formula": "deployment_seed_base + scene_index*10007 + world_repeat*997 + node_count*131",
+    "queries_hidden_free_space": false,
+    "anchor_assumption": "Commanded release locations are known; only noisy displacement and attitude-derived rays follow. No current true pose is sent.",
+    "limitation": "This is a local modeled disaster area. Impact-induced electronics damage and full human body volume are not modeled."
+  },
+  "splits": {
+    "train": {
+      "world_seed_base": 20800000,
+      "world_repeats": 5,
+      "deployment_seed_base": 30800000,
+      "world_groups": 75,
+      "cases": 225
+    },
+    "valid": {
+      "world_seed_base": 20900000,
+      "world_repeats": 2,
+      "deployment_seed_base": 30900000,
+      "world_groups": 30,
+      "cases": 90
+    },
+    "test": {
+      "world_seed_base": 20700000,
+      "world_repeats": 3,
+      "deployment_seed_base": 30700000,
+      "world_groups": 45,
+      "cases": 135,
+      "unopened": true
+    }
+  },
+  "world_seed_formula": "world_seed_base + world_repeat*997",
+  "grouping": "All three node counts for one scene/world seed stay in the same split. Geometry fusion training leaves out the entire world group, not only one node-count case.",
+  "calibration": "Instantaneous acoustic and range parameters transferred from the original TRAIN150 only; retained-person classifier and geometry are fitted on generation-3 TRAIN. Historical failed TEST45 is retained and excluded from fitting.",
+  "bootstrap_model_sha256": "7a4e9aa4ca12b7b5bebcecc626eda0ab6d485867040084c0b91680a0753a2804",
+  "acceptance": {
+    "require_each_node_count_and_overall": true,
+    "map_iou_macro_min": 0.95,
+    "map_iou_micro_min": 0.95,
+    "human_precision_min": 0.95,
+    "human_recall_min": 0.95,
+    "map_occupancy_threshold": 0.6,
+    "matching_distance_m": 0.25,
+    "cell_m": 0.05,
+    "map_domain_cells": [
+      32,
+      21,
+      70
+    ]
+  },
+  "confirmation_gate": "Freeze model, binary, five physical/evaluation source hashes, deployment policy, all seed/count formulas and mission budget only after actual VALID passes. Open TEST once; never adjust using its cases.",
+  "physical_changes": [
+    "Six docking faces: two cone tips and four exposed spherical pads; debris line-of-sight check",
+    "Known initial release yaw/pitch/roll synchronized before physics starts",
+    "Gas reaction and water depth are noisy observations at each node, not source coordinates; no influence on human classifier labels or exploration goals",
+    "Water surface at 12/21/30mm by difficulty, local contact depth; no fluid simulation"
+  ],
+  "environmental_display": "person=amber(unconfirmed), gas=rose(relative reaction), water=blue(depth); repeated observations, aging, maximum eight patches per kind; not included in the earlier human/map 95% acceptance target",
+  "fine_surface_display": "Optional UI-only noisy range-endpoint fusion at 0.01m, at least two observations, local smoothing bounded by 0.003m per axis, maximum 24000 returned points; faint observed 0.05m scaffold. Not sensor accuracy, not used for 0.05m acceptance cells, human cues or guidance; disabled in collection/evaluation."
+}

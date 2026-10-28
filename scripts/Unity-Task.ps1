@@ -1,5 +1,5 @@
 param(
-    [ValidateSet('init','smoke','collect','compare','build','rescue-smoke','rescue-swarm-smoke','rescue-swarm-evaluate','rescue-evaluate','rescue-audit')][string]$Task='rescue-smoke',
+    [ValidateSet('init','smoke','collect','compare','build','rescue-smoke','rescue-docking-smoke','rescue-swarm-smoke','rescue-swarm-evaluate','rescue-evaluate','rescue-audit')][string]$Task='rescue-smoke',
     [string]$Unity='C:\Program Files\Unity\Hub\Editor\6000.4.1f1\Editor\Unity.exe',
     [string]$Output='',
     [string[]]$Extra=@(),
@@ -14,7 +14,7 @@ New-Item -ItemType Directory -Force -Path $logRoot | Out-Null
 $logSuffix=if($Project){"-"+(Split-Path $unityProject -Leaf)}else{""}
 $logPath=Join-Path $logRoot "unity-$Task$logSuffix.log"
 $arguments=@('-batchmode','-nographics','-projectPath',"`"$unityProject`"",'-executeMethod','Purumogu.Editor.ProjectTools.Run','-purumoguTask',$Task,'-logFile',"`"$logPath`"")
-if ($Output) { $arguments+=@('-purumoguOutput',"`"$Output`"") }
+if ($Output) { if(![IO.Path]::IsPathRooted($Output)){$Output=Join-Path $projectRoot $Output};$arguments+=@('-purumoguOutput',"`"$Output`"") }
 $arguments+=$Extra
 $process=Start-Process -FilePath $Unity -ArgumentList $arguments -WindowStyle Hidden -PassThru
 # Start-Process -Wait also waits for descendant licensing helpers shared by other

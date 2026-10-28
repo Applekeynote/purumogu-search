@@ -18,7 +18,8 @@ def main():
     assert hashlib.sha256(model_path.read_bytes()).hexdigest()==m['model_sha256'],'Do not attach scores from a different model'
     assert not set(model['train_maps'])&{row['map_id'] for row in m['rows']}
     validate_model_splits(model);swarm=bool(model.get('distributed_swarm'))
-    assert all(row['map_id'].startswith('rescue-3.0-' if swarm else 'rescue-2.5-') for row in m['rows']),'Do not mix deployment generations'
+    assert all(row['map_id'].startswith(('rescue-3.0-','rescue-3.1-') if swarm else 'rescue-2.5-') for row in m['rows']),'Do not mix deployment generations'
+    assert len({row['map_id'].split('-')[1] for row in m['rows']})==1,'Do not pool physical revisions'
     assert_disjoint_worlds([row['map_id'] for row in m['rows']],model['train_maps']+model.get('calibration_train_maps',[]))
     if swarm:
         assert set(m['by_node_count'])=={'24','36','48'}
