@@ -1,0 +1,63 @@
+{
+  "pages": 9,
+  "pdf_sha256": "f98bea574586f27fb225896e414ce403ae3ec0cd5f13dbb051414aba1d9124c9",
+  "model_sha256": "0807c68550375993b0755823efea0ffd8310dbd69ca3cfad7c462809732caf54",
+  "layout": [
+    {
+      "page": 1,
+      "content_bottom_pt": 174.82
+    },
+    {
+      "page": 2,
+      "content_bottom_pt": 253.29
+    },
+    {
+      "page": 3,
+      "content_bottom_pt": 228.27
+    },
+    {
+      "page": 4,
+      "content_bottom_pt": 162.29
+    },
+    {
+      "page": 5,
+      "content_bottom_pt": 85.3
+    },
+    {
+      "page": 6,
+      "content_bottom_pt": 225.89
+    },
+    {
+      "page": 7,
+      "content_bottom_pt": 171.79
+    },
+    {
+      "page": 8,
+      "content_bottom_pt": 285.89
+    },
+    {
+      "page": 9,
+      "content_bottom_pt": 92.89
+    }
+  ],
+  "fact_assertions": "pass",
+  "privacy_text_and_metadata": "pass",
+  "sources": {
+    "reports/rescue/mission360/learning-v13-valid.json": "ddbb35c8c34872414e65c39ad99489cdb7f4e2d97090958a071e90c3e0568869",
+    "models/rescue-v13/training-report.json": "c06f39cf008aa9ccfe1380369c2bede403b9d89581eb02dfa1db10744ca689be",
+    "reports/rescue/mission360-probe-valid90/baseline-v17-valid90-summary.json": "4308825773d669f437649abc720171eb7948d260f13e91e6ff6c9dbd55b2df7f",
+    "reports/rescue/distributed-deployment-smoke.json": "f895382f9a145aabe822edc093cb1267f019d194f69c1d4dcd18310201d9a36b",
+    "reports/rescue/spherical-docking-smoke.json": "759025c85878f9eac54e08ff91f41905e300b5bfe1fec839dc1683a141514263",
+    "reports/rescue/climbing-diagnostic.json": "3357310de9f09034718602a9907232e7dbba0c3016acf4693d24482230ca399e",
+    "reports/rescue/mission360/ablation-v11-valid.json": "2e70309404be16072e7c176f9bb798e9a847a38f0201e097510ee79b112e58fb",
+    "reports/rescue/mission360/learning-v13-test.json": "a7ff0f1c0b38f0766f8e57cc55b4bc212c28c06d1903a39a855f953190b9959b",
+    "reports/rescue/learning-v9-valid-policy1.json": "d1d29e1f8031a74989f41452a1e6b8b135f4458a2a327c8fd1787f3f6797efba",
+    "reports/rescue/learning-v11-valid-policy2.json": "2fae6934c9cd54f05fb8987333dfcc3e35fe93417496fa4497cfae10ef62da8f",
+    "models/rescue-v13/model.json": "0807c68550375993b0755823efea0ffd8310dbd69ca3cfad7c462809732caf54",
+    "models/rescue-v13/selection-report.json": "8df9de34fd62c6e85d2745301632a6da7208413919152863a5322439b2a86129",
+    "reports/rescue/swarm-v31/protocol-design.json": "3b2caea91a572d1a3df149591f73d4aaf1b425a8eb68d251abe7d089d14a48de"
+  },
+  "visual_review": "pass: all nine pages rendered with Poppler; revised pages 1,3,7 re-inspected after final generation; other pages unchanged",
+  "text_clipping": "none",
+  "publication": "report and supporting diagnostics, no runtime changes"
+}

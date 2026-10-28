@@ -1,0 +1,235 @@
+{
+  "split": "valid",
+  "test_accessed": false,
+  "diagnostic_only": true,
+  "not_final_model_score": true,
+  "note": "Same recorded physics. Prior baseline uses family inferred by Rust, never the truth scene label. Raw sensor threshold .6; prior threshold .65 matches unobserved-cell completion convention. Reveals dependence on learned shape families.",
+  "model_sha256": "eb0cb8aa16d18817bf03bfc5be0a3e7a78f61f3321b4b8a37b4ed04855aae065",
+  "maps": 30,
+  "metrics": {
+    "sensor_only": {
+      "map_iou_macro": 0.3617199348214438,
+      "map_iou_micro": 0.3610255466568523
+    },
+    "inferred_family_prior_only": {
+      "map_iou_macro": 0.9295765696487759,
+      "map_iou_micro": 0.9287621617497661
+    },
+    "v11_fused": {
+      "map_iou_macro": 0.9441259233406895,
+      "map_iou_micro": 0.9434523332424937
+    }
+  },
+  "rows": [
+    {
+      "map_id": "rescue-2.5-E01-20500000",
+      "inferred_family": "E01",
+      "sensor_only": 0.28786359077231694,
+      "inferred_family_prior_only": 0.9587939698492463,
+      "v11_fused": 0.9670012547051443
+    },
+    {
+      "map_id": "rescue-2.5-E01-20500997",
+      "inferred_family": "E01",
+      "sensor_only": 0.30726678400804625,
+      "inferred_family_prior_only": 0.9614512471655329,
+      "v11_fused": 0.9691901408450704
+    },
+    {
+      "map_id": "rescue-2.5-E02-20500000",
+      "inferred_family": "E02",
+      "sensor_only": 0.3371489418341541,
+      "inferred_family_prior_only": 0.9536034229175023,
+      "v11_fused": 0.9623447723327547
+    },
+    {
+      "map_id": "rescue-2.5-E02-20500997",
+      "inferred_family": "E02",
+      "sensor_only": 0.38059601763998396,
+      "inferred_family_prior_only": 0.9551359314316326,
+      "v11_fused": 0.9661583734617443
+    },
+    {
+      "map_id": "rescue-2.5-E03-20500000",
+      "inferred_family": "E03",
+      "sensor_only": 0.38066961465571697,
+      "inferred_family_prior_only": 0.9660863958736299,
+      "v11_fused": 0.965587821414865
+    },
+    {
+      "map_id": "rescue-2.5-E03-20500997",
+      "inferred_family": "E03",
+      "sensor_only": 0.3788993152422014,
+      "inferred_family_prior_only": 0.9631057976603676,
+      "v11_fused": 0.968654042988741
+    },
+    {
+      "map_id": "rescue-2.5-E04-20500000",
+      "inferred_family": "E04",
+      "sensor_only": 0.3570731707317073,
+      "inferred_family_prior_only": 0.9450819672131148,
+      "v11_fused": 0.9568415890142227
+    },
+    {
+      "map_id": "rescue-2.5-E04-20500997",
+      "inferred_family": "E04",
+      "sensor_only": 0.38441431138702825,
+      "inferred_family_prior_only": 0.9480263157894737,
+      "v11_fused": 0.9597051597051597
+    },
+    {
+      "map_id": "rescue-2.5-E05-20500000",
+      "inferred_family": "E05",
+      "sensor_only": 0.4257689513199322,
+      "inferred_family_prior_only": 0.9587189478811495,
+      "v11_fused": 0.9662375516152538
+    },
+    {
+      "map_id": "rescue-2.5-E05-20500997",
+      "inferred_family": "E05",
+      "sensor_only": 0.4302846759539673,
+      "inferred_family_prior_only": 0.95988783223604,
+      "v11_fused": 0.968978102189781
+    },
+    {
+      "map_id": "rescue-2.5-M01-20500000",
+      "inferred_family": "M01",
+      "sensor_only": 0.3352485928705441,
+      "inferred_family_prior_only": 0.9457619159427095,
+      "v11_fused": 0.9619629020896924
+    },
+    {
+      "map_id": "rescue-2.5-M01-20500997",
+      "inferred_family": "M01",
+      "sensor_only": 0.30772828247398576,
+      "inferred_family_prior_only": 0.940359477124183,
+      "v11_fused": 0.9596915527514897
+    },
+    {
+      "map_id": "rescue-2.5-M02-20500000",
+      "inferred_family": "E02",
+      "sensor_only": 0.3284582571602681,
+      "inferred_family_prior_only": 0.8724159021406728,
+      "v11_fused": 0.8863664103502991
+    },
+    {
+      "map_id": "rescue-2.5-M02-20500997",
+      "inferred_family": "E02",
+      "sensor_only": 0.3405030987969377,
+      "inferred_family_prior_only": 0.8691201559834267,
+      "v11_fused": 0.9153490634882023
+    },
+    {
+      "map_id": "rescue-2.5-M03-20500000",
+      "inferred_family": "M03",
+      "sensor_only": 0.31087415045699557,
+      "inferred_family_prior_only": 0.9515784476619986,
+      "v11_fused": 0.9551553672316384
+    },
+    {
+      "map_id": "rescue-2.5-M03-20500997",
+      "inferred_family": "M03",
+      "sensor_only": 0.4009345794392523,
+      "inferred_family_prior_only": 0.9461565710237336,
+      "v11_fused": 0.9579120620738303
+    },
+    {
+      "map_id": "rescue-2.5-M04-20500000",
+      "inferred_family": "E04",
+      "sensor_only": 0.37489063867016625,
+      "inferred_family_prior_only": 0.8440702781844802,
+      "v11_fused": 0.8638155013866589
+    },
+    {
+      "map_id": "rescue-2.5-M04-20500997",
+      "inferred_family": "M04",
+      "sensor_only": 0.40600408044301955,
+      "inferred_family_prior_only": 0.9306021285901735,
+      "v11_fused": 0.952574919988362
+    },
+    {
+      "map_id": "rescue-2.5-M05-20500000",
+      "inferred_family": "M05",
+      "sensor_only": 0.40715559518502004,
+      "inferred_family_prior_only": 0.9455987488829312,
+      "v11_fused": 0.9274310595065312
+    },
+    {
+      "map_id": "rescue-2.5-M05-20500997",
+      "inferred_family": "M05",
+      "sensor_only": 0.42231607023783063,
+      "inferred_family_prior_only": 0.9420015584993877,
+      "v11_fused": 0.9611618072557311
+    },
+    {
+      "map_id": "rescue-2.5-H01-20500000",
+      "inferred_family": "H01",
+      "sensor_only": 0.30752023860247124,
+      "inferred_family_prior_only": 0.9448541199102276,
+      "v11_fused": 0.9599957328781736
+    },
+    {
+      "map_id": "rescue-2.5-H01-20500997",
+      "inferred_family": "H01",
+      "sensor_only": 0.31686015550111835,
+      "inferred_family_prior_only": 0.9329591188307562,
+      "v11_fused": 0.9513719673694248
+    },
+    {
+      "map_id": "rescue-2.5-H02-20500000",
+      "inferred_family": "H02",
+      "sensor_only": 0.37934046735095,
+      "inferred_family_prior_only": 0.9262733122477915,
+      "v11_fused": 0.9470466208101321
+    },
+    {
+      "map_id": "rescue-2.5-H02-20500997",
+      "inferred_family": "H02",
+      "sensor_only": 0.4128370265254885,
+      "inferred_family_prior_only": 0.918693009118541,
+      "v11_fused": 0.9482119494112516
+    },
+    {
+      "map_id": "rescue-2.5-H03-20500000",
+      "inferred_family": "H03",
+      "sensor_only": 0.30603313535479837,
+      "inferred_family_prior_only": 0.9392699811202014,
+      "v11_fused": 0.9484180849953012
+    },
+    {
+      "map_id": "rescue-2.5-H03-20500997",
+      "inferred_family": "M03",
+      "sensor_only": 0.3022508038585209,
+      "inferred_family_prior_only": 0.8447440488729724,
+      "v11_fused": 0.8577563632554729
+    },
+    {
+      "map_id": "rescue-2.5-H04-20500000",
+      "inferred_family": "H04",
+      "sensor_only": 0.38865230460921846,
+      "inferred_family_prior_only": 0.9183928125779885,
+      "v11_fused": 0.9450618054688475
+    },
+    {
+      "map_id": "rescue-2.5-H04-20500997",
+      "inferred_family": "H04",
+      "sensor_only": 0.36367045880735094,
+      "inferred_family_prior_only": 0.9175296319401123,
+      "v11_fused": 0.9397410358565738
+    },
+    {
+      "map_id": "rescue-2.5-H05-20500000",
+      "inferred_family": "M05",
+      "sensor_only": 0.40710106919507766,
+      "inferred_family_prior_only": 0.8551647463108955,
+      "v11_fused": 0.8860772255267668
+    },
+    {
+      "map_id": "rescue-2.5-H05-20500997",
+      "inferred_family": "H05",
+      "sensor_only": 0.36323366555924697,
+      "inferred_family_prior_only": 0.9318592964824121,
+      "v11_fused": 0.9479774602535721
+    }
+  ]
+}
