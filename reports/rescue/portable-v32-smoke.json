@@ -1,0 +1,7 @@
+{
+  "status": "pass",
+  "source_randomized_scenes": 13,
+  "surface": "only measured faces; adjacent faces culled",
+  "inference": "two independent ports, child cleanup and isolation verified",
+  "truth": "red spheres without colliders; not transmitted"
+}

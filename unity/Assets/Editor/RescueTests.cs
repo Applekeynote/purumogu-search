@@ -17,6 +17,35 @@ namespace Purumogu.Editor
     {
         static string Arg(string name,string fallback){var args=Environment.GetCommandLineArgs();for(int i=0;i<args.Length-1;i++)if(args[i]==name)return args[i+1];return fallback;}
         static void Reset()=>EditorSceneManager.NewScene(NewSceneSetup.EmptyScene,NewSceneMode.Single);
+        public static void PortableSmoke()
+        {
+            Reset();CheckMapReveal();int randomized=0;
+            for(int i=0;i<15;i++)
+            {
+                Vector3[] first;
+                using(var scene=new RescueScene(i,20261027,101))
+                {first=scene.VictimPositions.ToArray();scene.ShowTruth(true);foreach(var renderer in scene.VictimRenderers)if(!renderer.enabled||renderer.GetComponent<Collider>())throw new Exception("Truth beacon must be visible and have no collider");}
+                using(var scene=new RescueScene(i,20261027,202))if(first.Length>0){if(first.SequenceEqual(scene.VictimPositions))throw new Exception("Source randomization did not change positions");randomized++;}
+            }
+            int firstPid;string folder=Path.Combine(Application.streamingAssetsPath,"inference");
+            using(var second=new BundledInference())
+            {
+                second.Start(folder);
+                using(var first=new BundledInference())
+                {
+                    first.Start(folder);firstPid=first.ProcessId;if(first.Port==second.Port)throw new Exception("App instances share a port");
+                    foreach(var service in new[]{first,second})
+                    {
+                        bool connected=false;for(int retry=0;retry<100;retry++){try{using(var client=new TcpClient("127.0.0.1",service.Port)){connected=true;break;}}catch(SocketException){System.Threading.Thread.Sleep(50);}}
+                        if(!connected||!service.Alive)throw new Exception("Bundled server did not start");
+                    }
+                }
+                try{using(var gone=System.Diagnostics.Process.GetProcessById(firstPid))if(!gone.HasExited)throw new Exception("Owned inference leaked after Dispose");}catch(ArgumentException){}
+                if(!second.Alive)throw new Exception("Closing one app killed another inference instance");
+            }
+            string path=Path.GetFullPath(Path.Combine(Application.dataPath,"../../reports/rescue/portable-v32-smoke.json"));Directory.CreateDirectory(Path.GetDirectoryName(path));
+            File.WriteAllText(path,JsonConvert.SerializeObject(new{status="pass",source_randomized_scenes=randomized,surface="only measured faces; adjacent faces culled",inference="two independent ports, child cleanup and isolation verified",truth="red spheres without colliders; not transmitted"},Formatting.Indented));Debug.Log("PORTABLE_V32_SMOKE PASS");
+        }
         public static void DockingSmoke()
         {
             Reset();var rows=new List<object>();
@@ -55,9 +84,12 @@ namespace Purumogu.Editor
             using(var view=new RescueMapView())
             {
                 var reply=JObject.FromObject(new{cell_m=.05,sim_step=100,cells=new[]{new{key=new[]{0,0,0},occupancy=.9,sensor_occupancy=.9,observations=0},new{key=new[]{1,0,0},occupancy=.9,sensor_occupancy=.1,observations=0},new{key=new[]{10,0,10},occupancy=.9,sensor_occupancy=.1,observations=0}},nodes=new object[0],cues=new object[0]});
-                view.Update(reply);if(view.VisibleObservedCells!=0||view.VisibleCompletionCells!=0||view.SurfacePoints!=0)throw new Exception("Unobserved prior appeared in the map");
+                view.Update(reply);if(view.VisibleObservedCells!=0||view.VisibleCompletionCells!=0||view.SurfacePoints!=0||view.SurfaceTriangles!=0)throw new Exception("Unobserved prior appeared in the map");
                 reply["cells"][0]["observations"]=2;view.Update(reply);if(view.VisibleObservedCells!=1||view.VisibleCompletionCells!=0||view.SurfacePoints==0)throw new Exception("Observation reveal failed");
                 reply["sim_step"]=600;view.Update(reply);if(view.VisibleObservedCells!=1||view.VisibleCompletionCells!=1)throw new Exception("Completion expanded beyond the observed neighborhood");
+                if(view.SurfaceTriangles!=12)throw new Exception("An unobserved prior acquired solid geometry");
+                reply["cells"][1]["sensor_occupancy"]=.9;reply["cells"][1]["observations"]=2;view.Update(reply);if(view.SurfaceTriangles!=20)throw new Exception("Internal shared voxel face was not removed");
+                view.SetSurfaceMode(false);if(view.SurfaceTriangles!=20)throw new Exception("View mode mutated reconstruction");
             }
         }
         static void PlaceFixture(RescueRobot robot,Vector3 target,Quaternion rotation)

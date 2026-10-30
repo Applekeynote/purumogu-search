@@ -18,10 +18,10 @@ namespace Purumogu.Rescue
         public sealed class DockLink {public RescueRobot A,B;public int PortA,PortB;public ConfigurableJoint Joint;public LineRenderer Line;}
         Material linkMaterial;
 
-        public RescueSimulation(int sceneIndex,int seed,int nodes=12,RescueDeploymentMode deployment=RescueDeploymentMode.EntranceGrid,int deploymentSeed=907231)
+        public RescueSimulation(int sceneIndex,int seed,int nodes=12,RescueDeploymentMode deployment=RescueDeploymentMode.EntranceGrid,int deploymentSeed=907231,int? sourceSeed=null)
         {
             Physics.simulationMode=SimulationMode.Script;Physics.gravity=new Vector3(0,-9.81f,0);Physics.defaultSolverIterations=16;Physics.defaultSolverVelocityIterations=8;
-            Scene=new RescueScene(sceneIndex,seed);linkMaterial=new Material(Shader.Find("Sprites/Default")){color=new Color(.2f,1,.77f)};
+            Scene=new RescueScene(sceneIndex,seed,sourceSeed);linkMaterial=new Material(Shader.Find("Sprites/Default")){color=new Color(.2f,1,.77f)};
             DeploymentMode=deployment;DeploymentSeed=deploymentSeed;var releases=RescueDeployment.Plan(nodes,deploymentSeed,deployment);
             for(int i=0;i<nodes;i++)
             {

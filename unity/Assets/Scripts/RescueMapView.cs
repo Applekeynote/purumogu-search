@@ -15,6 +15,12 @@ namespace Purumogu.Rescue
         public readonly List<string> CueLabels=new List<string>();
         public readonly GameObject Root=new GameObject("InferredMapOnly");
         readonly Mesh points=new Mesh{name="ObservedVoxelSurfacePoints",indexFormat=IndexFormat.UInt32};
+        readonly Mesh surfaces=new Mesh{name="MeasuredSurfaceFaces",indexFormat=IndexFormat.UInt32},edges=new Mesh{name="MeasuredSilhouetteEdges",indexFormat=IndexFormat.UInt32};
+        readonly Material surfaceMaterial;
+        readonly Renderer surfaceRenderer,edgeRenderer;
+        JObject cachedReply;
+        public bool RenderSurfaces{get;private set;}=true;
+        public int SurfaceTriangles=>surfaces.triangles.Length/3;
         readonly Mesh grid=new Mesh{name="QuietCoordinateGrid"},trail=new Mesh{name="EstimatedSelectedNodeTrail"};
         readonly Material pointMaterial,lineMaterial;
         readonly List<Vector3> vertices=new List<Vector3>(),uv=new List<Vector3>();
@@ -36,14 +42,46 @@ namespace Purumogu.Rescue
         public RescueMapView()
         {
             pointMaterial=new Material(Resources.Load<Shader>("RescueMapPoint"));lineMaterial=new Material(Shader.Find("Sprites/Default"));
+            surfaceMaterial=new Material(Resources.Load<Shader>("RescueMapSurface"));
+            surfaceRenderer=MeshObject("ObservedFilledFaces",surfaces,surfaceMaterial);edgeRenderer=MeshObject("ObservedObjectEdges",edges,lineMaterial);
             MeshObject("ObservedSurfacePoints",points,pointMaterial);MeshObject("MapGrid",grid,lineMaterial);MeshObject("NodeEstimatedTrail",trail,lineMaterial);points.MarkDynamic();trail.MarkDynamic();
             var v=new List<Vector3>();var c=new List<Color>();var ix=new List<int>();var faint=new Color(.19f,.25f,.28f,.26f);
             for(int x=-8;x<=8;x+=2)Line(v,c,ix,new Vector3(x*.1f,-.035f,-.3f),new Vector3(x*.1f,-.035f,3.2f),faint);
             for(int z=-3;z<=32;z+=2)Line(v,c,ix,new Vector3(-.8f,-.035f,z*.1f),new Vector3(.8f,-.035f,z*.1f),faint);
             grid.SetVertices(v);grid.SetColors(c);grid.SetIndices(ix,MeshTopology.Lines,0);grid.RecalculateBounds();
         }
-        void MeshObject(string name,Mesh mesh,Material material)
-        {var g=new GameObject(name);g.layer=8;g.transform.SetParent(Root.transform,false);g.AddComponent<MeshFilter>().sharedMesh=mesh;g.AddComponent<MeshRenderer>().sharedMaterial=material;}
+        Renderer MeshObject(string name,Mesh mesh,Material material)
+        {var g=new GameObject(name);g.layer=8;g.transform.SetParent(Root.transform,false);g.AddComponent<MeshFilter>().sharedMesh=mesh;var renderer=g.AddComponent<MeshRenderer>();renderer.sharedMaterial=material;return renderer;}
+        public void SetSurfaceMode(bool enabled)
+        {RenderSurfaces=enabled;surfaceRenderer.enabled=edgeRenderer.enabled=enabled;if(cachedReply!=null)Update(cachedReply);}
+        void BuildSurfaces(HashSet<Vector3Int> supported,float cell)
+        {
+            var v=new List<Vector3>();var n=new List<Vector3>();var c=new List<Color>();var ix=new List<int>();
+            var ev=new List<Vector3>();var ec=new List<Color>();var ei=new List<int>();
+            foreach(var k in supported)
+            {
+                var center=(new Vector3(k.x,k.y,k.z)+Vector3.one*.5f)*cell;
+                for(int axis=0;axis<3;axis++)for(int sign=-1;sign<=1;sign+=2)
+                {
+                    var neighbor=k;neighbor[axis]+=sign;if(supported.Contains(neighbor))continue;
+                    var normal=Vector3.zero;normal[axis]=sign;int a=(axis+1)%3,b=(axis+2)%3;
+                    int start=v.Count;
+                    foreach(var corner in Corners){var p=center+normal*cell*.5f;p[a]+=corner.x*cell*.5f;p[b]+=corner.y*cell*.5f;v.Add(p);n.Add(normal);c.Add(ObservedColor(center));}
+                    ix.AddRange(new[]{start,start+1,start+2,start,start+2,start+3});
+                    // Only retain boundaries and changes of plane, not a distracting grid on a flat wall.
+                    for(int edge=0;edge<4;edge++)
+                    {
+                        int next=(edge+1)%4;var midpoint=(v[start+edge]+v[start+next])*.5f;
+                        var tangent=midpoint-(center+normal*cell*.5f);int along=Mathf.Abs(tangent[a])>Mathf.Abs(tangent[b])?a:b;
+                        var adjacent=k;adjacent[along]+=tangent[along]>0?1:-1;var adjacentOutside=adjacent;adjacentOutside[axis]+=sign;
+                        if(supported.Contains(adjacent)&&!supported.Contains(adjacentOutside))continue;
+                        Line(ev,ec,ei,v[start+edge]+normal*.0008f,v[start+next]+normal*.0008f,new Color(.54f,.87f,.85f,.48f));
+                    }
+                }
+            }
+            surfaces.Clear();surfaces.SetVertices(v);surfaces.SetNormals(n);surfaces.SetColors(c);surfaces.SetTriangles(ix,0);surfaces.RecalculateBounds();
+            edges.Clear();edges.SetVertices(ev);edges.SetColors(ec);edges.SetIndices(ei,MeshTopology.Lines,0);edges.RecalculateBounds();
+        }
         public void SetViewport(float width,float height,float zoom=1){pointMaterial.SetVector("_ViewportSize",new Vector4(Mathf.Max(1,width),Mathf.Max(1,height),0,0));pointMaterial.SetFloat("_PointScale",Mathf.Clamp(zoom,.65f,2.6f));}
         public void SetSelectedNode(string id){if(selected==id)return;selected=id;BuildTrail();}
         void Point(Vector3 center,Color color,float size)
@@ -62,6 +100,7 @@ namespace Purumogu.Rescue
         }
         public void Update(JObject reply)
         {
+            cachedReply=reply;
             float cell=(float)reply["cell_m"];long step=(long)reply["sim_step"];
             foreach(var marker in markers)if(marker)Object.DestroyImmediate(marker);markers.Clear();Alerts.Clear();CueLabels.Clear();CuePositions.Clear();
             GasZones=WaterZones=0;GasObservedNodes=(int?)reply["gas_observed_nodes"]??0;WaterObservedNodes=(int?)reply["water_observed_nodes"]??0;
@@ -83,6 +122,7 @@ namespace Purumogu.Rescue
             foreach(var c in (JArray)reply["cells"])
             {var k=Key(c);float sensor=(float?)c["sensor_occupancy"]??(float)c["occupancy"];if((int)c["observations"]>=2&&sensor>.6f){supported.Add(k);if(!firstEvidence.ContainsKey(k))firstEvidence[k]=step;}}
             var nearby=new HashSet<Vector3Int>();foreach(var k in supported)for(int x=-1;x<=1;x++)for(int y=-1;y<=1;y++)for(int z=-1;z<=1;z++)nearby.Add(k+new Vector3Int(x,y,z));
+            BuildSurfaces(supported,cell);
             var display=new Dictionary<Vector3Int,bool>();foreach(var c in (JArray)reply["cells"])if((float)c["occupancy"]>.6f){var k=Key(c);bool measured=supported.Contains(k);if(measured||(step>=500&&nearby.Contains(k)))display[k]=measured;}
             bool fine=(float?)reply["surface_resolution_m"]>0;FineObservedPoints=0;
             vertices.Clear();colors.Clear();indices.Clear();uv.Clear();VisibleObservedCells=VisibleCompletionCells=0;
@@ -96,6 +136,7 @@ namespace Purumogu.Rescue
                     color.a*=Mathf.Clamp01((step-firstEvidence[k]+25)/125f);
                     if(fine)color.a*=.28f;
                 }
+                if(RenderSurfaces)color.a*=measured?.22f:.45f;
                 for(int axis=0;axis<3;axis++)for(int sign=-1;sign<=1;sign+=2)
                 {
                     var neighbor=k;neighbor[axis]+=sign;if(display.ContainsKey(neighbor))continue;int density=measured?2:1;
@@ -110,6 +151,7 @@ namespace Purumogu.Rescue
             {
                 var p=new Vector3((float)sample[0],(float)sample[1],(float)sample[2]);var color=ObservedColor(p);
                 color.a*=(float)sample[3]*Mathf.Clamp01((step-(float)sample[4]+25)/100f)*Mathf.Clamp01(1-(step-(float)sample[5])/1500f);
+                if(RenderSurfaces)color.a*=.38f;
                 Point(p,color,2.15f);FineObservedPoints++;
             }
             SurfacePoints=vertices.Count/4;
@@ -120,7 +162,7 @@ namespace Purumogu.Rescue
                 if(history.Count==0||Vector3.Distance(history[history.Count-1],p)>.012f){history.Add(p);if(history.Count>384)history.RemoveAt(0);}
                 Point(p,id==selected?Color.white:new Color(.78f,.87f,.90f,.6f),id==selected?5:3);
             }
-            foreach(var alert in Alerts){Point(alert.Position,alert.Color,7);if(alert.Kind=="person"){Ring(alert,0);Ring(alert,1);}else if(alert.Kind=="gas"){Ring(alert,0);Triangle(alert);}else{Ring(alert,0);WaterWaves(alert);}}
+            foreach(var alert in Alerts){Point(alert.Position,alert.Color,7);if(alert.Kind=="person"){Ring(alert,0);}else if(alert.Kind=="gas"){Ring(alert,0);Triangle(alert);}else{Ring(alert,0);WaterWaves(alert);}}
             points.Clear();points.SetVertices(vertices);points.SetColors(colors);points.SetUVs(0,uv);points.SetTriangles(indices,0);points.RecalculateBounds();BuildTrail();
         }
         void Ring(AlertMark alert,int plane)
@@ -135,6 +177,6 @@ namespace Purumogu.Rescue
             var v=new List<Vector3>();var c=new List<Color>();var ix=new List<int>();if(trajectories.TryGetValue(selected,out var positions))for(int i=1;i<positions.Count;i++)Line(v,c,ix,positions[i-1],positions[i],new Color(.72f,.83f,.83f,.16f+i/(float)positions.Count*.2f));
             trail.Clear();trail.SetVertices(v);trail.SetColors(c);trail.SetIndices(ix,MeshTopology.Lines,0);trail.RecalculateBounds();
         }
-        public void Dispose(){if(Root)Object.DestroyImmediate(Root);Object.DestroyImmediate(points);Object.DestroyImmediate(grid);Object.DestroyImmediate(trail);Object.DestroyImmediate(pointMaterial);Object.DestroyImmediate(lineMaterial);}
+        public void Dispose(){if(Root)Object.DestroyImmediate(Root);Object.DestroyImmediate(points);Object.DestroyImmediate(surfaces);Object.DestroyImmediate(edges);Object.DestroyImmediate(surfaceMaterial);Object.DestroyImmediate(grid);Object.DestroyImmediate(trail);Object.DestroyImmediate(pointMaterial);Object.DestroyImmediate(lineMaterial);}
     }
 }

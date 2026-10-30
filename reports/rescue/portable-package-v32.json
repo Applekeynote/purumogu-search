@@ -1,0 +1,8 @@
+{
+  "isolated_working_directory": true,
+  "developer_tools_removed_from_child_path": true,
+  "forced_exit_child_cleanup": true,
+  "status": "pass",
+  "manifest_hashes_verified": true,
+  "real_inference_map": true
+}

@@ -4,6 +4,7 @@
 /unity/Logs/
 /unity/obj/
 /unity/UserSettings/
+/unity/Assets/StreamingAssets/inference/
 /build/
 /tmp/
 /datasets/generated/

@@ -1,0 +1,46 @@
+{
+  "status": "development-demonstration-not-acceptance-score",
+  "scene_seed": 20261030,
+  "source_seed": 20261030,
+  "evaluation": {
+    "scene": "E02",
+    "steps": 18000,
+    "nodes": 48,
+    "released_nodes": 48,
+    "deployment": "WholeSceneDrop",
+    "deployment_seed": 907231,
+    "lost_nodes": 4,
+    "observed_cells": 42540,
+    "coverage": 0.904336751,
+    "observed_iou": 0.9159535,
+    "global_iou": 0.929972,
+    "truth_occupied_cells": 7836,
+    "predicted_occupied_cells": 7322,
+    "correct_occupied_cells": 7304,
+    "occupancy_precision": 0.997541666,
+    "occupancy_recall": 0.9321082,
+    "human_precision": 1.0,
+    "human_recall": 1.0,
+    "pose_rmse_m": 0.105223991,
+    "cues": 1,
+    "matched": 1,
+    "false_alarms": 0,
+    "truth_people": 1,
+    "localization_error_m": 0.0538216457,
+    "couplings": 52,
+    "releases": 51
+  },
+  "goal_reasons": {
+    "observed-free route toward an unobserved frontier": 42,
+    "acoustic and thermal verification dwell": 3,
+    "observed-free acoustic probe route": 1
+  },
+  "estimated_nodes_within_30cm_of_candidate": [
+    3
+  ],
+  "package_sha256": "cb34e1adeddc1cdfa6902faacec5fc1da26f5e418fcd29ecab14263089aec780",
+  "rust_workspace_tests": "pass",
+  "rust_clippy": "pass",
+  "protocol_integration_tests": 6,
+  "real_player_sim_steps": 18000
+}

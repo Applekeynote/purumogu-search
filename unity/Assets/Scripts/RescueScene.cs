@@ -64,7 +64,7 @@ namespace Purumogu.Rescue
             public bool Human; // Not serialized. Features are noisy observations, not this label.
         }
 
-        public RescueScene(int index, int seed)
+        public RescueScene(int index, int seed, int? sourceSeed=null)
         {
             Spec = Catalog[Mathf.Clamp(index, 0, 14)]; random = new System.Random(seed);
             Concrete = Material(new Color(.46f, .47f, .43f), .08f);
@@ -167,13 +167,13 @@ namespace Purumogu.Rescue
                 bar.transform.localRotation = Quaternion.Euler(70,Range(0,180),Range(-25,25)); bar.GetComponent<Renderer>().sharedMaterial = Rust;
             }
             if(layout==4||layout==9||layout==13){Physics.SyncTransforms();GasLeakPosition=SampleSourcePocket(new System.Random(seed^0x3511a9^(index*613)));}
-            var sourceRandom=new System.Random(seed ^ 0x4f1bbcdc ^ (index*397));
+            var sourceRandom=new System.Random((sourceSeed??seed) ^ 0x4f1bbcdc ^ (index*397));
             for (int i = 0; i < Spec.Victims; i++)
             {
                 Physics.SyncTransforms();var p=SampleSourcePocket(sourceRandom);
                 VictimPositions.Add(p);
                 Sources.Add(new AcousticSource { Position=p, Human=true, VoiceBand=.84f, Modulation=layout==14?.32f:.84f, Power=layout==14?.32f:1, Warmth=3.6f });
-                var marker = GameObject.CreatePrimitive(PrimitiveType.Capsule); marker.name="EvaluationOnlyPerson";marker.transform.SetParent(Root.transform,false);marker.transform.position=p;marker.transform.localScale=new Vector3(.13f,.22f,.13f)*Scale;marker.transform.rotation=Quaternion.Euler(75,0,10);UnityEngine.Object.DestroyImmediate(marker.GetComponent<Collider>());var renderer=marker.GetComponent<Renderer>();renderer.sharedMaterial=Material(new Color(.95f,.52f,.2f),.1f);renderer.enabled=false;VictimRenderers.Add(renderer);
+                var marker = GameObject.CreatePrimitive(PrimitiveType.Sphere); marker.name="EvaluationOnlyPerson";marker.transform.SetParent(Root.transform,false);marker.transform.position=p;marker.transform.localScale=Vector3.one*.045f;UnityEngine.Object.DestroyImmediate(marker.GetComponent<Collider>());var renderer=marker.GetComponent<Renderer>();var beacon=new Material(Resources.Load<Shader>("RescueTruthBeacon"));resources.Add(beacon);renderer.sharedMaterial=beacon;renderer.enabled=false;VictimRenderers.Add(renderer);
             }
             Sources.Add(new AcousticSource { Position=new Vector3(1.7f,.25f,6.0f)*Scale, VoiceBand=layout==9?.73f:.25f, Modulation=layout==9?.72f:.28f, Power=.8f, Warmth=layout==4?1.5f:0 });
             Physics.SyncTransforms(); Cutaway(true);

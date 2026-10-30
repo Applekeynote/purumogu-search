@@ -239,6 +239,7 @@ pub struct Mapper {
     probe_cues: Vec<Cue>,
     environment: hazards::HazardMap,
     fine_surface: surface::SurfaceMap,
+    recent_visits: BTreeMap<[i32; 2], u64>,
 }
 impl Mapper {
     pub fn new(run: &str, cell: f64) -> Result<Self> {
@@ -267,6 +268,7 @@ impl Mapper {
             probe_cues: vec![],
             environment: hazards::HazardMap::default(),
             fine_surface: surface::SurfaceMap::default(),
+            recent_visits: BTreeMap::new(),
         })
     }
     pub fn with_model(run: &str, cell: f64, model: Option<Arc<LearnedModel>>) -> Result<Self> {
@@ -418,6 +420,11 @@ impl Mapper {
             pose.position = add(pose.position, s.odometry_delta);
             pose.sigma = s.pose_sigma_m;
             let origin = pose.position;
+            let visit = [
+                (origin[0] / self.cell).floor() as i32,
+                (origin[2] / self.cell).floor() as i32,
+            ];
+            self.recent_visits.insert(visit, p.sim_step);
             // High pose uncertainty cannot silently paint precise walls.
             if s.pose_sigma_m > self.cell * 3.0 {
                 self.rejected += 1;
@@ -1014,6 +1021,43 @@ impl Mapper {
         }
     }
     fn frontiers(&self) -> Vec<Goal> {
+        let distributed = self.model.as_ref().is_some_and(|m| m.distributed_swarm);
+        let verification_budget = if distributed {
+            self.poses.len().div_ceil(8).clamp(3, 6)
+        } else {
+            usize::MAX
+        };
+        let mut verification_roster = BTreeSet::new();
+        if distributed {
+            // A cue never recruits the whole swarm when frontier routing is temporarily unavailable.
+            // Reserve at most three nearby observers per raw cue; all other nodes keep mapping.
+            for cue in &self.probe_cues {
+                let mut nearby: Vec<_> = self
+                    .poses
+                    .iter()
+                    .filter(|(id, _)| !verification_roster.contains(*id))
+                    .collect();
+                nearby.sort_by(|(aid, a), (bid, b)| {
+                    norm(sub(a.position, cue.position))
+                        .total_cmp(&norm(sub(b.position, cue.position)))
+                        .then_with(|| aid.cmp(bid))
+                });
+                for (id, _) in nearby.into_iter().take(3) {
+                    if verification_roster.len() >= verification_budget {
+                        break;
+                    }
+                    verification_roster.insert(id.clone());
+                }
+                if verification_roster.len() >= verification_budget {
+                    break;
+                }
+            }
+            for (id, &until) in &self.verify_until {
+                if until > self.last_step && verification_roster.len() < verification_budget {
+                    verification_roster.insert(id.clone());
+                }
+            }
+        }
         let mut free = BTreeSet::new();
         let mut blocked = BTreeSet::new();
         for (k, v) in &self.voxels {
@@ -1037,8 +1081,27 @@ impl Mapper {
         let mut assigned: Vec<[i32; 2]> = vec![];
         let mut goals = vec![];
         for (ordinal, (id, pose)) in self.poses.iter().enumerate() {
+            // Scatter landing heights vary. A single global y=0 slice incorrectly leaves
+            // nodes standing on a slab without any mapped route, and used to recruit them as probes.
+            if distributed {
+                free.clear();
+                blocked.clear();
+                for (k, v) in &self.voxels {
+                    let y = (f64::from(k[1]) + 0.5) * self.cell;
+                    if y < pose.position[1] - 0.025 || y > pose.position[1] + 0.085 {
+                        continue;
+                    }
+                    if v.log_odds < -0.5 {
+                        free.insert([k[0], k[2]]);
+                    }
+                    if v.log_odds > 1.2 && y > pose.position[1] + 0.012 {
+                        blocked.insert([k[0], k[2]]);
+                    }
+                }
+            }
             if let Some(&until) = self.verify_until.get(id)
                 && until > self.last_step
+                && (!distributed || verification_roster.contains(id))
             {
                 goals.push(Goal {
                     node_id: id.clone(),
@@ -1059,7 +1122,11 @@ impl Mapper {
                 }
                 for n in neighbors(k) {
                     if (-12..12).contains(&n[0])
-                        && (-4..54).contains(&n[1])
+                        && (if distributed {
+                            (-6..64).contains(&n[1])
+                        } else {
+                            (-4..54).contains(&n[1])
+                        })
                         && free.contains(&n)
                         && !blocked.contains(&n)
                         && !previous.contains_key(&n)
@@ -1082,12 +1149,38 @@ impl Mapper {
                 }
                 let unknown = neighbors(k)
                     .iter()
-                    .filter(|n| !free.contains(*n) && !blocked.contains(*n))
+                    .filter(|n| {
+                        (!distributed || ((-12..12).contains(&n[0]) && (-6..64).contains(&n[1])))
+                            && !free.contains(*n)
+                            && !blocked.contains(*n)
+                    })
                     .count();
-                if unknown == 0 {
+                if unknown == 0 && !distributed {
                     continue;
                 }
-                let score = unknown as f64 * 0.4 + k[1] as f64 * 0.06 - d as f64 * 0.005;
+                let score = if distributed {
+                    let age = self.recent_visits.get(&k).map_or(1.0, |step| {
+                        self.last_step.saturating_sub(*step).min(3000) as f64 / 3000.0
+                    });
+                    let spacing = self
+                        .poses
+                        .iter()
+                        .filter(|(other, _)| *other != id)
+                        .map(|(_, p)| {
+                            norm(sub(
+                                [
+                                    (f64::from(k[0]) + 0.5) * self.cell,
+                                    pose.position[1],
+                                    (f64::from(k[1]) + 0.5) * self.cell,
+                                ],
+                                p.position,
+                            ))
+                        })
+                        .fold(1.0, f64::min);
+                    unknown as f64 * 0.9 + age * 0.7 + spacing * 0.8 - f64::from(d) * 0.008
+                } else {
+                    unknown as f64 * 0.4 + k[1] as f64 * 0.06 - d as f64 * 0.005
+                };
                 if score > best_score {
                     best_score = score;
                     best = Some(k);
@@ -1100,7 +1193,11 @@ impl Mapper {
             };
             let should_probe = self.model.as_ref().is_some_and(|m| m.acoustic_probe)
                 && !self.probe_cues.is_empty()
-                && (ordinal < probe_nodes || best.is_none());
+                && if distributed {
+                    verification_roster.contains(id)
+                } else {
+                    ordinal < probe_nodes || best.is_none()
+                };
             if let Some(target) = best.filter(|_| !should_probe) {
                 assigned.push(target);
                 let mut waypoint = target;
@@ -1182,6 +1279,102 @@ impl Mapper {
 #[cfg(test)]
 mod tests {
     use super::*;
+    #[test]
+    fn scattered_swarm_reserves_mapping_nodes_even_when_all_nodes_hear_a_person() {
+        let mut model = learned_fixture();
+        model.distributed_swarm = true;
+        model.acoustic_probe = true;
+        let mut mapper = Mapper::with_model("roles", 0.05, Some(Arc::new(model))).unwrap();
+        mapper.last_step = 25;
+        for x in -12..12 {
+            for z in -6..64 {
+                mapper.voxels.insert(
+                    [x, 4, z],
+                    Voxel {
+                        log_odds: -2.0,
+                        count: 4,
+                    },
+                );
+            }
+        }
+        for i in 0..48 {
+            let position = [
+                -0.4 + (i % 8) as f64 * 0.1,
+                0.225,
+                0.2 + (i / 8) as f64 * 0.35,
+            ];
+            let id = format!("N{i:02}");
+            mapper.poses.insert(
+                id.clone(),
+                Pose {
+                    position,
+                    sigma: 0.001,
+                    anchor: position,
+                },
+            );
+            mapper.verify_until.insert(id, 1000);
+        }
+        mapper.probe_cues.push(Cue {
+            position: [0.0, 0.225, 1.2],
+            score: 0.8,
+            radius_m: 0.3,
+            observers: 48,
+            status: "UNCONFIRMED",
+            last_seen_step: 25,
+            evidence: CueEvidence::default(),
+        });
+        let goals = mapper.frontiers();
+        assert_eq!(goals.len(), 48);
+        assert_eq!(
+            goals
+                .iter()
+                .filter(|g| g.hold_until_step > 0 || g.reason.contains("probe"))
+                .count(),
+            6
+        );
+        assert_eq!(
+            goals
+                .iter()
+                .filter(|g| g.reason.contains("frontier"))
+                .count(),
+            42
+        );
+        assert!(
+            goals
+                .iter()
+                .all(|g| mapper.voxels[&mapper.key(g.position)].log_odds < -0.5)
+        );
+    }
+    #[test]
+    fn absent_frontiers_do_not_recruit_the_rest_of_the_scattered_swarm_as_probes() {
+        let mut model = learned_fixture();
+        model.distributed_swarm = true;
+        model.acoustic_probe = true;
+        let mut mapper = Mapper::with_model("quota", 0.05, Some(Arc::new(model))).unwrap();
+        for i in 0..24 {
+            let position = [i as f64 * 0.01, 0.025, 0.3];
+            mapper.poses.insert(
+                format!("N{i:02}"),
+                Pose {
+                    position,
+                    sigma: 0.001,
+                    anchor: position,
+                },
+            );
+        }
+        mapper.probe_cues.push(Cue {
+            position: [0.12, 0.025, 0.3],
+            score: 0.8,
+            radius_m: 0.3,
+            observers: 24,
+            status: "UNCONFIRMED",
+            last_seen_step: 0,
+            evidence: CueEvidence::default(),
+        });
+        let goals = mapper.frontiers();
+        assert_eq!(goals.len(), 3);
+        assert!(goals.iter().all(|g| g.reason.contains("probe")));
+    }
     #[test]
     fn distributed_release_accepts_forty_eight_nodes_and_normalizes_observers() {
         let mut model = learned_fixture();
