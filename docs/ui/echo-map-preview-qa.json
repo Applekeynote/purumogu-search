@@ -1,0 +1,41 @@
+{
+  "checked_at": "2026-10-30T12:40:00.250Z",
+  "artifact": "Design prototype with synthetic data; no Unity implementation or inference validation",
+  "checks": [
+    "layer toggles preserve coverage",
+    "four projections render distinctly",
+    "candidate and slice synchronization",
+    "pinned slice preserves position",
+    "timeline changes coverage",
+    "observation pulse has no runtime error",
+    "responsive widths without horizontal overflow"
+  ],
+  "widths": [
+    {
+      "width": 1160,
+      "scroll": 1160,
+      "body": 1160
+    },
+    {
+      "width": 820,
+      "scroll": 820,
+      "body": 820
+    },
+    {
+      "width": 620,
+      "scroll": 620,
+      "body": 620
+    },
+    {
+      "width": 390,
+      "scroll": 390,
+      "body": 390
+    },
+    {
+      "width": 320,
+      "scroll": 320,
+      "body": 320
+    }
+  ],
+  "page_errors": []
+}
