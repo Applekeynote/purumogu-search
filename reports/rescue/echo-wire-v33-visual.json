@@ -1,0 +1,33 @@
+{
+  "status": "pass",
+  "scene": "E02",
+  "nodes": 48,
+  "simulated_seconds": 80,
+  "first": {
+    "visible_pixels": 0,
+    "green_pixels": 0,
+    "green_fraction": null,
+    "sha256": "e79ce93cb3cf2e92fd22d2af1f6e5f4c44c6bcc1de4dcfa8deaae919c76a57f0"
+  },
+  "late": {
+    "visible_pixels": 32683,
+    "green_pixels": 32683,
+    "green_fraction": 1.0,
+    "sha256": "46ce2e56122c50a6768ea35615f25672fe100cc6c1db2fd44628925bebebcf63"
+  },
+  "last": {
+    "visible_pixels": 32683,
+    "green_pixels": 32683,
+    "green_fraction": 1.0,
+    "sha256": "46ce2e56122c50a6768ea35615f25672fe100cc6c1db2fd44628925bebebcf63"
+  },
+  "stationary_after_final_observation": true,
+  "viewport": [
+    810,
+    126,
+    766,
+    446
+  ],
+  "no_non_green_annotations": true,
+  "note": "Actual Unity player screenshots; single development run, not a rescue accuracy acceptance result."
+}

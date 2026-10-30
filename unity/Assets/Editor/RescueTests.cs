@@ -17,6 +17,40 @@ namespace Purumogu.Editor
     {
         static string Arg(string name,string fallback){var args=Environment.GetCommandLineArgs();for(int i=0;i<args.Length-1;i++)if(args[i]==name)return args[i+1];return fallback;}
         static void Reset()=>EditorSceneManager.NewScene(NewSceneSetup.EmptyScene,NewSceneMode.Single);
+        public static void DashboardSmoke()
+        {
+            Reset();
+            foreach(string name in new[]{"RescueEchoDepth","RescueEchoWire"})
+            {var shader=Resources.Load<Shader>(name);if(shader==null||UnityEditor.ShaderUtil.ShaderHasError(shader))throw new Exception("Echo shader failed: "+name);}
+            var cells=new JArray();
+            for(int x=-2;x<=3;x++)for(int y=-2;y<=3;y++)for(int z=-2;z<=3;z++)
+            {
+                bool occupied=x>=0&&x<=1&&y>=0&&y<=1&&z>=0&&z<=1;
+                cells.Add(new JObject{["key"]=new JArray(x,y,z),["observations"]=0,["sensor_occupancy"]=occupied?.95:.05,["occupancy"]=.99});
+            }
+            var reply=new JObject{["cell_m"]=.05,["sim_step"]=600,["cells"]=cells};
+            using(var view=new RescueEchoWireMap())
+            {
+                view.Update(reply);if(view.Quads!=0||view.Segments!=0)throw new Exception("Unobserved prior generated a surface");
+                foreach(var c in cells)c["observations"]=2;
+                view.Update(reply);
+                if(view.Quads!=24||view.Segments!=48)throw new Exception($"Surface net must have 24 quads and 48 edges without triangle diagonals: {view.Quads}/{view.Segments}");
+                if(view.MaximumRelaxation>.01751f)throw new Exception("Surface relaxation exceeded its display-only bound");
+                var before=view.ReconstructedVertices;
+                reply["cues"]=new JArray(new JObject{["position"]=new JArray(0,0,0)});reply["nodes"]=new JArray(new JObject{["estimated_position"]=new JArray(0,0,0)});reply["hazards"]=new JArray(new JObject{["kind"]="gas"});
+                foreach(var c in cells)c["occupancy"]=.01;
+                view.Update(reply);
+                if(!before.SequenceEqual(view.ReconstructedVertices))throw new Exception("Prior or annotation changed the observed surface");
+                if(view.Root.transform.childCount!=2||view.Root.GetComponentsInChildren<LineRenderer>().Length!=0)throw new Exception("Decorative overlays remained in the wire-only map");
+                foreach(var c in cells)c["sensor_occupancy"]=(float)c["sensor_occupancy"]>.5f?.81:.19;
+                view.Update(reply);if(!before.SequenceEqual(view.ReconstructedVertices))throw new Exception("Small sensor probability changes made the wire surface jitter");
+                foreach(var c in cells)c["observations"]=1;
+                using(var weak=new RescueEchoWireMap()){weak.Update(reply);if(weak.Segments!=0)throw new Exception("Single weak observation was displayed as a measured structure");}
+            }
+            string output=Path.GetFullPath(Path.Combine(Application.dataPath,"../../reports/rescue/echo-wire-v33-smoke.json"));
+            File.WriteAllText(output,JsonConvert.SerializeObject(new{status="pass",checks=new[]{"shader compilation","unobserved and weakly observed structure hidden","connected surface-net quads without triangle diagonals","bounded display relaxation","learned prior does not change observed wire geometry","no point cloud, alert markers or animated overlays","display hysteresis prevents probability jitter"}},Formatting.Indented));
+            Debug.Log("ECHO_WIRE_V33_SMOKE PASS");
+        }
         public static void PortableSmoke()
         {
             Reset();CheckMapReveal();int randomized=0;

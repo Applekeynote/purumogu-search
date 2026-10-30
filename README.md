@@ -1,6 +1,8 @@
 # ぷるもぐサーチ
 
-[Windows配布版3.2をダウンロード](https://github.com/Applekeynote/purumogu-search/releases/tag/v0.3.2)。ZIPをすべて展開して`PurumoguSearch.exe`を開くだけで推論も起動します。Unity・Rust等の別途インストールは不要です。右上は観測した面と輪郭を標準表示し、点群へ切り替えられます。左上の赤球はランダム配置した要救助者の正解位置です。[配布版の説明と検証](docs/portable-v32.md)を参照してください。3.2の探索制御は確認担当の総数を制限しており、旧条件の精度は流用していません。
+[Windows配布版3.3をダウンロード](https://github.com/Applekeynote/purumogu-search/releases/tag/v0.3.3)。ZIPをすべて展開して`PurumoguSearch.exe`を開くだけで推論も起動します。右上は黒背景に緑の細い表面格子だけを描く反響マップです。判断欄・凡例・断面・候補マーカー・波紋を外し、観測から連続した四角格子を組み立てます。[表示と検証の説明](docs/echo-wire-v33.md)を参照してください。左上の赤球はランダム配置した要救助者の正解位置です。
+
+![3.3の緑のワイヤーフレーム表示](media/rescue-interface-v33.png)
 
 [提出用レポート（PDF・2026年10月29日）](output/pdf/Purumogu_Search_Report_20261029.pdf)は、距離・音響の補正、地図と候補履歴の学習、v9からv13への改善と到達精度を9ページにまとめています。VALIDとモデル固定後のTEST、旧12台条件と現行24・36・48台条件を分けて記載しています。[本文の編集用テキスト](output/pdf/Purumogu_Search_Report_20261029.md)もあります。
 

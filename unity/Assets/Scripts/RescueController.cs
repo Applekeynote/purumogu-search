@@ -8,10 +8,10 @@ using UnityEngine;
 
 namespace Purumogu.Rescue
 {
-    public sealed class RescueController : MonoBehaviour
+    public sealed partial class RescueController : MonoBehaviour
     {
         RescueSimulation simulation;
-        RescueMapView map;
+        RescueEchoWireMap map;
         readonly RescueEvaluation evaluation=new RescueEvaluation();
         UnityRustBridge bridge;
         BundledInference bundled;
@@ -39,7 +39,7 @@ namespace Purumogu.Rescue
 
         void Start()
         {
-            Application.runInBackground=true;Application.targetFrameRate=60;font=Font.CreateDynamicFontFromOSFont(new[]{"Yu Gothic","Segoe UI"},18);
+            Application.runInBackground=true;QualitySettings.antiAliasing=4;Application.targetFrameRate=60;font=Font.CreateDynamicFontFromOSFont(new[]{"Yu Gothic","Segoe UI"},18);
             var args=Environment.GetCommandLineArgs();for(int i=0;i<args.Length-1;i++){if(args[i]=="--closeup")closeup=args[i+1]=="true";if(args[i]=="--port")int.TryParse(args[i+1],out port);if(args[i]=="--steps")int.TryParse(args[i+1],out maxSteps);if(args[i]=="--seed")int.TryParse(args[i+1],out seed);if(args[i]=="--scene")int.TryParse(args[i+1],out sceneIndex);if(args[i]=="--frames"){record=true;frameFolder=args[i+1];Directory.CreateDirectory(frameFolder);}if(args[i]=="--capture-count")int.TryParse(args[i+1],out maxFrames);if(args[i]=="--speed")float.TryParse(args[i+1],NumberStyles.Float,CultureInfo.InvariantCulture,out speed);}
             for(int i=0;i<args.Length-1;i++){if(args[i]=="--nodes")int.TryParse(args[i+1],out nodeCount);if(args[i]=="--deployment-seed")int.TryParse(args[i+1],out deploymentSeed);if(args[i]=="--deployment")entranceDeployment=args[i+1]=="entrance";if(args[i]=="--film-view")filmView=args[i+1];}
             nodeCount=nodeCount==36?36:nodeCount==48?48:entranceDeployment&&nodeCount==12?12:24;
@@ -58,15 +58,15 @@ namespace Purumogu.Rescue
         void Build()
         {
             bridge?.Dispose();bridge=null;simulation?.Dispose();map?.Dispose();
-            simulation=new RescueSimulation(sceneIndex,seed,nodeCount,entranceDeployment?RescueDeploymentMode.EntranceGrid:RescueDeploymentMode.WholeSceneDrop,deploymentSeed,sourceSeed);map=new RescueMapView();lastMap=null;expected=-1;waiting=false;running=false;failure="";status="READY";audit.Clear();selectedNode=Mathf.Clamp(selectedNode,0,nodeCount-1);nodeScroll=Vector2.zero;
+            simulation=new RescueSimulation(sceneIndex,seed,nodeCount,entranceDeployment?RescueDeploymentMode.EntranceGrid:RescueDeploymentMode.WholeSceneDrop,deploymentSeed,sourceSeed);map=new RescueEchoWireMap();lastMap=null;expected=-1;waiting=false;running=false;failure="";status="READY";audit.Clear();selectedNode=Mathf.Clamp(selectedNode,0,nodeCount-1);nodeScroll=Vector2.zero;
             if(!physicalCamera)
             {
                 physicalCamera=new GameObject("PhysicalSimulationCamera").AddComponent<Camera>();physicalCamera.clearFlags=CameraClearFlags.SolidColor;physicalCamera.backgroundColor=new Color(.17f,.21f,.22f);physicalCamera.cullingMask=~(1<<8);physicalCamera.orthographic=true;physicalCamera.nearClipPlane=.005f;physicalCamera.farClipPlane=30;
-                mapCamera=new GameObject("InferenceOnlyCamera").AddComponent<Camera>();mapCamera.clearFlags=CameraClearFlags.SolidColor;mapCamera.backgroundColor=new Color(.025f,.055f,.075f);mapCamera.cullingMask=1<<8;mapCamera.orthographic=true;mapCamera.nearClipPlane=.005f;mapCamera.farClipPlane=30;mapCamera.depth=1;
+                mapCamera=new GameObject("InferenceOnlyCamera").AddComponent<Camera>();mapCamera.clearFlags=CameraClearFlags.SolidColor;mapCamera.backgroundColor=new Color(.004f,.008f,.014f);mapCamera.cullingMask=1<<8;mapCamera.orthographic=true;mapCamera.nearClipPlane=.005f;mapCamera.farClipPlane=30;mapCamera.depth=1;
                 robotCamera=new GameObject("ArticulatedMechanismDetail").AddComponent<Camera>();robotCamera.clearFlags=CameraClearFlags.SolidColor;robotCamera.backgroundColor=new Color(.12f,.17f,.19f);robotCamera.cullingMask=1<<9;robotCamera.orthographic=true;robotCamera.orthographicSize=.055f;robotCamera.nearClipPlane=.002f;robotCamera.farClipPlane=2;robotCamera.depth=2;robotCamera.rect=Viewport(new Rect(38,416,240,146));
                 var light=new GameObject("RescueDaylight").AddComponent<Light>();light.type=LightType.Directional;light.intensity=1.7f;light.shadows=LightShadows.Soft;light.transform.rotation=Quaternion.Euler(48,-28,0);RenderSettings.ambientMode=UnityEngine.Rendering.AmbientMode.Flat;RenderSettings.ambientLight=new Color(.52f,.60f,.64f);
             }
-            physicalCamera.rect=Viewport(WorldArea);mapCamera.rect=Viewport(MapArea);UpdateCameras();simulation.Scene.Cutaway(cutaway);simulation.Scene.ShowTruth(showTruth);
+            physicalCamera.rect=Viewport(WorldArea);mapCamera.rect=Viewport(MapRenderArea);UpdateCameras();simulation.Scene.Cutaway(cutaway);simulation.Scene.ShowTruth(showTruth);
         }
         static Rect Viewport(Rect r)=>new Rect(r.x/1600,(900-r.y-r.height)/900,r.width/1600,r.height/900);
         void Begin()
@@ -132,8 +132,8 @@ namespace Purumogu.Rescue
             var target=closeup?simulation.Robots[Mathf.Clamp(selectedNode,0,simulation.Robots.Count-1)].Core.position:new Vector3(0,entranceDeployment?.06f:.32f,1.30f);
             var initialOffset=closeup?new Vector3(.085f,.065f,-.065f):new Vector3(2.05f,2f,-.6f)-target;
             physicalView.Apply(physicalCamera,target,initialOffset,closeup?.072f:entranceDeployment?1.12f:1.38f);
-            inferenceView.Apply(mapCamera,new Vector3(0,.16f,1.28f),new Vector3(2.35f,1.95f,-2.4f),1.30f);
-            map.SetViewport(MapArea.width/1600f*Screen.width,MapArea.height/900f*Screen.height,1.30f/mapCamera.orthographicSize);map.SetSelectedNode(simulation.Robots[Mathf.Clamp(selectedNode,0,simulation.Robots.Count-1)].Id);
+            ApplyMapCamera();
+            map.SetViewport(MapRenderArea.width/1600f*Screen.width,MapRenderArea.height/900f*Screen.height,1.30f/mapCamera.orthographicSize);
             var robotTarget=simulation.Robots[Mathf.Clamp(selectedNode,0,simulation.Robots.Count-1)].Core.position;robotCamera.enabled=!closeup;robotCamera.transform.position=robotTarget+new Vector3(.060f,.055f,-.065f);robotCamera.transform.LookAt(robotTarget);
             for(int i=0;i<simulation.Robots.Count;i++)foreach(var renderer in simulation.Robots[i].Root.GetComponentsInChildren<Renderer>())renderer.gameObject.layer=i==selectedNode?9:0;
             if(filmView!="")
@@ -192,29 +192,6 @@ namespace Purumogu.Rescue
         }
         void Badge(float x,float y,float width,string label,Color color)
         {Rounded(new Rect(x,y,width,27),new Color(.04f,.065f,.08f,.92f));Fill(new Rect(x+8,y+9,3,9),color);Text(x+18,y+5,width-22,22,label,12,Color.Lerp(color,Color.white,.25f),true);}
-        void MapOverlay()
-        {
-            float x=MapArea.x+14,y=MapArea.y+12;
-            Badge(x,y,132,$"人候補 {map.CuePositions.Count}",RescueMapView.PersonColor);
-            Badge(x+140,y,168,map.GasZones>0?$"ガス反応 {map.GasZones}域":map.GasObservedNodes>0?"ガス反応 未検出":"ガス 未観測",RescueMapView.GasColor);
-            Badge(x+316,y,160,map.WaterZones>0?$"浸水 {map.WaterZones}域":map.WaterObservedNodes>0?"浸水反応 未検出":"浸水 未観測",RescueMapView.WaterColor);
-            Text(x,y+35,710,20,"観測した範囲の反応です。未観測部分の安全を示すものではありません。",10,Muted);
-            if(lastMap==null)Text(MapArea.x+70,MapArea.y+160,650,90,"観測待ち\n探索を始めると、観測した場所から地図が現れます。",18,Muted);
-            var pinCounts=new Dictionary<string,int>();
-            foreach(var alert in map.Alerts)
-            {
-                if(!pinCounts.ContainsKey(alert.Kind))pinCounts[alert.Kind]=0;if(pinCounts[alert.Kind]++>=3)continue;
-                var p=mapCamera.WorldToViewportPoint(alert.Position);if(p.z<=0||p.x<.02f||p.x>.94f||p.y<.16f||p.y>.82f)continue;
-                float px=MapArea.x+p.x*MapArea.width,py=MapArea.y+(1-p.y)*MapArea.height;
-                Rounded(new Rect(px+5,py-10,32,24),new Color(.025f,.04f,.05f,.92f));Text(px+9,py-8,29,22,alert.Id,12,Color.Lerp(alert.Color,Color.white,.25f),true);
-            }
-            var kinds=new HashSet<string>();int row=0;
-            foreach(var alert in map.Alerts)
-            {
-                if(!kinds.Add(alert.Kind))continue;float ay=MapArea.yMax-80+row++*24;
-                Rounded(new Rect(x,ay,MapArea.width-28,22),new Color(.025f,.045f,.06f,.88f));Text(x+9,ay+2,MapArea.width-45,21,alert.Label,11,Color.Lerp(alert.Color,Color.white,.25f),true);
-            }
-        }
         void TruthOverlay()
         {
             if(!showTruth||closeup)return;
@@ -229,8 +206,10 @@ namespace Purumogu.Rescue
         {
             if(filmView!="")return;
             if(simulation==null)return;GUI.matrix=Matrix4x4.Scale(new Vector3(Screen.width/1600f,Screen.height/900f,1));
+            // Automated frame capture must not drift when unrelated mouse input arrives.
+            if(record&&Event.current.type!=EventType.Repaint&&Event.current.type!=EventType.Layout)Event.current.Use();
             if(utilityMenu!=""&&Event.current.type==EventType.MouseDown&&Event.current.mousePosition.y>122&&!UtilityBounds.Contains(Event.current.mousePosition)){utilityMenu="";Event.current.Use();}
-            physicalView.Input(WorldArea,scenePicker||utilityMenu!="",4121);inferenceView.Input(MapArea,scenePicker||utilityMenu!="",4122);
+            physicalView.Input(WorldArea,scenePicker||utilityMenu!="",4121);inferenceView.Input(MapRenderArea,scenePicker||utilityMenu!="",4122);
             Fill(new Rect(0,0,1600,122),Background);Fill(new Rect(0,572,1600,328),Background);Fill(new Rect(0,122,24,450),Background);Fill(new Rect(794,122,16,450),Background);Fill(new Rect(1576,122,24,450),Background);
             var spec=RescueScene.Catalog[sceneIndex];
             TruthOverlay();
@@ -254,9 +233,6 @@ namespace Purumogu.Rescue
             if(Button(584,132,60,"機体",closeup,25)){closeup=!closeup;physicalView.ResetZoom();}
             if(Button(650,132,60,"透視",cutaway,25)){cutaway=!cutaway;simulation.Scene.Cutaway(cutaway);}
             if(Button(716,132,66,"戻す",false,25))physicalView.Reset();
-            Header(810,126,766,"02","逐次3Dマッピング",$"青緑：細密観測点 {map.FineObservedPoints:N0}  /  紫：補完 {map.VisibleCompletionCells}  /  表示集約 1cm・評価セル 5cm  /  白：推定ノード");
-            Text(1170,140,175,20,"ドラッグ / ホイール拡縮",10,Muted);if(Button(1355,132,132,map.RenderSurfaces?"面＋輪郭":"点群",map.RenderSurfaces,25))map.SetSurfaceMode(!map.RenderSurfaces);if(Button(1498,132,66,"戻す",false,25))inferenceView.Reset();
-            MapOverlay();
             Fill(new Rect(24,620,770,256),Panel);Fill(new Rect(810,620,766,256),Panel);
             Text(38,630,730,26,$"03  各ノードの状態 / 投下 {simulation.Robots.FindAll(r=>r.Released).Count} / {simulation.Robots.Count} 台",18,Ink,true);Text(42,666,730,22,"NODE    電池      関節 / 回転     接続    受信peer    RSSI     音響SNR    Δ温度    状態",12,Muted,true);
             nodeScroll=GUI.BeginScrollView(new Rect(36,690,744,178),nodeScroll,new Rect(0,0,722,Mathf.Max(178,simulation.Robots.Count*17)),false,true);

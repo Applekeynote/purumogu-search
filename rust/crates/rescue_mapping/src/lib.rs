@@ -111,10 +111,9 @@ pub struct Cue {
     pub observers: usize,
     pub status: &'static str,
     pub last_seen_step: u64,
-    #[serde(skip)]
     evidence: CueEvidence,
 }
-#[derive(Clone, Debug, Default)]
+#[derive(Clone, Debug, Default, Serialize)]
 struct CueEvidence {
     near: f64,
     human: f64,

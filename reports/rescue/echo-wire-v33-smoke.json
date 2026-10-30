@@ -1,0 +1,12 @@
+{
+  "status": "pass",
+  "checks": [
+    "shader compilation",
+    "unobserved and weakly observed structure hidden",
+    "connected surface-net quads without triangle diagonals",
+    "bounded display relaxation",
+    "learned prior does not change observed wire geometry",
+    "no point cloud, alert markers or animated overlays",
+    "display hysteresis prevents probability jitter"
+  ]
+}
