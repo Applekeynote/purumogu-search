@@ -22,10 +22,11 @@ namespace Purumogu.Rescue
         {
             Physics.simulationMode=SimulationMode.Script;Physics.gravity=new Vector3(0,-9.81f,0);Physics.defaultSolverIterations=16;Physics.defaultSolverVelocityIterations=8;
             Scene=new RescueScene(sceneIndex,seed,sourceSeed);linkMaterial=new Material(Shader.Find("Sprites/Default")){color=new Color(.2f,1,.77f)};
-            DeploymentMode=deployment;DeploymentSeed=deploymentSeed;var releases=RescueDeployment.Plan(nodes,deploymentSeed,deployment);
+            DeploymentMode=deployment;DeploymentSeed=deploymentSeed;var releases=RescueDeployment.Plan(nodes,deploymentSeed,deployment,Scene.ComplexGeometry?Scene.DeploymentRegions:null);
             for(int i=0;i<nodes;i++)
             {
                 var pose=releases[i];var robot=new RescueRobot("N"+i.ToString("D2"),pose.Position,seed+i*109);
+                if(Scene.ComplexGeometry){robot.AvoidUnsupportedEdges=true;robot.TravelBounds=new Vector4(-.69f,.69f,.01f,2.94f);}
                 if(deployment==RescueDeploymentMode.WholeSceneDrop)robot.ConfigureDrop(pose.Rotation,pose.Step);
                 Robots.Add(robot);
             }

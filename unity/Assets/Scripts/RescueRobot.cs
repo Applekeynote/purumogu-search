@@ -25,6 +25,8 @@ namespace Purumogu.Rescue
         /// Offline training label only; this robot object is never serialized to Rust.
         public bool EvaluationSourceIsHuman { get; private set; }
         public bool Powered=true, Stuck;
+        public bool AvoidUnsupportedEdges;
+        public Vector4 TravelBounds=new Vector4(-.61f,.61f,-.20f,2.65f);
         public bool Lost { get; private set; }
         public bool Released { get; private set; }=true;
         public int ReleaseStep { get; private set; }
@@ -125,10 +127,16 @@ namespace Purumogu.Rescue
             Verifying=step<HoldUntilStep;
             if(!Released||!Powered||Energy<=0)return;
             if(Verifying){Energy=Mathf.Max(0,Energy-.000001f);return;}
+            if(AvoidUnsupportedEdges&&Physics.Raycast(Core.position,Vector3.down,.12f,1<<6))
+            {
+                var velocity=Vector3.ProjectOnPlane(Core.linearVelocity,Vector3.up);
+                if(velocity.magnitude>.015f&&!Physics.Raycast(Core.position+velocity.normalized*.085f+Vector3.up*.025f,Vector3.down,.14f,1<<6))
+                    foreach(var body in new[]{Core,Cones[0],Cones[1]})body.linearVelocity=new Vector3(body.linearVelocity.x*.08f,body.linearVelocity.y,body.linearVelocity.z*.08f);
+            }
             Vector3 heading=Vector3.forward;
             if(HasTarget){heading=Vector3.ProjectOnPlane(ExplorationTarget-EstimatedPosition,Vector3.up);if(heading.magnitude>.018f)heading.Normalize();else heading=Vector3.forward;}
-            if(EstimatedPosition.z>2.65f)heading=Vector3.back;
-            if(Mathf.Abs(EstimatedPosition.x)>.61f)heading=new Vector3(-Mathf.Sign(EstimatedPosition.x),0,0);
+            if(EstimatedPosition.z>TravelBounds.w)heading=Vector3.back;
+            if(EstimatedPosition.x<TravelBounds.x||EstimatedPosition.x>TravelBounds.y)heading=new Vector3(-Mathf.Sign(EstimatedPosition.x),0,0);
             Vector3 nose=Core.position+Vector3.up*.005f;
             bool lowBlocked=Physics.SphereCast(nose,.007f,heading,out RaycastHit hit,.10f,1<<6)&&hit.normal.y<.6f;
             bool stepUp=lowBlocked&&!Stuck&&!Physics.SphereCast(nose+Vector3.up*.033f,.007f,heading,out _,.10f,1<<6);
@@ -144,9 +152,21 @@ namespace Purumogu.Rescue
             }
             if(step<avoidUntil)heading=avoidHeading;
             if(Stuck&&step%180<70)heading=(Id[Id.Length-1]%2==0?Vector3.left:Vector3.right)*.8f-Vector3.forward*.4f;
-            if(EstimatedPosition.z<-.20f)heading=Vector3.forward;
-            if(EstimatedPosition.z>2.65f)heading=Vector3.back;
-            if(Mathf.Abs(EstimatedPosition.x)>.61f)heading=new Vector3(-Mathf.Sign(EstimatedPosition.x),0,0);
+            if(EstimatedPosition.z<TravelBounds.z)heading=Vector3.forward;
+            if(EstimatedPosition.z>TravelBounds.w)heading=Vector3.back;
+            if(EstimatedPosition.x<TravelBounds.x||EstimatedPosition.x>TravelBounds.y)heading=new Vector3(-Mathf.Sign(EstimatedPosition.x),0,0);
+            if(AvoidUnsupportedEdges&&Physics.Raycast(Core.position,Vector3.down,.16f,1<<6))
+            {
+                var desired=heading.normalized;float best=float.NegativeInfinity;Vector3 safe=Vector3.zero;
+                foreach(float yaw in new[]{0f,-35,35,-70,70,-110,110,180})
+                {
+                    var candidate=Quaternion.Euler(0,yaw,0)*desired;
+                    if(!Physics.Raycast(Core.position+candidate*.055f+Vector3.up*.02f,Vector3.down,.10f,1<<6))continue;
+                    float score=Vector3.Dot(candidate,desired);if(score>best){best=score;safe=candidate;}
+                }
+                heading=safe;
+                if(safe==Vector3.zero){foreach(var body in new[]{Core,Cones[0],Cones[1]}){body.linearVelocity=new Vector3(body.linearVelocity.x*.08f,body.linearVelocity.y,body.linearVelocity.z*.08f);body.angularVelocity*=.4f;}return;}
+            }
             heading.Normalize();float speed=Vector3.Dot(Core.linearVelocity,heading);
             int grounded=Physics.Raycast(Core.position,Vector3.down,.032f,1<<6)?1:0;foreach(var cone in Cones)if(Physics.Raycast(cone.worldCenterOfMass,Vector3.down,.032f,1<<6))grounded++;
             float force=.14f*Mathf.Clamp01(1-speed/.12f)/Mathf.Max(grounded,1);

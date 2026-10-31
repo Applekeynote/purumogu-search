@@ -1,4 +1,4 @@
-param([string]$Model='models/swarm-v3-bootstrap/model.json',[string]$Output='dist/PurumoguSearch-Windows-v3.3.zip',[string]$Folder='dist/PurumoguSearch-Windows-v3.3',[string]$Server='rust/target/release/rescue_server.exe')
+param([string]$Model='models/swarm-v34-local/model.json',[string]$Output='dist/PurumoguSearch-Windows-v3.4.zip',[string]$Folder='dist/PurumoguSearch-Windows-v3.4',[string]$Server='rust/target/release/rescue_server.exe')
 $ErrorActionPreference='Stop'
 $projectRoot=Split-Path $PSScriptRoot -Parent
 $playerFolder=Join-Path $projectRoot 'build'
@@ -13,11 +13,11 @@ New-Item -ItemType Directory -Path $inference -Force | Out-Null
 Copy-Item -LiteralPath $(if([IO.Path]::IsPathRooted($Server)){$Server}else{Join-Path $projectRoot $Server}) -Destination (Join-Path $inference 'rescue_server.exe') -Force
 Copy-Item -LiteralPath (Join-Path $projectRoot $Model) -Destination (Join-Path $inference 'model.json') -Force
 Copy-Item -LiteralPath (Join-Path $projectRoot 'LICENSE') -Destination $stage
-$fingerprints=[ordered]@{version='3.3';created_utc=[DateTime]::UtcNow.ToString('o');source_model=$Model;source_server=$Server;steps=18000;seconds=360;node_counts=@(24,36,48);deployment='WholeSceneDrop';launch='PurumoguSearch.exe';inference='owned hidden process, ephemeral loopback port, Windows kill-on-close job';files=[ordered]@{}}
+$fingerprints=[ordered]@{version='3.4';created_utc=[DateTime]::UtcNow.ToString('o');source_model=$Model;source_server=$Server;steps=18000;seconds=360;node_counts=@(24,36,48);scenes=30;geometry_inference='sensor-only local planes and supported 3D routes';deployment='WholeSceneDrop';launch='PurumoguSearch.exe';inference='owned hidden process, ephemeral loopback port, Windows kill-on-close job';files=[ordered]@{}}
 foreach($name in @('PurumoguSearch.exe','UnityPlayer.dll','PurumoguSearch_Data/StreamingAssets/inference/rescue_server.exe','PurumoguSearch_Data/StreamingAssets/inference/model.json')){$fingerprints.files[$name]=(Get-FileHash -LiteralPath (Join-Path $stage $name) -Algorithm SHA256).Hash.ToLowerInvariant()}
 $fingerprints | ConvertTo-Json -Depth 5 | Set-Content -LiteralPath (Join-Path $stage 'PACKAGE-MANIFEST.json') -Encoding utf8NoBOM
 $instructions=@"
-ぷるもぐサーチ / Windows x64 / 3.3
+ぷるもぐサーチ / Windows x64 / 3.4
 
 ZIPをフォルダーごと展開し、PurumoguSearch.exe をダブルクリックしてください。
 「散布・探索を開始」で開始します。
@@ -31,10 +31,13 @@ EXEファイルだけを抜き出さず、フォルダー全体を配布して�
 ・24 / 36 / 48台をリセット後に切り替えられます。
 ・「配置を変える」で散布位置と要救助者の位置が変わります。
 ・左上の赤球は要救助者の正解位置です。表示設定で切り替えられます。
-・右上は黒背景と緑の細いワイヤーフレームだけの反響マップです。
-・判断欄・凡例・断面・候補マーカー・波紋・点群は右上に表示しません。
+・右上は緑の格子を基本とし、人候補は橙、浸水反応は青、ガス反応は赤で格子を色分けします。
+・推定補完は暗い破線で表示し、観測の実線と区別します。観測された空洞や開口は補完で塞ぎません。
+・既存15に、L/T/Y/U字・中庭・二層・三層の15シーンを追加しています。シーン一覧はスクロールできます。
+・判断欄・断面・候補マーカー・波紋・点群は右上に表示しません。
 ・両3D画面をドラッグで回転、ホイールで拡大・縮小できます。
-・表面を連続した四角格子で描き、観測が得られた場所から表示します。
+・周辺観測の局所平面から小さな欠測を補います。根拠のない大きな未観測領域は埋めません。
+・複数階では、観測された床支持と自由空間を使って3D経路を推定します。
 ・右下の評価は元の推論データで計算し、表示の滑らかさとは区別します。
 ・正解位置を推論へ送りません。
 

@@ -36,8 +36,27 @@ namespace Purumogu.Editor
                 view.Update(reply);
                 if(view.Quads!=24||view.Segments!=48)throw new Exception($"Surface net must have 24 quads and 48 edges without triangle diagonals: {view.Quads}/{view.Segments}");
                 if(view.MaximumRelaxation>.01751f)throw new Exception("Surface relaxation exceeded its display-only bound");
+                var baseReply=(JObject)reply.DeepClone();
+                var gapReply=(JObject)reply.DeepClone();var missing=((JArray)gapReply["cells"]).First(c=>(int)c["key"][0]==2&&(int)c["key"][1]==0&&(int)c["key"][2]==0);missing.Remove();
+                using(var gapView=new RescueEchoWireMap())
+                {
+                    gapView.Update(gapReply);int incomplete=gapView.Quads;
+                    ((JArray)gapReply["cells"]).Add(new JObject{["key"]=new JArray(2,0,0),["observations"]=0,["occupancy"]=.12,["sensor_occupancy"]=JValue.CreateNull(),["source"]="local_surface_completion"});
+                    gapView.Update(gapReply);if(gapView.InferredCells!=1||gapView.Quads<=incomplete)throw new Exception("Server inference did not repair a surface gap");
+                }
+                using(var colorView=new RescueEchoWireMap())
+                {
+                    var colorReply=(JObject)baseReply.DeepClone();
+                    var upper=((JArray)baseReply["cells"]).Select(c=>{var copy=(JObject)c.DeepClone();copy["key"][1]=(int)copy["key"][1]+8;return copy;}).ToArray();
+                    foreach(var c in upper)((JArray)colorReply["cells"]).Add(c);
+                    colorReply["cues"]=new JArray(new JObject{["position"]=new JArray(.05,.05,.05),["radius_m"]=.2});
+                    colorView.Update(colorReply);if(colorView.PersonSegments!=48||colorView.Segments!=96)throw new Exception("Person wire color leaked into a different storey");
+                    colorReply["cues"]=new JArray();colorReply["hazards"]=new JArray(new JObject{["position"]=new JArray(.05,.05,.05),["radius_m"]=.2,["kind"]="water"});
+                    colorView.Update(colorReply);if(colorView.WaterSegments!=48)throw new Exception("Water wire color missing");
+                    colorReply["hazards"][0]["kind"]="gas";colorView.Update(colorReply);if(colorView.GasSegments!=48)throw new Exception("Gas wire color missing");
+                }
                 var before=view.ReconstructedVertices;
-                reply["cues"]=new JArray(new JObject{["position"]=new JArray(0,0,0)});reply["nodes"]=new JArray(new JObject{["estimated_position"]=new JArray(0,0,0)});reply["hazards"]=new JArray(new JObject{["kind"]="gas"});
+                reply["cues"]=new JArray(new JObject{["position"]=new JArray(0,0,0),["radius_m"]=.2});reply["nodes"]=new JArray(new JObject{["estimated_position"]=new JArray(0,0,0)});reply["hazards"]=new JArray(new JObject{["kind"]="gas",["position"]=new JArray(0,0,0),["radius_m"]=.2});
                 foreach(var c in cells)c["occupancy"]=.01;
                 view.Update(reply);
                 if(!before.SequenceEqual(view.ReconstructedVertices))throw new Exception("Prior or annotation changed the observed surface");
@@ -47,9 +66,47 @@ namespace Purumogu.Editor
                 foreach(var c in cells)c["observations"]=1;
                 using(var weak=new RescueEchoWireMap()){weak.Update(reply);if(weak.Segments!=0)throw new Exception("Single weak observation was displayed as a measured structure");}
             }
-            string output=Path.GetFullPath(Path.Combine(Application.dataPath,"../../reports/rescue/echo-wire-v33-smoke.json"));
-            File.WriteAllText(output,JsonConvert.SerializeObject(new{status="pass",checks=new[]{"shader compilation","unobserved and weakly observed structure hidden","connected surface-net quads without triangle diagonals","bounded display relaxation","learned prior does not change observed wire geometry","no point cloud, alert markers or animated overlays","display hysteresis prevents probability jitter"}},Formatting.Indented));
-            Debug.Log("ECHO_WIRE_V33_SMOKE PASS");
+            string output=Path.GetFullPath(Path.Combine(Application.dataPath,"../../reports/rescue/echo-wire-v34-smoke.json"));
+            File.WriteAllText(output,JsonConvert.SerializeObject(new{status="pass",checks=new[]{"shader compilation","unobserved and weakly observed structure hidden","connected surface-net quads without triangle diagonals","bounded display relaxation","learned prior does not change observed wire geometry","no point cloud, alert markers or animated overlays","display hysteresis prevents probability jitter","backend completion repairs missing surface quads","person water gas grid colors respect floor height"}},Formatting.Indented));
+            Debug.Log("ECHO_WIRE_V34_SMOKE PASS");
+        }
+        public static void ComplexSmoke()
+        {
+            Reset();var rows=new List<object>();
+            using(var service=new BundledInference())
+            {
+                service.Start(Path.Combine(Application.streamingAssetsPath,"inference"));
+                for(int scene=15;scene<RescueScene.Catalog.Length;scene++)
+                {
+                    using(var sim=new RescueSimulation(scene,20261031+scene*97,24,RescueDeploymentMode.WholeSceneDrop,907231+scene*13,20261031))
+                    using(var client=new TcpClient())
+                    {
+                        for(int retry=0;retry<100&&!client.Connected;retry++){try{client.Connect("127.0.0.1",service.Port);}catch(SocketException){System.Threading.Thread.Sleep(50);}}
+                        if(!client.Connected)throw new Exception("Inference did not start");
+                        client.ReceiveTimeout=60000;var stream=client.GetStream();var reader=new StreamReader(stream,Encoding.UTF8);var writer=new StreamWriter(stream,new UTF8Encoding(false)){AutoFlush=true};
+                        if(!sim.Scene.ComplexGeometry||sim.Scene.DeploymentRegions.Count<2||sim.Scene.Root.GetComponentsInChildren<Collider>().Any(c=>c.name=="Foundation"))throw new Exception("Scene remained a rectangular tray");
+                        foreach(var robot in sim.Robots)if(!sim.Scene.DeploymentRegions.Exists(r=>r.Contains(new Vector2(robot.DeploymentAnchor.x,robot.DeploymentAnchor.z))))throw new Exception("Deployment outside declared envelope");
+                        foreach(var p in sim.Scene.VictimPositions)if(Physics.CheckSphere(p,.012f,1<<6))throw new Exception("Person source is inside solid geometry");
+                        JObject reply=null;long sequence=0;
+                        for(int step=0;step<750;step++)
+                        {
+                            sim.Tick();if(sim.Step%125!=0)continue;var packet=sim.Observe("complex-"+scene,sequence++);packet.request_map=sim.Step==750;
+                            writer.WriteLine(JsonConvert.SerializeObject(packet));reply=JObject.Parse(reader.ReadLine());
+                            if((string)reply["type"]=="error")throw new Exception(reply.ToString());sim.ApplyGuidance(reply);
+                        }
+                        if((string)reply["completion_family"]!="local-plane-v1"||(bool?)reply["distributed_swarm"]!=true)throw new Exception("Complex scene used a legacy geometry template");
+                        if(((JArray)reply["cells"]).Count<20)throw new Exception("Complex scene produced no inferred map");
+                        using(var map=new RescueEchoWireMap()){map.Update(reply);if(map.Quads==0)throw new Exception("Complex scene produced no wire geometry");}
+                        int lost=sim.Robots.Count(r=>r.Lost);if(lost>sim.Robots.Count-4)Debug.Log("LOST_DETAIL "+sim.Scene.Spec.Id+" "+string.Join(";",sim.Robots.Where(r=>r.Lost).Select(r=>r.Id+":"+r.Core.position)));if(lost>sim.Robots.Count-4)throw new Exception("Fewer than four independent observers remain: "+sim.Scene.Spec.Id+"/"+lost);
+                        int[] occupiedFloors=sim.Robots.Where(r=>!r.Lost).Select(r=>Mathf.Clamp(Mathf.RoundToInt((r.Core.position.y-.02f)/.28f),0,sim.Scene.FloorCount-1)).Distinct().ToArray();
+                        if(sim.Scene.FloorCount>1&&occupiedFloors.Length<2)throw new Exception("Deployment never reached multiple storeys: "+sim.Scene.Spec.Id);
+                        var evaluation=new RescueEvaluation();evaluation.Evaluate(sim,reply);
+                        rows.Add(new{scene=sim.Scene.Spec.Id,floors=sim.Scene.FloorCount,occupied_floors=occupiedFloors,nodes=24,lost,observed_cells=(int)reply["observed_cells"],completed_cells=((JArray)reply["cells"]).Count(c=>(string)c["source"]=="local_surface_completion"),goals=((JArray)reply["goals"]).Count,global_iou=evaluation.GlobalIoU,coverage=evaluation.Coverage,cues=evaluation.CueCount,matched=evaluation.Matched,false_alarms=evaluation.FalseAlarms,truth_people=sim.Scene.VictimPositions.Count,seconds=15});
+                        Debug.Log("COMPLEX_MAP PASS "+sim.Scene.Spec.Id+" floors="+string.Join(",",occupiedFloors)+" lost="+lost);
+                    }
+                }
+            }
+            File.WriteAllText(Path.GetFullPath(Path.Combine(Application.dataPath,"../../reports/rescue/complex-v34-smoke.json")),JsonConvert.SerializeObject(new{status="pass",purpose="functional integration over 15 seconds; loss and accuracy are recorded, not acceptance-certified",accuracy_95_certified=false,cases=rows.Count,source="real simulated range/pose/audio/thermal/environment observations over TCP",truth_to_server=false,rows},Formatting.Indented));
         }
         public static void PortableSmoke()
         {

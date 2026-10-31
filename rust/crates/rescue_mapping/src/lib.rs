@@ -3,8 +3,10 @@ use anyhow::{Result, ensure};
 use serde::{Deserialize, Serialize};
 use std::collections::{BTreeMap, BTreeSet, VecDeque};
 use std::sync::Arc;
+pub mod completion;
 pub mod hazards;
 pub mod learned;
+mod navigation;
 pub mod surface;
 use learned::LearnedModel;
 
@@ -239,6 +241,7 @@ pub struct Mapper {
     environment: hazards::HazardMap,
     fine_surface: surface::SurfaceMap,
     recent_visits: BTreeMap<[i32; 2], u64>,
+    recent_visits3: BTreeMap<[i32; 3], u64>,
 }
 impl Mapper {
     pub fn new(run: &str, cell: f64) -> Result<Self> {
@@ -268,6 +271,7 @@ impl Mapper {
             environment: hazards::HazardMap::default(),
             fine_surface: surface::SurfaceMap::default(),
             recent_visits: BTreeMap::new(),
+            recent_visits3: BTreeMap::new(),
         })
     }
     pub fn with_model(run: &str, cell: f64, model: Option<Arc<LearnedModel>>) -> Result<Self> {
@@ -424,6 +428,10 @@ impl Mapper {
                 (origin[2] / self.cell).floor() as i32,
             ];
             self.recent_visits.insert(visit, p.sim_step);
+            self.recent_visits3.insert(
+                pose.position.map(|v| (v / self.cell).floor() as i32),
+                p.sim_step,
+            );
             // High pose uncertainty cannot silently paint precise walls.
             if s.pose_sigma_m > self.cell * 3.0 {
                 self.rejected += 1;
@@ -567,7 +575,13 @@ impl Mapper {
                 key: *k,
                 occupancy: self.model.as_ref().map_or_else(
                     || 1.0 / (1.0 + (-v.log_odds).exp()),
-                    |m| m.occupancy_score(v.log_odds, v.count),
+                    |m| {
+                        if m.local_surface_completion {
+                            1.0 / (1.0 + (-v.log_odds).exp())
+                        } else {
+                            m.occupancy_score(v.log_odds, v.count)
+                        }
+                    },
                 ),
                 observations: v.count,
                 source: "sensor",
@@ -578,6 +592,7 @@ impl Mapper {
         let mut completion_confidence = 0.0;
         if p.request_map
             && let Some(model) = &self.model
+            && !model.local_surface_completion
             && self.voxels.len() >= 200
         {
             let mut scores = vec![0.0; model.prototypes.len()];
@@ -651,6 +666,28 @@ impl Mapper {
                     }
                 }
             }
+        }
+        if p.request_map
+            && self
+                .model
+                .as_ref()
+                .is_some_and(|m| m.local_surface_completion)
+        {
+            let mut inferred = completion::infer(&cells);
+            for c in &mut cells {
+                if let Some(q) = inferred.remove(&c.key) {
+                    c.occupancy = q;
+                    c.source = "local_surface_completion";
+                }
+            }
+            cells.extend(inferred.into_iter().map(|(key, occupancy)| Cell {
+                key,
+                occupancy,
+                observations: 0,
+                source: "local_surface_completion",
+                sensor_occupancy: None,
+            }));
+            completion_family = "local-plane-v1".into();
         }
         let entropy = cells
             .iter()
@@ -744,7 +781,17 @@ impl Mapper {
         let mut candidates = vec![];
         // Acoustic evidence can nominate unobserved space, but never known solid cells.
         for x in (-14..15).step_by(2) {
-            for y in (0..12).step_by(2) {
+            for y in (0..if self
+                .model
+                .as_ref()
+                .is_some_and(|m| m.local_surface_completion)
+            {
+                18
+            } else {
+                12
+            })
+                .step_by(2)
+            {
                 for z in (0..60).step_by(2) {
                     let k = [x, y, z];
                     if self.voxels.get(&k).is_some_and(|v| v.log_odds > 1.5) {
@@ -808,8 +855,16 @@ impl Mapper {
                     if baseline < self.cell * 2.0 {
                         continue;
                     }
-                    let score =
-                        support.iter().map(|s| s.0).sum::<f64>() / by_node.len().max(1) as f64;
+                    let score = support.iter().map(|s| s.0).sum::<f64>()
+                        / if self
+                            .model
+                            .as_ref()
+                            .is_some_and(|m| m.local_surface_completion)
+                        {
+                            support.len().max(4)
+                        } else {
+                            by_node.len().max(1)
+                        } as f64;
                     if score > if self.proposal_mode { 0.06 } else { 0.18 } {
                         let angular =
                             support.iter().map(|s| s.2).sum::<f64>() / support.len() as f64;
@@ -1056,6 +1111,13 @@ impl Mapper {
                     verification_roster.insert(id.clone());
                 }
             }
+        }
+        if self
+            .model
+            .as_ref()
+            .is_some_and(|m| m.local_surface_completion)
+        {
+            return navigation::goals(self, &verification_roster);
         }
         let mut free = BTreeSet::new();
         let mut blocked = BTreeSet::new();
@@ -1560,6 +1622,61 @@ mod tests {
         assert!(
             mapper.frontiers().is_empty(),
             "legacy policy remains unchanged when disabled"
+        );
+    }
+    #[test]
+    fn unrelated_floor_observers_do_not_dilute_a_local_person_hypothesis() {
+        let mut model = learned_fixture();
+        model.local_surface_completion = true;
+        model.distributed_swarm = true;
+        let mut map = Mapper::with_model("floor-audio", 0.05, Some(Arc::new(model))).unwrap();
+        let target = [-0.075, 0.125, 0.825];
+        for (i, origin) in [
+            [-0.4, 0.075, 0.5],
+            [0.35, 0.075, 0.55],
+            [-0.25, 0.075, 1.1],
+            [0.3, 0.075, 1.15],
+        ]
+        .into_iter()
+        .enumerate()
+        {
+            let delta = sub(target, origin);
+            map.bearings.push(Bearing {
+                id: format!("speaker-observer{i}"),
+                origin,
+                direction: mul(delta, 1.0 / norm(delta)),
+                sigma: 0.08,
+                weight: 0.9,
+                step: 0,
+                pose_sigma: 0.003,
+                radial: None,
+                human: 0.95,
+                heat: 1.0,
+            });
+        }
+        assert!(
+            map.cues()
+                .iter()
+                .any(|c| norm(sub(c.position, target)) < 0.15)
+        );
+        for i in 0..24 {
+            map.bearings.push(Bearing {
+                id: format!("other-floor{i}"),
+                origin: [0.4, 0.65, 2.0],
+                direction: [0.0, 0.0, -1.0],
+                sigma: 0.08,
+                weight: 0.01,
+                step: 0,
+                pose_sigma: 0.003,
+                radial: None,
+                human: 0.1,
+                heat: 0.0,
+            });
+        }
+        assert!(
+            map.cues()
+                .iter()
+                .any(|c| norm(sub(c.position, target)) < 0.15)
         );
     }
     fn learned_fixture() -> LearnedModel {

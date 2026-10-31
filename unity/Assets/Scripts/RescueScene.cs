@@ -19,7 +19,7 @@ namespace Purumogu.Rescue
     }
 
     /// Only this simulator/evaluator owns ground-truth geometry and source locations.
-    public sealed class RescueScene : IDisposable
+    public sealed partial class RescueScene : IDisposable
     {
         public const float Scale = .25f; // Reference robot 28 cm -> requested 7 cm.
         public const float Cell = .05f;
@@ -38,7 +38,22 @@ namespace Purumogu.Rescue
             new SceneSpec("H02", "鉄筋が露出した階段", "地震", "屈曲・横転・不安定片", 2, 11, 1),
             new SceneSpec("H03", "岩塊で塞がれた斜面", "斜面崩壊", "急傾斜・微小な二次移動", 2, 12, 1),
             new SceneSpec("H04", "半水没した設備空間", "洪水", "反射・熱遮蔽・部分閉塞", 2, 13, 2),
-            new SceneSpec("H05", "静かな深部空隙", "地震", "低発声・厚い遮蔽・負例音源", 2, 14, 1)
+            new SceneSpec("H05", "静かな深部空隙", "地震", "低発声・厚い遮蔽・負例音源", 2, 14, 1),
+            new SceneSpec("E06", "L字型の倒壊家屋", "地震", "屈曲した外形・欠測面", 0, 15, 1),
+            new SceneSpec("E07", "T字交差の崩落通路", "地震", "三方向分岐・回り込み", 0, 16, 1),
+            new SceneSpec("E08", "Y字分岐の暗渠", "斜面崩壊", "斜め分岐・土砂遮蔽", 0, 17, 1),
+            new SceneSpec("E09", "U字型の浸水棟", "洪水", "中空の外形・残留水", 0, 18, 1),
+            new SceneSpec("E10", "中庭のある無人倉庫", "地震", "中庭・負例音源", 0, 19, 0),
+            new SceneSpec("M06", "二階建て連絡回廊", "地震", "二層・斜路・開口", 1, 20, 2),
+            new SceneSpec("M07", "十字吹き抜けの建物", "地震", "二層交差・上下観測", 1, 21, 2),
+            new SceneSpec("M08", "環状に分岐した暗渠", "斜面崩壊", "二層環状路・多重反射", 1, 22, 1),
+            new SceneSpec("M09", "段違いの流木通路", "洪水", "二層・屈曲・水深差", 1, 23, 2),
+            new SceneSpec("M10", "二層の無人設備室", "地震・浸水", "上下空洞・負例", 1, 24, 0),
+            new SceneSpec("H06", "三階吹き抜けの崩壊棟", "地震", "三層・ずれた床・斜路", 2, 25, 3),
+            new SceneSpec("H07", "折返し階段の倒壊棟", "地震", "三層・階段・立体分岐", 2, 26, 2),
+            new SceneSpec("H08", "斜面段丘の分岐空間", "斜面崩壊", "三層・分岐・袋小路", 2, 27, 2),
+            new SceneSpec("H09", "二次浸水した立体迷路", "洪水", "三層・屈曲・ガス反応", 2, 28, 3),
+            new SceneSpec("H10", "中庭と連絡橋の設備棟", "地震・浸水", "三層・複雑連結・遮蔽", 2, 29, 3)
         };
 
         public readonly GameObject Root = new GameObject("RescueTruthGeometry");
@@ -66,7 +81,7 @@ namespace Purumogu.Rescue
 
         public RescueScene(int index, int seed, int? sourceSeed=null)
         {
-            Spec = Catalog[Mathf.Clamp(index, 0, 14)]; random = new System.Random(seed);
+            Spec = Catalog[Mathf.Clamp(index, 0, Catalog.Length-1)]; random = new System.Random(seed);
             Concrete = Material(new Color(.46f, .47f, .43f), .08f);
             Stone = Material(new Color(.32f, .30f, .26f), .04f);
             Rust = Material(new Color(.36f, .19f, .10f), .28f);
@@ -80,6 +95,7 @@ namespace Purumogu.Rescue
             WaterHeight=wet?.012f+Spec.Difficulty*.009f:0;
             Contact = new PhysicsMaterial("RubbleContact") { dynamicFriction = wet?.15f:.38f + Spec.Difficulty * .08f, staticFriction = wet?.22f:.48f, bounciness = .025f };
             resources.Add(Contact);
+            if(index>=15){BuildComplex(index,seed,sourceSeed);return;}
             Box("Foundation", new Vector3(0, -.16f, 5.1f), new Vector3(6.0f, .3f, 12.8f), Ground);
             Box("BrokenSideLeft", new Vector3(-2.8f, .6f, 5), new Vector3(.3f, 1.4f, 12), Concrete);
             Box("BrokenSideRight", new Vector3(2.8f, .6f, 5), new Vector3(.3f, 1.4f, 12), Concrete);
@@ -190,7 +206,8 @@ namespace Purumogu.Rescue
         public float WaterDepthAt(Vector3 position)
         {
             var probe=position-Vector3.up*.0096f;
-            if(WaterHeight<=0||Mathf.Abs(probe.x)>.6f||probe.z<1f||probe.z>2.5f||probe.y>WaterHeight+.001f)return 0;
+            if(ComplexGeometry){if(WaterHeight<=0||probe.y>WaterHeight+.001f||!FloorZones.Exists(f=>f.Height<.01f&&f.Bounds.Contains(new Vector2(probe.x,probe.z))))return 0;}
+            else if(WaterHeight<=0||Mathf.Abs(probe.x)>.6f||probe.z<1f||probe.z>2.5f||probe.y>WaterHeight+.001f)return 0;
             float floor=-.0025f;
             if(Physics.Raycast(probe+Vector3.up*.003f,Vector3.down,out RaycastHit hit,.15f,1<<6))floor=hit.point.y;
             return Mathf.Clamp(WaterHeight-floor,0,.15f);

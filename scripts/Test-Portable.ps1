@@ -1,4 +1,4 @@
-param([string]$Folder='dist/PurumoguSearch-Windows-v3.3')
+param([string]$Folder='dist/PurumoguSearch-Windows-v3.4')
 $ErrorActionPreference='Stop'
 $root=Split-Path $PSScriptRoot -Parent
 $folderPath=[IO.Path]::GetFullPath((Join-Path $root $Folder))
@@ -29,7 +29,7 @@ try {
     for($retry=0;$retry -lt 50;$retry++){if(!(Get-Process -Id $owned.ProcessId -ErrorAction SilentlyContinue)){break};Start-Sleep -Milliseconds 100}
     if(Get-Process -Id $owned.ProcessId -ErrorAction SilentlyContinue){throw 'Owned inference survived a forced player exit'}
     $result=@{status='pass';isolated_working_directory=$true;developer_tools_removed_from_child_path=$true;real_inference_map=$true;forced_exit_child_cleanup=$true;manifest_hashes_verified=$true}
-    $result|ConvertTo-Json|Set-Content -LiteralPath (Join-Path $root 'reports/rescue/portable-package-v33.json') -Encoding utf8NoBOM
+    $result|ConvertTo-Json|Set-Content -LiteralPath (Join-Path $root 'reports/rescue/portable-package-v34.json') -Encoding utf8NoBOM
     $result|ConvertTo-Json
 }finally{
     if($game -and !$game.HasExited){Stop-Process -Id $game.Id}

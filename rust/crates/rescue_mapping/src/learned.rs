@@ -108,6 +108,8 @@ pub struct LearnedModel {
     pub acoustic_probe: bool,
     #[serde(default)]
     pub distributed_swarm: bool,
+    #[serde(default)]
+    pub local_surface_completion: bool,
     pub prototypes: Vec<Prototype>,
     pub train_maps: Vec<String>,
     #[serde(default)]
@@ -166,14 +168,15 @@ impl LearnedModel {
             "invalid coefficients"
         );
         ensure!(
-            self.prototypes.len() == 15
-                && self
-                    .prototypes
-                    .iter()
-                    .all(|p| p.occupancy.len() == GRID_CELLS
-                        && p.occupancy
-                            .iter()
-                            .all(|x| x.is_finite() && (0.0..=1.0).contains(x))),
+            (self.local_surface_completion && self.prototypes.is_empty())
+                || self.prototypes.len() == 15
+                    && self
+                        .prototypes
+                        .iter()
+                        .all(|p| p.occupancy.len() == GRID_CELLS
+                            && p.occupancy
+                                .iter()
+                                .all(|x| x.is_finite() && (0.0..=1.0).contains(x))),
             "invalid geometry priors"
         );
         ensure!(

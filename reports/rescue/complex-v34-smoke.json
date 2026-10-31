@@ -1,0 +1,307 @@
+{
+  "status": "pass",
+  "purpose": "functional integration over 15 seconds; loss and accuracy are recorded, not acceptance-certified",
+  "accuracy_95_certified": false,
+  "cases": 15,
+  "source": "real simulated range/pose/audio/thermal/environment observations over TCP",
+  "truth_to_server": false,
+  "rows": [
+    {
+      "scene": "E06",
+      "floors": 1,
+      "occupied_floors": [
+        0
+      ],
+      "nodes": 24,
+      "lost": 0,
+      "observed_cells": 16843,
+      "completed_cells": 528,
+      "goals": 19,
+      "global_iou": 0.298744768,
+      "coverage": 0.358056962,
+      "cues": 1,
+      "matched": 1,
+      "false_alarms": 0,
+      "truth_people": 1,
+      "seconds": 15
+    },
+    {
+      "scene": "E07",
+      "floors": 1,
+      "occupied_floors": [
+        0
+      ],
+      "nodes": 24,
+      "lost": 0,
+      "observed_cells": 16234,
+      "completed_cells": 606,
+      "goals": 20,
+      "global_iou": 0.238955826,
+      "coverage": 0.345110536,
+      "cues": 2,
+      "matched": 1,
+      "false_alarms": 1,
+      "truth_people": 1,
+      "seconds": 15
+    },
+    {
+      "scene": "E08",
+      "floors": 1,
+      "occupied_floors": [
+        0
+      ],
+      "nodes": 24,
+      "lost": 0,
+      "observed_cells": 16771,
+      "completed_cells": 338,
+      "goals": 19,
+      "global_iou": 0.24014467,
+      "coverage": 0.356526375,
+      "cues": 1,
+      "matched": 1,
+      "false_alarms": 0,
+      "truth_people": 1,
+      "seconds": 15
+    },
+    {
+      "scene": "E09",
+      "floors": 1,
+      "occupied_floors": [
+        0
+      ],
+      "nodes": 24,
+      "lost": 0,
+      "observed_cells": 18691,
+      "completed_cells": 368,
+      "goals": 17,
+      "global_iou": 0.228254691,
+      "coverage": 0.397342682,
+      "cues": 1,
+      "matched": 1,
+      "false_alarms": 0,
+      "truth_people": 1,
+      "seconds": 15
+    },
+    {
+      "scene": "E10",
+      "floors": 1,
+      "occupied_floors": [
+        0
+      ],
+      "nodes": 24,
+      "lost": 0,
+      "observed_cells": 16599,
+      "completed_cells": 257,
+      "goals": 19,
+      "global_iou": 0.212271973,
+      "coverage": 0.3528699,
+      "cues": 0,
+      "matched": 0,
+      "false_alarms": 0,
+      "truth_people": 0,
+      "seconds": 15
+    },
+    {
+      "scene": "M06",
+      "floors": 2,
+      "occupied_floors": [
+        1,
+        0
+      ],
+      "nodes": 24,
+      "lost": 0,
+      "observed_cells": 18471,
+      "completed_cells": 544,
+      "goals": 20,
+      "global_iou": 0.119982354,
+      "coverage": 0.3926658,
+      "cues": 1,
+      "matched": 1,
+      "false_alarms": 0,
+      "truth_people": 2,
+      "seconds": 15
+    },
+    {
+      "scene": "M07",
+      "floors": 2,
+      "occupied_floors": [
+        0,
+        1
+      ],
+      "nodes": 24,
+      "lost": 2,
+      "observed_cells": 22390,
+      "completed_cells": 935,
+      "goals": 18,
+      "global_iou": 0.119699933,
+      "coverage": 0.4759779,
+      "cues": 2,
+      "matched": 2,
+      "false_alarms": 0,
+      "truth_people": 2,
+      "seconds": 15
+    },
+    {
+      "scene": "M08",
+      "floors": 2,
+      "occupied_floors": [
+        0,
+        1
+      ],
+      "nodes": 24,
+      "lost": 2,
+      "observed_cells": 17977,
+      "completed_cells": 403,
+      "goals": 20,
+      "global_iou": 0.108841076,
+      "coverage": 0.382164121,
+      "cues": 1,
+      "matched": 0,
+      "false_alarms": 1,
+      "truth_people": 1,
+      "seconds": 15
+    },
+    {
+      "scene": "M09",
+      "floors": 2,
+      "occupied_floors": [
+        1,
+        0
+      ],
+      "nodes": 24,
+      "lost": 2,
+      "observed_cells": 20572,
+      "completed_cells": 757,
+      "goals": 13,
+      "global_iou": 0.109058924,
+      "coverage": 0.437329918,
+      "cues": 1,
+      "matched": 1,
+      "false_alarms": 0,
+      "truth_people": 2,
+      "seconds": 15
+    },
+    {
+      "scene": "M10",
+      "floors": 2,
+      "occupied_floors": [
+        0,
+        1
+      ],
+      "nodes": 24,
+      "lost": 1,
+      "observed_cells": 22478,
+      "completed_cells": 946,
+      "goals": 21,
+      "global_iou": 0.09742608,
+      "coverage": 0.477848649,
+      "cues": 0,
+      "matched": 0,
+      "false_alarms": 0,
+      "truth_people": 0,
+      "seconds": 15
+    },
+    {
+      "scene": "H06",
+      "floors": 3,
+      "occupied_floors": [
+        2,
+        1
+      ],
+      "nodes": 24,
+      "lost": 2,
+      "observed_cells": 11932,
+      "completed_cells": 421,
+      "goals": 19,
+      "global_iou": 0.07461832,
+      "coverage": 0.253656477,
+      "cues": 1,
+      "matched": 1,
+      "false_alarms": 0,
+      "truth_people": 3,
+      "seconds": 15
+    },
+    {
+      "scene": "H07",
+      "floors": 3,
+      "occupied_floors": [
+        2,
+        1,
+        0
+      ],
+      "nodes": 24,
+      "lost": 1,
+      "observed_cells": 12160,
+      "completed_cells": 514,
+      "goals": 20,
+      "global_iou": 0.06780422,
+      "coverage": 0.2585034,
+      "cues": 0,
+      "matched": 0,
+      "false_alarms": 0,
+      "truth_people": 2,
+      "seconds": 15
+    },
+    {
+      "scene": "H08",
+      "floors": 3,
+      "occupied_floors": [
+        1,
+        2,
+        0
+      ],
+      "nodes": 24,
+      "lost": 3,
+      "observed_cells": 10840,
+      "completed_cells": 415,
+      "goals": 21,
+      "global_iou": 0.06769787,
+      "coverage": 0.230442181,
+      "cues": 1,
+      "matched": 1,
+      "false_alarms": 0,
+      "truth_people": 2,
+      "seconds": 15
+    },
+    {
+      "scene": "H09",
+      "floors": 3,
+      "occupied_floors": [
+        2,
+        1
+      ],
+      "nodes": 24,
+      "lost": 1,
+      "observed_cells": 14860,
+      "completed_cells": 383,
+      "goals": 18,
+      "global_iou": 0.07034318,
+      "coverage": 0.315901369,
+      "cues": 2,
+      "matched": 2,
+      "false_alarms": 0,
+      "truth_people": 3,
+      "seconds": 15
+    },
+    {
+      "scene": "H10",
+      "floors": 3,
+      "occupied_floors": [
+        1,
+        2
+      ],
+      "nodes": 24,
+      "lost": 5,
+      "observed_cells": 15032,
+      "completed_cells": 376,
+      "goals": 12,
+      "global_iou": 0.0793047249,
+      "coverage": 0.319557816,
+      "cues": 1,
+      "matched": 1,
+      "false_alarms": 0,
+      "truth_people": 3,
+      "seconds": 15
+    }
+  ]
+}

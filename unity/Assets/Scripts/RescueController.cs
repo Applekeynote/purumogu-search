@@ -19,10 +19,10 @@ namespace Purumogu.Rescue
         int sourceSeed;
         Camera physicalCamera,mapCamera,robotCamera;
         Font font;
-        int sceneIndex=0,seed=20261027,port=47120,selectedNode,maxSteps=18000;
+        int sceneIndex=15,seed=20261027,port=47120,selectedNode,maxSteps=18000;
         int nodeCount=24,deploymentSeed=907231;
         bool entranceDeployment;
-        Vector2 nodeScroll;
+        Vector2 nodeScroll,sceneScroll;
         readonly RescueViewport physicalView=new RescueViewport(),inferenceView=new RescueViewport();
         string utilityMenu="";
         long sequence,expected=-1;
@@ -46,7 +46,7 @@ namespace Purumogu.Rescue
             sourceSeed=Guid.NewGuid().GetHashCode();
             for(int i=0;i<args.Length-1;i++){if(args[i]=="--seed")sourceSeed=seed;if(args[i]=="--port")externalInference=true;}
             for(int i=0;i<args.Length-1;i++)if(args[i]=="--source-seed")int.TryParse(args[i+1],out sourceSeed);
-            maxSteps=Mathf.Clamp(maxSteps,500,30000);sceneIndex=Mathf.Clamp(sceneIndex,0,14);Build();
+            maxSteps=Mathf.Clamp(maxSteps,500,30000);sceneIndex=Mathf.Clamp(sceneIndex,0,RescueScene.Catalog.Length-1);Build();
             if(!externalInference)
             {
                 try {bundled=new BundledInference();bundled.Start(Path.Combine(Application.streamingAssetsPath,"inference"));port=bundled.Port;}
@@ -219,7 +219,7 @@ namespace Purumogu.Rescue
             if(Button(1142,22,82,$"{speed:F0}×",false,38))speed=speed<2?4:1;
             if(Button(1238,22,198,running?(paused?"探索を再開":"一時停止"):"散布・探索を開始",false,38,true)){if(running)paused=!paused;else Begin();}
             if(Button(1448,22,128,"リセット",false,38))Build();
-            if(Button(24,86,430,$"{spec.Id}   {spec.Name}   /   {new[]{"易","中","難"}[spec.Difficulty]}  ▾",scenePicker))scenePicker=!scenePicker;
+            if(Button(24,86,430,$"{spec.Id}   {spec.Name}   /   {new[]{"易","中","難"}[spec.Difficulty]}  ▾",scenePicker)){if(!scenePicker)sceneScroll=new Vector2(0,sceneIndex*27);scenePicker=!scenePicker;}
             bool previousEnabled=GUI.enabled;GUI.enabled=!running;
             Text(480,94,38,22,"台数",12,Muted);
             for(int i=0;i<3;i++){int count=new[]{24,36,48}[i];if(Button(520+i*56,86,50,count.ToString(),nodeCount==count)){nodeCount=count;entranceDeployment=false;Build();}}
@@ -250,13 +250,15 @@ namespace Purumogu.Rescue
             Text(834,745,700,23,$"全推定地図を評価（右上は観測の進行表示） / 観測率 {evaluation.Coverage*100:F1}% · 既観測IoU {evaluation.IoU:F2} · 位置RMSE {evaluation.PoseRmse*100:F1} cm",13,Ink);
             Text(834,777,700,24,$"候補 {evaluation.CueCount} / 一致 {evaluation.Matched} / 誤警報 {evaluation.FalseAlarms} · 位置誤差 {(float.IsNaN(evaluation.LocalizationError)?"未評価":(evaluation.LocalizationError*100).ToString("F1")+" cm")} · Rust {latency:F0} ms",13,Muted);
             bool bootstrap=lastMap!=null&&(bool?)lastMap["person_classifier_ready"]==false;
-            string context=bootstrap?"中央球の接続・環境センサーを加えた条件は再評価中です。ガスは模擬の相対反応です。":"地図・人候補と環境反応を区別して表示します。ガス反応は実測濃度や確定した漏洩位置を表しません。";
+            string context=bootstrap?"格子：人候補は橙 / 浸水は青 / ガスは赤 / 推定補完は暗い破線。新形状の精度は検証中です。":"地図・人候補と環境反応を区別して表示します。ガス反応は実測濃度や確定した漏洩位置を表しません。";
             Text(834,810,700,48,string.IsNullOrEmpty(failure)?context:failure,12,string.IsNullOrEmpty(failure)?Muted:Amber);
             UtilityOverlay();
             if(scenePicker)
             {
-                Fill(new Rect(24,125,750,460),new Color(.045f,.075f,.09f,.99f));Text(40,138,710,28,"15 SCENES / 易・中・難 各5",18,Mint,true);
-                for(int i=0;i<15;i++){var item=RescueScene.Catalog[i];if(Button(40,177+i*25,718,$"{item.Id}  {item.Name}  /  {item.Disaster}  ·  {item.Feature}",i==sceneIndex,24)){sceneIndex=i;scenePicker=false;Build();}}
+                Fill(new Rect(24,125,750,460),new Color(.045f,.075f,.09f,.99f));Text(40,138,710,28,"30 SCENES / 多形状・複数階・立体分岐",18,Mint,true);
+                sceneScroll=GUI.BeginScrollView(new Rect(36,173,732,396),sceneScroll,new Rect(0,0,710,RescueScene.Catalog.Length*27),false,true);
+                for(int i=0;i<RescueScene.Catalog.Length;i++){var item=RescueScene.Catalog[i];if(Button(4,i*27,698,$"{item.Id}  {item.Name}  /  {item.Disaster}  ·  {item.Feature}",i==sceneIndex,24)){sceneIndex=i;scenePicker=false;Build();}}
+                GUI.EndScrollView();
             }
         }
         void Metric(float x,float y,string label,string value,bool passed){Text(x,y,225,24,label,12,Muted);Text(x,y+24,225,42,value,30,passed?Mint:Amber,true);}
