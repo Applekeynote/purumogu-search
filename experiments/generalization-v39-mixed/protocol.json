@@ -1,0 +1,61 @@
+{
+  "version": 2,
+  "steps": 6000,
+  "inference_map_interval": 100,
+  "geometry_revision": "ramp-clearance-and-exterior-openings-v2",
+  "geometry_sources": {
+    "RescueComplexScenes.cs": "170d79564076cd16ec4c9441c225cdee6921cdecc2b60886e469321e3f1547e0",
+    "RescueController.cs": "e62d89cae315759042b200df2aeb9de84e45b40e52c8259aca92a49f57981559",
+    "RescueDeployment.cs": "f6a67b21824ce1e24995b805cea57c3f6838aab8290c69164381e3027dac2bab",
+    "RescueEchoWireMap.cs": "ecca2c71b9bb740ef7fbbe0140d3ae263bf538dbceb353d6bc339cafb4cc739d",
+    "RescueExteriorDeployment.cs": "14223ff33afa8d58cb4c60016facde2a452690dd8bda66a2a3425ebc63c86778",
+    "RescueFloorOpenings.cs": "df9727dff2f04ae36fa020a5ccd507d3b9ea47e817050b070ab14cfe7161f067",
+    "RescueMapDashboard.cs": "74a626b7e9984a9060c1c788e75d349bb27b307be721802caca0a52a8b9df11d",
+    "RescueMapKnowledge.cs": "e4451ca0664e165ff3c2a69cb1da26d8b57f0a6928b4e8f8af54a3527037ce67",
+    "RescueMapView.cs": "4956713c06bbfa34670c66ad06eb8deaf7a7339f4592fca158dc04fe0f4da422",
+    "RescueRobot.cs": "bd485f3c1d310637e25f7afc3b4fae238a6603cd289276a065cf9bbb6348a39e",
+    "RescueScene.cs": "2eb390ca02c75b9f0301adb22526f2d0d6b17d86d74a8b7b9bfee4aff171ddbd",
+    "RescueSimulation.cs": "78e5731fffc4a9c847fa882a37a976694e92c42430e6027245fa05b4272afcb9",
+    "RescueSurfaceLattice.cs": "59933137e0aadc8d589a10d3c31c93c38fd49723862674b3888e2d20e78dbbf8",
+    "RescueViewport.cs": "3f4c0fa0851fbf3bb699c2c78dd2285e729c16602958ba9c87fea9acdb203f2e"
+  },
+  "acquisition_sources": {
+    "unity/Assets/Editor/RescueGeneralization.cs": "257946e2cbe19577df3425b447b91f69f19ba3e2d11630ba9f5209fa87f2eb93",
+    "unity/Assets/Editor/ProjectTools.cs": "73156b92eb3a821c46a5cb2c2d3a1ef8bd51454d746889c46243b14639fd056d",
+    "scripts/collect_rescue_registered.py": "c21d66f1eb9d51a1912252f1db8b3ac8a1ac5c85b392f89f2f5bfe5b49d86d12",
+    "scripts/plan_rescue_registered.py": "f3e74d6957ffea3d7ad9d1c78c318e0d7b582228b4d35e83274b9b0ac628149b"
+  },
+  "model_sha256": "5609f5fdf5bca7bb98d6d02ac7308e9c3ea25d1d800d3e5beaee9ad3f7dd1d31",
+  "server_sha256": "54978ccbec94ba36e663f9c516c7c9ab27e7e42129e27241ba129b88648dc624",
+  "sensor_source_sha256": "bd485f3c1d310637e25f7afc3b4fae238a6603cd289276a065cf9bbb6348a39e",
+  "model": "models/generic-v39-acquisition-r21/model.json",
+  "server": "tmp/generic-rust-target/release/rescue_server.exe",
+  "deployment_mode": "RoofAndFacadeDrop",
+  "deployment": "One third overhead; two thirds released at several visible facade thresholds on all levels",
+  "test_opened": false,
+  "target": {
+    "global_occupancy_iou": 0.95,
+    "human_precision": 0.95,
+    "human_recall": 0.95
+  },
+  "cell_m": 0.05,
+  "truth_box_extent_fraction": 0.42,
+  "occupancy_threshold": 0.6,
+  "match_radius_m": 0.25,
+  "sensor_errors": "Unchanged RescueRobot.cs; no external position references",
+  "learning": "Additional independent TRAIN on corrected stairs and current inferred-route scout policy",
+  "comparison": "New geometry revision; report separately from old geometry and old fixed-trajectory results",
+  "held_final_families": {
+    "Y": [
+      17,
+      27
+    ],
+    "dogleg": [
+      23
+    ]
+  },
+  "seen_family_held_composition": [
+    28
+  ],
+  "acceptance": "Fresh closed-loop evaluation required after each navigation-weight change; every domain, count and area must meet all targets"
+}

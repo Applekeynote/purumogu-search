@@ -1,0 +1,26 @@
+{
+  "purpose": "Learn one representative hypothesis per TRAIN source while suppressing distant duplicate aliases",
+  "training_worlds": 426,
+  "validation_cases": 54,
+  "teacher": "Frozen200-tree TRAIN forest; existing native33 features",
+  "variants_positive_mass": [
+    0.25,
+    0.5
+  ],
+  "correction_rounds": [
+    28,
+    56
+  ],
+  "leaves": [
+    7,
+    15
+  ],
+  "assignment": "Maximum cardinality within unchanged .25m TRAIN radius, then cost1-teacherProbability+.1*distance/.25",
+  "ignored": "Unselected hypotheses within .08m of a representative are not forced negative",
+  "world_budgets_preserved": true,
+  "no_true_positions_or_counts_at_inference": true,
+  "method_reference": "https://arxiv.org/abs/2005.12872",
+  "reference_scope": "One-to-one matching principle; no Transformer or DETR accuracy claim",
+  "final_test_opened": false,
+  "closed_loop_acceptance": false
+}

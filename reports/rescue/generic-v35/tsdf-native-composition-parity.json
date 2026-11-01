@@ -1,0 +1,22 @@
+{
+  "status": "pass",
+  "purpose": "Optimized TSDF suffix equals full Mapper input; not accuracy acceptance",
+  "truth_to_native": false,
+  "test_opened": false,
+  "rows": [
+    {
+      "id": "g40-train-S26-W71026234-N36",
+      "checkpoints": 5,
+      "maximum_feature_difference": 0.0,
+      "original_cells_equal": true,
+      "sensor_sha256": "e52b9fec9a5af20a51f683e04a88fdcaa0412d104b342e831ec48ff355c6102d"
+    },
+    {
+      "id": "g41-valid-unknown-S29-W83029261-N24",
+      "checkpoints": 2,
+      "maximum_feature_difference": 0.0,
+      "original_cells_equal": true,
+      "sensor_sha256": "9d27aba6838f89c385ae35da889d1b04b2417ae35950525c81bedc0575b728c2"
+    }
+  ]
+}

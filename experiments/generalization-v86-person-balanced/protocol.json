@@ -1,0 +1,25 @@
+{
+  "purpose": "Prevent dense proposal clusters around a strong TRAIN person from dominating a weaker person in the same snapshot",
+  "training_worlds": 426,
+  "validation_cases": 54,
+  "feature_map": "thermal-spectral-teacher33-v5",
+  "frozen_base_trees": 200,
+  "correction_rounds": [
+    28,
+    56
+  ],
+  "leaves": [
+    7,
+    15
+  ],
+  "positive_masses": [
+    0.25,
+    0.5
+  ],
+  "weights": "Within each snapshot, equal positive mass per represented true person, then equal per positive proposal for that person; negative proposals share remaining mass; original normalized physical-world budgets preserved",
+  "ground_truth_used_only_for": "TRAIN labels and sample weights, never inference features",
+  "global_validation_selection": "Same threshold/NMS/height across all areas, plus .95/.97/.99/.995 thresholds to accommodate changed TRAIN class mass",
+  "source_reason": "Development actual-rollout oracle covers18/18 people but selected outputs detect16/18; focus the loss on source-balanced classification rather than claiming oracle recall as achieved",
+  "final_test_opened": false,
+  "closed_loop_acceptance": false
+}

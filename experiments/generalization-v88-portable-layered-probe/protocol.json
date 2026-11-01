@@ -1,0 +1,16 @@
+{
+  "purpose": "Actual36-scene player with self-contained CPU map and frozen exploration models; not an accepted95%model or public release",
+  "model": "models/generic-v79-acquisition-r36-frozen-nav/model.json",
+  "model_sha256": "475dc3e5366cc95f68a5dffb5af9ffe6c31c75c3fe8e61bd3e705370640754ac",
+  "server": "tmp/g79-independent-navigation-target/release/rescue_server.exe",
+  "server_sha256": "115af9d496eee25a4d0bbe57aa2803a625d235a19c4098842d1e3bf1c1da123d",
+  "scenes": 36,
+  "node_counts": [
+    24,
+    36,
+    48
+  ],
+  "deployment": "RoofAndFacadeDrop",
+  "final_test_opened": false,
+  "accuracy_acceptance": false
+}

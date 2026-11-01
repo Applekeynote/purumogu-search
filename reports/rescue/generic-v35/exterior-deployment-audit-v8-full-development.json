@@ -1,0 +1,3199 @@
+{
+  "test_opened": false,
+  "purpose": "Physical external release audit; TRAIN scenes, motors off, natural collision and gravity",
+  "blocked_openings": 0,
+  "side_lost": 44,
+  "total_side_nodes": 720,
+  "rows": [
+    {
+      "scene": "E01",
+      "count": 24,
+      "seed": 61000000,
+      "openings": [
+        {
+          "level": 0,
+          "position": [
+            0.699999988079071,
+            0.0,
+            0.79999995231628418
+          ],
+          "outward": [
+            1.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "level": 0,
+          "position": [
+            -0.699999988079071,
+            0.0,
+            2.5999999046325684
+          ],
+          "outward": [
+            -1.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "level": 0,
+          "position": [
+            -0.699999988079071,
+            0.0,
+            -0.099999904632568359
+          ],
+          "outward": [
+            -1.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "level": 0,
+          "position": [
+            0.699999988079071,
+            0.0,
+            2.2999999523162842
+          ],
+          "outward": [
+            1.0,
+            0.0,
+            0.0
+          ]
+        }
+      ],
+      "roof_nodes": 8,
+      "side_nodes": 16,
+      "side_lost": 0,
+      "settled_per_level": {
+        "0": 16
+      },
+      "gravity": -9.81,
+      "launch_speed_m_s": 0.12,
+      "sensors_modified": false,
+      "sources_used_for_release": false,
+      "blocked_sites": [],
+      "debris_count": 0
+    },
+    {
+      "scene": "E01",
+      "count": 48,
+      "seed": 61000000,
+      "openings": [
+        {
+          "level": 0,
+          "position": [
+            0.699999988079071,
+            0.0,
+            0.79999995231628418
+          ],
+          "outward": [
+            1.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "level": 0,
+          "position": [
+            -0.699999988079071,
+            0.0,
+            2.5999999046325684
+          ],
+          "outward": [
+            -1.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "level": 0,
+          "position": [
+            -0.699999988079071,
+            0.0,
+            -0.099999904632568359
+          ],
+          "outward": [
+            -1.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "level": 0,
+          "position": [
+            0.699999988079071,
+            0.0,
+            2.2999999523162842
+          ],
+          "outward": [
+            1.0,
+            0.0,
+            0.0
+          ]
+        }
+      ],
+      "roof_nodes": 16,
+      "side_nodes": 32,
+      "side_lost": 0,
+      "settled_per_level": {
+        "0": 32
+      },
+      "gravity": -9.81,
+      "launch_speed_m_s": 0.12,
+      "sensors_modified": false,
+      "sources_used_for_release": false,
+      "blocked_sites": [],
+      "debris_count": 0
+    },
+    {
+      "scene": "E04",
+      "count": 24,
+      "seed": 61003027,
+      "openings": [
+        {
+          "level": 0,
+          "position": [
+            -0.699999988079071,
+            0.0,
+            -0.099999904632568359
+          ],
+          "outward": [
+            -1.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "level": 0,
+          "position": [
+            0.699999988079071,
+            0.0,
+            2.5999999046325684
+          ],
+          "outward": [
+            1.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "level": 0,
+          "position": [
+            -0.699999988079071,
+            0.0,
+            1.7000000476837158
+          ],
+          "outward": [
+            -1.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "level": 0,
+          "position": [
+            0.699999988079071,
+            0.0,
+            0.79999995231628418
+          ],
+          "outward": [
+            1.0,
+            0.0,
+            0.0
+          ]
+        }
+      ],
+      "roof_nodes": 8,
+      "side_nodes": 16,
+      "side_lost": 0,
+      "settled_per_level": {
+        "0": 16
+      },
+      "gravity": -9.81,
+      "launch_speed_m_s": 0.12,
+      "sensors_modified": false,
+      "sources_used_for_release": false,
+      "blocked_sites": [],
+      "debris_count": 0
+    },
+    {
+      "scene": "E04",
+      "count": 48,
+      "seed": 61003027,
+      "openings": [
+        {
+          "level": 0,
+          "position": [
+            -0.699999988079071,
+            0.0,
+            -0.099999904632568359
+          ],
+          "outward": [
+            -1.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "level": 0,
+          "position": [
+            0.699999988079071,
+            0.0,
+            2.5999999046325684
+          ],
+          "outward": [
+            1.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "level": 0,
+          "position": [
+            -0.699999988079071,
+            0.0,
+            1.7000000476837158
+          ],
+          "outward": [
+            -1.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "level": 0,
+          "position": [
+            0.699999988079071,
+            0.0,
+            0.79999995231628418
+          ],
+          "outward": [
+            1.0,
+            0.0,
+            0.0
+          ]
+        }
+      ],
+      "roof_nodes": 16,
+      "side_nodes": 32,
+      "side_lost": 0,
+      "settled_per_level": {
+        "0": 32
+      },
+      "gravity": -9.81,
+      "launch_speed_m_s": 0.12,
+      "sensors_modified": false,
+      "sources_used_for_release": false,
+      "blocked_sites": [],
+      "debris_count": 0
+    },
+    {
+      "scene": "M04",
+      "count": 24,
+      "seed": 61008072,
+      "openings": [
+        {
+          "level": 0,
+          "position": [
+            0.699999988079071,
+            0.0,
+            0.5
+          ],
+          "outward": [
+            1.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "level": 0,
+          "position": [
+            -0.699999988079071,
+            0.0,
+            2.5999999046325684
+          ],
+          "outward": [
+            -1.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "level": 0,
+          "position": [
+            -0.699999988079071,
+            0.0,
+            -0.099999904632568359
+          ],
+          "outward": [
+            -1.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "level": 0,
+          "position": [
+            0.699999988079071,
+            0.0,
+            2.0
+          ],
+          "outward": [
+            1.0,
+            0.0,
+            0.0
+          ]
+        }
+      ],
+      "roof_nodes": 8,
+      "side_nodes": 16,
+      "side_lost": 0,
+      "settled_per_level": {
+        "0": 16
+      },
+      "gravity": -9.81,
+      "launch_speed_m_s": 0.12,
+      "sensors_modified": false,
+      "sources_used_for_release": false,
+      "blocked_sites": [],
+      "debris_count": 0
+    },
+    {
+      "scene": "M04",
+      "count": 48,
+      "seed": 61008072,
+      "openings": [
+        {
+          "level": 0,
+          "position": [
+            0.699999988079071,
+            0.0,
+            0.5
+          ],
+          "outward": [
+            1.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "level": 0,
+          "position": [
+            -0.699999988079071,
+            0.0,
+            2.5999999046325684
+          ],
+          "outward": [
+            -1.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "level": 0,
+          "position": [
+            -0.699999988079071,
+            0.0,
+            -0.099999904632568359
+          ],
+          "outward": [
+            -1.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "level": 0,
+          "position": [
+            0.699999988079071,
+            0.0,
+            2.0
+          ],
+          "outward": [
+            1.0,
+            0.0,
+            0.0
+          ]
+        }
+      ],
+      "roof_nodes": 16,
+      "side_nodes": 32,
+      "side_lost": 0,
+      "settled_per_level": {
+        "0": 32
+      },
+      "gravity": -9.81,
+      "launch_speed_m_s": 0.12,
+      "sensors_modified": false,
+      "sources_used_for_release": false,
+      "blocked_sites": [],
+      "debris_count": 0
+    },
+    {
+      "scene": "H04",
+      "count": 24,
+      "seed": 61013117,
+      "openings": [
+        {
+          "level": 0,
+          "position": [
+            0.699999988079071,
+            0.0,
+            2.0
+          ],
+          "outward": [
+            1.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "level": 0,
+          "position": [
+            -0.699999988079071,
+            0.0,
+            -0.099999904632568359
+          ],
+          "outward": [
+            -1.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "level": 0,
+          "position": [
+            -0.699999988079071,
+            0.0,
+            2.5999999046325684
+          ],
+          "outward": [
+            -1.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "level": 0,
+          "position": [
+            0.699999988079071,
+            0.0,
+            0.5
+          ],
+          "outward": [
+            1.0,
+            0.0,
+            0.0
+          ]
+        }
+      ],
+      "roof_nodes": 8,
+      "side_nodes": 16,
+      "side_lost": 0,
+      "settled_per_level": {
+        "0": 16
+      },
+      "gravity": -9.81,
+      "launch_speed_m_s": 0.12,
+      "sensors_modified": false,
+      "sources_used_for_release": false,
+      "blocked_sites": [],
+      "debris_count": 0
+    },
+    {
+      "scene": "H04",
+      "count": 48,
+      "seed": 61013117,
+      "openings": [
+        {
+          "level": 0,
+          "position": [
+            0.699999988079071,
+            0.0,
+            2.0
+          ],
+          "outward": [
+            1.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "level": 0,
+          "position": [
+            -0.699999988079071,
+            0.0,
+            -0.099999904632568359
+          ],
+          "outward": [
+            -1.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "level": 0,
+          "position": [
+            -0.699999988079071,
+            0.0,
+            2.5999999046325684
+          ],
+          "outward": [
+            -1.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "level": 0,
+          "position": [
+            0.699999988079071,
+            0.0,
+            0.5
+          ],
+          "outward": [
+            1.0,
+            0.0,
+            0.0
+          ]
+        }
+      ],
+      "roof_nodes": 16,
+      "side_nodes": 32,
+      "side_lost": 1,
+      "settled_per_level": {
+        "0": 31
+      },
+      "gravity": -9.81,
+      "launch_speed_m_s": 0.12,
+      "sensors_modified": false,
+      "sources_used_for_release": false,
+      "blocked_sites": [],
+      "debris_count": 0
+    },
+    {
+      "scene": "E06",
+      "count": 24,
+      "seed": 61015135,
+      "openings": [
+        {
+          "level": 0,
+          "position": [
+            0.15000000596046448,
+            0.0,
+            2.7999999523162842
+          ],
+          "outward": [
+            0.0,
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "level": 0,
+          "position": [
+            -0.550000011920929,
+            0.0,
+            0.0
+          ],
+          "outward": [
+            0.0,
+            0.0,
+            -1.0
+          ]
+        },
+        {
+          "level": 0,
+          "position": [
+            -0.60000002384185791,
+            0.0,
+            1.5500000715255737
+          ],
+          "outward": [
+            -1.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "level": 0,
+          "position": [
+            -0.20000001788139343,
+            0.0,
+            0.79130429029464722
+          ],
+          "outward": [
+            1.0,
+            0.0,
+            0.0
+          ]
+        }
+      ],
+      "roof_nodes": 8,
+      "side_nodes": 16,
+      "side_lost": 0,
+      "settled_per_level": {
+        "0": 16
+      },
+      "gravity": -9.81,
+      "launch_speed_m_s": 0.12,
+      "sensors_modified": false,
+      "sources_used_for_release": false,
+      "blocked_sites": [],
+      "debris_count": 30
+    },
+    {
+      "scene": "E06",
+      "count": 48,
+      "seed": 61015135,
+      "openings": [
+        {
+          "level": 0,
+          "position": [
+            0.15000000596046448,
+            0.0,
+            2.7999999523162842
+          ],
+          "outward": [
+            0.0,
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "level": 0,
+          "position": [
+            -0.550000011920929,
+            0.0,
+            0.0
+          ],
+          "outward": [
+            0.0,
+            0.0,
+            -1.0
+          ]
+        },
+        {
+          "level": 0,
+          "position": [
+            -0.60000002384185791,
+            0.0,
+            1.5500000715255737
+          ],
+          "outward": [
+            -1.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "level": 0,
+          "position": [
+            -0.20000001788139343,
+            0.0,
+            0.79130429029464722
+          ],
+          "outward": [
+            1.0,
+            0.0,
+            0.0
+          ]
+        }
+      ],
+      "roof_nodes": 16,
+      "side_nodes": 32,
+      "side_lost": 2,
+      "settled_per_level": {
+        "0": 30
+      },
+      "gravity": -9.81,
+      "launch_speed_m_s": 0.12,
+      "sensors_modified": false,
+      "sources_used_for_release": false,
+      "blocked_sites": [],
+      "debris_count": 30
+    },
+    {
+      "scene": "E07",
+      "count": 24,
+      "seed": 61016144,
+      "openings": [
+        {
+          "level": 0,
+          "position": [
+            -0.60000002384185791,
+            0.0,
+            2.4500000476837158
+          ],
+          "outward": [
+            -1.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "level": 0,
+          "position": [
+            0.15000000596046448,
+            0.0,
+            0.0
+          ],
+          "outward": [
+            0.0,
+            0.0,
+            -1.0
+          ]
+        },
+        {
+          "level": 0,
+          "position": [
+            0.20000000298023224,
+            0.0,
+            1.3500000238418579
+          ],
+          "outward": [
+            1.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "level": 0,
+          "position": [
+            0.60000002384185791,
+            0.0,
+            2.75
+          ],
+          "outward": [
+            1.0,
+            0.0,
+            0.0
+          ]
+        }
+      ],
+      "roof_nodes": 8,
+      "side_nodes": 16,
+      "side_lost": 0,
+      "settled_per_level": {
+        "0": 16
+      },
+      "gravity": -9.81,
+      "launch_speed_m_s": 0.12,
+      "sensors_modified": false,
+      "sources_used_for_release": false,
+      "blocked_sites": [],
+      "debris_count": 33
+    },
+    {
+      "scene": "E07",
+      "count": 48,
+      "seed": 61016144,
+      "openings": [
+        {
+          "level": 0,
+          "position": [
+            -0.60000002384185791,
+            0.0,
+            2.4500000476837158
+          ],
+          "outward": [
+            -1.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "level": 0,
+          "position": [
+            0.15000000596046448,
+            0.0,
+            0.0
+          ],
+          "outward": [
+            0.0,
+            0.0,
+            -1.0
+          ]
+        },
+        {
+          "level": 0,
+          "position": [
+            0.20000000298023224,
+            0.0,
+            1.3500000238418579
+          ],
+          "outward": [
+            1.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "level": 0,
+          "position": [
+            0.60000002384185791,
+            0.0,
+            2.75
+          ],
+          "outward": [
+            1.0,
+            0.0,
+            0.0
+          ]
+        }
+      ],
+      "roof_nodes": 16,
+      "side_nodes": 32,
+      "side_lost": 3,
+      "settled_per_level": {
+        "0": 29
+      },
+      "gravity": -9.81,
+      "launch_speed_m_s": 0.12,
+      "sensors_modified": false,
+      "sources_used_for_release": false,
+      "blocked_sites": [],
+      "debris_count": 33
+    },
+    {
+      "scene": "E09",
+      "count": 24,
+      "seed": 61018162,
+      "openings": [
+        {
+          "level": 0,
+          "position": [
+            0.34999999403953552,
+            0.0,
+            0.0
+          ],
+          "outward": [
+            0.0,
+            0.0,
+            -1.0
+          ]
+        },
+        {
+          "level": 0,
+          "position": [
+            -0.550000011920929,
+            0.0,
+            2.7999999523162842
+          ],
+          "outward": [
+            0.0,
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "level": 0,
+          "position": [
+            0.60000002384185791,
+            0.0,
+            1.6499999761581421
+          ],
+          "outward": [
+            1.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "level": 0,
+          "position": [
+            -0.60000002384185791,
+            0.0,
+            0.94999992847442627
+          ],
+          "outward": [
+            -1.0,
+            0.0,
+            0.0
+          ]
+        }
+      ],
+      "roof_nodes": 8,
+      "side_nodes": 16,
+      "side_lost": 1,
+      "settled_per_level": {
+        "0": 15
+      },
+      "gravity": -9.81,
+      "launch_speed_m_s": 0.12,
+      "sensors_modified": false,
+      "sources_used_for_release": false,
+      "blocked_sites": [],
+      "debris_count": 37
+    },
+    {
+      "scene": "E09",
+      "count": 48,
+      "seed": 61018162,
+      "openings": [
+        {
+          "level": 0,
+          "position": [
+            0.34999999403953552,
+            0.0,
+            0.0
+          ],
+          "outward": [
+            0.0,
+            0.0,
+            -1.0
+          ]
+        },
+        {
+          "level": 0,
+          "position": [
+            -0.550000011920929,
+            0.0,
+            2.7999999523162842
+          ],
+          "outward": [
+            0.0,
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "level": 0,
+          "position": [
+            0.60000002384185791,
+            0.0,
+            1.6499999761581421
+          ],
+          "outward": [
+            1.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "level": 0,
+          "position": [
+            -0.60000002384185791,
+            0.0,
+            0.94999992847442627
+          ],
+          "outward": [
+            -1.0,
+            0.0,
+            0.0
+          ]
+        }
+      ],
+      "roof_nodes": 16,
+      "side_nodes": 32,
+      "side_lost": 5,
+      "settled_per_level": {
+        "0": 27
+      },
+      "gravity": -9.81,
+      "launch_speed_m_s": 0.12,
+      "sensors_modified": false,
+      "sources_used_for_release": false,
+      "blocked_sites": [],
+      "debris_count": 37
+    },
+    {
+      "scene": "E10",
+      "count": 24,
+      "seed": 61019171,
+      "openings": [
+        {
+          "level": 0,
+          "position": [
+            0.60000002384185791,
+            0.0,
+            0.85000002384185791
+          ],
+          "outward": [
+            1.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "level": 0,
+          "position": [
+            -0.550000011920929,
+            0.0,
+            2.7999999523162842
+          ],
+          "outward": [
+            0.0,
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "level": 0,
+          "position": [
+            -0.60000002384185791,
+            0.0,
+            0.049999997019767761
+          ],
+          "outward": [
+            -1.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "level": 0,
+          "position": [
+            -0.60000002384185791,
+            0.0,
+            1.4500000476837158
+          ],
+          "outward": [
+            -1.0,
+            0.0,
+            0.0
+          ]
+        }
+      ],
+      "roof_nodes": 8,
+      "side_nodes": 16,
+      "side_lost": 3,
+      "settled_per_level": {
+        "0": 13
+      },
+      "gravity": -9.81,
+      "launch_speed_m_s": 0.12,
+      "sensors_modified": false,
+      "sources_used_for_release": false,
+      "blocked_sites": [],
+      "debris_count": 37
+    },
+    {
+      "scene": "E10",
+      "count": 48,
+      "seed": 61019171,
+      "openings": [
+        {
+          "level": 0,
+          "position": [
+            0.60000002384185791,
+            0.0,
+            0.85000002384185791
+          ],
+          "outward": [
+            1.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "level": 0,
+          "position": [
+            -0.550000011920929,
+            0.0,
+            2.7999999523162842
+          ],
+          "outward": [
+            0.0,
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "level": 0,
+          "position": [
+            -0.60000002384185791,
+            0.0,
+            0.049999997019767761
+          ],
+          "outward": [
+            -1.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "level": 0,
+          "position": [
+            -0.60000002384185791,
+            0.0,
+            1.4500000476837158
+          ],
+          "outward": [
+            -1.0,
+            0.0,
+            0.0
+          ]
+        }
+      ],
+      "roof_nodes": 16,
+      "side_nodes": 32,
+      "side_lost": 8,
+      "settled_per_level": {
+        "0": 24
+      },
+      "gravity": -9.81,
+      "launch_speed_m_s": 0.12,
+      "sensors_modified": false,
+      "sources_used_for_release": false,
+      "blocked_sites": [],
+      "debris_count": 37
+    },
+    {
+      "scene": "M06",
+      "count": 24,
+      "seed": 61020180,
+      "openings": [
+        {
+          "level": 0,
+          "position": [
+            0.20000000298023224,
+            0.0,
+            0.88529413938522339
+          ],
+          "outward": [
+            1.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "level": 0,
+          "position": [
+            -0.550000011920929,
+            0.0,
+            2.7999999523162842
+          ],
+          "outward": [
+            0.0,
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "level": 0,
+          "position": [
+            0.60000002384185791,
+            0.0,
+            2.25
+          ],
+          "outward": [
+            1.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "level": 0,
+          "position": [
+            -0.54000002145767212,
+            0.0,
+            0.0
+          ],
+          "outward": [
+            0.0,
+            0.0,
+            -1.0
+          ]
+        },
+        {
+          "level": 1,
+          "position": [
+            -0.40000003576278687,
+            0.2800000011920929,
+            2.8000001907348633
+          ],
+          "outward": [
+            0.0,
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "level": 1,
+          "position": [
+            0.54000002145767212,
+            0.2800000011920929,
+            0.0
+          ],
+          "outward": [
+            0.0,
+            0.0,
+            -1.0
+          ]
+        },
+        {
+          "level": 1,
+          "position": [
+            -0.20000000298023224,
+            0.2800000011920929,
+            1.2615385055541992
+          ],
+          "outward": [
+            -1.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "level": 1,
+          "position": [
+            -0.60000002384185791,
+            0.2800000011920929,
+            0.18000000715255737
+          ],
+          "outward": [
+            -1.0,
+            0.0,
+            0.0
+          ]
+        }
+      ],
+      "roof_nodes": 8,
+      "side_nodes": 16,
+      "side_lost": 0,
+      "settled_per_level": {
+        "0": 8,
+        "1": 8
+      },
+      "gravity": -9.81,
+      "launch_speed_m_s": 0.12,
+      "sensors_modified": false,
+      "sources_used_for_release": false,
+      "blocked_sites": [],
+      "debris_count": 119
+    },
+    {
+      "scene": "M06",
+      "count": 48,
+      "seed": 61020180,
+      "openings": [
+        {
+          "level": 0,
+          "position": [
+            0.20000000298023224,
+            0.0,
+            0.88529413938522339
+          ],
+          "outward": [
+            1.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "level": 0,
+          "position": [
+            -0.550000011920929,
+            0.0,
+            2.7999999523162842
+          ],
+          "outward": [
+            0.0,
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "level": 0,
+          "position": [
+            0.60000002384185791,
+            0.0,
+            2.25
+          ],
+          "outward": [
+            1.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "level": 0,
+          "position": [
+            -0.54000002145767212,
+            0.0,
+            0.0
+          ],
+          "outward": [
+            0.0,
+            0.0,
+            -1.0
+          ]
+        },
+        {
+          "level": 1,
+          "position": [
+            -0.40000003576278687,
+            0.2800000011920929,
+            2.8000001907348633
+          ],
+          "outward": [
+            0.0,
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "level": 1,
+          "position": [
+            0.54000002145767212,
+            0.2800000011920929,
+            0.0
+          ],
+          "outward": [
+            0.0,
+            0.0,
+            -1.0
+          ]
+        },
+        {
+          "level": 1,
+          "position": [
+            -0.20000000298023224,
+            0.2800000011920929,
+            1.2615385055541992
+          ],
+          "outward": [
+            -1.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "level": 1,
+          "position": [
+            -0.60000002384185791,
+            0.2800000011920929,
+            0.18000000715255737
+          ],
+          "outward": [
+            -1.0,
+            0.0,
+            0.0
+          ]
+        }
+      ],
+      "roof_nodes": 16,
+      "side_nodes": 32,
+      "side_lost": 6,
+      "settled_per_level": {
+        "0": 13,
+        "1": 13
+      },
+      "gravity": -9.81,
+      "launch_speed_m_s": 0.12,
+      "sensors_modified": false,
+      "sources_used_for_release": false,
+      "blocked_sites": [],
+      "debris_count": 119
+    },
+    {
+      "scene": "M07",
+      "count": 24,
+      "seed": 61021189,
+      "openings": [
+        {
+          "level": 0,
+          "position": [
+            -0.60000002384185791,
+            0.0,
+            1.28000009059906
+          ],
+          "outward": [
+            -1.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "level": 0,
+          "position": [
+            0.15000000596046448,
+            0.0,
+            2.7999999523162842
+          ],
+          "outward": [
+            0.0,
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "level": 0,
+          "position": [
+            0.15000000596046448,
+            0.0,
+            0.0
+          ],
+          "outward": [
+            0.0,
+            0.0,
+            -1.0
+          ]
+        },
+        {
+          "level": 0,
+          "position": [
+            0.60000002384185791,
+            0.0,
+            1.6399999856948853
+          ],
+          "outward": [
+            1.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "level": 1,
+          "position": [
+            0.0,
+            0.2800000011920929,
+            0.0
+          ],
+          "outward": [
+            0.0,
+            0.0,
+            -1.0
+          ]
+        },
+        {
+          "level": 1,
+          "position": [
+            -0.15000000596046448,
+            0.2800000011920929,
+            2.7999999523162842
+          ],
+          "outward": [
+            0.0,
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "level": 1,
+          "position": [
+            0.60000002384185791,
+            0.2800000011920929,
+            1.4000000953674316
+          ],
+          "outward": [
+            1.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "level": 1,
+          "position": [
+            -0.30000001192092896,
+            0.2800000011920929,
+            1.1600000858306885
+          ],
+          "outward": [
+            -1.0,
+            0.0,
+            0.0
+          ]
+        }
+      ],
+      "roof_nodes": 8,
+      "side_nodes": 16,
+      "side_lost": 0,
+      "settled_per_level": {
+        "0": 8,
+        "1": 8
+      },
+      "gravity": -9.81,
+      "launch_speed_m_s": 0.12,
+      "sensors_modified": false,
+      "sources_used_for_release": false,
+      "blocked_sites": [],
+      "debris_count": 80
+    },
+    {
+      "scene": "M07",
+      "count": 48,
+      "seed": 61021189,
+      "openings": [
+        {
+          "level": 0,
+          "position": [
+            -0.60000002384185791,
+            0.0,
+            1.28000009059906
+          ],
+          "outward": [
+            -1.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "level": 0,
+          "position": [
+            0.15000000596046448,
+            0.0,
+            2.7999999523162842
+          ],
+          "outward": [
+            0.0,
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "level": 0,
+          "position": [
+            0.15000000596046448,
+            0.0,
+            0.0
+          ],
+          "outward": [
+            0.0,
+            0.0,
+            -1.0
+          ]
+        },
+        {
+          "level": 0,
+          "position": [
+            0.60000002384185791,
+            0.0,
+            1.6399999856948853
+          ],
+          "outward": [
+            1.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "level": 1,
+          "position": [
+            0.0,
+            0.2800000011920929,
+            0.0
+          ],
+          "outward": [
+            0.0,
+            0.0,
+            -1.0
+          ]
+        },
+        {
+          "level": 1,
+          "position": [
+            -0.15000000596046448,
+            0.2800000011920929,
+            2.7999999523162842
+          ],
+          "outward": [
+            0.0,
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "level": 1,
+          "position": [
+            0.60000002384185791,
+            0.2800000011920929,
+            1.4000000953674316
+          ],
+          "outward": [
+            1.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "level": 1,
+          "position": [
+            -0.30000001192092896,
+            0.2800000011920929,
+            1.1600000858306885
+          ],
+          "outward": [
+            -1.0,
+            0.0,
+            0.0
+          ]
+        }
+      ],
+      "roof_nodes": 16,
+      "side_nodes": 32,
+      "side_lost": 1,
+      "settled_per_level": {
+        "0": 15,
+        "1": 16
+      },
+      "gravity": -9.81,
+      "launch_speed_m_s": 0.12,
+      "sensors_modified": false,
+      "sources_used_for_release": false,
+      "blocked_sites": [],
+      "debris_count": 80
+    },
+    {
+      "scene": "M08",
+      "count": 24,
+      "seed": 61022198,
+      "openings": [
+        {
+          "level": 0,
+          "position": [
+            -0.20000000298023224,
+            0.0,
+            1.3000000715255737
+          ],
+          "outward": [
+            0.0,
+            0.0,
+            -1.0
+          ]
+        },
+        {
+          "level": 0,
+          "position": [
+            0.550000011920929,
+            0.0,
+            2.7999999523162842
+          ],
+          "outward": [
+            0.0,
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "level": 0,
+          "position": [
+            0.54000002145767212,
+            0.0,
+            0.0
+          ],
+          "outward": [
+            0.0,
+            0.0,
+            -1.0
+          ]
+        },
+        {
+          "level": 0,
+          "position": [
+            -0.60000002384185791,
+            0.0,
+            2.4500000476837158
+          ],
+          "outward": [
+            -1.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "level": 1,
+          "position": [
+            0.60000002384185791,
+            0.2800000011920929,
+            1.9500000476837158
+          ],
+          "outward": [
+            1.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "level": 1,
+          "position": [
+            -0.52666670083999634,
+            0.2800000011920929,
+            0.0
+          ],
+          "outward": [
+            0.0,
+            0.0,
+            -1.0
+          ]
+        },
+        {
+          "level": 1,
+          "position": [
+            -0.60000002384185791,
+            0.2800000011920929,
+            2.75
+          ],
+          "outward": [
+            -1.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "level": 1,
+          "position": [
+            -0.60000002384185791,
+            0.2800000011920929,
+            1.4078947305679321
+          ],
+          "outward": [
+            -1.0,
+            0.0,
+            0.0
+          ]
+        }
+      ],
+      "roof_nodes": 8,
+      "side_nodes": 16,
+      "side_lost": 1,
+      "settled_per_level": {
+        "0": 8,
+        "1": 7
+      },
+      "gravity": -9.81,
+      "launch_speed_m_s": 0.12,
+      "sensors_modified": false,
+      "sources_used_for_release": false,
+      "blocked_sites": [],
+      "debris_count": 114
+    },
+    {
+      "scene": "M08",
+      "count": 48,
+      "seed": 61022198,
+      "openings": [
+        {
+          "level": 0,
+          "position": [
+            -0.20000000298023224,
+            0.0,
+            1.3000000715255737
+          ],
+          "outward": [
+            0.0,
+            0.0,
+            -1.0
+          ]
+        },
+        {
+          "level": 0,
+          "position": [
+            0.550000011920929,
+            0.0,
+            2.7999999523162842
+          ],
+          "outward": [
+            0.0,
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "level": 0,
+          "position": [
+            0.54000002145767212,
+            0.0,
+            0.0
+          ],
+          "outward": [
+            0.0,
+            0.0,
+            -1.0
+          ]
+        },
+        {
+          "level": 0,
+          "position": [
+            -0.60000002384185791,
+            0.0,
+            2.4500000476837158
+          ],
+          "outward": [
+            -1.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "level": 1,
+          "position": [
+            0.60000002384185791,
+            0.2800000011920929,
+            1.9500000476837158
+          ],
+          "outward": [
+            1.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "level": 1,
+          "position": [
+            -0.52666670083999634,
+            0.2800000011920929,
+            0.0
+          ],
+          "outward": [
+            0.0,
+            0.0,
+            -1.0
+          ]
+        },
+        {
+          "level": 1,
+          "position": [
+            -0.60000002384185791,
+            0.2800000011920929,
+            2.75
+          ],
+          "outward": [
+            -1.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "level": 1,
+          "position": [
+            -0.60000002384185791,
+            0.2800000011920929,
+            1.4078947305679321
+          ],
+          "outward": [
+            -1.0,
+            0.0,
+            0.0
+          ]
+        }
+      ],
+      "roof_nodes": 16,
+      "side_nodes": 32,
+      "side_lost": 5,
+      "settled_per_level": {
+        "0": 15,
+        "1": 12
+      },
+      "gravity": -9.81,
+      "launch_speed_m_s": 0.12,
+      "sensors_modified": false,
+      "sources_used_for_release": false,
+      "blocked_sites": [],
+      "debris_count": 114
+    },
+    {
+      "scene": "M10",
+      "count": 24,
+      "seed": 61024216,
+      "openings": [
+        {
+          "level": 0,
+          "position": [
+            0.34999999403953552,
+            0.0,
+            0.60000002384185791
+          ],
+          "outward": [
+            0.0,
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "level": 0,
+          "position": [
+            -0.53333336114883423,
+            0.0,
+            2.7999999523162842
+          ],
+          "outward": [
+            0.0,
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "level": 0,
+          "position": [
+            0.60000002384185791,
+            0.0,
+            2.0
+          ],
+          "outward": [
+            1.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "level": 0,
+          "position": [
+            -0.60000002384185791,
+            0.0,
+            1.5375000238418579
+          ],
+          "outward": [
+            -1.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "level": 1,
+          "position": [
+            -0.40000003576278687,
+            0.2800000011920929,
+            2.7999999523162842
+          ],
+          "outward": [
+            0.0,
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "level": 1,
+          "position": [
+            0.550000011920929,
+            0.2800000011920929,
+            0.0
+          ],
+          "outward": [
+            0.0,
+            0.0,
+            -1.0
+          ]
+        },
+        {
+          "level": 1,
+          "position": [
+            0.60000002384185791,
+            0.2800000011920929,
+            1.6307693719863892
+          ],
+          "outward": [
+            1.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "level": 1,
+          "position": [
+            -0.30000001192092896,
+            0.2800000011920929,
+            0.550000011920929
+          ],
+          "outward": [
+            -1.0,
+            0.0,
+            0.0
+          ]
+        }
+      ],
+      "roof_nodes": 8,
+      "side_nodes": 16,
+      "side_lost": 0,
+      "settled_per_level": {
+        "0": 8,
+        "1": 8
+      },
+      "gravity": -9.81,
+      "launch_speed_m_s": 0.12,
+      "sensors_modified": false,
+      "sources_used_for_release": false,
+      "blocked_sites": [],
+      "debris_count": 133
+    },
+    {
+      "scene": "M10",
+      "count": 48,
+      "seed": 61024216,
+      "openings": [
+        {
+          "level": 0,
+          "position": [
+            0.34999999403953552,
+            0.0,
+            0.60000002384185791
+          ],
+          "outward": [
+            0.0,
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "level": 0,
+          "position": [
+            -0.53333336114883423,
+            0.0,
+            2.7999999523162842
+          ],
+          "outward": [
+            0.0,
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "level": 0,
+          "position": [
+            0.60000002384185791,
+            0.0,
+            2.0
+          ],
+          "outward": [
+            1.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "level": 0,
+          "position": [
+            -0.60000002384185791,
+            0.0,
+            1.5375000238418579
+          ],
+          "outward": [
+            -1.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "level": 1,
+          "position": [
+            -0.40000003576278687,
+            0.2800000011920929,
+            2.7999999523162842
+          ],
+          "outward": [
+            0.0,
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "level": 1,
+          "position": [
+            0.550000011920929,
+            0.2800000011920929,
+            0.0
+          ],
+          "outward": [
+            0.0,
+            0.0,
+            -1.0
+          ]
+        },
+        {
+          "level": 1,
+          "position": [
+            0.60000002384185791,
+            0.2800000011920929,
+            1.6307693719863892
+          ],
+          "outward": [
+            1.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "level": 1,
+          "position": [
+            -0.30000001192092896,
+            0.2800000011920929,
+            0.550000011920929
+          ],
+          "outward": [
+            -1.0,
+            0.0,
+            0.0
+          ]
+        }
+      ],
+      "roof_nodes": 16,
+      "side_nodes": 32,
+      "side_lost": 1,
+      "settled_per_level": {
+        "0": 16,
+        "1": 15
+      },
+      "gravity": -9.81,
+      "launch_speed_m_s": 0.12,
+      "sensors_modified": false,
+      "sources_used_for_release": false,
+      "blocked_sites": [],
+      "debris_count": 133
+    },
+    {
+      "scene": "H06",
+      "count": 24,
+      "seed": 61025225,
+      "openings": [
+        {
+          "level": 0,
+          "position": [
+            -0.15000000596046448,
+            0.0,
+            2.7999999523162842
+          ],
+          "outward": [
+            0.0,
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "level": 0,
+          "position": [
+            -0.550000011920929,
+            0.0,
+            0.0
+          ],
+          "outward": [
+            0.0,
+            0.0,
+            -1.0
+          ]
+        },
+        {
+          "level": 0,
+          "position": [
+            -0.20000001788139343,
+            0.0,
+            1.3999999761581421
+          ],
+          "outward": [
+            1.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "level": 0,
+          "position": [
+            0.60000002384185791,
+            0.0,
+            2.25
+          ],
+          "outward": [
+            1.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "level": 1,
+          "position": [
+            -0.550000011920929,
+            0.2800000011920929,
+            0.0
+          ],
+          "outward": [
+            0.0,
+            0.0,
+            -1.0
+          ]
+        },
+        {
+          "level": 1,
+          "position": [
+            0.550000011920929,
+            0.2800000011920929,
+            2.7999999523162842
+          ],
+          "outward": [
+            0.0,
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "level": 1,
+          "position": [
+            -0.60000002384185791,
+            0.2800000011920929,
+            1.6875
+          ],
+          "outward": [
+            -1.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "level": 1,
+          "position": [
+            -0.550000011920929,
+            0.2800000011920929,
+            2.7999999523162842
+          ],
+          "outward": [
+            0.0,
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "level": 2,
+          "position": [
+            -0.20000001788139343,
+            0.56000000238418579,
+            1.2821428775787354
+          ],
+          "outward": [
+            1.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "level": 2,
+          "position": [
+            0.550000011920929,
+            0.56000000238418579,
+            2.7999999523162842
+          ],
+          "outward": [
+            0.0,
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "level": 2,
+          "position": [
+            -0.60000002384185791,
+            0.56000000238418579,
+            2.4874999523162842
+          ],
+          "outward": [
+            -1.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "level": 2,
+          "position": [
+            0.13333334028720856,
+            0.56000000238418579,
+            2.2000000476837158
+          ],
+          "outward": [
+            0.0,
+            0.0,
+            -1.0
+          ]
+        }
+      ],
+      "roof_nodes": 8,
+      "side_nodes": 16,
+      "side_lost": 0,
+      "settled_per_level": {
+        "0": 5,
+        "1": 7,
+        "2": 4
+      },
+      "gravity": -9.81,
+      "launch_speed_m_s": 0.12,
+      "sensors_modified": false,
+      "sources_used_for_release": false,
+      "blocked_sites": [],
+      "debris_count": 169
+    },
+    {
+      "scene": "H06",
+      "count": 48,
+      "seed": 61025225,
+      "openings": [
+        {
+          "level": 0,
+          "position": [
+            -0.15000000596046448,
+            0.0,
+            2.7999999523162842
+          ],
+          "outward": [
+            0.0,
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "level": 0,
+          "position": [
+            -0.550000011920929,
+            0.0,
+            0.0
+          ],
+          "outward": [
+            0.0,
+            0.0,
+            -1.0
+          ]
+        },
+        {
+          "level": 0,
+          "position": [
+            -0.20000001788139343,
+            0.0,
+            1.3999999761581421
+          ],
+          "outward": [
+            1.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "level": 0,
+          "position": [
+            0.60000002384185791,
+            0.0,
+            2.25
+          ],
+          "outward": [
+            1.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "level": 1,
+          "position": [
+            -0.550000011920929,
+            0.2800000011920929,
+            0.0
+          ],
+          "outward": [
+            0.0,
+            0.0,
+            -1.0
+          ]
+        },
+        {
+          "level": 1,
+          "position": [
+            0.550000011920929,
+            0.2800000011920929,
+            2.7999999523162842
+          ],
+          "outward": [
+            0.0,
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "level": 1,
+          "position": [
+            -0.60000002384185791,
+            0.2800000011920929,
+            1.6875
+          ],
+          "outward": [
+            -1.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "level": 1,
+          "position": [
+            -0.550000011920929,
+            0.2800000011920929,
+            2.7999999523162842
+          ],
+          "outward": [
+            0.0,
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "level": 2,
+          "position": [
+            -0.20000001788139343,
+            0.56000000238418579,
+            1.2821428775787354
+          ],
+          "outward": [
+            1.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "level": 2,
+          "position": [
+            0.550000011920929,
+            0.56000000238418579,
+            2.7999999523162842
+          ],
+          "outward": [
+            0.0,
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "level": 2,
+          "position": [
+            -0.60000002384185791,
+            0.56000000238418579,
+            2.4874999523162842
+          ],
+          "outward": [
+            -1.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "level": 2,
+          "position": [
+            0.13333334028720856,
+            0.56000000238418579,
+            2.2000000476837158
+          ],
+          "outward": [
+            0.0,
+            0.0,
+            -1.0
+          ]
+        }
+      ],
+      "roof_nodes": 16,
+      "side_nodes": 32,
+      "side_lost": 1,
+      "settled_per_level": {
+        "0": 10,
+        "1": 9,
+        "2": 12
+      },
+      "gravity": -9.81,
+      "launch_speed_m_s": 0.12,
+      "sensors_modified": false,
+      "sources_used_for_release": false,
+      "blocked_sites": [],
+      "debris_count": 169
+    },
+    {
+      "scene": "H07",
+      "count": 24,
+      "seed": 61026234,
+      "openings": [
+        {
+          "level": 0,
+          "position": [
+            0.20000000298023224,
+            0.0,
+            1.2782608270645142
+          ],
+          "outward": [
+            1.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "level": 0,
+          "position": [
+            -0.53333336114883423,
+            0.0,
+            2.8000001907348633
+          ],
+          "outward": [
+            0.0,
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "level": 0,
+          "position": [
+            -0.15000000596046448,
+            0.0,
+            0.0
+          ],
+          "outward": [
+            0.0,
+            0.0,
+            -1.0
+          ]
+        },
+        {
+          "level": 0,
+          "position": [
+            0.60000002384185791,
+            0.0,
+            2.4500002861022949
+          ],
+          "outward": [
+            1.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "level": 1,
+          "position": [
+            0.53333336114883423,
+            0.2800000011920929,
+            2.8000001907348633
+          ],
+          "outward": [
+            0.0,
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "level": 1,
+          "position": [
+            -0.15000000596046448,
+            0.2800000011920929,
+            0.0
+          ],
+          "outward": [
+            0.0,
+            0.0,
+            -1.0
+          ]
+        },
+        {
+          "level": 1,
+          "position": [
+            -0.20000000298023224,
+            0.2800000011920929,
+            1.519444465637207
+          ],
+          "outward": [
+            -1.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "level": 1,
+          "position": [
+            -0.60000002384185791,
+            0.2800000011920929,
+            2.5900001525878906
+          ],
+          "outward": [
+            -1.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "level": 2,
+          "position": [
+            -0.20000000298023224,
+            0.56000000238418579,
+            1.263888955116272
+          ],
+          "outward": [
+            -1.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "level": 2,
+          "position": [
+            0.53333336114883423,
+            0.56000000238418579,
+            2.8000001907348633
+          ],
+          "outward": [
+            0.0,
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "level": 2,
+          "position": [
+            -0.60000002384185791,
+            0.56000000238418579,
+            2.4500002861022949
+          ],
+          "outward": [
+            -1.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "level": 2,
+          "position": [
+            0.20000000298023224,
+            0.56000000238418579,
+            2.0
+          ],
+          "outward": [
+            1.0,
+            0.0,
+            0.0
+          ]
+        }
+      ],
+      "roof_nodes": 8,
+      "side_nodes": 16,
+      "side_lost": 0,
+      "settled_per_level": {
+        "0": 4,
+        "1": 8,
+        "2": 4
+      },
+      "gravity": -9.81,
+      "launch_speed_m_s": 0.12,
+      "sensors_modified": false,
+      "sources_used_for_release": false,
+      "blocked_sites": [],
+      "debris_count": 169
+    },
+    {
+      "scene": "H07",
+      "count": 48,
+      "seed": 61026234,
+      "openings": [
+        {
+          "level": 0,
+          "position": [
+            0.20000000298023224,
+            0.0,
+            1.2782608270645142
+          ],
+          "outward": [
+            1.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "level": 0,
+          "position": [
+            -0.53333336114883423,
+            0.0,
+            2.8000001907348633
+          ],
+          "outward": [
+            0.0,
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "level": 0,
+          "position": [
+            -0.15000000596046448,
+            0.0,
+            0.0
+          ],
+          "outward": [
+            0.0,
+            0.0,
+            -1.0
+          ]
+        },
+        {
+          "level": 0,
+          "position": [
+            0.60000002384185791,
+            0.0,
+            2.4500002861022949
+          ],
+          "outward": [
+            1.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "level": 1,
+          "position": [
+            0.53333336114883423,
+            0.2800000011920929,
+            2.8000001907348633
+          ],
+          "outward": [
+            0.0,
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "level": 1,
+          "position": [
+            -0.15000000596046448,
+            0.2800000011920929,
+            0.0
+          ],
+          "outward": [
+            0.0,
+            0.0,
+            -1.0
+          ]
+        },
+        {
+          "level": 1,
+          "position": [
+            -0.20000000298023224,
+            0.2800000011920929,
+            1.519444465637207
+          ],
+          "outward": [
+            -1.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "level": 1,
+          "position": [
+            -0.60000002384185791,
+            0.2800000011920929,
+            2.5900001525878906
+          ],
+          "outward": [
+            -1.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "level": 2,
+          "position": [
+            -0.20000000298023224,
+            0.56000000238418579,
+            1.263888955116272
+          ],
+          "outward": [
+            -1.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "level": 2,
+          "position": [
+            0.53333336114883423,
+            0.56000000238418579,
+            2.8000001907348633
+          ],
+          "outward": [
+            0.0,
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "level": 2,
+          "position": [
+            -0.60000002384185791,
+            0.56000000238418579,
+            2.4500002861022949
+          ],
+          "outward": [
+            -1.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "level": 2,
+          "position": [
+            0.20000000298023224,
+            0.56000000238418579,
+            2.0
+          ],
+          "outward": [
+            1.0,
+            0.0,
+            0.0
+          ]
+        }
+      ],
+      "roof_nodes": 16,
+      "side_nodes": 32,
+      "side_lost": 2,
+      "settled_per_level": {
+        "0": 9,
+        "1": 11,
+        "2": 10
+      },
+      "gravity": -9.81,
+      "launch_speed_m_s": 0.12,
+      "sensors_modified": false,
+      "sources_used_for_release": false,
+      "blocked_sites": [],
+      "debris_count": 169
+    },
+    {
+      "scene": "H10",
+      "count": 24,
+      "seed": 61029261,
+      "openings": [
+        {
+          "level": 0,
+          "position": [
+            0.40000000596046448,
+            0.0,
+            2.255263090133667
+          ],
+          "outward": [
+            -1.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "level": 0,
+          "position": [
+            -0.54000002145767212,
+            0.0,
+            0.0
+          ],
+          "outward": [
+            0.0,
+            0.0,
+            -1.0
+          ]
+        },
+        {
+          "level": 0,
+          "position": [
+            0.60000002384185791,
+            0.0,
+            0.80263155698776245
+          ],
+          "outward": [
+            1.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "level": 0,
+          "position": [
+            -0.60000002384185791,
+            0.0,
+            1.4078947305679321
+          ],
+          "outward": [
+            -1.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "level": 1,
+          "position": [
+            -0.40000003576278687,
+            0.2800000011920929,
+            1.2868421077728271
+          ],
+          "outward": [
+            1.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "level": 1,
+          "position": [
+            0.550000011920929,
+            0.2800000011920929,
+            2.7999999523162842
+          ],
+          "outward": [
+            0.0,
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "level": 1,
+          "position": [
+            0.52666670083999634,
+            0.2800000011920929,
+            0.0
+          ],
+          "outward": [
+            0.0,
+            0.0,
+            -1.0
+          ]
+        },
+        {
+          "level": 1,
+          "position": [
+            -0.60000002384185791,
+            0.2800000011920929,
+            2.497368335723877
+          ],
+          "outward": [
+            -1.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "level": 2,
+          "position": [
+            0.15999999642372131,
+            0.56000000238418579,
+            2.3624999523162842
+          ],
+          "outward": [
+            -1.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "level": 2,
+          "position": [
+            -0.5,
+            0.56000000238418579,
+            1.1000000238418579
+          ],
+          "outward": [
+            0.0,
+            0.0,
+            -1.0
+          ]
+        },
+        {
+          "level": 2,
+          "position": [
+            0.60000002384185791,
+            0.56000000238418579,
+            1.2821428775787354
+          ],
+          "outward": [
+            1.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "level": 2,
+          "position": [
+            -0.60000002384185791,
+            0.56000000238418579,
+            2.75
+          ],
+          "outward": [
+            -1.0,
+            0.0,
+            0.0
+          ]
+        }
+      ],
+      "roof_nodes": 8,
+      "side_nodes": 16,
+      "side_lost": 1,
+      "settled_per_level": {
+        "0": 7,
+        "1": 4,
+        "2": 4
+      },
+      "gravity": -9.81,
+      "launch_speed_m_s": 0.12,
+      "sensors_modified": false,
+      "sources_used_for_release": false,
+      "blocked_sites": [],
+      "debris_count": 192
+    },
+    {
+      "scene": "H10",
+      "count": 48,
+      "seed": 61029261,
+      "openings": [
+        {
+          "level": 0,
+          "position": [
+            0.40000000596046448,
+            0.0,
+            2.255263090133667
+          ],
+          "outward": [
+            -1.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "level": 0,
+          "position": [
+            -0.54000002145767212,
+            0.0,
+            0.0
+          ],
+          "outward": [
+            0.0,
+            0.0,
+            -1.0
+          ]
+        },
+        {
+          "level": 0,
+          "position": [
+            0.60000002384185791,
+            0.0,
+            0.80263155698776245
+          ],
+          "outward": [
+            1.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "level": 0,
+          "position": [
+            -0.60000002384185791,
+            0.0,
+            1.4078947305679321
+          ],
+          "outward": [
+            -1.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "level": 1,
+          "position": [
+            -0.40000003576278687,
+            0.2800000011920929,
+            1.2868421077728271
+          ],
+          "outward": [
+            1.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "level": 1,
+          "position": [
+            0.550000011920929,
+            0.2800000011920929,
+            2.7999999523162842
+          ],
+          "outward": [
+            0.0,
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "level": 1,
+          "position": [
+            0.52666670083999634,
+            0.2800000011920929,
+            0.0
+          ],
+          "outward": [
+            0.0,
+            0.0,
+            -1.0
+          ]
+        },
+        {
+          "level": 1,
+          "position": [
+            -0.60000002384185791,
+            0.2800000011920929,
+            2.497368335723877
+          ],
+          "outward": [
+            -1.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "level": 2,
+          "position": [
+            0.15999999642372131,
+            0.56000000238418579,
+            2.3624999523162842
+          ],
+          "outward": [
+            -1.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "level": 2,
+          "position": [
+            -0.5,
+            0.56000000238418579,
+            1.1000000238418579
+          ],
+          "outward": [
+            0.0,
+            0.0,
+            -1.0
+          ]
+        },
+        {
+          "level": 2,
+          "position": [
+            0.60000002384185791,
+            0.56000000238418579,
+            1.2821428775787354
+          ],
+          "outward": [
+            1.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "level": 2,
+          "position": [
+            -0.60000002384185791,
+            0.56000000238418579,
+            2.75
+          ],
+          "outward": [
+            -1.0,
+            0.0,
+            0.0
+          ]
+        }
+      ],
+      "roof_nodes": 16,
+      "side_nodes": 32,
+      "side_lost": 3,
+      "settled_per_level": {
+        "0": 10,
+        "1": 9,
+        "2": 10
+      },
+      "gravity": -9.81,
+      "launch_speed_m_s": 0.12,
+      "sensors_modified": false,
+      "sources_used_for_release": false,
+      "blocked_sites": [],
+      "debris_count": 192
+    }
+  ]
+}

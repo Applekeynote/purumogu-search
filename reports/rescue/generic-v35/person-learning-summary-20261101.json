@@ -1,0 +1,852 @@
+{
+  "purpose": "Completed fixed-VALID comparisons, learning method and achieved precision/recall; not final acceptance",
+  "final_test_opened": false,
+  "closed_loop_acceptance": false,
+  "rows": [
+    {
+      "model": "generic-v65-tracks-residual426",
+      "method": "Residual binary correction",
+      "source_report": "models/generic-v65-tracks-residual426/track-development.json",
+      "source_sha256": "06b130b0fde50e7e9f850e63e61100412b43baa36fd4edc499665a6a4889ad0f",
+      "training_worlds_reported": 426,
+      "validation_cases": 54,
+      "chosen": {
+        "radius": 0.25,
+        "leaves": 15,
+        "rounds": 56,
+        "threshold": 0.5,
+        "nms": 0.45,
+        "height": 1.5
+      },
+      "metrics": {
+        "matched": 86,
+        "false_alarms": 3,
+        "people": 90,
+        "human_precision": 0.9662921348314607,
+        "human_recall": 0.9555555555555556
+      },
+      "by_node_count": {
+        "24": {
+          "matched": 28,
+          "false_alarms": 1,
+          "people": 30,
+          "human_precision": 0.9655172413793104,
+          "human_recall": 0.9333333333333333
+        },
+        "36": {
+          "matched": 30,
+          "false_alarms": 0,
+          "people": 30,
+          "human_precision": 1.0,
+          "human_recall": 1.0
+        },
+        "48": {
+          "matched": 28,
+          "false_alarms": 2,
+          "people": 30,
+          "human_precision": 0.9333333333333333,
+          "human_recall": 0.9333333333333333
+        }
+      },
+      "incomplete_cases": [
+        {
+          "map_id": "g41-valid-known-S13-W82013117-N24",
+          "matched": 2,
+          "false_alarms": 1,
+          "people": 2
+        },
+        {
+          "map_id": "g41-valid-known-S13-W82013117-N48",
+          "matched": 1,
+          "false_alarms": 0,
+          "people": 2
+        },
+        {
+          "map_id": "g41-valid-known-S26-W82026234-N24",
+          "matched": 1,
+          "false_alarms": 0,
+          "people": 2
+        },
+        {
+          "map_id": "g41-valid-known-S26-W82026234-N48",
+          "matched": 2,
+          "false_alarms": 1,
+          "people": 2
+        },
+        {
+          "map_id": "g60-valid-known-S33-W124033297-N24",
+          "matched": 2,
+          "false_alarms": 0,
+          "people": 3
+        },
+        {
+          "map_id": "g60-valid-known-S33-W124033297-N48",
+          "matched": 2,
+          "false_alarms": 0,
+          "people": 3
+        },
+        {
+          "map_id": "g60-valid-unknown-S34-W125034306-N48",
+          "matched": 2,
+          "false_alarms": 1,
+          "people": 2
+        }
+      ]
+    },
+    {
+      "model": "generic-v75-residual-scale",
+      "method": "Global residual strength",
+      "source_report": "models/generic-v75-residual-scale/development.json",
+      "source_sha256": "1a1edac4d907b2f4fdfd78ac679171426522ded98644a4b16a55e37008c7990d",
+      "training_worlds_reported": null,
+      "validation_cases": 54,
+      "chosen": {
+        "source": "models/generic-v65-tracks-residual426/model.json",
+        "strength": 1.25,
+        "threshold": 0.4,
+        "nms": 0.45,
+        "height": 1.5,
+        "human_precision": 0.9666666666666667,
+        "human_recall": 0.9666666666666667,
+        "minimum_domain_criterion": 0.9473684210526315,
+        "minimum_stratum_criterion": 0.8333333333333334
+      },
+      "metrics": {
+        "matched": 87,
+        "false_alarms": 3,
+        "people": 90,
+        "human_precision": 0.9666666666666667,
+        "human_recall": 0.9666666666666667
+      },
+      "by_node_count": {
+        "24": {
+          "matched": 28,
+          "false_alarms": 1,
+          "people": 30,
+          "human_precision": 0.9655172413793104,
+          "human_recall": 0.9333333333333333
+        },
+        "36": {
+          "matched": 30,
+          "false_alarms": 0,
+          "people": 30,
+          "human_precision": 1.0,
+          "human_recall": 1.0
+        },
+        "48": {
+          "matched": 29,
+          "false_alarms": 2,
+          "people": 30,
+          "human_precision": 0.9354838709677419,
+          "human_recall": 0.9666666666666667
+        }
+      },
+      "incomplete_cases": [
+        {
+          "map_id": "g41-valid-known-S13-W82013117-N24",
+          "matched": 2,
+          "false_alarms": 1,
+          "people": 2
+        },
+        {
+          "map_id": "g41-valid-known-S13-W82013117-N48",
+          "matched": 1,
+          "false_alarms": 0,
+          "people": 2
+        },
+        {
+          "map_id": "g41-valid-known-S26-W82026234-N24",
+          "matched": 1,
+          "false_alarms": 0,
+          "people": 2
+        },
+        {
+          "map_id": "g41-valid-known-S26-W82026234-N48",
+          "matched": 2,
+          "false_alarms": 1,
+          "people": 2
+        },
+        {
+          "map_id": "g60-valid-known-S33-W124033297-N24",
+          "matched": 2,
+          "false_alarms": 0,
+          "people": 3
+        },
+        {
+          "map_id": "g60-valid-unknown-S34-W125034306-N48",
+          "matched": 2,
+          "false_alarms": 1,
+          "people": 2
+        }
+      ]
+    },
+    {
+      "model": "generic-v77-tracks-teacher426",
+      "method": "Frozen teacher confidence",
+      "source_report": "models/generic-v77-tracks-teacher426/track-development.json",
+      "source_sha256": "580d4c5886b6c921cbbb9629a023405891a5f358020ab6250a4b359cd3b57e18",
+      "training_worlds_reported": 426,
+      "validation_cases": 54,
+      "chosen": {
+        "radius": 0.25,
+        "leaves": 15,
+        "rounds": 28,
+        "threshold": 0.4,
+        "nms": 0.6,
+        "height": 2
+      },
+      "metrics": {
+        "matched": 86,
+        "false_alarms": 1,
+        "people": 90,
+        "human_precision": 0.9885057471264368,
+        "human_recall": 0.9555555555555556
+      },
+      "by_node_count": {
+        "24": {
+          "matched": 28,
+          "false_alarms": 0,
+          "people": 30,
+          "human_precision": 1.0,
+          "human_recall": 0.9333333333333333
+        },
+        "36": {
+          "matched": 30,
+          "false_alarms": 0,
+          "people": 30,
+          "human_precision": 1.0,
+          "human_recall": 1.0
+        },
+        "48": {
+          "matched": 28,
+          "false_alarms": 1,
+          "people": 30,
+          "human_precision": 0.9655172413793104,
+          "human_recall": 0.9333333333333333
+        }
+      },
+      "incomplete_cases": [
+        {
+          "map_id": "g41-valid-known-S13-W82013117-N48",
+          "matched": 1,
+          "false_alarms": 0,
+          "people": 2
+        },
+        {
+          "map_id": "g41-valid-known-S26-W82026234-N24",
+          "matched": 1,
+          "false_alarms": 0,
+          "people": 2
+        },
+        {
+          "map_id": "g60-valid-known-S33-W124033297-N24",
+          "matched": 2,
+          "false_alarms": 0,
+          "people": 3
+        },
+        {
+          "map_id": "g60-valid-unknown-S34-W125034306-N48",
+          "matched": 1,
+          "false_alarms": 1,
+          "people": 2
+        }
+      ]
+    },
+    {
+      "model": "generic-v86-tracks-person-balanced-025",
+      "method": "Per-person positive mass .25",
+      "source_report": "models/generic-v86-tracks-person-balanced-025/track-development.json",
+      "source_sha256": "cfb46199dd122837f24da8928475226385f7416ee0093e67969a9907289fa7f2",
+      "training_worlds_reported": 426,
+      "validation_cases": 54,
+      "chosen": {
+        "radius": 0.25,
+        "leaves": 15,
+        "rounds": 56,
+        "threshold": 0.8,
+        "nms": 0.6,
+        "height": 2
+      },
+      "metrics": {
+        "matched": 85,
+        "false_alarms": 2,
+        "people": 90,
+        "human_precision": 0.9770114942528736,
+        "human_recall": 0.9444444444444444
+      },
+      "by_node_count": {
+        "24": {
+          "matched": 28,
+          "false_alarms": 0,
+          "people": 30,
+          "human_precision": 1.0,
+          "human_recall": 0.9333333333333333
+        },
+        "36": {
+          "matched": 30,
+          "false_alarms": 0,
+          "people": 30,
+          "human_precision": 1.0,
+          "human_recall": 1.0
+        },
+        "48": {
+          "matched": 27,
+          "false_alarms": 2,
+          "people": 30,
+          "human_precision": 0.9310344827586207,
+          "human_recall": 0.9
+        }
+      },
+      "incomplete_cases": [
+        {
+          "map_id": "g41-valid-known-S13-W82013117-N48",
+          "matched": 1,
+          "false_alarms": 0,
+          "people": 2
+        },
+        {
+          "map_id": "g41-valid-known-S26-W82026234-N24",
+          "matched": 1,
+          "false_alarms": 0,
+          "people": 2
+        },
+        {
+          "map_id": "g60-valid-known-S33-W124033297-N24",
+          "matched": 2,
+          "false_alarms": 0,
+          "people": 3
+        },
+        {
+          "map_id": "g60-valid-known-S33-W124033297-N48",
+          "matched": 2,
+          "false_alarms": 1,
+          "people": 3
+        },
+        {
+          "map_id": "g60-valid-unknown-S34-W125034306-N48",
+          "matched": 1,
+          "false_alarms": 1,
+          "people": 2
+        }
+      ]
+    },
+    {
+      "model": "generic-v86-tracks-person-balanced-05",
+      "method": "Per-person positive mass .5",
+      "source_report": "models/generic-v86-tracks-person-balanced-05/track-development.json",
+      "source_sha256": "3b1dc4d4bc36e30df4950fc01d6a03bd5b1571a369969c4e632dda87f46d58b5",
+      "training_worlds_reported": 426,
+      "validation_cases": 54,
+      "chosen": {
+        "radius": 0.25,
+        "leaves": 15,
+        "rounds": 56,
+        "threshold": 0.7,
+        "nms": 0.6,
+        "height": 2
+      },
+      "metrics": {
+        "matched": 88,
+        "false_alarms": 7,
+        "people": 90,
+        "human_precision": 0.9263157894736842,
+        "human_recall": 0.9777777777777777
+      },
+      "by_node_count": {
+        "24": {
+          "matched": 29,
+          "false_alarms": 3,
+          "people": 30,
+          "human_precision": 0.90625,
+          "human_recall": 0.9666666666666667
+        },
+        "36": {
+          "matched": 30,
+          "false_alarms": 2,
+          "people": 30,
+          "human_precision": 0.9375,
+          "human_recall": 1.0
+        },
+        "48": {
+          "matched": 29,
+          "false_alarms": 2,
+          "people": 30,
+          "human_precision": 0.9354838709677419,
+          "human_recall": 0.9666666666666667
+        }
+      },
+      "incomplete_cases": [
+        {
+          "map_id": "g41-valid-known-S13-W82013117-N24",
+          "matched": 2,
+          "false_alarms": 1,
+          "people": 2
+        },
+        {
+          "map_id": "g41-valid-known-S20-W82020180-N24",
+          "matched": 2,
+          "false_alarms": 1,
+          "people": 2
+        },
+        {
+          "map_id": "g41-valid-known-S20-W82020180-N36",
+          "matched": 2,
+          "false_alarms": 1,
+          "people": 2
+        },
+        {
+          "map_id": "g41-valid-known-S26-W82026234-N36",
+          "matched": 2,
+          "false_alarms": 1,
+          "people": 2
+        },
+        {
+          "map_id": "g60-valid-known-S33-W124033297-N24",
+          "matched": 2,
+          "false_alarms": 0,
+          "people": 3
+        },
+        {
+          "map_id": "g60-valid-known-S33-W124033297-N48",
+          "matched": 2,
+          "false_alarms": 1,
+          "people": 3
+        },
+        {
+          "map_id": "g60-valid-unknown-S34-W125034306-N24",
+          "matched": 2,
+          "false_alarms": 1,
+          "people": 2
+        },
+        {
+          "map_id": "g60-valid-unknown-S34-W125034306-N48",
+          "matched": 2,
+          "false_alarms": 1,
+          "people": 2
+        }
+      ]
+    },
+    {
+      "model": "generic-v89-tracks-neighbor426",
+      "method": "Relative hypothesis context",
+      "source_report": "models/generic-v89-tracks-neighbor426/track-development.json",
+      "source_sha256": "9b1ddc31be0af9dd22399c6a0df26b92da0440549a42b67e38e74a32ce8c2f30",
+      "training_worlds_reported": 426,
+      "validation_cases": 54,
+      "chosen": {
+        "radius": 0.25,
+        "leaves": 15,
+        "rounds": 56,
+        "threshold": 0.3,
+        "nms": 0.45,
+        "height": 1.5
+      },
+      "metrics": {
+        "matched": 87,
+        "false_alarms": 4,
+        "people": 90,
+        "human_precision": 0.9560439560439561,
+        "human_recall": 0.9666666666666667
+      },
+      "by_node_count": {
+        "24": {
+          "matched": 29,
+          "false_alarms": 1,
+          "people": 30,
+          "human_precision": 0.9666666666666667,
+          "human_recall": 0.9666666666666667
+        },
+        "36": {
+          "matched": 30,
+          "false_alarms": 0,
+          "people": 30,
+          "human_precision": 1.0,
+          "human_recall": 1.0
+        },
+        "48": {
+          "matched": 28,
+          "false_alarms": 3,
+          "people": 30,
+          "human_precision": 0.9032258064516129,
+          "human_recall": 0.9333333333333333
+        }
+      },
+      "incomplete_cases": [
+        {
+          "map_id": "g41-valid-known-S13-W82013117-N24",
+          "matched": 2,
+          "false_alarms": 1,
+          "people": 2
+        },
+        {
+          "map_id": "g41-valid-known-S13-W82013117-N48",
+          "matched": 1,
+          "false_alarms": 0,
+          "people": 2
+        },
+        {
+          "map_id": "g41-valid-known-S26-W82026234-N48",
+          "matched": 2,
+          "false_alarms": 1,
+          "people": 2
+        },
+        {
+          "map_id": "g60-valid-known-S33-W124033297-N24",
+          "matched": 2,
+          "false_alarms": 0,
+          "people": 3
+        },
+        {
+          "map_id": "g60-valid-known-S33-W124033297-N48",
+          "matched": 2,
+          "false_alarms": 1,
+          "people": 3
+        },
+        {
+          "map_id": "g60-valid-unknown-S34-W125034306-N48",
+          "matched": 2,
+          "false_alarms": 1,
+          "people": 2
+        }
+      ]
+    },
+    {
+      "model": "generic-v89-tracks-neighbor-balanced426",
+      "method": "Relative context with person balancing",
+      "source_report": "models/generic-v89-tracks-neighbor-balanced426/track-development.json",
+      "source_sha256": "91b3a12bcebd8ce2620294cf7c0cf1f4725f52c431e768da70c1cd1385c8c37b",
+      "training_worlds_reported": 426,
+      "validation_cases": 54,
+      "chosen": {
+        "radius": 0.25,
+        "leaves": 7,
+        "rounds": 56,
+        "threshold": 0.95,
+        "nms": 0.5,
+        "height": 2
+      },
+      "metrics": {
+        "matched": 85,
+        "false_alarms": 4,
+        "people": 90,
+        "human_precision": 0.9550561797752809,
+        "human_recall": 0.9444444444444444
+      },
+      "by_node_count": {
+        "24": {
+          "matched": 28,
+          "false_alarms": 1,
+          "people": 30,
+          "human_precision": 0.9655172413793104,
+          "human_recall": 0.9333333333333333
+        },
+        "36": {
+          "matched": 30,
+          "false_alarms": 0,
+          "people": 30,
+          "human_precision": 1.0,
+          "human_recall": 1.0
+        },
+        "48": {
+          "matched": 27,
+          "false_alarms": 3,
+          "people": 30,
+          "human_precision": 0.9,
+          "human_recall": 0.9
+        }
+      },
+      "incomplete_cases": [
+        {
+          "map_id": "g41-valid-known-S13-W82013117-N48",
+          "matched": 1,
+          "false_alarms": 0,
+          "people": 2
+        },
+        {
+          "map_id": "g41-valid-known-S20-W82020180-N24",
+          "matched": 2,
+          "false_alarms": 1,
+          "people": 2
+        },
+        {
+          "map_id": "g41-valid-known-S26-W82026234-N24",
+          "matched": 1,
+          "false_alarms": 0,
+          "people": 2
+        },
+        {
+          "map_id": "g41-valid-known-S26-W82026234-N48",
+          "matched": 2,
+          "false_alarms": 1,
+          "people": 2
+        },
+        {
+          "map_id": "g60-valid-known-S31-W124031279-N48",
+          "matched": 1,
+          "false_alarms": 0,
+          "people": 2
+        },
+        {
+          "map_id": "g60-valid-known-S33-W124033297-N24",
+          "matched": 2,
+          "false_alarms": 0,
+          "people": 3
+        },
+        {
+          "map_id": "g60-valid-known-S33-W124033297-N48",
+          "matched": 2,
+          "false_alarms": 1,
+          "people": 3
+        },
+        {
+          "map_id": "g60-valid-unknown-S34-W125034306-N48",
+          "matched": 2,
+          "false_alarms": 1,
+          "people": 2
+        }
+      ]
+    },
+    {
+      "model": "generic-v90-tracks-unique-025",
+      "method": "One-to-one TRAIN supervision, mass .25",
+      "source_report": "models/generic-v90-tracks-unique-025/track-development.json",
+      "source_sha256": "7f424c08c18b5f8edcccbbb5fad8c8435d2702ac8025af62fdcac083cf3c4b6b",
+      "training_worlds_reported": 426,
+      "validation_cases": 54,
+      "chosen": {
+        "radius": 0.25,
+        "leaves": 7,
+        "rounds": 28,
+        "threshold": 0.4,
+        "nms": 0.6,
+        "height": 2
+      },
+      "metrics": {
+        "matched": 85,
+        "false_alarms": 2,
+        "people": 90,
+        "human_precision": 0.9770114942528736,
+        "human_recall": 0.9444444444444444
+      },
+      "by_node_count": {
+        "24": {
+          "matched": 29,
+          "false_alarms": 0,
+          "people": 30,
+          "human_precision": 1.0,
+          "human_recall": 0.9666666666666667
+        },
+        "36": {
+          "matched": 29,
+          "false_alarms": 1,
+          "people": 30,
+          "human_precision": 0.9666666666666667,
+          "human_recall": 0.9666666666666667
+        },
+        "48": {
+          "matched": 27,
+          "false_alarms": 1,
+          "people": 30,
+          "human_precision": 0.9642857142857143,
+          "human_recall": 0.9
+        }
+      },
+      "incomplete_cases": [
+        {
+          "map_id": "g41-valid-known-S13-W82013117-N36",
+          "matched": 1,
+          "false_alarms": 1,
+          "people": 2
+        },
+        {
+          "map_id": "g41-valid-known-S13-W82013117-N48",
+          "matched": 1,
+          "false_alarms": 0,
+          "people": 2
+        },
+        {
+          "map_id": "g41-valid-known-S26-W82026234-N24",
+          "matched": 1,
+          "false_alarms": 0,
+          "people": 2
+        },
+        {
+          "map_id": "g60-valid-known-S31-W124031279-N48",
+          "matched": 1,
+          "false_alarms": 0,
+          "people": 2
+        },
+        {
+          "map_id": "g60-valid-known-S33-W124033297-N48",
+          "matched": 2,
+          "false_alarms": 1,
+          "people": 3
+        }
+      ]
+    },
+    {
+      "model": "generic-v90-tracks-unique-05",
+      "method": "One-to-one TRAIN supervision, mass .5",
+      "source_report": "models/generic-v90-tracks-unique-05/track-development.json",
+      "source_sha256": "24abe68de8320b028ea95940a3fb56f1e0bcea1859c924eff4ad67e072b6f8d4",
+      "training_worlds_reported": 426,
+      "validation_cases": 54,
+      "chosen": {
+        "radius": 0.25,
+        "leaves": 7,
+        "rounds": 28,
+        "threshold": 0.5,
+        "nms": 0.6,
+        "height": 2
+      },
+      "metrics": {
+        "matched": 87,
+        "false_alarms": 3,
+        "people": 90,
+        "human_precision": 0.9666666666666667,
+        "human_recall": 0.9666666666666667
+      },
+      "by_node_count": {
+        "24": {
+          "matched": 29,
+          "false_alarms": 0,
+          "people": 30,
+          "human_precision": 1.0,
+          "human_recall": 0.9666666666666667
+        },
+        "36": {
+          "matched": 30,
+          "false_alarms": 1,
+          "people": 30,
+          "human_precision": 0.967741935483871,
+          "human_recall": 1.0
+        },
+        "48": {
+          "matched": 28,
+          "false_alarms": 2,
+          "people": 30,
+          "human_precision": 0.9333333333333333,
+          "human_recall": 0.9333333333333333
+        }
+      },
+      "incomplete_cases": [
+        {
+          "map_id": "g41-valid-known-S13-W82013117-N48",
+          "matched": 1,
+          "false_alarms": 0,
+          "people": 2
+        },
+        {
+          "map_id": "g41-valid-known-S26-W82026234-N24",
+          "matched": 1,
+          "false_alarms": 0,
+          "people": 2
+        },
+        {
+          "map_id": "g41-valid-known-S26-W82026234-N36",
+          "matched": 2,
+          "false_alarms": 1,
+          "people": 2
+        },
+        {
+          "map_id": "g60-valid-known-S33-W124033297-N48",
+          "matched": 2,
+          "false_alarms": 1,
+          "people": 3
+        },
+        {
+          "map_id": "g60-valid-unknown-S34-W125034306-N48",
+          "matched": 2,
+          "false_alarms": 1,
+          "people": 2
+        }
+      ]
+    },
+    {
+      "model": "generic-v94-global-head-blend",
+      "method": "Global logit blend",
+      "source_report": "models/generic-v94-global-head-blend/development.json",
+      "source_sha256": "a53bb1cb3d1be44d912cb012543a1dc2cab28a77ca141f91b9824d9264c11877",
+      "training_worlds_reported": null,
+      "validation_cases": 54,
+      "chosen": {
+        "left_weight": 1,
+        "threshold": 0.4,
+        "nms": 0.45,
+        "height": 1.5,
+        "human_precision": 0.9666666666666667,
+        "human_recall": 0.9666666666666667,
+        "minimum_domain_criterion": 0.9473684210526315,
+        "minimum_stratum_criterion": 0.8333333333333334
+      },
+      "metrics": {
+        "matched": 87,
+        "false_alarms": 3,
+        "people": 90,
+        "human_precision": 0.9666666666666667,
+        "human_recall": 0.9666666666666667
+      },
+      "by_node_count": {
+        "24": {
+          "matched": 28,
+          "false_alarms": 1,
+          "people": 30,
+          "human_precision": 0.9655172413793104,
+          "human_recall": 0.9333333333333333
+        },
+        "36": {
+          "matched": 30,
+          "false_alarms": 0,
+          "people": 30,
+          "human_precision": 1.0,
+          "human_recall": 1.0
+        },
+        "48": {
+          "matched": 29,
+          "false_alarms": 2,
+          "people": 30,
+          "human_precision": 0.9354838709677419,
+          "human_recall": 0.9666666666666667
+        }
+      },
+      "incomplete_cases": [
+        {
+          "map_id": "g41-valid-known-S13-W82013117-N24",
+          "matched": 2,
+          "false_alarms": 1,
+          "people": 2
+        },
+        {
+          "map_id": "g41-valid-known-S13-W82013117-N48",
+          "matched": 1,
+          "false_alarms": 0,
+          "people": 2
+        },
+        {
+          "map_id": "g41-valid-known-S26-W82026234-N24",
+          "matched": 1,
+          "false_alarms": 0,
+          "people": 2
+        },
+        {
+          "map_id": "g41-valid-known-S26-W82026234-N48",
+          "matched": 2,
+          "false_alarms": 1,
+          "people": 2
+        },
+        {
+          "map_id": "g60-valid-known-S33-W124033297-N24",
+          "matched": 2,
+          "false_alarms": 0,
+          "people": 3
+        },
+        {
+          "map_id": "g60-valid-unknown-S34-W125034306-N48",
+          "matched": 2,
+          "false_alarms": 1,
+          "people": 2
+        }
+      ]
+    }
+  ]
+}

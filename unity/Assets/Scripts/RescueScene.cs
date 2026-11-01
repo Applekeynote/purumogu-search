@@ -53,7 +53,13 @@ namespace Purumogu.Rescue
             new SceneSpec("H07", "折返し階段の倒壊棟", "地震", "三層・階段・立体分岐", 2, 26, 2),
             new SceneSpec("H08", "斜面段丘の分岐空間", "斜面崩壊", "三層・分岐・袋小路", 2, 27, 2),
             new SceneSpec("H09", "二次浸水した立体迷路", "洪水", "三層・屈曲・ガス反応", 2, 28, 3),
-            new SceneSpec("H10", "中庭と連絡橋の設備棟", "地震・浸水", "三層・複雑連結・遮蔽", 2, 29, 3)
+            new SceneSpec("H10", "中庭と連絡橋の設備棟", "地震・浸水", "三層・複雑連結・遮蔽", 2, 29, 3),
+            new SceneSpec("C01", "床が重なった部分崩落棟", "地震", "二層・圧縮された空隙・層間瓦礫", 1, 30, 2),
+            new SceneSpec("C02", "片側の床が落ちた建物", "地震", "二層・傾斜床・三角形空隙", 1, 31, 2),
+            new SceneSpec("C03", "V字床の三層崩落棟", "地震", "三層・中央落下・上下遮蔽", 2, 32, 3),
+            new SceneSpec("C04", "連続して床が抜けた交差棟", "地震・浸水", "三層・ずれた欠損・層状堆積", 2, 33, 3),
+            new SceneSpec("C05", "片持ち床が残るU字棟", "地震", "三層・片持ち残存・独立した空隙", 2, 34, 2),
+            new SceneSpec("C06", "中庭側が崩落した設備棟", "地震・浸水", "三層・混合崩落・無人の負例", 2, 35, 0)
         };
 
         public readonly GameObject Root = new GameObject("RescueTruthGeometry");
@@ -95,6 +101,7 @@ namespace Purumogu.Rescue
             WaterHeight=wet?.012f+Spec.Difficulty*.009f:0;
             Contact = new PhysicsMaterial("RubbleContact") { dynamicFriction = wet?.15f:.38f + Spec.Difficulty * .08f, staticFriction = wet?.22f:.48f, bounciness = .025f };
             resources.Add(Contact);
+            if(index>=30){BuildPartialCollapse(index,seed,sourceSeed);return;}
             if(index>=15){BuildComplex(index,seed,sourceSeed);return;}
             Box("Foundation", new Vector3(0, -.16f, 5.1f), new Vector3(6.0f, .3f, 12.8f), Ground);
             Box("BrokenSideLeft", new Vector3(-2.8f, .6f, 5), new Vector3(.3f, 1.4f, 12), Concrete);
@@ -206,7 +213,7 @@ namespace Purumogu.Rescue
         public float WaterDepthAt(Vector3 position)
         {
             var probe=position-Vector3.up*.0096f;
-            if(ComplexGeometry){if(WaterHeight<=0||probe.y>WaterHeight+.001f||!FloorZones.Exists(f=>f.Height<.01f&&f.Bounds.Contains(new Vector2(probe.x,probe.z))))return 0;}
+            if(ComplexGeometry){if(WaterHeight<=0||probe.y>WaterHeight+.001f||!FloorZones.Exists(f=>f.Height<.01f&&f.Contains(new Vector2(probe.x,probe.z))))return 0;}
             else if(WaterHeight<=0||Mathf.Abs(probe.x)>.6f||probe.z<1f||probe.z>2.5f||probe.y>WaterHeight+.001f)return 0;
             float floor=-.0025f;
             if(Physics.Raycast(probe+Vector3.up*.003f,Vector3.down,out RaycastHit hit,.15f,1<<6))floor=hit.point.y;

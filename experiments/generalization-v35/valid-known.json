@@ -1,0 +1,223 @@
+{
+  "split": "valid-known",
+  "steps": 6000,
+  "output": "C:\\Users\\rynat\\OneDrive\\ドキュメント\\ChatGPT\\松尾研\\purumogu-search\\experiments\\raw\\rescue\\generalization-v35\\valid-known",
+  "cases": [
+    {
+      "id": "valid-known-S00-W42000000-N24",
+      "scene": 0,
+      "seed": 42000000,
+      "nodes": 24,
+      "deployment_seed": 42703144,
+      "source_seed": 42900000
+    },
+    {
+      "id": "valid-known-S00-W42000000-N36",
+      "scene": 0,
+      "seed": 42000000,
+      "nodes": 36,
+      "deployment_seed": 42704716,
+      "source_seed": 42900000
+    },
+    {
+      "id": "valid-known-S00-W42000000-N48",
+      "scene": 0,
+      "seed": 42000000,
+      "nodes": 48,
+      "deployment_seed": 42706288,
+      "source_seed": 42900000
+    },
+    {
+      "id": "valid-known-S03-W42003027-N24",
+      "scene": 3,
+      "seed": 42003027,
+      "nodes": 24,
+      "deployment_seed": 42706171,
+      "source_seed": 42903027
+    },
+    {
+      "id": "valid-known-S03-W42003027-N36",
+      "scene": 3,
+      "seed": 42003027,
+      "nodes": 36,
+      "deployment_seed": 42707743,
+      "source_seed": 42903027
+    },
+    {
+      "id": "valid-known-S03-W42003027-N48",
+      "scene": 3,
+      "seed": 42003027,
+      "nodes": 48,
+      "deployment_seed": 42709315,
+      "source_seed": 42903027
+    },
+    {
+      "id": "valid-known-S08-W42008072-N24",
+      "scene": 8,
+      "seed": 42008072,
+      "nodes": 24,
+      "deployment_seed": 42711216,
+      "source_seed": 42908072
+    },
+    {
+      "id": "valid-known-S08-W42008072-N36",
+      "scene": 8,
+      "seed": 42008072,
+      "nodes": 36,
+      "deployment_seed": 42712788,
+      "source_seed": 42908072
+    },
+    {
+      "id": "valid-known-S08-W42008072-N48",
+      "scene": 8,
+      "seed": 42008072,
+      "nodes": 48,
+      "deployment_seed": 42714360,
+      "source_seed": 42908072
+    },
+    {
+      "id": "valid-known-S13-W42013117-N24",
+      "scene": 13,
+      "seed": 42013117,
+      "nodes": 24,
+      "deployment_seed": 42716261,
+      "source_seed": 42913117
+    },
+    {
+      "id": "valid-known-S13-W42013117-N36",
+      "scene": 13,
+      "seed": 42013117,
+      "nodes": 36,
+      "deployment_seed": 42717833,
+      "source_seed": 42913117
+    },
+    {
+      "id": "valid-known-S13-W42013117-N48",
+      "scene": 13,
+      "seed": 42013117,
+      "nodes": 48,
+      "deployment_seed": 42719405,
+      "source_seed": 42913117
+    },
+    {
+      "id": "valid-known-S15-W42015135-N24",
+      "scene": 15,
+      "seed": 42015135,
+      "nodes": 24,
+      "deployment_seed": 42718279,
+      "source_seed": 42915135
+    },
+    {
+      "id": "valid-known-S15-W42015135-N36",
+      "scene": 15,
+      "seed": 42015135,
+      "nodes": 36,
+      "deployment_seed": 42719851,
+      "source_seed": 42915135
+    },
+    {
+      "id": "valid-known-S15-W42015135-N48",
+      "scene": 15,
+      "seed": 42015135,
+      "nodes": 48,
+      "deployment_seed": 42721423,
+      "source_seed": 42915135
+    },
+    {
+      "id": "valid-known-S18-W42018162-N24",
+      "scene": 18,
+      "seed": 42018162,
+      "nodes": 24,
+      "deployment_seed": 42721306,
+      "source_seed": 42918162
+    },
+    {
+      "id": "valid-known-S18-W42018162-N36",
+      "scene": 18,
+      "seed": 42018162,
+      "nodes": 36,
+      "deployment_seed": 42722878,
+      "source_seed": 42918162
+    },
+    {
+      "id": "valid-known-S18-W42018162-N48",
+      "scene": 18,
+      "seed": 42018162,
+      "nodes": 48,
+      "deployment_seed": 42724450,
+      "source_seed": 42918162
+    },
+    {
+      "id": "valid-known-S20-W42020180-N24",
+      "scene": 20,
+      "seed": 42020180,
+      "nodes": 24,
+      "deployment_seed": 42723324,
+      "source_seed": 42920180
+    },
+    {
+      "id": "valid-known-S20-W42020180-N36",
+      "scene": 20,
+      "seed": 42020180,
+      "nodes": 36,
+      "deployment_seed": 42724896,
+      "source_seed": 42920180
+    },
+    {
+      "id": "valid-known-S20-W42020180-N48",
+      "scene": 20,
+      "seed": 42020180,
+      "nodes": 48,
+      "deployment_seed": 42726468,
+      "source_seed": 42920180
+    },
+    {
+      "id": "valid-known-S25-W42025225-N24",
+      "scene": 25,
+      "seed": 42025225,
+      "nodes": 24,
+      "deployment_seed": 42728369,
+      "source_seed": 42925225
+    },
+    {
+      "id": "valid-known-S25-W42025225-N36",
+      "scene": 25,
+      "seed": 42025225,
+      "nodes": 36,
+      "deployment_seed": 42729941,
+      "source_seed": 42925225
+    },
+    {
+      "id": "valid-known-S25-W42025225-N48",
+      "scene": 25,
+      "seed": 42025225,
+      "nodes": 48,
+      "deployment_seed": 42731513,
+      "source_seed": 42925225
+    },
+    {
+      "id": "valid-known-S26-W42026234-N24",
+      "scene": 26,
+      "seed": 42026234,
+      "nodes": 24,
+      "deployment_seed": 42729378,
+      "source_seed": 42926234
+    },
+    {
+      "id": "valid-known-S26-W42026234-N36",
+      "scene": 26,
+      "seed": 42026234,
+      "nodes": 36,
+      "deployment_seed": 42730950,
+      "source_seed": 42926234
+    },
+    {
+      "id": "valid-known-S26-W42026234-N48",
+      "scene": 26,
+      "seed": 42026234,
+      "nodes": 48,
+      "deployment_seed": 42732522,
+      "source_seed": 42926234
+    }
+  ]
+}

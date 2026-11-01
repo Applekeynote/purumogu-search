@@ -1,0 +1,89 @@
+{
+  "version": 2,
+  "steps": 18000,
+  "inference_map_interval": 100,
+  "geometry_revision": "exterior-release-clearance-and-hold-brake-v3",
+  "geometry_sources": {
+    "RescueComplexScenes.cs": "170d79564076cd16ec4c9441c225cdee6921cdecc2b60886e469321e3f1547e0",
+    "RescueController.cs": "9e1acc4afa0ddd5116613a37be5d6ef90df7207156e48c9e7e1323936b1b461b",
+    "RescueDeployment.cs": "357f833e13ba430a3a345136ba160fdc4413f4b32448f6b2daf8480e69f1f907",
+    "RescueEchoWireMap.cs": "ecca2c71b9bb740ef7fbbe0140d3ae263bf538dbceb353d6bc339cafb4cc739d",
+    "RescueExteriorDeployment.cs": "a8aafd6e55c09629238f7d51b838c36d4d647d307707b3e7e598565eeecabfa1",
+    "RescueFloorOpenings.cs": "df9727dff2f04ae36fa020a5ccd507d3b9ea47e817050b070ab14cfe7161f067",
+    "RescueMapDashboard.cs": "74a626b7e9984a9060c1c788e75d349bb27b307be721802caca0a52a8b9df11d",
+    "RescueMapKnowledge.cs": "e4451ca0664e165ff3c2a69cb1da26d8b57f0a6928b4e8f8af54a3527037ce67",
+    "RescueMapView.cs": "4956713c06bbfa34670c66ad06eb8deaf7a7339f4592fca158dc04fe0f4da422",
+    "RescueRobot.cs": "bd485f3c1d310637e25f7afc3b4fae238a6603cd289276a065cf9bbb6348a39e",
+    "RescueScene.cs": "2eb390ca02c75b9f0301adb22526f2d0d6b17d86d74a8b7b9bfee4aff171ddbd",
+    "RescueSimulation.cs": "5263de7cef8df646804ab9ea9c0d951c3c17f1026fa63e8cd28276ca98c325eb",
+    "RescueSurfaceLattice.cs": "59933137e0aadc8d589a10d3c31c93c38fd49723862674b3888e2d20e78dbbf8",
+    "RescueViewport.cs": "3f4c0fa0851fbf3bb699c2c78dd2285e729c16602958ba9c87fea9acdb203f2e"
+  },
+  "acquisition_sources": {
+    "unity/Assets/Editor/RescueGeneralization.cs": "257946e2cbe19577df3425b447b91f69f19ba3e2d11630ba9f5209fa87f2eb93",
+    "unity/Assets/Editor/ProjectTools.cs": "32545299690da1aaabfe00b7f772dd63e64dd1a468d8f0853b785186d1888460",
+    "scripts/collect_rescue_registered.py": "c21d66f1eb9d51a1912252f1db8b3ac8a1ac5c85b392f89f2f5bfe5b49d86d12",
+    "scripts/plan_rescue_registered.py": "5e1553185b9f45dc7ffe183235bd435d09f12d82a428f9b3a6f89b16428ba0f9"
+  },
+  "model_sha256": "0988d0ee26c6f233afa48d34ce634d529b6efb1d91aafabeb99c5a39b7dc9601",
+  "server_sha256": "0482f4e5acf9addc843a490fbff76ae4169ff2de5ec63487a4d80c615538fdd8",
+  "sensor_source_sha256": "bd485f3c1d310637e25f7afc3b4fae238a6603cd289276a065cf9bbb6348a39e",
+  "model": "models/generic-v42-acquisition-footprint/model.json",
+  "server": "tmp/generic-footprint-rust-target/release/rescue_server.exe",
+  "deployment_mode": "RoofAndFacadeDrop",
+  "deployment": "One third overhead; two thirds released at several visible facade thresholds on all levels",
+  "test_opened": false,
+  "split": "valid-safety-pilot",
+  "output": "C:\\Users\\rynat\\OneDrive\\ドキュメント\\ChatGPT\\松尾研\\purumogu-search\\experiments\\raw\\rescue\\generalization-v42-footprint\\pilot",
+  "cases": [
+    {
+      "id": "g42-safe-S25-W82025225-N24",
+      "scene": 25,
+      "seed": 82025225,
+      "nodes": 24,
+      "deployment_seed": 82728369,
+      "source_seed": 82925225
+    },
+    {
+      "id": "g42-safe-S25-W82025225-N48",
+      "scene": 25,
+      "seed": 82025225,
+      "nodes": 48,
+      "deployment_seed": 82731513,
+      "source_seed": 82925225
+    },
+    {
+      "id": "g42-safe-S26-W82026234-N24",
+      "scene": 26,
+      "seed": 82026234,
+      "nodes": 24,
+      "deployment_seed": 82729378,
+      "source_seed": 82926234
+    },
+    {
+      "id": "g42-safe-S26-W82026234-N48",
+      "scene": 26,
+      "seed": 82026234,
+      "nodes": 48,
+      "deployment_seed": 82732522,
+      "source_seed": 82926234
+    },
+    {
+      "id": "g42-safe-S29-W83029261-N24",
+      "scene": 29,
+      "seed": 83029261,
+      "nodes": 24,
+      "deployment_seed": 83732405,
+      "source_seed": 83929261
+    },
+    {
+      "id": "g42-safe-S29-W83029261-N48",
+      "scene": 29,
+      "seed": 83029261,
+      "nodes": 48,
+      "deployment_seed": 83735549,
+      "source_seed": 83929261
+    }
+  ],
+  "comparison": "Paired seeds and sensors from G41, only inferred/observed floor footprint support routing differs"
+}

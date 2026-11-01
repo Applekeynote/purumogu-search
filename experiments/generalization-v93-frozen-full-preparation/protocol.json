@@ -1,0 +1,14 @@
+{
+  "purpose": "Reconstruct unchanged native90 sensor features from full fixed-explorer development runs",
+  "source_generation": "generalization-v92-frozen-explorer-full",
+  "expected_cases": 54,
+  "steps": [
+    6000,
+    18000
+  ],
+  "split": "VALID only",
+  "truth_to_native": false,
+  "geometry_and_people_labels_for_scoring_only": true,
+  "no_model_fitting": true,
+  "final_test_opened": false
+}

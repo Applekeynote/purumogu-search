@@ -1,0 +1,30 @@
+{
+  "purpose": "TRAIN-only diagnosis of experimental registration; no ground-truth inference input",
+  "test_opened": false,
+  "rows": [
+    {
+      "id": "train-S25-W41025225-N36",
+      "samples": 5591,
+      "median_raw_y": 0.0066239861444046255,
+      "median_registered_y": 0.0014030810122512283,
+      "p95_raw_y": 0.022138374539281358,
+      "p95_registered_y": 0.003440774728968532
+    },
+    {
+      "id": "train-S25-W41025326-N24",
+      "samples": 4234,
+      "median_raw_y": 0.007693301870858704,
+      "median_registered_y": 0.0026288790094340375,
+      "p95_raw_y": 0.01857491316013693,
+      "p95_registered_y": 0.010782479123457558
+    },
+    {
+      "id": "train-S25-W41025427-N48",
+      "samples": 7884,
+      "median_raw_y": 0.007683591945124135,
+      "median_registered_y": 0.002742499875208332,
+      "p95_raw_y": 0.02632397447951007,
+      "p95_registered_y": 0.005364955883225301
+    }
+  ]
+}

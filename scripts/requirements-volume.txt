@@ -1,0 +1,6 @@
+# Training/export only. The distributed app uses the bundled CPU ONNX Runtime.
+-r ../requirements-training.txt
+--extra-index-url https://download.pytorch.org/whl/cu128
+torch==2.8.0+cu128
+onnx==1.19.1
+onnxruntime==1.23.2

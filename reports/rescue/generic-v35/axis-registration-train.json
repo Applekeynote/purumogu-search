@@ -1,0 +1,30 @@
+{
+  "purpose": "TRAIN-only diagnosis of experimental axis registration; no ground-truth inference input",
+  "test_opened": false,
+  "rows": [
+    {
+      "id": "train-S25-W41025225-N36",
+      "samples": 5591,
+      "median_raw": 0.013013960322149347,
+      "median_registered": 0.005799089397827647,
+      "p95_raw": 0.026418171679442253,
+      "p95_registered": 0.013981126349073987
+    },
+    {
+      "id": "train-S25-W41025326-N24",
+      "samples": 4234,
+      "median_raw": 0.013616022559191067,
+      "median_registered": 0.007924140214762749,
+      "p95_raw": 0.024267622606386183,
+      "p95_registered": 0.019463937395916144
+    },
+    {
+      "id": "train-S25-W41025427-N48",
+      "samples": 7884,
+      "median_raw": 0.013048444375690737,
+      "median_registered": 0.006094542123606942,
+      "p95_raw": 0.030318877852447544,
+      "p95_registered": 0.01537326311589524
+    }
+  ]
+}

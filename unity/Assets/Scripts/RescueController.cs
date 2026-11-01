@@ -20,8 +20,9 @@ namespace Purumogu.Rescue
         Camera physicalCamera,mapCamera,robotCamera;
         Font font;
         int sceneIndex=15,seed=20261027,port=47120,selectedNode,maxSteps=18000;
-        int nodeCount=24,deploymentSeed=907231;
+        int nodeCount=24,deploymentSeed=907231,mapInterval=100;
         bool entranceDeployment;
+        bool exteriorDeployment=true;
         Vector2 nodeScroll,sceneScroll;
         readonly RescueViewport physicalView=new RescueViewport(),inferenceView=new RescueViewport();
         string utilityMenu="";
@@ -41,12 +42,12 @@ namespace Purumogu.Rescue
         {
             Application.runInBackground=true;QualitySettings.antiAliasing=4;Application.targetFrameRate=60;font=Font.CreateDynamicFontFromOSFont(new[]{"Yu Gothic","Segoe UI"},18);
             var args=Environment.GetCommandLineArgs();for(int i=0;i<args.Length-1;i++){if(args[i]=="--closeup")closeup=args[i+1]=="true";if(args[i]=="--port")int.TryParse(args[i+1],out port);if(args[i]=="--steps")int.TryParse(args[i+1],out maxSteps);if(args[i]=="--seed")int.TryParse(args[i+1],out seed);if(args[i]=="--scene")int.TryParse(args[i+1],out sceneIndex);if(args[i]=="--frames"){record=true;frameFolder=args[i+1];Directory.CreateDirectory(frameFolder);}if(args[i]=="--capture-count")int.TryParse(args[i+1],out maxFrames);if(args[i]=="--speed")float.TryParse(args[i+1],NumberStyles.Float,CultureInfo.InvariantCulture,out speed);}
-            for(int i=0;i<args.Length-1;i++){if(args[i]=="--nodes")int.TryParse(args[i+1],out nodeCount);if(args[i]=="--deployment-seed")int.TryParse(args[i+1],out deploymentSeed);if(args[i]=="--deployment")entranceDeployment=args[i+1]=="entrance";if(args[i]=="--film-view")filmView=args[i+1];}
+            for(int i=0;i<args.Length-1;i++){if(args[i]=="--nodes")int.TryParse(args[i+1],out nodeCount);if(args[i]=="--map-interval")int.TryParse(args[i+1],out mapInterval);if(args[i]=="--deployment-seed")int.TryParse(args[i+1],out deploymentSeed);if(args[i]=="--deployment"){entranceDeployment=args[i+1]=="entrance";exteriorDeployment=args[i+1]=="openings";}if(args[i]=="--film-view")filmView=args[i+1];}
             nodeCount=nodeCount==36?36:nodeCount==48?48:entranceDeployment&&nodeCount==12?12:24;
             sourceSeed=Guid.NewGuid().GetHashCode();
             for(int i=0;i<args.Length-1;i++){if(args[i]=="--seed")sourceSeed=seed;if(args[i]=="--port")externalInference=true;}
             for(int i=0;i<args.Length-1;i++)if(args[i]=="--source-seed")int.TryParse(args[i+1],out sourceSeed);
-            maxSteps=Mathf.Clamp(maxSteps,500,30000);sceneIndex=Mathf.Clamp(sceneIndex,0,RescueScene.Catalog.Length-1);Build();
+            mapInterval=Mathf.Clamp(Mathf.RoundToInt(mapInterval/25f)*25,25,1500);maxSteps=Mathf.Clamp(maxSteps,500,30000);sceneIndex=Mathf.Clamp(sceneIndex,0,RescueScene.Catalog.Length-1);Build();
             if(!externalInference)
             {
                 try {bundled=new BundledInference();bundled.Start(Path.Combine(Application.streamingAssetsPath,"inference"));port=bundled.Port;}
@@ -58,7 +59,7 @@ namespace Purumogu.Rescue
         void Build()
         {
             bridge?.Dispose();bridge=null;simulation?.Dispose();map?.Dispose();
-            simulation=new RescueSimulation(sceneIndex,seed,nodeCount,entranceDeployment?RescueDeploymentMode.EntranceGrid:RescueDeploymentMode.WholeSceneDrop,deploymentSeed,sourceSeed);map=new RescueEchoWireMap();lastMap=null;expected=-1;waiting=false;running=false;failure="";status="READY";audit.Clear();selectedNode=Mathf.Clamp(selectedNode,0,nodeCount-1);nodeScroll=Vector2.zero;
+            simulation=new RescueSimulation(sceneIndex,seed,nodeCount,entranceDeployment?RescueDeploymentMode.EntranceGrid:exteriorDeployment?RescueDeploymentMode.RoofAndFacadeDrop:RescueDeploymentMode.WholeSceneDrop,deploymentSeed,sourceSeed);map=new RescueEchoWireMap();lastMap=null;expected=-1;waiting=false;running=false;failure="";status="READY";audit.Clear();selectedNode=Mathf.Clamp(selectedNode,0,nodeCount-1);nodeScroll=Vector2.zero;
             if(!physicalCamera)
             {
                 physicalCamera=new GameObject("PhysicalSimulationCamera").AddComponent<Camera>();physicalCamera.clearFlags=CameraClearFlags.SolidColor;physicalCamera.backgroundColor=new Color(.17f,.21f,.22f);physicalCamera.cullingMask=~(1<<8);physicalCamera.orthographic=true;physicalCamera.nearClipPlane=.005f;physicalCamera.farClipPlane=30;
@@ -86,34 +87,38 @@ namespace Purumogu.Rescue
                         if((string)reply["type"]=="error")throw new IOException((string)reply["reason"]);
                         if((string)reply["protocol_version"]!="2.0"||(string)reply["run_id"]!=run||(long)reply["seq_no"]!=expected)throw new IOException("map response contract mismatch");
                         if(!entranceDeployment&&(bool?)reply["distributed_swarm"]!=true)throw new IOException("この散布設定に対応するモデルが必要です。");
-                        waiting=false;lastReply=Time.realtimeSinceStartup;latency=(lastReply-lastSent)*1000;lastMap=reply;entropy=(float)reply["mean_entropy_bits"];map.Update(reply);simulation.ApplyGuidance(reply);evaluation.Evaluate(simulation,reply);status=paused?"PAUSED":"EXPLORING";
+                        waiting=false;lastReply=Time.realtimeSinceStartup;latency=(lastReply-lastSent)*1000;
+                        if(reply["cells"] is JArray cells&&cells.Count>0){lastMap=reply;entropy=(float)reply["mean_entropy_bits"];map.Update(reply);evaluation.Evaluate(simulation,reply);}
+                        else if(lastMap!=null)lastMap["nodes"]=reply["nodes"].DeepClone();
+                        simulation.ApplyGuidance(reply);status=paused?"PAUSED":"EXPLORING";
                     }
                     if(bridge.Failure!=null)throw new IOException(bridge.Failure);
                     if(Time.realtimeSinceStartup-lastReply>15)throw new IOException("Rust mapping timed out");
                     if(bridge.Connected)
                     {
-                        // One batch in flight; physics keeps running with the last safe target.
-                        if(!paused&&simulation.Step<maxSteps)
+                        // Fixed simulation-time sensor frames match the registered collector.
+                        // Rendering remains responsive while inference is in flight.
+                        if(!paused&&!waiting&&simulation.Step<maxSteps)
                         {
-                            accumulator+=Time.deltaTime*speed;int count=0;
+                            accumulator=Mathf.Min(.24f,accumulator+Time.deltaTime*speed);int count=0;
                             while(accumulator>=.02f&&count++<12&&simulation.Step<maxSteps)
                             {
                                 accumulator-=.02f;simulation.Tick();
                                 if(simulation.Step%25==0&&!waiting)
                                 {
-                                    var packet=simulation.Observe(run,sequence++);packet.request_surface=true;string json=JsonConvert.SerializeObject(packet);bridge.SendJson(json);audit.Add(json);expected=packet.seq_no;waiting=true;lastSent=Time.realtimeSinceStartup;
+                                    var packet=simulation.Observe(run,sequence++);packet.request_map=simulation.Step%mapInterval==0||simulation.Step==maxSteps;string json=JsonConvert.SerializeObject(packet);bridge.SendJson(json);audit.Add(json);expected=packet.seq_no;waiting=true;lastSent=Time.realtimeSinceStartup;break;
                                 }
                             }
                         }
                         if(paused&&!waiting&&Time.realtimeSinceStartup-lastSent>5)
                         {
-                            var heartbeat=new RescuePacket{run_id=run,seq_no=sequence++,sim_step=simulation.Step,request_surface=true};string json=JsonConvert.SerializeObject(heartbeat);bridge.SendJson(json);audit.Add(json);expected=heartbeat.seq_no;waiting=true;lastSent=Time.realtimeSinceStartup;
+                            var heartbeat=new RescuePacket{run_id=run,seq_no=sequence++,sim_step=simulation.Step};string json=JsonConvert.SerializeObject(heartbeat);bridge.SendJson(json);audit.Add(json);expected=heartbeat.seq_no;waiting=true;lastSent=Time.realtimeSinceStartup;
                         }
                     }
                     if(simulation.Step>=maxSteps)
                     {
                         simulation.Power(false);
-                        if(!waiting&&(lastMap==null||(long)lastMap["sim_step"]<maxSteps)){var packet=simulation.Observe(run,sequence++);packet.request_surface=true;string json=JsonConvert.SerializeObject(packet);bridge.SendJson(json);audit.Add(json);expected=packet.seq_no;waiting=true;lastSent=Time.realtimeSinceStartup;}
+                        if(!waiting&&(lastMap==null||(long)lastMap["sim_step"]<maxSteps)){var packet=simulation.Observe(run,sequence++);string json=JsonConvert.SerializeObject(packet);bridge.SendJson(json);audit.Add(json);expected=packet.seq_no;waiting=true;lastSent=Time.realtimeSinceStartup;}
                         if(!waiting&&lastMap!=null&&(long)lastMap["sim_step"]>=maxSteps){running=false;status="TIME BUDGET COMPLETE";Export();}
                     }
                 }
@@ -224,7 +229,8 @@ namespace Purumogu.Rescue
             Text(480,94,38,22,"台数",12,Muted);
             for(int i=0;i<3;i++){int count=new[]{24,36,48}[i];if(Button(520+i*56,86,50,count.ToString(),nodeCount==count)){nodeCount=count;entranceDeployment=false;Build();}}
             if(Button(700,86,134,"配置を変える")){deploymentSeed++;sourceSeed=Guid.NewGuid().GetHashCode();entranceDeployment=false;Build();}
-            GUI.enabled=previousEnabled;Text(848,94,172,22,running?"設定変更はリセット後":"現場全域に分散投下",11,Muted);
+            if(Button(848,86,172,exteriorDeployment?"投入：上空＋開口":"投入：上空のみ",exteriorDeployment)){exteriorDeployment=!exteriorDeployment;entranceDeployment=false;Build();}
+            GUI.enabled=previousEnabled;
             if(Button(1030,86,122,"表示設定  ▾",utilityMenu=="view"))utilityMenu=utilityMenu=="view"?"":"view";
             if(Button(1164,86,160,$"接続 {simulation.Links.Count}  /  {(simulation.Docking?"自動":"手動")}  ▾",utilityMenu=="dock"))utilityMenu=utilityMenu=="dock"?"":"dock";
             if(Button(1336,86,112,"記録を保存"))Export();Text(1464,94,112,22,$"{maxSteps*.02f:F0} s / CPU",11,Muted);
@@ -244,7 +250,7 @@ namespace Purumogu.Rescue
             }
             GUI.EndScrollView();
             var sensorNode=simulation.Robots[Mathf.Clamp(selectedNode,0,simulation.Robots.Count-1)];Text(548,636,232,23,$"{sensorNode.Id}  ガス {sensorNode.GasLevel:F2} / 水深 {sensorNode.WaterDepth*100:F1}cm",11,Muted);
-            Text(826,630,730,26,"04  推論の評価 / 真値はこの区画だけで使用",18,Ink,true);
+            Text(826,630,730,26,"04  推論の評価 / 正解との比較",18,Ink,true);
             float humanPrecision=evaluation.CueCount>0?(float)evaluation.Matched/evaluation.CueCount:0,humanRecall=simulation.Scene.Spec.Victims>0?(float)evaluation.Matched/simulation.Scene.Spec.Victims:0;
             Metric(832,670,"3D占有IoU / 全領域",$"{evaluation.GlobalIoU*100:F1}%",evaluation.GlobalIoU>=.95f);Metric(1070,670,"要救助者候補の適合率",evaluation.CueCount>0?$"{humanPrecision*100:F1}%":"候補なし",humanPrecision>=.95f);Metric(1320,670,"要救助者候補の再現率",simulation.Scene.Spec.Victims>0?$"{humanRecall*100:F1}%":"負例",humanRecall>=.95f);
             Text(834,745,700,23,$"全推定地図を評価（右上は観測の進行表示） / 観測率 {evaluation.Coverage*100:F1}% · 既観測IoU {evaluation.IoU:F2} · 位置RMSE {evaluation.PoseRmse*100:F1} cm",13,Ink);
@@ -255,7 +261,12 @@ namespace Purumogu.Rescue
             UtilityOverlay();
             if(scenePicker)
             {
-                Fill(new Rect(24,125,750,460),new Color(.045f,.075f,.09f,.99f));Text(40,138,710,28,"30 SCENES / 多形状・複数階・立体分岐",18,Mint,true);
+                Fill(new Rect(24,125,750,460),new Color(.045f,.075f,.09f,.99f));Text(40,138,540,28,$"{RescueScene.Catalog.Length} SCENES / 多形状・層構造・部分崩落",18,Mint,true);
+                if(Button(612,136,144,"地形も変える",false,28))
+                {
+                    seed=Guid.NewGuid().GetHashCode()&int.MaxValue;if(seed==0)seed=1;
+                    deploymentSeed++;sourceSeed=Guid.NewGuid().GetHashCode();scenePicker=false;Build();
+                }
                 sceneScroll=GUI.BeginScrollView(new Rect(36,173,732,396),sceneScroll,new Rect(0,0,710,RescueScene.Catalog.Length*27),false,true);
                 for(int i=0;i<RescueScene.Catalog.Length;i++){var item=RescueScene.Catalog[i];if(Button(4,i*27,698,$"{item.Id}  {item.Name}  /  {item.Disaster}  ·  {item.Feature}",i==sceneIndex,24)){sceneIndex=i;scenePicker=false;Build();}}
                 GUI.EndScrollView();

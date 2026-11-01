@@ -1,0 +1,18 @@
+{
+  "purpose": "TRAIN-only fitting with eight geometry features derived from measured sensor occupancy around each inferred source candidate",
+  "feature_map": "thermal-spectral-map40-v4",
+  "training_worlds": 426,
+  "validation_cases": 54,
+  "excludes": [
+    "Ground-truth geometry",
+    "Ground-truth source positions as features",
+    "Inferred or completed occupancy cells",
+    "Absolute candidate coordinates as classifier inputs",
+    "Scene ID or floor count"
+  ],
+  "coordinates_used_only_for_relative_map_queries": true,
+  "unmodified_32_feature_prefix": true,
+  "requires_native_implementation_and_parity": true,
+  "final_test_opened": false,
+  "closed_loop_acceptance": false
+}

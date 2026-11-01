@@ -1,0 +1,256 @@
+{
+  "purpose": "Upper bound for classification-only changes on this fixed proposal pool; not achieved model accuracy",
+  "status": "partial-diagnostic",
+  "test_opened": false,
+  "split": "train",
+  "plan_sha256": "9230542823f62454d469e7c04edf669ab5d3ba0ac5fd09da47ac31f11a62d6e7",
+  "cases": 15,
+  "pending": [
+    "g60-train-S32-W123032591-N48",
+    "g60-train-S30-W123030674-N36",
+    "g60-train-S31-W123031683-N48",
+    "g60-train-S32-W123032692-N24",
+    "g60-train-S33-W123033701-N36",
+    "g60-train-S30-W123030775-N48",
+    "g60-train-S31-W123031784-N24",
+    "g60-train-S32-W123032793-N36",
+    "g60-train-S33-W123033802-N48"
+  ],
+  "people": 37,
+  "oracle_matched": 37,
+  "oracle_recall": 1.0,
+  "rows": [
+    {
+      "id": "g60-train-S30-W123030270-N24",
+      "area": 30,
+      "nodes": 24,
+      "proposals": 249,
+      "people": 2,
+      "oracle_matched": 2,
+      "oracle_matching_error_m": 0.08421526198061939,
+      "nearest_proposal_m": [
+        0.031133554751883428,
+        0.053081707228735966
+      ],
+      "acquisition_matched": 1,
+      "map_sha256": "51d4ad85f2c9312b6cad3c8e074c8bf84968b96bd1672094b44490089f0b8206"
+    },
+    {
+      "id": "g60-train-S31-W123031279-N36",
+      "area": 31,
+      "nodes": 36,
+      "proposals": 277,
+      "people": 2,
+      "oracle_matched": 2,
+      "oracle_matching_error_m": 0.1078568559051329,
+      "nearest_proposal_m": [
+        0.038746043989821025,
+        0.06911081191531188
+      ],
+      "acquisition_matched": 1,
+      "map_sha256": "f4e94c60598889c3baa499fa4c137c7e8afd8d3ff4396e17aad26bc8522c371c"
+    },
+    {
+      "id": "g60-train-S32-W123032288-N48",
+      "area": 32,
+      "nodes": 48,
+      "proposals": 220,
+      "people": 3,
+      "oracle_matched": 3,
+      "oracle_matching_error_m": 0.16252961115624082,
+      "nearest_proposal_m": [
+        0.0567777025206669,
+        0.03300555370012464,
+        0.07274635493544927
+      ],
+      "acquisition_matched": 3,
+      "map_sha256": "eb9a5e516e60c68886d30b95197668cb6619335b68d9eef8a3e82773cd82275a"
+    },
+    {
+      "id": "g60-train-S33-W123033297-N24",
+      "area": 33,
+      "nodes": 24,
+      "proposals": 314,
+      "people": 3,
+      "oracle_matched": 3,
+      "oracle_matching_error_m": 0.26867236646422443,
+      "nearest_proposal_m": [
+        0.07377135098417213,
+        0.09361385005430435,
+        0.10128716542574796
+      ],
+      "acquisition_matched": 2,
+      "map_sha256": "24644a805c17cf23b3addee435ed769c322fab0262ff9d65a4849d6e037a4ea6"
+    },
+    {
+      "id": "g60-train-S30-W123030371-N36",
+      "area": 30,
+      "nodes": 36,
+      "proposals": 273,
+      "people": 2,
+      "oracle_matched": 2,
+      "oracle_matching_error_m": 0.12562383786452574,
+      "nearest_proposal_m": [
+        0.058002950027055064,
+        0.0676208878374707
+      ],
+      "acquisition_matched": 2,
+      "map_sha256": "57b7579c6126cf66537ae15679dd366d52f8fd1aeca01747ec8d69ac797729ba"
+    },
+    {
+      "id": "g60-train-S31-W123031380-N48",
+      "area": 31,
+      "nodes": 48,
+      "proposals": 303,
+      "people": 2,
+      "oracle_matched": 2,
+      "oracle_matching_error_m": 0.1703334864626151,
+      "nearest_proposal_m": [
+        0.09421168008834135,
+        0.07612180637427372
+      ],
+      "acquisition_matched": 2,
+      "map_sha256": "fceac18d9fe86ad6c3e6ebdf350376315ec711a5084cdd78e28fdc404e5db7eb"
+    },
+    {
+      "id": "g60-train-S32-W123032389-N24",
+      "area": 32,
+      "nodes": 24,
+      "proposals": 274,
+      "people": 3,
+      "oracle_matched": 3,
+      "oracle_matching_error_m": 0.28686330462582293,
+      "nearest_proposal_m": [
+        0.11757891597625858,
+        0.1188190725833788,
+        0.050465316066185574
+      ],
+      "acquisition_matched": 1,
+      "map_sha256": "7686b1fdab487c0615fe2075b3607cad2a3ade405c74da7cc6f38b0ec5ccec25"
+    },
+    {
+      "id": "g60-train-S33-W123033398-N36",
+      "area": 33,
+      "nodes": 36,
+      "proposals": 303,
+      "people": 3,
+      "oracle_matched": 3,
+      "oracle_matching_error_m": 0.23066438646311965,
+      "nearest_proposal_m": [
+        0.04900372702788483,
+        0.09257117664740182,
+        0.089089482787833
+      ],
+      "acquisition_matched": 2,
+      "map_sha256": "2518044fc6a4a7e1cdb503a42cb7412a5ea8bf427153f6fc182d3b5e41655f26"
+    },
+    {
+      "id": "g60-train-S30-W123030472-N48",
+      "area": 30,
+      "nodes": 48,
+      "proposals": 304,
+      "people": 2,
+      "oracle_matched": 2,
+      "oracle_matching_error_m": 0.17073688600395825,
+      "nearest_proposal_m": [
+        0.047957802581045296,
+        0.12277908342291297
+      ],
+      "acquisition_matched": 2,
+      "map_sha256": "fe0c5b11f17bb422ec5fd877672053ab032ec4adf13ef58ae08bf633a59bbe20"
+    },
+    {
+      "id": "g60-train-S31-W123031481-N24",
+      "area": 31,
+      "nodes": 24,
+      "proposals": 230,
+      "people": 2,
+      "oracle_matched": 2,
+      "oracle_matching_error_m": 0.1431611788028943,
+      "nearest_proposal_m": [
+        0.09047654129087566,
+        0.05268463751201863
+      ],
+      "acquisition_matched": 1,
+      "map_sha256": "9150034e217195bc467d2d81dab9424921f8beac055ed80f0237555d77805880"
+    },
+    {
+      "id": "g60-train-S32-W123032490-N36",
+      "area": 32,
+      "nodes": 36,
+      "proposals": 254,
+      "people": 3,
+      "oracle_matched": 3,
+      "oracle_matching_error_m": 0.14023330614838136,
+      "nearest_proposal_m": [
+        0.02207847560298665,
+        0.06379635402548199,
+        0.054358476519912734
+      ],
+      "acquisition_matched": 3,
+      "map_sha256": "cca53d8b5a734f77a64d057b516a634d3a3e04e2136e6766b7d806089fe3f77d"
+    },
+    {
+      "id": "g60-train-S33-W123033499-N48",
+      "area": 33,
+      "nodes": 48,
+      "proposals": 307,
+      "people": 3,
+      "oracle_matched": 3,
+      "oracle_matching_error_m": 0.23971962855728804,
+      "nearest_proposal_m": [
+        0.02949009130252632,
+        0.05861299514539394,
+        0.15161654210936776
+      ],
+      "acquisition_matched": 2,
+      "map_sha256": "2a52e2e88368d4b4527eab762d3476fdb72b97a9e3c697dbf389bbb3858c612a"
+    },
+    {
+      "id": "g60-train-S30-W123030573-N24",
+      "area": 30,
+      "nodes": 24,
+      "proposals": 240,
+      "people": 2,
+      "oracle_matched": 2,
+      "oracle_matching_error_m": 0.10759228499707152,
+      "nearest_proposal_m": [
+        0.06414764657529097,
+        0.043444638421780556
+      ],
+      "acquisition_matched": 1,
+      "map_sha256": "596faddad9fe53ace12d3009915234a0d04c4bdb7cee7912f2f9d2ed895f96ad"
+    },
+    {
+      "id": "g60-train-S31-W123031582-N36",
+      "area": 31,
+      "nodes": 36,
+      "proposals": 263,
+      "people": 2,
+      "oracle_matched": 2,
+      "oracle_matching_error_m": 0.12086841984266553,
+      "nearest_proposal_m": [
+        0.0570413102830584,
+        0.06382710955960712
+      ],
+      "acquisition_matched": 2,
+      "map_sha256": "51334504bc14cc7bcde5c1f15a37199fa38454b7a8fe18f3dd519d9921afdd31"
+    },
+    {
+      "id": "g60-train-S33-W123033600-N24",
+      "area": 33,
+      "nodes": 24,
+      "proposals": 241,
+      "people": 3,
+      "oracle_matched": 3,
+      "oracle_matching_error_m": 0.24611742740065595,
+      "nearest_proposal_m": [
+        0.07219448062823396,
+        0.10346358388371821,
+        0.07045936288870379
+      ],
+      "acquisition_matched": 2,
+      "map_sha256": "58ad9487a674c3531da041bdeb419305895422032e0c030934f357c0d7253aac"
+    }
+  ]
+}

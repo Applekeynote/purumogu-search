@@ -1,0 +1,108 @@
+{
+  "version": 2,
+  "steps": 6000,
+  "inference_map_interval": 100,
+  "geometry_revision": "ramp-clearance-v1",
+  "geometry_sources": {
+    "RescueComplexScenes.cs": "170d79564076cd16ec4c9441c225cdee6921cdecc2b60886e469321e3f1547e0",
+    "RescueController.cs": "ea4a17be9deaec48acf96308b540e8a42648027adbc1ec0bd93a6d507235294e",
+    "RescueDeployment.cs": "c8afe1e0fc298937f612769ee2762793c62cdabb0b0446d7a27b825e3e636703",
+    "RescueEchoWireMap.cs": "ecca2c71b9bb740ef7fbbe0140d3ae263bf538dbceb353d6bc339cafb4cc739d",
+    "RescueFloorOpenings.cs": "df9727dff2f04ae36fa020a5ccd507d3b9ea47e817050b070ab14cfe7161f067",
+    "RescueMapDashboard.cs": "74a626b7e9984a9060c1c788e75d349bb27b307be721802caca0a52a8b9df11d",
+    "RescueMapKnowledge.cs": "e4451ca0664e165ff3c2a69cb1da26d8b57f0a6928b4e8f8af54a3527037ce67",
+    "RescueMapView.cs": "4956713c06bbfa34670c66ad06eb8deaf7a7339f4592fca158dc04fe0f4da422",
+    "RescueRobot.cs": "bd485f3c1d310637e25f7afc3b4fae238a6603cd289276a065cf9bbb6348a39e",
+    "RescueScene.cs": "2eb390ca02c75b9f0301adb22526f2d0d6b17d86d74a8b7b9bfee4aff171ddbd",
+    "RescueSimulation.cs": "87dc44c54772fc3a3e9a23c0ac7742f675ba1b33f536553ed0de5efa756431a9",
+    "RescueSurfaceLattice.cs": "59933137e0aadc8d589a10d3c31c93c38fd49723862674b3888e2d20e78dbbf8",
+    "RescueViewport.cs": "3f4c0fa0851fbf3bb699c2c78dd2285e729c16602958ba9c87fea9acdb203f2e"
+  },
+  "acquisition_sources": {
+    "unity/Assets/Editor/RescueGeneralization.cs": "595e5540eb42777a5a51e5180dc59cc0fe9784b68058534030fd527be4290671",
+    "unity/Assets/Editor/ProjectTools.cs": "cde8c99f3208a705683a344c889562d59fec745caebdead57db5e96e6f36c4ab",
+    "scripts/collect_rescue_registered.py": "c21d66f1eb9d51a1912252f1db8b3ac8a1ac5c85b392f89f2f5bfe5b49d86d12",
+    "scripts/plan_rescue_registered.py": "f25195d8a5a12cfe982e9b16fa9474a658b382afea4bd4420261b374682bcade"
+  },
+  "model_sha256": "47e5f78d8fb5497af8abf08a843aadc439c977dee9102f1fbb2aff86c99517f8",
+  "server_sha256": "54978ccbec94ba36e663f9c516c7c9ab27e7e42129e27241ba129b88648dc624",
+  "sensor_source_sha256": "bd485f3c1d310637e25f7afc3b4fae238a6603cd289276a065cf9bbb6348a39e",
+  "deployment": "WholeSceneDrop: original overhead scattering; no facade deployment",
+  "test_opened": false,
+  "split": "valid-unknown",
+  "output": "C:\\Users\\rynat\\OneDrive\\ドキュメント\\ChatGPT\\松尾研\\purumogu-search\\experiments\\raw\\rescue\\generalization-v38-overhead\\valid-unknown",
+  "cases": [
+    {
+      "id": "g38-valid-unknown-S19-W53019171-N24",
+      "scene": 19,
+      "seed": 53019171,
+      "nodes": 24,
+      "deployment_seed": 53722315,
+      "source_seed": 53919171
+    },
+    {
+      "id": "g38-valid-unknown-S19-W53019171-N36",
+      "scene": 19,
+      "seed": 53019171,
+      "nodes": 36,
+      "deployment_seed": 53723887,
+      "source_seed": 53919171
+    },
+    {
+      "id": "g38-valid-unknown-S19-W53019171-N48",
+      "scene": 19,
+      "seed": 53019171,
+      "nodes": 48,
+      "deployment_seed": 53725459,
+      "source_seed": 53919171
+    },
+    {
+      "id": "g38-valid-unknown-S22-W53022198-N24",
+      "scene": 22,
+      "seed": 53022198,
+      "nodes": 24,
+      "deployment_seed": 53725342,
+      "source_seed": 53922198
+    },
+    {
+      "id": "g38-valid-unknown-S22-W53022198-N36",
+      "scene": 22,
+      "seed": 53022198,
+      "nodes": 36,
+      "deployment_seed": 53726914,
+      "source_seed": 53922198
+    },
+    {
+      "id": "g38-valid-unknown-S22-W53022198-N48",
+      "scene": 22,
+      "seed": 53022198,
+      "nodes": 48,
+      "deployment_seed": 53728486,
+      "source_seed": 53922198
+    },
+    {
+      "id": "g38-valid-unknown-S29-W53029261-N24",
+      "scene": 29,
+      "seed": 53029261,
+      "nodes": 24,
+      "deployment_seed": 53732405,
+      "source_seed": 53929261
+    },
+    {
+      "id": "g38-valid-unknown-S29-W53029261-N36",
+      "scene": 29,
+      "seed": 53029261,
+      "nodes": 36,
+      "deployment_seed": 53733977,
+      "source_seed": 53929261
+    },
+    {
+      "id": "g38-valid-unknown-S29-W53029261-N48",
+      "scene": 29,
+      "seed": 53029261,
+      "nodes": 48,
+      "deployment_seed": 53735549,
+      "source_seed": 53929261
+    }
+  ]
+}

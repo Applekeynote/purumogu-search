@@ -1,0 +1,14 @@
+{
+  "status": "pass",
+  "model": "models/generic-v67-acquisition-r35",
+  "checkpoint_sha256": "ba8a62f22f774f36878ebfb7349232493c0254ade1d54d39813345544c0c8042",
+  "onnx_sha256": "af5209c4cbc06e4892eaf330b361bbde31def8216b3bfa42e2aa689bff936818",
+  "architecture": "subvoxel-unet-refinement-v3",
+  "channels": 90,
+  "maximum_probability_error": 0.00020267819205421755,
+  "class_disagreements": 0,
+  "truth_to_native": false,
+  "requires_python_for_app": false,
+  "requires_cuda_for_app": false,
+  "inference_seconds": 0.8669934
+}

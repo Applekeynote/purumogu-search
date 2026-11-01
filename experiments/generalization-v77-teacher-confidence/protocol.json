@@ -1,0 +1,30 @@
+{
+  "purpose": "Allow new corrective trees to condition directly on the frozen TRAIN forest aggregate confidence",
+  "feature_map": "thermal-spectral-teacher33-v5",
+  "frozen_prefix_trees": 200,
+  "correction_rounds": [
+    28,
+    56
+  ],
+  "leaves": [
+    7,
+    15
+  ],
+  "long_world_shares": [
+    0.5,
+    0.25
+  ],
+  "training_worlds": 426,
+  "validation_cases": 54,
+  "teacher_feature": "clamp(frozen_bias + sum(frozen prefix trees on the 32 sensor features), -40, 40)/10",
+  "guards": [
+    "Frozen teacher trained only on TRAIN",
+    "No recursive corrected confidence input",
+    "No true position or scene ID inputs",
+    "No TEST collection",
+    "Same .25m matching and 360-second deadline"
+  ],
+  "reason": "Larger forests and hard-example weighting did not improve validation; preserve the original partition and learn conditional corrections",
+  "final_test_opened": false,
+  "closed_loop_acceptance": false
+}

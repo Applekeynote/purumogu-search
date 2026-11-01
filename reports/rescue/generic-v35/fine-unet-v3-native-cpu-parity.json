@@ -1,0 +1,14 @@
+{
+  "status": "pass",
+  "model": "models/generic-v57-r35-portability-probe",
+  "checkpoint_sha256": "caad1e797d13a8e8fa1eb44efdd0e844096902fe0248712b2fa18f9f4d4d3e2a",
+  "onnx_sha256": "94f6d502c23c2d9270cdb525b25633154fa49386448fe2c528842c64c165e8dc",
+  "architecture": "subvoxel-unet-refinement-v3",
+  "channels": 90,
+  "maximum_probability_error": 2.3116588746319167e-05,
+  "class_disagreements": 0,
+  "truth_to_native": false,
+  "requires_python_for_app": false,
+  "requires_cuda_for_app": false,
+  "inference_seconds": 1.1029529
+}

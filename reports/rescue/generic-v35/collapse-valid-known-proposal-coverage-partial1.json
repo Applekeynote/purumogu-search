@@ -1,0 +1,126 @@
+{
+  "purpose": "Upper bound for classification-only changes on this fixed proposal pool; not achieved model accuracy",
+  "status": "partial-diagnostic",
+  "test_opened": false,
+  "split": "valid-known",
+  "plan_sha256": "e0ee230f79abee834f2dec9a06926f6d388110ea2c95af3ea2c53f051e8f19ae",
+  "cases": 7,
+  "pending": [
+    "g60-valid-known-S32-W124032288-N36",
+    "g60-valid-known-S32-W124032288-N48",
+    "g60-valid-known-S33-W124033297-N24",
+    "g60-valid-known-S33-W124033297-N36",
+    "g60-valid-known-S33-W124033297-N48"
+  ],
+  "people": 15,
+  "oracle_matched": 15,
+  "oracle_recall": 1.0,
+  "rows": [
+    {
+      "id": "g60-valid-known-S30-W124030270-N24",
+      "area": 30,
+      "nodes": 24,
+      "proposals": 270,
+      "people": 2,
+      "oracle_matched": 2,
+      "oracle_matching_error_m": 0.06933345211604984,
+      "nearest_proposal_m": [
+        0.02960875615469176,
+        0.03972469596135808
+      ],
+      "acquisition_matched": 2,
+      "map_sha256": "2fd3c9b28b4a8f7885a49c3084ef89d6ac7b66ffaa2eeedd18745136661a93e6"
+    },
+    {
+      "id": "g60-valid-known-S30-W124030270-N36",
+      "area": 30,
+      "nodes": 36,
+      "proposals": 287,
+      "people": 2,
+      "oracle_matched": 2,
+      "oracle_matching_error_m": 0.10795141462038656,
+      "nearest_proposal_m": [
+        0.09421040262242668,
+        0.013741011997959879
+      ],
+      "acquisition_matched": 2,
+      "map_sha256": "dd1a43b9d4f4ab9e140e34d5c470d107a5ea06aed23c4d40972ef3f0d0bafb30"
+    },
+    {
+      "id": "g60-valid-known-S30-W124030270-N48",
+      "area": 30,
+      "nodes": 48,
+      "proposals": 252,
+      "people": 2,
+      "oracle_matched": 2,
+      "oracle_matching_error_m": 0.09265963516933405,
+      "nearest_proposal_m": [
+        0.06489120491475064,
+        0.027768430254583403
+      ],
+      "acquisition_matched": 2,
+      "map_sha256": "5d7857247cb5c3b027bee9644bb9a7d7246771810d4be36b57f1ef709a8c20da"
+    },
+    {
+      "id": "g60-valid-known-S31-W124031279-N24",
+      "area": 31,
+      "nodes": 24,
+      "proposals": 261,
+      "people": 2,
+      "oracle_matched": 2,
+      "oracle_matching_error_m": 0.06855352794012727,
+      "nearest_proposal_m": [
+        0.024757038048985568,
+        0.0437964898911417
+      ],
+      "acquisition_matched": 2,
+      "map_sha256": "6ede65ef156437383a1080a6d02a1716b1a3698ca67c35d4b4a723d049ea47b4"
+    },
+    {
+      "id": "g60-valid-known-S31-W124031279-N36",
+      "area": 31,
+      "nodes": 36,
+      "proposals": 288,
+      "people": 2,
+      "oracle_matched": 2,
+      "oracle_matching_error_m": 0.08495942345342868,
+      "nearest_proposal_m": [
+        0.043352068530241546,
+        0.04160735492318713
+      ],
+      "acquisition_matched": 2,
+      "map_sha256": "78d3e4d90f3a9524062924c8adf3c2c6efc6aeff83c9ebfb3ea241dacc1559ea"
+    },
+    {
+      "id": "g60-valid-known-S31-W124031279-N48",
+      "area": 31,
+      "nodes": 48,
+      "proposals": 326,
+      "people": 2,
+      "oracle_matched": 2,
+      "oracle_matching_error_m": 0.17673964817746216,
+      "nearest_proposal_m": [
+        0.044053582165298116,
+        0.13268606601216404
+      ],
+      "acquisition_matched": 1,
+      "map_sha256": "4b64553372145a016116131ed072ba8eb68ccc7e62b612a21c59a467d34527d1"
+    },
+    {
+      "id": "g60-valid-known-S32-W124032288-N24",
+      "area": 32,
+      "nodes": 24,
+      "proposals": 278,
+      "people": 3,
+      "oracle_matched": 3,
+      "oracle_matching_error_m": 0.19920400563353813,
+      "nearest_proposal_m": [
+        0.05509238808864678,
+        0.06919026735095647,
+        0.07492135019393488
+      ],
+      "acquisition_matched": 3,
+      "map_sha256": "663381039478e8de0aca18285f3f4e783efd0a8c2df5b79d11725cfd0df69855"
+    }
+  ]
+}

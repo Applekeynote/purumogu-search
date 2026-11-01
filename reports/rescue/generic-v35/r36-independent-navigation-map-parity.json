@@ -1,0 +1,16 @@
+{
+  "status": "pass",
+  "model": "models/generic-v79-acquisition-r36-frozen-nav",
+  "checkpoint_sha256": "a8a099953be68bf8282833f2345737995da2ca55b8cdd1f1d5cb72334df01536",
+  "onnx_sha256": "c5fe7d184ae3337f1791e37dc456438d40851b3286798a861cdd2f657feefa2e",
+  "architecture": "subvoxel-unet-refinement-v3",
+  "channels": 90,
+  "maximum_probability_error": 0.00019373724260274283,
+  "class_disagreements": 0,
+  "truth_to_native": false,
+  "requires_python_for_app": false,
+  "requires_cuda_for_app": false,
+  "native_binary": "tmp/g79-independent-navigation-target/release/complete_map.exe",
+  "native_binary_sha256": "82d00f08988b684fbf77dc55db686935b478156eccb186aa9578547220428387",
+  "inference_seconds": 1.0031611
+}

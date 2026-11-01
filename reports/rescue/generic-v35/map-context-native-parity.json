@@ -1,0 +1,34 @@
+{
+  "status": "pass",
+  "case": "g60-train-S33-W123033499-N48",
+  "sensor_packets_sha256": "a83f4d99fde493dc84d06c73eda35ab5ffb8a1e6c19c9d7bdcc313780e71e8aa",
+  "source_model_sha256": "88ecd0f873dc5f261fd039bc94d1af18410f314db5e14157d28ae2bf99ceab49",
+  "server_sha256": "55b179289e30e040205fcc9c3e66e21d9910ba10f29dc56fe713eb67c3f62834",
+  "feature_map": "thermal-spectral-map40-v4",
+  "rows": [
+    {
+      "step": 1500,
+      "proposals": 83,
+      "maximum_context_error": 0.0,
+      "unchanged_prefix": true,
+      "unchanged_control": true
+    },
+    {
+      "step": 6000,
+      "proposals": 199,
+      "maximum_context_error": 0.0,
+      "unchanged_prefix": true,
+      "unchanged_control": true
+    },
+    {
+      "step": 18000,
+      "proposals": 307,
+      "maximum_context_error": 0.0,
+      "unchanged_prefix": true,
+      "unchanged_control": true
+    }
+  ],
+  "truth_to_native": false,
+  "final_test_opened": false,
+  "closed_loop_acceptance": false
+}

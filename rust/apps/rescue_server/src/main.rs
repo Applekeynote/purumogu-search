@@ -19,8 +19,12 @@ async fn main() -> Result<()> {
         .unwrap_or(47120);
     let listener = TcpListener::bind(("127.0.0.1", port)).await?;
     let model = if let Some(path) = args.windows(2).find(|w| w[0] == "--model").map(|w| &w[1]) {
-        let m: LearnedModel = serde_json::from_slice(&std::fs::read(path)?)?;
-        m.validate()?;
+        let mut m: LearnedModel = serde_json::from_slice(&std::fs::read(path)?)?;
+        m.load_volume(
+            std::path::Path::new(path)
+                .parent()
+                .unwrap_or_else(|| std::path::Path::new(".")),
+        )?;
         Some(Arc::new(m))
     } else {
         None

@@ -1,0 +1,383 @@
+{
+  "purpose": "Fresh closed-loop paired VALID pilots; unchanged original geometry, sensors and noise",
+  "test_opened": false,
+  "seconds": 120,
+  "by_policy": {
+    "pilot-yreg": {
+      "summary": {
+        "cases": 6,
+        "macro_iou": 0.8651896654562332,
+        "micro_iou": 0.8649131047440113,
+        "minimum_case_iou": 0.8137147048038137,
+        "human_precision": 1.0,
+        "human_recall": 0.875,
+        "matched": 14,
+        "false_alarms": 0,
+        "people": 16
+      },
+      "by_node_count": {
+        "24": {
+          "cases": 3,
+          "macro_iou": 0.8441084387345997,
+          "micro_iou": 0.8438065522620904,
+          "minimum_case_iou": 0.8137147048038137,
+          "human_precision": 1.0,
+          "human_recall": 0.875,
+          "matched": 7,
+          "false_alarms": 0,
+          "people": 8
+        },
+        "48": {
+          "cases": 3,
+          "macro_iou": 0.8862708921778668,
+          "micro_iou": 0.8861722187303582,
+          "minimum_case_iou": 0.8820003425244048,
+          "human_precision": 1.0,
+          "human_recall": 0.875,
+          "matched": 7,
+          "false_alarms": 0,
+          "people": 8
+        }
+      },
+      "by_area": {
+        "H06": {
+          "cases": 2,
+          "macro_iou": 0.8522867152827933,
+          "micro_iou": 0.8521483117122091,
+          "minimum_case_iou": 0.8137147048038137,
+          "human_precision": 1.0,
+          "human_recall": 0.6666666666666666,
+          "matched": 4,
+          "false_alarms": 0,
+          "people": 6
+        },
+        "H07": {
+          "cases": 2,
+          "macro_iou": 0.8724908384764554,
+          "micro_iou": 0.872322375397667,
+          "minimum_case_iou": 0.8590280687054881,
+          "human_precision": 1.0,
+          "human_recall": 1.0,
+          "matched": 4,
+          "false_alarms": 0,
+          "people": 4
+        },
+        "H10": {
+          "cases": 2,
+          "macro_iou": 0.870791442609451,
+          "micro_iou": 0.8708319009969061,
+          "minimum_case_iou": 0.8595825426944972,
+          "human_precision": 1.0,
+          "human_recall": 1.0,
+          "matched": 6,
+          "false_alarms": 0,
+          "people": 6
+        }
+      },
+      "all_95": false
+    },
+    "pilot-yreg-nav": {
+      "summary": {
+        "cases": 6,
+        "macro_iou": 0.8802124290456256,
+        "micro_iou": 0.8805618401206636,
+        "minimum_case_iou": 0.8487536966624419,
+        "human_precision": 0.9285714285714286,
+        "human_recall": 0.8125,
+        "matched": 13,
+        "false_alarms": 1,
+        "people": 16
+      },
+      "by_node_count": {
+        "24": {
+          "cases": 3,
+          "macro_iou": 0.8647053860508934,
+          "micro_iou": 0.8657609373052474,
+          "minimum_case_iou": 0.8487536966624419,
+          "human_precision": 1.0,
+          "human_recall": 0.75,
+          "matched": 6,
+          "false_alarms": 0,
+          "people": 8
+        },
+        "48": {
+          "cases": 3,
+          "macro_iou": 0.8957194720403573,
+          "micro_iou": 0.8956141462796299,
+          "minimum_case_iou": 0.8944527177959791,
+          "human_precision": 0.875,
+          "human_recall": 0.875,
+          "matched": 7,
+          "false_alarms": 1,
+          "people": 8
+        }
+      },
+      "by_area": {
+        "H06": {
+          "cases": 2,
+          "macro_iou": 0.8806328718873785,
+          "micro_iou": 0.8805130097804023,
+          "minimum_case_iou": 0.8668130259787779,
+          "human_precision": 1.0,
+          "human_recall": 0.6666666666666666,
+          "matched": 4,
+          "false_alarms": 0,
+          "people": 6
+        },
+        "H07": {
+          "cases": 2,
+          "macro_iou": 0.8731615705534432,
+          "micro_iou": 0.8728323699421965,
+          "minimum_case_iou": 0.8487536966624419,
+          "human_precision": 0.8,
+          "human_recall": 1.0,
+          "matched": 4,
+          "false_alarms": 1,
+          "people": 4
+        },
+        "H10": {
+          "cases": 2,
+          "macro_iou": 0.8868428446960547,
+          "micro_iou": 0.8868086568189626,
+          "minimum_case_iou": 0.8785494355114608,
+          "human_precision": 1.0,
+          "human_recall": 0.8333333333333334,
+          "matched": 5,
+          "false_alarms": 0,
+          "people": 6
+        }
+      },
+      "all_95": false
+    }
+  },
+  "rows": [
+    {
+      "id": "valid-known-S25-W42025225-N24",
+      "scene": "H06",
+      "nodes": 24,
+      "policy": "pilot-yreg",
+      "iou": 0.8137147048038137,
+      "intersection": 4438,
+      "union": 5454,
+      "matched": 2,
+      "false_alarms": 0,
+      "people": 3,
+      "lost_nodes": 2,
+      "active_floor_counts": [
+        0,
+        2,
+        20,
+        0
+      ]
+    },
+    {
+      "id": "valid-known-S25-W42025225-N48",
+      "scene": "H06",
+      "nodes": 48,
+      "policy": "pilot-yreg",
+      "iou": 0.8908587257617728,
+      "intersection": 4824,
+      "union": 5415,
+      "matched": 2,
+      "false_alarms": 0,
+      "people": 3,
+      "lost_nodes": 11,
+      "active_floor_counts": [
+        0,
+        11,
+        26,
+        0
+      ]
+    },
+    {
+      "id": "valid-known-S26-W42026234-N24",
+      "scene": "H07",
+      "nodes": 24,
+      "policy": "pilot-yreg",
+      "iou": 0.8590280687054881,
+      "intersection": 4101,
+      "union": 4774,
+      "matched": 2,
+      "false_alarms": 0,
+      "people": 2,
+      "lost_nodes": 9,
+      "active_floor_counts": [
+        0,
+        3,
+        12,
+        0
+      ]
+    },
+    {
+      "id": "valid-known-S26-W42026234-N48",
+      "scene": "H07",
+      "nodes": 48,
+      "policy": "pilot-yreg",
+      "iou": 0.8859536082474226,
+      "intersection": 4125,
+      "union": 4656,
+      "matched": 2,
+      "false_alarms": 0,
+      "people": 2,
+      "lost_nodes": 19,
+      "active_floor_counts": [
+        3,
+        4,
+        22,
+        0
+      ]
+    },
+    {
+      "id": "valid-unknown-S29-W43029261-N24",
+      "scene": "H10",
+      "nodes": 24,
+      "policy": "pilot-yreg",
+      "iou": 0.8595825426944972,
+      "intersection": 4983,
+      "union": 5797,
+      "matched": 3,
+      "false_alarms": 0,
+      "people": 3,
+      "lost_nodes": 12,
+      "active_floor_counts": [
+        2,
+        2,
+        8,
+        0
+      ]
+    },
+    {
+      "id": "valid-unknown-S29-W43029261-N48",
+      "scene": "H10",
+      "nodes": 48,
+      "policy": "pilot-yreg",
+      "iou": 0.8820003425244048,
+      "intersection": 5150,
+      "union": 5839,
+      "matched": 3,
+      "false_alarms": 0,
+      "people": 3,
+      "lost_nodes": 15,
+      "active_floor_counts": [
+        5,
+        9,
+        19,
+        0
+      ]
+    },
+    {
+      "id": "valid-known-S25-W42025225-N24",
+      "scene": "H06",
+      "nodes": 24,
+      "policy": "pilot-yreg-nav",
+      "iou": 0.8668130259787779,
+      "intersection": 4738,
+      "union": 5466,
+      "matched": 2,
+      "false_alarms": 0,
+      "people": 3,
+      "lost_nodes": 10,
+      "active_floor_counts": [
+        0,
+        1,
+        13,
+        0
+      ]
+    },
+    {
+      "id": "valid-known-S25-W42025225-N48",
+      "scene": "H06",
+      "nodes": 48,
+      "policy": "pilot-yreg-nav",
+      "iou": 0.8944527177959791,
+      "intersection": 4805,
+      "union": 5372,
+      "matched": 2,
+      "false_alarms": 0,
+      "people": 3,
+      "lost_nodes": 15,
+      "active_floor_counts": [
+        0,
+        10,
+        23,
+        0
+      ]
+    },
+    {
+      "id": "valid-known-S26-W42026234-N24",
+      "scene": "H07",
+      "nodes": 24,
+      "policy": "pilot-yreg-nav",
+      "iou": 0.8487536966624419,
+      "intersection": 4018,
+      "union": 4734,
+      "matched": 2,
+      "false_alarms": 0,
+      "people": 2,
+      "lost_nodes": 9,
+      "active_floor_counts": [
+        1,
+        3,
+        11,
+        0
+      ]
+    },
+    {
+      "id": "valid-known-S26-W42026234-N48",
+      "scene": "H07",
+      "nodes": 48,
+      "policy": "pilot-yreg-nav",
+      "iou": 0.8975694444444444,
+      "intersection": 4136,
+      "union": 4608,
+      "matched": 2,
+      "false_alarms": 1,
+      "people": 2,
+      "lost_nodes": 19,
+      "active_floor_counts": [
+        0,
+        6,
+        23,
+        0
+      ]
+    },
+    {
+      "id": "valid-unknown-S29-W43029261-N24",
+      "scene": "H10",
+      "nodes": 24,
+      "policy": "pilot-yreg-nav",
+      "iou": 0.8785494355114608,
+      "intersection": 5136,
+      "union": 5846,
+      "matched": 2,
+      "false_alarms": 0,
+      "people": 3,
+      "lost_nodes": 14,
+      "active_floor_counts": [
+        3,
+        3,
+        4,
+        0
+      ]
+    },
+    {
+      "id": "valid-unknown-S29-W43029261-N48",
+      "scene": "H10",
+      "nodes": 48,
+      "policy": "pilot-yreg-nav",
+      "iou": 0.8951362538806485,
+      "intersection": 5190,
+      "union": 5798,
+      "matched": 3,
+      "false_alarms": 0,
+      "people": 3,
+      "lost_nodes": 27,
+      "active_floor_counts": [
+        5,
+        7,
+        9,
+        0
+      ]
+    }
+  ]
+}

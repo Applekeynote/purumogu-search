@@ -1,0 +1,14 @@
+{
+  "purpose": "Geometry error diagnostic on the first registered TRAIN world of each new collapse kind; not model selection or acceptance",
+  "case_ids": [
+    "g60-train-S30-W123030270-N24",
+    "g60-train-S31-W123031279-N36",
+    "g60-train-S32-W123032288-N48",
+    "g60-train-S33-W123033297-N24"
+  ],
+  "model": "models\\generic-v57-r35-portability-probe\\model.json",
+  "model_sha256": "a722cc71a18d7c37bc3ec7571e2ee300ce6517b6fc9160bdf6350f4552843b74",
+  "preparer_sha256": "425283cdccf08d6d7f79d9f8457c3436f3496826527ee0421c879c6d7e555b68",
+  "profile_sha256": "299d8452bb8eefd5452fc27a26867cb57f0ebff74a9f61c3cadd52a030325273",
+  "test_opened": false
+}

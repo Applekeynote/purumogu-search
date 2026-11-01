@@ -1,0 +1,11 @@
+{
+  "purpose": "Check whether the auxiliary fine occupancy head carries boundary evidence useful beyond R36 coarse output",
+  "cases": 54,
+  "model": "Final R36",
+  "scoring_threshold": 0.6,
+  "aggregation": "Fixed max pooling only, no threshold sweep",
+  "device": "cpu",
+  "oracle_counts_are_not_achieved_performance": true,
+  "no_training": true,
+  "final_test_opened": false
+}

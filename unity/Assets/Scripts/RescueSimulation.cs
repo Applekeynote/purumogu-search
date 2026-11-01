@@ -15,6 +15,7 @@ namespace Purumogu.Rescue
         public readonly RescueDeploymentMode DeploymentMode;
         public readonly int DeploymentSeed;
         int cooldown;
+        readonly List<Vector3> releaseVelocities=new List<Vector3>();
         public sealed class DockLink {public RescueRobot A,B;public int PortA,PortB;public ConfigurableJoint Joint;public LineRenderer Line;}
         Material linkMaterial;
 
@@ -22,20 +23,48 @@ namespace Purumogu.Rescue
         {
             Physics.simulationMode=SimulationMode.Script;Physics.gravity=new Vector3(0,-9.81f,0);Physics.defaultSolverIterations=16;Physics.defaultSolverVelocityIterations=8;
             Scene=new RescueScene(sceneIndex,seed,sourceSeed);linkMaterial=new Material(Shader.Find("Sprites/Default")){color=new Color(.2f,1,.77f)};
-            DeploymentMode=deployment;DeploymentSeed=deploymentSeed;var releases=RescueDeployment.Plan(nodes,deploymentSeed,deployment,Scene.ComplexGeometry?Scene.DeploymentRegions:null);
+            DeploymentMode=deployment;DeploymentSeed=deploymentSeed;
+            if(deployment==RescueDeploymentMode.RoofAndFacadeDrop)Scene.ConfigureExteriorDeployment(seed);
+            var releases=RescueDeployment.Plan(nodes,deploymentSeed,deployment,Scene.ComplexGeometry?Scene.DeploymentRegions:null,Scene.ExteriorOpenings);
             for(int i=0;i<nodes;i++)
             {
                 var pose=releases[i];var robot=new RescueRobot("N"+i.ToString("D2"),pose.Position,seed+i*109);
                 if(Scene.ComplexGeometry){robot.AvoidUnsupportedEdges=true;robot.TravelBounds=new Vector4(-.69f,.69f,.01f,2.94f);}
-                if(deployment==RescueDeploymentMode.WholeSceneDrop)robot.ConfigureDrop(pose.Rotation,pose.Step);
-                Robots.Add(robot);
+                if(deployment!=RescueDeploymentMode.EntranceGrid)robot.ConfigureDrop(pose.Rotation,pose.Step);
+                if(deployment==RescueDeploymentMode.RoofAndFacadeDrop)
+                {
+                    foreach(var collider in robot.Root.GetComponentsInChildren<Collider>())collider.enabled=false;
+                    foreach(var renderer in robot.Root.GetComponentsInChildren<Renderer>())renderer.enabled=false;
+                }
+                Robots.Add(robot);releaseVelocities.Add(pose.Velocity);
             }
             Physics.SyncTransforms();
         }
         public void Tick()
         {
-            foreach(var robot in Robots)robot.ReleaseAt(Step);
+            for(int i=0;i<Robots.Count;i++)
+            {
+                var robot=Robots[i];bool released=robot.Released;robot.ReleaseAt(Step);
+                if(!released&&robot.Released)
+                {
+                    if(DeploymentMode==RescueDeploymentMode.RoofAndFacadeDrop)
+                    {
+                        foreach(var collider in robot.Root.GetComponentsInChildren<Collider>())collider.enabled=true;
+                        foreach(var renderer in robot.Root.GetComponentsInChildren<Renderer>())renderer.enabled=true;
+                    }
+                    if(releaseVelocities[i]!=Vector3.zero)foreach(var body in new[]{robot.Core,robot.Cones[0],robot.Cones[1]})body.linearVelocity=releaseVelocities[i];
+                }
+            }
             foreach(var robot in Robots)robot.Motor(Step);
+            if(DeploymentMode==RescueDeploymentMode.RoofAndFacadeDrop)foreach(var robot in Robots)
+            {
+                // Verification/local-sensing holds use bounded traction braking,
+                // not a transform freeze or an airborne force. Hardware is unchanged.
+                if(!robot.Released||robot.Lost||!robot.Powered||!robot.Verifying)continue;
+                foreach(var body in new[]{robot.Core,robot.Cones[0],robot.Cones[1]})
+                    if(Physics.Raycast(body.worldCenterOfMass,Vector3.down,.032f,1<<6))
+                        body.AddForce(Vector3.ClampMagnitude(-Vector3.ProjectOnPlane(body.linearVelocity,Vector3.up)*body.mass/.08f,.14f/3),ForceMode.Force);
+            }
             if(Scene.Spec.Disaster.Contains("洪水")||Scene.Spec.Disaster.Contains("浸水"))foreach(var robot in Robots)if(robot.Core.position.z>1.0f&&robot.Core.position.y<.035f)robot.Core.AddForce(-robot.Core.linearVelocity*.08f);
             if(Docking&&Step>=cooldown&&Step%10==0)TryDock();
             Scene.Aftershock(Step);Physics.Simulate(.02f);Step++;

@@ -1,0 +1,17 @@
+{
+  "purpose": "Global development selection of existing native weighted candidate-position fusion; no new fitting on VALID",
+  "source_models": {
+    "generic-v65-tracks-binary426": "c0db1e8251c19302a66fc4f64a4d1b26a3cf9b33a2115b9e2c807dc644e48be5",
+    "generic-v65-tracks-residual426": "88ecd0f873dc5f261fd039bc94d1af18410f314db5e14157d28ae2bf99ceab49"
+  },
+  "data_roots": [
+    "experiments/raw/rescue/generalization-v41-mission360",
+    "experiments/raw/rescue/generalization-v60-partial-collapse"
+  ],
+  "validation_cases": 54,
+  "step": 18000,
+  "parameters": "Existing global radius/power/NMS/height/threshold grid, no per-area settings",
+  "native_supported": true,
+  "final_test_opened": false,
+  "closed_loop_acceptance": false
+}

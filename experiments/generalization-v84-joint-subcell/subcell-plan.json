@@ -1,0 +1,3796 @@
+{
+  "split": "train",
+  "steps": 18000,
+  "snapshots": [
+    6000
+  ],
+  "fine_supervision": true,
+  "purpose": "Continuous coordinate-phase augmentation with matching coarse and2.5cm auxiliary labels; not additional independent worlds",
+  "output": "C:\\Users\\rynat\\OneDrive\\ドキュメント\\ChatGPT\\松尾研\\purumogu-search\\experiments\\generalization-v84-joint-subcell\\truth",
+  "source_collections": [
+    {
+      "root": "experiments/raw/rescue/generalization-v47-long-diverse/train",
+      "sha256": "0749761923744825366170a3015a51b0ec83960782944e8aef15f72783a7e6f7",
+      "geometry": {
+        "RescueComplexScenes.cs": "170d79564076cd16ec4c9441c225cdee6921cdecc2b60886e469321e3f1547e0",
+        "RescueController.cs": "9e1acc4afa0ddd5116613a37be5d6ef90df7207156e48c9e7e1323936b1b461b",
+        "RescueDeployment.cs": "357f833e13ba430a3a345136ba160fdc4413f4b32448f6b2daf8480e69f1f907",
+        "RescueEchoWireMap.cs": "ecca2c71b9bb740ef7fbbe0140d3ae263bf538dbceb353d6bc339cafb4cc739d",
+        "RescueExteriorDeployment.cs": "a8aafd6e55c09629238f7d51b838c36d4d647d307707b3e7e598565eeecabfa1",
+        "RescueFloorOpenings.cs": "df9727dff2f04ae36fa020a5ccd507d3b9ea47e817050b070ab14cfe7161f067",
+        "RescueMapDashboard.cs": "74a626b7e9984a9060c1c788e75d349bb27b307be721802caca0a52a8b9df11d",
+        "RescueMapKnowledge.cs": "e4451ca0664e165ff3c2a69cb1da26d8b57f0a6928b4e8f8af54a3527037ce67",
+        "RescueMapView.cs": "4956713c06bbfa34670c66ad06eb8deaf7a7339f4592fca158dc04fe0f4da422",
+        "RescueRobot.cs": "bd485f3c1d310637e25f7afc3b4fae238a6603cd289276a065cf9bbb6348a39e",
+        "RescueScene.cs": "2eb390ca02c75b9f0301adb22526f2d0d6b17d86d74a8b7b9bfee4aff171ddbd",
+        "RescueSimulation.cs": "5263de7cef8df646804ab9ea9c0d951c3c17f1026fa63e8cd28276ca98c325eb",
+        "RescueSurfaceLattice.cs": "59933137e0aadc8d589a10d3c31c93c38fd49723862674b3888e2d20e78dbbf8",
+        "RescueViewport.cs": "3f4c0fa0851fbf3bb699c2c78dd2285e729c16602958ba9c87fea9acdb203f2e"
+      }
+    },
+    {
+      "root": "experiments/raw/rescue/generalization-v50-long-diverse2/train",
+      "sha256": "c18ee45d8cfc97aa62af7d3ff5d17a3905e71f48e301172020432b501651d5c4",
+      "geometry": {
+        "RescueComplexScenes.cs": "170d79564076cd16ec4c9441c225cdee6921cdecc2b60886e469321e3f1547e0",
+        "RescueController.cs": "9e1acc4afa0ddd5116613a37be5d6ef90df7207156e48c9e7e1323936b1b461b",
+        "RescueDeployment.cs": "357f833e13ba430a3a345136ba160fdc4413f4b32448f6b2daf8480e69f1f907",
+        "RescueEchoWireMap.cs": "ecca2c71b9bb740ef7fbbe0140d3ae263bf538dbceb353d6bc339cafb4cc739d",
+        "RescueExteriorDeployment.cs": "a8aafd6e55c09629238f7d51b838c36d4d647d307707b3e7e598565eeecabfa1",
+        "RescueFloorOpenings.cs": "df9727dff2f04ae36fa020a5ccd507d3b9ea47e817050b070ab14cfe7161f067",
+        "RescueMapDashboard.cs": "74a626b7e9984a9060c1c788e75d349bb27b307be721802caca0a52a8b9df11d",
+        "RescueMapKnowledge.cs": "e4451ca0664e165ff3c2a69cb1da26d8b57f0a6928b4e8f8af54a3527037ce67",
+        "RescueMapView.cs": "4956713c06bbfa34670c66ad06eb8deaf7a7339f4592fca158dc04fe0f4da422",
+        "RescueRobot.cs": "bd485f3c1d310637e25f7afc3b4fae238a6603cd289276a065cf9bbb6348a39e",
+        "RescueScene.cs": "2eb390ca02c75b9f0301adb22526f2d0d6b17d86d74a8b7b9bfee4aff171ddbd",
+        "RescueSimulation.cs": "5263de7cef8df646804ab9ea9c0d951c3c17f1026fa63e8cd28276ca98c325eb",
+        "RescueSurfaceLattice.cs": "59933137e0aadc8d589a10d3c31c93c38fd49723862674b3888e2d20e78dbbf8",
+        "RescueViewport.cs": "3f4c0fa0851fbf3bb699c2c78dd2285e729c16602958ba9c87fea9acdb203f2e"
+      }
+    },
+    {
+      "root": "experiments/raw/rescue/generalization-v60-partial-collapse/train",
+      "sha256": "5b0917d7b2d8a36373c8739d0e9600160105cbea68f62b540ed93a9d5722cbf8",
+      "geometry": {
+        "RescueComplexScenes.cs": "6e696d3ed00f290e9a7b4bf9d95d570db884360c00659dd04440e8d6a171f583",
+        "RescueController.cs": "9e1acc4afa0ddd5116613a37be5d6ef90df7207156e48c9e7e1323936b1b461b",
+        "RescueDeployment.cs": "357f833e13ba430a3a345136ba160fdc4413f4b32448f6b2daf8480e69f1f907",
+        "RescueEchoWireMap.cs": "ecca2c71b9bb740ef7fbbe0140d3ae263bf538dbceb353d6bc339cafb4cc739d",
+        "RescueExteriorDeployment.cs": "0d97b1016c2bb6ae0b81604474fe5af6978b723c9e1927598285f329ea4c2d12",
+        "RescueFloorOpenings.cs": "df9727dff2f04ae36fa020a5ccd507d3b9ea47e817050b070ab14cfe7161f067",
+        "RescueMapDashboard.cs": "74a626b7e9984a9060c1c788e75d349bb27b307be721802caca0a52a8b9df11d",
+        "RescueMapKnowledge.cs": "e4451ca0664e165ff3c2a69cb1da26d8b57f0a6928b4e8f8af54a3527037ce67",
+        "RescueMapView.cs": "4956713c06bbfa34670c66ad06eb8deaf7a7339f4592fca158dc04fe0f4da422",
+        "RescuePartialCollapse.cs": "fc0d5063f16bc65f8557176fce380ccb9ecc9d220aa575da552b37056b8d104e",
+        "RescueRobot.cs": "bd485f3c1d310637e25f7afc3b4fae238a6603cd289276a065cf9bbb6348a39e",
+        "RescueScene.cs": "d933ed02b267aedfdd6a99bc8f829796b1436ce191c749504ea9ef0514d86f58",
+        "RescueSimulation.cs": "5263de7cef8df646804ab9ea9c0d951c3c17f1026fa63e8cd28276ca98c325eb",
+        "RescueSurfaceLattice.cs": "59933137e0aadc8d589a10d3c31c93c38fd49723862674b3888e2d20e78dbbf8",
+        "RescueViewport.cs": "3f4c0fa0851fbf3bb699c2c78dd2285e729c16602958ba9c87fea9acdb203f2e"
+      }
+    }
+  ],
+  "cases": [
+    {
+      "id": "g47-train-S25-W94025225-N24",
+      "scene": 25,
+      "seed": 94025225,
+      "nodes": 24,
+      "deployment_seed": 94728369,
+      "source_seed": 94925225,
+      "source_truth": "C:\\Users\\rynat\\OneDrive\\ドキュメント\\ChatGPT\\松尾研\\purumogu-search\\experiments\\raw\\rescue\\generalization-v47-long-diverse\\train\\g47-train-S25-W94025225-N24\\truth-18000.json",
+      "source_truth_sha256": "a13e22a4079e9cafa6a9e491874c79abf7b91893cab145d538142e12d1ff6a71",
+      "views": [
+        {
+          "index": 0,
+          "translation_m": [
+            0.01367480961585208,
+            0.012116604868525796,
+            -0.016997108341045765
+          ]
+        },
+        {
+          "index": 1,
+          "translation_m": [
+            0.016675196866045967,
+            0.023278130783651547,
+            -0.013185882437868349
+          ]
+        }
+      ]
+    },
+    {
+      "id": "g47-train-S26-W94026234-N36",
+      "scene": 26,
+      "seed": 94026234,
+      "nodes": 36,
+      "deployment_seed": 94730950,
+      "source_seed": 94926234,
+      "source_truth": "C:\\Users\\rynat\\OneDrive\\ドキュメント\\ChatGPT\\松尾研\\purumogu-search\\experiments\\raw\\rescue\\generalization-v47-long-diverse\\train\\g47-train-S26-W94026234-N36\\truth-18000.json",
+      "source_truth_sha256": "9619e0d5311de231d10c02fb234ac0f67442898f1ed172bbe6e64a5d9cb065df",
+      "views": [
+        {
+          "index": 0,
+          "translation_m": [
+            -0.00692248276367716,
+            0.022044158880825844,
+            0.022340903959641188
+          ]
+        },
+        {
+          "index": 1,
+          "translation_m": [
+            -0.009379728915809418,
+            -0.0027228843337678034,
+            0.022666892695023255
+          ]
+        }
+      ]
+    },
+    {
+      "id": "g47-train-S20-W94020180-N24",
+      "scene": 20,
+      "seed": 94020180,
+      "nodes": 24,
+      "deployment_seed": 94723324,
+      "source_seed": 94920180,
+      "source_truth": "C:\\Users\\rynat\\OneDrive\\ドキュメント\\ChatGPT\\松尾研\\purumogu-search\\experiments\\raw\\rescue\\generalization-v47-long-diverse\\train\\g47-train-S20-W94020180-N24\\truth-18000.json",
+      "source_truth_sha256": "13c88891acd66c2036fc391c0db12ddaa2aee71c48df1f1971eda4eab710d1e2",
+      "views": [
+        {
+          "index": 0,
+          "translation_m": [
+            -0.018005077819594897,
+            -0.023184957104674928,
+            0.020876888326501884
+          ]
+        },
+        {
+          "index": 1,
+          "translation_m": [
+            0.016417278050966683,
+            -0.00044558141665638346,
+            0.007822606980426042
+          ]
+        }
+      ]
+    },
+    {
+      "id": "g47-train-S21-W94021189-N36",
+      "scene": 21,
+      "seed": 94021189,
+      "nodes": 36,
+      "deployment_seed": 94725905,
+      "source_seed": 94921189,
+      "source_truth": "C:\\Users\\rynat\\OneDrive\\ドキュメント\\ChatGPT\\松尾研\\purumogu-search\\experiments\\raw\\rescue\\generalization-v47-long-diverse\\train\\g47-train-S21-W94021189-N36\\truth-18000.json",
+      "source_truth_sha256": "246a474d4e8db013ceaa110b0a92970002861a92607be7563d11d4dab7871127",
+      "views": [
+        {
+          "index": 0,
+          "translation_m": [
+            -0.008894026601081692,
+            -0.015516274228333127,
+            -0.00021305781887607025
+          ]
+        },
+        {
+          "index": 1,
+          "translation_m": [
+            0.02253420879121759,
+            0.004969293895758387,
+            0.02101609263158117
+          ]
+        }
+      ]
+    },
+    {
+      "id": "g47-train-S24-W94024216-N48",
+      "scene": 24,
+      "seed": 94024216,
+      "nodes": 48,
+      "deployment_seed": 94730504,
+      "source_seed": 94924216,
+      "source_truth": "C:\\Users\\rynat\\OneDrive\\ドキュメント\\ChatGPT\\松尾研\\purumogu-search\\experiments\\raw\\rescue\\generalization-v47-long-diverse\\train\\g47-train-S24-W94024216-N48\\truth-18000.json",
+      "source_truth_sha256": "dd6362416713260b026d0c037607ee3b3ea1079f675d3c7b29e491630ceb16a1",
+      "views": [
+        {
+          "index": 0,
+          "translation_m": [
+            -0.023643209004641418,
+            0.00564211559464374,
+            0.00867574024630003
+          ]
+        },
+        {
+          "index": 1,
+          "translation_m": [
+            -0.016405652813289272,
+            -0.018473587018530822,
+            0.0012719498030507037
+          ]
+        }
+      ]
+    },
+    {
+      "id": "g47-train-S15-W94015135-N24",
+      "scene": 15,
+      "seed": 94015135,
+      "nodes": 24,
+      "deployment_seed": 94718279,
+      "source_seed": 94915135,
+      "source_truth": "C:\\Users\\rynat\\OneDrive\\ドキュメント\\ChatGPT\\松尾研\\purumogu-search\\experiments\\raw\\rescue\\generalization-v47-long-diverse\\train\\g47-train-S15-W94015135-N24\\truth-18000.json",
+      "source_truth_sha256": "0f57bd10ef10373287fd5f6f176b96766defc34e3a9880d60e69a5a71a416162",
+      "views": [
+        {
+          "index": 0,
+          "translation_m": [
+            -0.01286801824301254,
+            0.0016054246699846973,
+            0.014620079918546636
+          ]
+        },
+        {
+          "index": 1,
+          "translation_m": [
+            0.013126266673525191,
+            -0.01624463139060777,
+            -0.006025439125541276
+          ]
+        }
+      ]
+    },
+    {
+      "id": "g47-train-S16-W94016144-N36",
+      "scene": 16,
+      "seed": 94016144,
+      "nodes": 36,
+      "deployment_seed": 94720860,
+      "source_seed": 94916144,
+      "source_truth": "C:\\Users\\rynat\\OneDrive\\ドキュメント\\ChatGPT\\松尾研\\purumogu-search\\experiments\\raw\\rescue\\generalization-v47-long-diverse\\train\\g47-train-S16-W94016144-N36\\truth-18000.json",
+      "source_truth_sha256": "b8451af6d3a6e6e2637d264930c1c388420ee6ac2a733831100a56b84fda36ba",
+      "views": [
+        {
+          "index": 0,
+          "translation_m": [
+            -0.017731350453667985,
+            -0.00639533636757075,
+            -0.005184475310716849
+          ]
+        },
+        {
+          "index": 1,
+          "translation_m": [
+            0.0001389883166807021,
+            -0.0009628977886101189,
+            0.017207455427746633
+          ]
+        }
+      ]
+    },
+    {
+      "id": "g47-train-S18-W94018162-N48",
+      "scene": 18,
+      "seed": 94018162,
+      "nodes": 48,
+      "deployment_seed": 94724450,
+      "source_seed": 94918162,
+      "source_truth": "C:\\Users\\rynat\\OneDrive\\ドキュメント\\ChatGPT\\松尾研\\purumogu-search\\experiments\\raw\\rescue\\generalization-v47-long-diverse\\train\\g47-train-S18-W94018162-N48\\truth-18000.json",
+      "source_truth_sha256": "5d207e3cf08d8db33ce3848c356283c7f9e0b7900d5695e7f1c1130823b7e3a2",
+      "views": [
+        {
+          "index": 0,
+          "translation_m": [
+            -0.004140278927517591,
+            8.069873507814129e-05,
+            0.016603241674264697
+          ]
+        },
+        {
+          "index": 1,
+          "translation_m": [
+            0.002942809668549075,
+            -0.014706363918315854,
+            -0.010376338952150147
+          ]
+        }
+      ]
+    },
+    {
+      "id": "g47-train-S00-W94000000-N24",
+      "scene": 0,
+      "seed": 94000000,
+      "nodes": 24,
+      "deployment_seed": 94703144,
+      "source_seed": 94900000,
+      "source_truth": "C:\\Users\\rynat\\OneDrive\\ドキュメント\\ChatGPT\\松尾研\\purumogu-search\\experiments\\raw\\rescue\\generalization-v47-long-diverse\\train\\g47-train-S00-W94000000-N24\\truth-18000.json",
+      "source_truth_sha256": "6c737b9c4f79e8709985ec8d4b0797483b23f0a21aaa04f472ea413adb5697d3",
+      "views": [
+        {
+          "index": 0,
+          "translation_m": [
+            -0.0135092959736398,
+            0.008028204216180918,
+            -0.015512157425534846
+          ]
+        },
+        {
+          "index": 1,
+          "translation_m": [
+            0.018373740611996286,
+            0.004787254916094365,
+            0.0027841908553452
+          ]
+        }
+      ]
+    },
+    {
+      "id": "g47-train-S01-W94001009-N36",
+      "scene": 1,
+      "seed": 94001009,
+      "nodes": 36,
+      "deployment_seed": 94705725,
+      "source_seed": 94901009,
+      "source_truth": "C:\\Users\\rynat\\OneDrive\\ドキュメント\\ChatGPT\\松尾研\\purumogu-search\\experiments\\raw\\rescue\\generalization-v47-long-diverse\\train\\g47-train-S01-W94001009-N36\\truth-18000.json",
+      "source_truth_sha256": "6c0ad1abd0e28b206c869586b605a93a68fc8b832382916b29c582536350dbcf",
+      "views": [
+        {
+          "index": 0,
+          "translation_m": [
+            -0.005596039003936553,
+            0.0058861103642081115,
+            -0.01461586107872698
+          ]
+        },
+        {
+          "index": 1,
+          "translation_m": [
+            -0.007970623629670395,
+            0.019218747902325986,
+            -0.012939677430560839
+          ]
+        }
+      ]
+    },
+    {
+      "id": "g47-train-S02-W94002018-N48",
+      "scene": 2,
+      "seed": 94002018,
+      "nodes": 48,
+      "deployment_seed": 94708306,
+      "source_seed": 94902018,
+      "source_truth": "C:\\Users\\rynat\\OneDrive\\ドキュメント\\ChatGPT\\松尾研\\purumogu-search\\experiments\\raw\\rescue\\generalization-v47-long-diverse\\train\\g47-train-S02-W94002018-N48\\truth-18000.json",
+      "source_truth_sha256": "749400f251999ab674c4dbe68ee4cee48a36b709338e8afbed2c8b97277a1faa",
+      "views": [
+        {
+          "index": 0,
+          "translation_m": [
+            0.00605286294494272,
+            0.01289320675813175,
+            0.023930534752400937
+          ]
+        },
+        {
+          "index": 1,
+          "translation_m": [
+            0.013653033789818837,
+            0.0043046094718899,
+            -0.02031185126097379
+          ]
+        }
+      ]
+    },
+    {
+      "id": "g47-train-S03-W94003027-N24",
+      "scene": 3,
+      "seed": 94003027,
+      "nodes": 24,
+      "deployment_seed": 94706171,
+      "source_seed": 94903027,
+      "source_truth": "C:\\Users\\rynat\\OneDrive\\ドキュメント\\ChatGPT\\松尾研\\purumogu-search\\experiments\\raw\\rescue\\generalization-v47-long-diverse\\train\\g47-train-S03-W94003027-N24\\truth-18000.json",
+      "source_truth_sha256": "853ccae99438a9c4298d3a64537f66b9936fc38d66b023d8936f6a37feb482fa",
+      "views": [
+        {
+          "index": 0,
+          "translation_m": [
+            -0.009297402672477544,
+            -0.0036532750233106565,
+            -0.022039121628048254
+          ]
+        },
+        {
+          "index": 1,
+          "translation_m": [
+            0.008617983778594851,
+            0.016865143419010756,
+            -0.02007913896160704
+          ]
+        }
+      ]
+    },
+    {
+      "id": "g47-train-S04-W94004036-N36",
+      "scene": 4,
+      "seed": 94004036,
+      "nodes": 36,
+      "deployment_seed": 94708752,
+      "source_seed": 94904036,
+      "source_truth": "C:\\Users\\rynat\\OneDrive\\ドキュメント\\ChatGPT\\松尾研\\purumogu-search\\experiments\\raw\\rescue\\generalization-v47-long-diverse\\train\\g47-train-S04-W94004036-N36\\truth-18000.json",
+      "source_truth_sha256": "c9324cd2903ef0a8fd9dbc54b54a40d2bbc2e42c7d9d318f5f611816046e80c2",
+      "views": [
+        {
+          "index": 0,
+          "translation_m": [
+            0.005738393375391622,
+            0.010249238456208037,
+            -0.01805296338287193
+          ]
+        },
+        {
+          "index": 1,
+          "translation_m": [
+            -0.0010107918710070968,
+            -0.007865284509680503,
+            0.0011208250814591647
+          ]
+        }
+      ]
+    },
+    {
+      "id": "g47-train-S05-W94005045-N48",
+      "scene": 5,
+      "seed": 94005045,
+      "nodes": 48,
+      "deployment_seed": 94711333,
+      "source_seed": 94905045,
+      "source_truth": "C:\\Users\\rynat\\OneDrive\\ドキュメント\\ChatGPT\\松尾研\\purumogu-search\\experiments\\raw\\rescue\\generalization-v47-long-diverse\\train\\g47-train-S05-W94005045-N48\\truth-18000.json",
+      "source_truth_sha256": "94d015820de14201b8f9629717cdab24559a8fda258fe3b2ef1886d10a86a8f2",
+      "views": [
+        {
+          "index": 0,
+          "translation_m": [
+            0.019179438850485987,
+            -0.010183979366491794,
+            0.0188401497172819
+          ]
+        },
+        {
+          "index": 1,
+          "translation_m": [
+            0.00730229862561093,
+            -0.00960298320536863,
+            -0.00861848023380292
+          ]
+        }
+      ]
+    },
+    {
+      "id": "g47-train-S06-W94006054-N24",
+      "scene": 6,
+      "seed": 94006054,
+      "nodes": 24,
+      "deployment_seed": 94709198,
+      "source_seed": 94906054,
+      "source_truth": "C:\\Users\\rynat\\OneDrive\\ドキュメント\\ChatGPT\\松尾研\\purumogu-search\\experiments\\raw\\rescue\\generalization-v47-long-diverse\\train\\g47-train-S06-W94006054-N24\\truth-18000.json",
+      "source_truth_sha256": "6bb659b44a23ad9e69ac449a8f1a54f9dfd7ba395c89e73b27f5a7d1776be2ef",
+      "views": [
+        {
+          "index": 0,
+          "translation_m": [
+            -0.0018433000030715525,
+            -0.014884596205129252,
+            0.011377090088236064
+          ]
+        },
+        {
+          "index": 1,
+          "translation_m": [
+            -0.011907056504545425,
+            -0.022633480778428593,
+            0.02265977708339212
+          ]
+        }
+      ]
+    },
+    {
+      "id": "g47-train-S07-W94007063-N36",
+      "scene": 7,
+      "seed": 94007063,
+      "nodes": 36,
+      "deployment_seed": 94711779,
+      "source_seed": 94907063,
+      "source_truth": "C:\\Users\\rynat\\OneDrive\\ドキュメント\\ChatGPT\\松尾研\\purumogu-search\\experiments\\raw\\rescue\\generalization-v47-long-diverse\\train\\g47-train-S07-W94007063-N36\\truth-18000.json",
+      "source_truth_sha256": "31b04e9116c934fd603c2fae6bbc4efc4ef6332e02626b010f4b88fb4923794c",
+      "views": [
+        {
+          "index": 0,
+          "translation_m": [
+            -0.0026875756857176678,
+            0.004374487677058298,
+            -0.01094416903241729
+          ]
+        },
+        {
+          "index": 1,
+          "translation_m": [
+            0.00414913842047588,
+            -0.0036774570185815897,
+            -0.02215623201538347
+          ]
+        }
+      ]
+    },
+    {
+      "id": "g47-train-S08-W94008072-N48",
+      "scene": 8,
+      "seed": 94008072,
+      "nodes": 48,
+      "deployment_seed": 94714360,
+      "source_seed": 94908072,
+      "source_truth": "C:\\Users\\rynat\\OneDrive\\ドキュメント\\ChatGPT\\松尾研\\purumogu-search\\experiments\\raw\\rescue\\generalization-v47-long-diverse\\train\\g47-train-S08-W94008072-N48\\truth-18000.json",
+      "source_truth_sha256": "85db1e0ef1fe9ed8b4db99c524abd67ee9ad30c132ba4f4584e9ca0f22889d6a",
+      "views": [
+        {
+          "index": 0,
+          "translation_m": [
+            0.02197841641458033,
+            -0.015519589627813768,
+            0.017246622592803046
+          ]
+        },
+        {
+          "index": 1,
+          "translation_m": [
+            0.007849257016947837,
+            -0.012530882539211575,
+            -0.011601118230698057
+          ]
+        }
+      ]
+    },
+    {
+      "id": "g47-train-S09-W94009081-N24",
+      "scene": 9,
+      "seed": 94009081,
+      "nodes": 24,
+      "deployment_seed": 94712225,
+      "source_seed": 94909081,
+      "source_truth": "C:\\Users\\rynat\\OneDrive\\ドキュメント\\ChatGPT\\松尾研\\purumogu-search\\experiments\\raw\\rescue\\generalization-v47-long-diverse\\train\\g47-train-S09-W94009081-N24\\truth-18000.json",
+      "source_truth_sha256": "5d285de72321a851a190f1451f94d2b37089d08c0fe7d01e5a4f32c849fd463f",
+      "views": [
+        {
+          "index": 0,
+          "translation_m": [
+            -0.008674831318648667,
+            0.009449534156312049,
+            -0.006132583500897969
+          ]
+        },
+        {
+          "index": 1,
+          "translation_m": [
+            0.015553285489989695,
+            0.016255127321022786,
+            -0.020204519133948308
+          ]
+        }
+      ]
+    },
+    {
+      "id": "g47-train-S25-W94025326-N36",
+      "scene": 25,
+      "seed": 94025326,
+      "nodes": 36,
+      "deployment_seed": 94730042,
+      "source_seed": 94925326,
+      "source_truth": "C:\\Users\\rynat\\OneDrive\\ドキュメント\\ChatGPT\\松尾研\\purumogu-search\\experiments\\raw\\rescue\\generalization-v47-long-diverse\\train\\g47-train-S25-W94025326-N36\\truth-18000.json",
+      "source_truth_sha256": "0cedadda3c96484319c70dd55c074494fb753a798fa0726959e32b8844d19abd",
+      "views": [
+        {
+          "index": 0,
+          "translation_m": [
+            0.005231536809368394,
+            -0.013629157242259297,
+            -0.013131240719077154
+          ]
+        },
+        {
+          "index": 1,
+          "translation_m": [
+            0.00580137268237468,
+            -0.016025186254612085,
+            -0.01978902758987104
+          ]
+        }
+      ]
+    },
+    {
+      "id": "g47-train-S26-W94026335-N48",
+      "scene": 26,
+      "seed": 94026335,
+      "nodes": 48,
+      "deployment_seed": 94732623,
+      "source_seed": 94926335,
+      "source_truth": "C:\\Users\\rynat\\OneDrive\\ドキュメント\\ChatGPT\\松尾研\\purumogu-search\\experiments\\raw\\rescue\\generalization-v47-long-diverse\\train\\g47-train-S26-W94026335-N48\\truth-18000.json",
+      "source_truth_sha256": "8d4a0eff83693b815ee45cb398516987f856c2df503006884b7782b012d9fe38",
+      "views": [
+        {
+          "index": 0,
+          "translation_m": [
+            -0.020149297517576326,
+            0.00355580112948934,
+            -0.007692031231279657
+          ]
+        },
+        {
+          "index": 1,
+          "translation_m": [
+            -0.008451078244796099,
+            0.01473209539808299,
+            0.0037608353516745477
+          ]
+        }
+      ]
+    },
+    {
+      "id": "g47-train-S20-W94020281-N36",
+      "scene": 20,
+      "seed": 94020281,
+      "nodes": 36,
+      "deployment_seed": 94724997,
+      "source_seed": 94920281,
+      "source_truth": "C:\\Users\\rynat\\OneDrive\\ドキュメント\\ChatGPT\\松尾研\\purumogu-search\\experiments\\raw\\rescue\\generalization-v47-long-diverse\\train\\g47-train-S20-W94020281-N36\\truth-18000.json",
+      "source_truth_sha256": "9c126d158ee5faf11796a9feecec80fb133f34bf56499713d4181aea7dfb04af",
+      "views": [
+        {
+          "index": 0,
+          "translation_m": [
+            -0.014529188180352362,
+            -0.006789234113436262,
+            0.0055939395634848205
+          ]
+        },
+        {
+          "index": 1,
+          "translation_m": [
+            -0.016309039789585627,
+            0.01992126732802011,
+            -0.01955997983523266
+          ]
+        }
+      ]
+    },
+    {
+      "id": "g47-train-S21-W94021290-N48",
+      "scene": 21,
+      "seed": 94021290,
+      "nodes": 48,
+      "deployment_seed": 94727578,
+      "source_seed": 94921290,
+      "source_truth": "C:\\Users\\rynat\\OneDrive\\ドキュメント\\ChatGPT\\松尾研\\purumogu-search\\experiments\\raw\\rescue\\generalization-v47-long-diverse\\train\\g47-train-S21-W94021290-N48\\truth-18000.json",
+      "source_truth_sha256": "5269a7209f784712824ffadafd8ecc4746cc0ae7b09ee1ba8fed93e5d9379121",
+      "views": [
+        {
+          "index": 0,
+          "translation_m": [
+            0.02030423927559572,
+            -0.005193338653648138,
+            -0.011210037725015255
+          ]
+        },
+        {
+          "index": 1,
+          "translation_m": [
+            -0.009546324205342184,
+            -0.016048830824727918,
+            -0.013731154008512887
+          ]
+        }
+      ]
+    },
+    {
+      "id": "g47-train-S24-W94024317-N24",
+      "scene": 24,
+      "seed": 94024317,
+      "nodes": 24,
+      "deployment_seed": 94727461,
+      "source_seed": 94924317,
+      "source_truth": "C:\\Users\\rynat\\OneDrive\\ドキュメント\\ChatGPT\\松尾研\\purumogu-search\\experiments\\raw\\rescue\\generalization-v47-long-diverse\\train\\g47-train-S24-W94024317-N24\\truth-18000.json",
+      "source_truth_sha256": "37adf2fdcb92bac667aff5913f3fd3039c3071f91c853676d8ffc0a009cdf56b",
+      "views": [
+        {
+          "index": 0,
+          "translation_m": [
+            0.010591868721264476,
+            0.008152494932165001,
+            0.02137183023275624
+          ]
+        },
+        {
+          "index": 1,
+          "translation_m": [
+            0.007536309147737709,
+            0.020409538325771283,
+            0.001802506504985077
+          ]
+        }
+      ]
+    },
+    {
+      "id": "g47-train-S15-W94015236-N36",
+      "scene": 15,
+      "seed": 94015236,
+      "nodes": 36,
+      "deployment_seed": 94719952,
+      "source_seed": 94915236,
+      "source_truth": "C:\\Users\\rynat\\OneDrive\\ドキュメント\\ChatGPT\\松尾研\\purumogu-search\\experiments\\raw\\rescue\\generalization-v47-long-diverse\\train\\g47-train-S15-W94015236-N36\\truth-18000.json",
+      "source_truth_sha256": "eaf9102c605c8abafd128731e6d7b1080aa73dee55c994824f0100463b6a773b",
+      "views": [
+        {
+          "index": 0,
+          "translation_m": [
+            -0.020523136325454282,
+            -0.015058750557305529,
+            0.0029858099050579616
+          ]
+        },
+        {
+          "index": 1,
+          "translation_m": [
+            0.0009577816401319973,
+            0.011232409412345504,
+            -0.002710680748544827
+          ]
+        }
+      ]
+    },
+    {
+      "id": "g47-train-S16-W94016245-N48",
+      "scene": 16,
+      "seed": 94016245,
+      "nodes": 48,
+      "deployment_seed": 94722533,
+      "source_seed": 94916245,
+      "source_truth": "C:\\Users\\rynat\\OneDrive\\ドキュメント\\ChatGPT\\松尾研\\purumogu-search\\experiments\\raw\\rescue\\generalization-v47-long-diverse\\train\\g47-train-S16-W94016245-N48\\truth-18000.json",
+      "source_truth_sha256": "e23ac1a75c7f25faeb1017d94156a8944dd1a5bb41eeb2f98c34cc4894d87dee",
+      "views": [
+        {
+          "index": 0,
+          "translation_m": [
+            0.0056819170984108505,
+            0.005131409897241673,
+            0.013384238968059396
+          ]
+        },
+        {
+          "index": 1,
+          "translation_m": [
+            -0.001429099156620369,
+            0.013851451877495577,
+            0.01810823193010752
+          ]
+        }
+      ]
+    },
+    {
+      "id": "g47-train-S18-W94018263-N24",
+      "scene": 18,
+      "seed": 94018263,
+      "nodes": 24,
+      "deployment_seed": 94721407,
+      "source_seed": 94918263,
+      "source_truth": "C:\\Users\\rynat\\OneDrive\\ドキュメント\\ChatGPT\\松尾研\\purumogu-search\\experiments\\raw\\rescue\\generalization-v47-long-diverse\\train\\g47-train-S18-W94018263-N24\\truth-18000.json",
+      "source_truth_sha256": "c77a9068f18b7a12ac90d15f4bd0aee5b0c05d96313c8634f862a4074f21cefa",
+      "views": [
+        {
+          "index": 0,
+          "translation_m": [
+            0.01284323345144299,
+            -0.005967136697072609,
+            0.010036144949133241
+          ]
+        },
+        {
+          "index": 1,
+          "translation_m": [
+            -0.009235959613645426,
+            -0.014879242539785212,
+            -0.007254268812271886
+          ]
+        }
+      ]
+    },
+    {
+      "id": "g47-train-S00-W94000101-N36",
+      "scene": 0,
+      "seed": 94000101,
+      "nodes": 36,
+      "deployment_seed": 94704817,
+      "source_seed": 94900101,
+      "source_truth": "C:\\Users\\rynat\\OneDrive\\ドキュメント\\ChatGPT\\松尾研\\purumogu-search\\experiments\\raw\\rescue\\generalization-v47-long-diverse\\train\\g47-train-S00-W94000101-N36\\truth-18000.json",
+      "source_truth_sha256": "c8f8fa8b918045221eb41443b9a1b2fb0adf0361f7cccbd22f5d23ca238bbdcb",
+      "views": [
+        {
+          "index": 0,
+          "translation_m": [
+            0.02374542807348031,
+            -0.00449215078473195,
+            0.015376478536184776
+          ]
+        },
+        {
+          "index": 1,
+          "translation_m": [
+            -0.01912169661375431,
+            0.022954201248467157,
+            0.0021436021200385257
+          ]
+        }
+      ]
+    },
+    {
+      "id": "g47-train-S01-W94001110-N48",
+      "scene": 1,
+      "seed": 94001110,
+      "nodes": 48,
+      "deployment_seed": 94707398,
+      "source_seed": 94901110,
+      "source_truth": "C:\\Users\\rynat\\OneDrive\\ドキュメント\\ChatGPT\\松尾研\\purumogu-search\\experiments\\raw\\rescue\\generalization-v47-long-diverse\\train\\g47-train-S01-W94001110-N48\\truth-18000.json",
+      "source_truth_sha256": "4493c7001b6f28c89251517f601d3914f19db91ada1c2e1061e45c1a54b0b038",
+      "views": [
+        {
+          "index": 0,
+          "translation_m": [
+            -0.020590259648503875,
+            0.008762213636476238,
+            -0.0017692996707315452
+          ]
+        },
+        {
+          "index": 1,
+          "translation_m": [
+            -0.011635822151198627,
+            0.012232671044078006,
+            0.006515527674003204
+          ]
+        }
+      ]
+    },
+    {
+      "id": "g47-train-S02-W94002119-N24",
+      "scene": 2,
+      "seed": 94002119,
+      "nodes": 24,
+      "deployment_seed": 94705263,
+      "source_seed": 94902119,
+      "source_truth": "C:\\Users\\rynat\\OneDrive\\ドキュメント\\ChatGPT\\松尾研\\purumogu-search\\experiments\\raw\\rescue\\generalization-v47-long-diverse\\train\\g47-train-S02-W94002119-N24\\truth-18000.json",
+      "source_truth_sha256": "f7e7035c5fb49c66f9933265915fb2eca396c9c93ac4eaa187136c6070d7f4f3",
+      "views": [
+        {
+          "index": 0,
+          "translation_m": [
+            0.006167915505216923,
+            -0.015853227482201346,
+            -0.01737235720913541
+          ]
+        },
+        {
+          "index": 1,
+          "translation_m": [
+            -0.014708009634951818,
+            0.002497588362796059,
+            -0.016487147904310745
+          ]
+        }
+      ]
+    },
+    {
+      "id": "g47-train-S03-W94003128-N36",
+      "scene": 3,
+      "seed": 94003128,
+      "nodes": 36,
+      "deployment_seed": 94707844,
+      "source_seed": 94903128,
+      "source_truth": "C:\\Users\\rynat\\OneDrive\\ドキュメント\\ChatGPT\\松尾研\\purumogu-search\\experiments\\raw\\rescue\\generalization-v47-long-diverse\\train\\g47-train-S03-W94003128-N36\\truth-18000.json",
+      "source_truth_sha256": "53277c1e84c6c57b6f958c46547066fb25b539e865695dbf3df37d956ae55c2f",
+      "views": [
+        {
+          "index": 0,
+          "translation_m": [
+            -0.01867238152083601,
+            0.011156947315772589,
+            0.02099043636500137
+          ]
+        },
+        {
+          "index": 1,
+          "translation_m": [
+            -0.02064352088604967,
+            0.01200099048341341,
+            -0.005018463823289059
+          ]
+        }
+      ]
+    },
+    {
+      "id": "g47-train-S04-W94004137-N48",
+      "scene": 4,
+      "seed": 94004137,
+      "nodes": 48,
+      "deployment_seed": 94710425,
+      "source_seed": 94904137,
+      "source_truth": "C:\\Users\\rynat\\OneDrive\\ドキュメント\\ChatGPT\\松尾研\\purumogu-search\\experiments\\raw\\rescue\\generalization-v47-long-diverse\\train\\g47-train-S04-W94004137-N48\\truth-18000.json",
+      "source_truth_sha256": "19bf9d4e94921c9b3813cf141ac6663cea4437fb01b374f78c0db4f912931e1e",
+      "views": [
+        {
+          "index": 0,
+          "translation_m": [
+            -0.019897108442552977,
+            0.015369490523926901,
+            0.022032488450768516
+          ]
+        },
+        {
+          "index": 1,
+          "translation_m": [
+            -0.005871838961175813,
+            0.012636008610520978,
+            0.01048270547459769
+          ]
+        }
+      ]
+    },
+    {
+      "id": "g47-train-S05-W94005146-N24",
+      "scene": 5,
+      "seed": 94005146,
+      "nodes": 24,
+      "deployment_seed": 94708290,
+      "source_seed": 94905146,
+      "source_truth": "C:\\Users\\rynat\\OneDrive\\ドキュメント\\ChatGPT\\松尾研\\purumogu-search\\experiments\\raw\\rescue\\generalization-v47-long-diverse\\train\\g47-train-S05-W94005146-N24\\truth-18000.json",
+      "source_truth_sha256": "332eba057a7a138e0e07d197c35bc2fe04a026b61826807dd10ae6d336c1c3ef",
+      "views": [
+        {
+          "index": 0,
+          "translation_m": [
+            -0.013419527832146068,
+            -0.00346657523820694,
+            0.0032471213726403304
+          ]
+        },
+        {
+          "index": 1,
+          "translation_m": [
+            -0.023357492667045628,
+            0.0011591617907836665,
+            0.012121541845060639
+          ]
+        }
+      ]
+    },
+    {
+      "id": "g47-train-S06-W94006155-N36",
+      "scene": 6,
+      "seed": 94006155,
+      "nodes": 36,
+      "deployment_seed": 94710871,
+      "source_seed": 94906155,
+      "source_truth": "C:\\Users\\rynat\\OneDrive\\ドキュメント\\ChatGPT\\松尾研\\purumogu-search\\experiments\\raw\\rescue\\generalization-v47-long-diverse\\train\\g47-train-S06-W94006155-N36\\truth-18000.json",
+      "source_truth_sha256": "67aced2068b06e30190415749168fc4c89aa23e94851f8a2b370b624d900046e",
+      "views": [
+        {
+          "index": 0,
+          "translation_m": [
+            -6.272457097858744e-05,
+            0.02260716525872989,
+            -0.017471669740843007
+          ]
+        },
+        {
+          "index": 1,
+          "translation_m": [
+            0.002780871496080327,
+            0.008979891523354398,
+            0.02034120012802084
+          ]
+        }
+      ]
+    },
+    {
+      "id": "g47-train-S07-W94007164-N48",
+      "scene": 7,
+      "seed": 94007164,
+      "nodes": 48,
+      "deployment_seed": 94713452,
+      "source_seed": 94907164,
+      "source_truth": "C:\\Users\\rynat\\OneDrive\\ドキュメント\\ChatGPT\\松尾研\\purumogu-search\\experiments\\raw\\rescue\\generalization-v47-long-diverse\\train\\g47-train-S07-W94007164-N48\\truth-18000.json",
+      "source_truth_sha256": "6c3b567117a9c3d4b10c2d179c18db0f85024f68b473d5864afd129db5baf27d",
+      "views": [
+        {
+          "index": 0,
+          "translation_m": [
+            0.0077459122591791996,
+            -0.017873004712278717,
+            0.015800810704918997
+          ]
+        },
+        {
+          "index": 1,
+          "translation_m": [
+            -0.02387818487103728,
+            0.023702342589004673,
+            0.010935040338673596
+          ]
+        }
+      ]
+    },
+    {
+      "id": "g47-train-S08-W94008173-N24",
+      "scene": 8,
+      "seed": 94008173,
+      "nodes": 24,
+      "deployment_seed": 94711317,
+      "source_seed": 94908173,
+      "source_truth": "C:\\Users\\rynat\\OneDrive\\ドキュメント\\ChatGPT\\松尾研\\purumogu-search\\experiments\\raw\\rescue\\generalization-v47-long-diverse\\train\\g47-train-S08-W94008173-N24\\truth-18000.json",
+      "source_truth_sha256": "ba148112e53768d2fb588ef1df24c5446b461ec1c5345d4efd68dca86b53f5b6",
+      "views": [
+        {
+          "index": 0,
+          "translation_m": [
+            0.006226974023903053,
+            -0.023903685858535334,
+            0.0012121769837926087
+          ]
+        },
+        {
+          "index": 1,
+          "translation_m": [
+            -0.01223515977686723,
+            -0.01139440169919783,
+            -0.005402939600496665
+          ]
+        }
+      ]
+    },
+    {
+      "id": "g47-train-S09-W94009182-N36",
+      "scene": 9,
+      "seed": 94009182,
+      "nodes": 36,
+      "deployment_seed": 94713898,
+      "source_seed": 94909182,
+      "source_truth": "C:\\Users\\rynat\\OneDrive\\ドキュメント\\ChatGPT\\松尾研\\purumogu-search\\experiments\\raw\\rescue\\generalization-v47-long-diverse\\train\\g47-train-S09-W94009182-N36\\truth-18000.json",
+      "source_truth_sha256": "7f712db7a780b65dc2de95109b2cefca4ec013db2b2a46e25d4378b80624277f",
+      "views": [
+        {
+          "index": 0,
+          "translation_m": [
+            -0.01096813662346458,
+            0.0023781115249985087,
+            0.0015838961235185786
+          ]
+        },
+        {
+          "index": 1,
+          "translation_m": [
+            -0.019067115518086215,
+            0.020008236332531106,
+            0.022766367403211224
+          ]
+        }
+      ]
+    },
+    {
+      "id": "g47-train-S25-W94025427-N48",
+      "scene": 25,
+      "seed": 94025427,
+      "nodes": 48,
+      "deployment_seed": 94731715,
+      "source_seed": 94925427,
+      "source_truth": "C:\\Users\\rynat\\OneDrive\\ドキュメント\\ChatGPT\\松尾研\\purumogu-search\\experiments\\raw\\rescue\\generalization-v47-long-diverse\\train\\g47-train-S25-W94025427-N48\\truth-18000.json",
+      "source_truth_sha256": "f4edd4953df87b3614edf9bc9442943975fa07eb0633cbfba9709aaa73657aeb",
+      "views": [
+        {
+          "index": 0,
+          "translation_m": [
+            -0.018686233478403307,
+            -0.009740039974162874,
+            -0.008353637575022829
+          ]
+        },
+        {
+          "index": 1,
+          "translation_m": [
+            -0.018730504519122233,
+            -0.007955711268065331,
+            -0.009214035515399406
+          ]
+        }
+      ]
+    },
+    {
+      "id": "g47-train-S26-W94026436-N24",
+      "scene": 26,
+      "seed": 94026436,
+      "nodes": 24,
+      "deployment_seed": 94729580,
+      "source_seed": 94926436,
+      "source_truth": "C:\\Users\\rynat\\OneDrive\\ドキュメント\\ChatGPT\\松尾研\\purumogu-search\\experiments\\raw\\rescue\\generalization-v47-long-diverse\\train\\g47-train-S26-W94026436-N24\\truth-18000.json",
+      "source_truth_sha256": "d054d93d914d5cf7e0f914dccf55a7a5e50e52a899c564871133d8feada43c81",
+      "views": [
+        {
+          "index": 0,
+          "translation_m": [
+            -0.012064261075608864,
+            0.004509185109943029,
+            -0.01012301383684709
+          ]
+        },
+        {
+          "index": 1,
+          "translation_m": [
+            0.001189814596616351,
+            0.0020316650181698634,
+            0.00026279426904257316
+          ]
+        }
+      ]
+    },
+    {
+      "id": "g47-train-S20-W94020382-N48",
+      "scene": 20,
+      "seed": 94020382,
+      "nodes": 48,
+      "deployment_seed": 94726670,
+      "source_seed": 94920382,
+      "source_truth": "C:\\Users\\rynat\\OneDrive\\ドキュメント\\ChatGPT\\松尾研\\purumogu-search\\experiments\\raw\\rescue\\generalization-v47-long-diverse\\train\\g47-train-S20-W94020382-N48\\truth-18000.json",
+      "source_truth_sha256": "49c30399e47af11c9e2cfc0cc955fbcf46aa76b4a2c730a59f4c63f87933a308",
+      "views": [
+        {
+          "index": 0,
+          "translation_m": [
+            0.017421423171348822,
+            -0.009027766458953533,
+            -0.020876686824532403
+          ]
+        },
+        {
+          "index": 1,
+          "translation_m": [
+            -0.020576933258363756,
+            0.015962999307545578,
+            0.005695830201498577
+          ]
+        }
+      ]
+    },
+    {
+      "id": "g47-train-S21-W94021391-N24",
+      "scene": 21,
+      "seed": 94021391,
+      "nodes": 24,
+      "deployment_seed": 94724535,
+      "source_seed": 94921391,
+      "source_truth": "C:\\Users\\rynat\\OneDrive\\ドキュメント\\ChatGPT\\松尾研\\purumogu-search\\experiments\\raw\\rescue\\generalization-v47-long-diverse\\train\\g47-train-S21-W94021391-N24\\truth-18000.json",
+      "source_truth_sha256": "10c57607d88724f6850128a3bd4ab693a65d3679b21339fd9a5ff8e9964acb13",
+      "views": [
+        {
+          "index": 0,
+          "translation_m": [
+            0.02305327533113246,
+            0.0036448021463087836,
+            0.023014744675151695
+          ]
+        },
+        {
+          "index": 1,
+          "translation_m": [
+            -0.0060543053353030694,
+            -0.0012281409040585216,
+            -0.01843900030076003
+          ]
+        }
+      ]
+    },
+    {
+      "id": "g47-train-S24-W94024418-N36",
+      "scene": 24,
+      "seed": 94024418,
+      "nodes": 36,
+      "deployment_seed": 94729134,
+      "source_seed": 94924418,
+      "source_truth": "C:\\Users\\rynat\\OneDrive\\ドキュメント\\ChatGPT\\松尾研\\purumogu-search\\experiments\\raw\\rescue\\generalization-v47-long-diverse\\train\\g47-train-S24-W94024418-N36\\truth-18000.json",
+      "source_truth_sha256": "94fdf5b11767e0ccc99691319bebd1b975f508ad80587af715a531ff908ed7f9",
+      "views": [
+        {
+          "index": 0,
+          "translation_m": [
+            0.020360612472024434,
+            0.015093829141115074,
+            -0.013737340742756158
+          ]
+        },
+        {
+          "index": 1,
+          "translation_m": [
+            0.003125625332291035,
+            0.01696164865895898,
+            -0.014225968198377494
+          ]
+        }
+      ]
+    },
+    {
+      "id": "g47-train-S15-W94015337-N48",
+      "scene": 15,
+      "seed": 94015337,
+      "nodes": 48,
+      "deployment_seed": 94721625,
+      "source_seed": 94915337,
+      "source_truth": "C:\\Users\\rynat\\OneDrive\\ドキュメント\\ChatGPT\\松尾研\\purumogu-search\\experiments\\raw\\rescue\\generalization-v47-long-diverse\\train\\g47-train-S15-W94015337-N48\\truth-18000.json",
+      "source_truth_sha256": "c8b5a606d51416565ec33572f382fc6d518c00bcd4eca9567d94decb75f844dd",
+      "views": [
+        {
+          "index": 0,
+          "translation_m": [
+            0.0036193991338830805,
+            0.014612942513058051,
+            0.008530065872703975
+          ]
+        },
+        {
+          "index": 1,
+          "translation_m": [
+            -0.013563024905432071,
+            0.01826811794270928,
+            -0.01562693169872897
+          ]
+        }
+      ]
+    },
+    {
+      "id": "g47-train-S16-W94016346-N24",
+      "scene": 16,
+      "seed": 94016346,
+      "nodes": 24,
+      "deployment_seed": 94719490,
+      "source_seed": 94916346,
+      "source_truth": "C:\\Users\\rynat\\OneDrive\\ドキュメント\\ChatGPT\\松尾研\\purumogu-search\\experiments\\raw\\rescue\\generalization-v47-long-diverse\\train\\g47-train-S16-W94016346-N24\\truth-18000.json",
+      "source_truth_sha256": "4bafe490439e507814c9e6474b21769099327740c7a9aebd903cc3b96ceb2384",
+      "views": [
+        {
+          "index": 0,
+          "translation_m": [
+            -0.020533272237697558,
+            0.009722841497095014,
+            0.02224602579907938
+          ]
+        },
+        {
+          "index": 1,
+          "translation_m": [
+            0.014186269277047879,
+            0.012900597623162854,
+            0.023659836322604648
+          ]
+        }
+      ]
+    },
+    {
+      "id": "g47-train-S18-W94018364-N36",
+      "scene": 18,
+      "seed": 94018364,
+      "nodes": 36,
+      "deployment_seed": 94723080,
+      "source_seed": 94918364,
+      "source_truth": "C:\\Users\\rynat\\OneDrive\\ドキュメント\\ChatGPT\\松尾研\\purumogu-search\\experiments\\raw\\rescue\\generalization-v47-long-diverse\\train\\g47-train-S18-W94018364-N36\\truth-18000.json",
+      "source_truth_sha256": "2ea7125451db095a249bf64bb909a67980123a65ff87948dad4c8a972bab7b98",
+      "views": [
+        {
+          "index": 0,
+          "translation_m": [
+            0.005901893365875391,
+            -0.002099226681866063,
+            0.013646896091968265
+          ]
+        },
+        {
+          "index": 1,
+          "translation_m": [
+            0.007570775016892989,
+            -0.014907857916243645,
+            0.016033078479785426
+          ]
+        }
+      ]
+    },
+    {
+      "id": "g47-train-S00-W94000202-N48",
+      "scene": 0,
+      "seed": 94000202,
+      "nodes": 48,
+      "deployment_seed": 94706490,
+      "source_seed": 94900202,
+      "source_truth": "C:\\Users\\rynat\\OneDrive\\ドキュメント\\ChatGPT\\松尾研\\purumogu-search\\experiments\\raw\\rescue\\generalization-v47-long-diverse\\train\\g47-train-S00-W94000202-N48\\truth-18000.json",
+      "source_truth_sha256": "8c501f446b5ce9c7b7740a9285dd3738ae633f9ccac210d46a6c33d5b57dc9a4",
+      "views": [
+        {
+          "index": 0,
+          "translation_m": [
+            -0.006600260681204562,
+            -0.0004851647084665421,
+            -0.02189598854052526
+          ]
+        },
+        {
+          "index": 1,
+          "translation_m": [
+            0.015732341417857218,
+            -0.012210843595050494,
+            -0.008419325022277251
+          ]
+        }
+      ]
+    },
+    {
+      "id": "g47-train-S01-W94001211-N24",
+      "scene": 1,
+      "seed": 94001211,
+      "nodes": 24,
+      "deployment_seed": 94704355,
+      "source_seed": 94901211,
+      "source_truth": "C:\\Users\\rynat\\OneDrive\\ドキュメント\\ChatGPT\\松尾研\\purumogu-search\\experiments\\raw\\rescue\\generalization-v47-long-diverse\\train\\g47-train-S01-W94001211-N24\\truth-18000.json",
+      "source_truth_sha256": "e8e11c101ff3fcb1151ce22a8cf3dba86d2d4e4e3460d7534a2f47adb1f8c51e",
+      "views": [
+        {
+          "index": 0,
+          "translation_m": [
+            0.007046437111567071,
+            0.002888349703803597,
+            -0.021961890288969502
+          ]
+        },
+        {
+          "index": 1,
+          "translation_m": [
+            -0.004481886366037236,
+            0.0031627925723225724,
+            -0.0230596123297411
+          ]
+        }
+      ]
+    },
+    {
+      "id": "g47-train-S02-W94002220-N36",
+      "scene": 2,
+      "seed": 94002220,
+      "nodes": 36,
+      "deployment_seed": 94706936,
+      "source_seed": 94902220,
+      "source_truth": "C:\\Users\\rynat\\OneDrive\\ドキュメント\\ChatGPT\\松尾研\\purumogu-search\\experiments\\raw\\rescue\\generalization-v47-long-diverse\\train\\g47-train-S02-W94002220-N36\\truth-18000.json",
+      "source_truth_sha256": "1d96c678660e7381a3c9a9b299a607b6cb352713dc13eb83b7706068df90c38f",
+      "views": [
+        {
+          "index": 0,
+          "translation_m": [
+            0.0013043194086378856,
+            0.004096147554062481,
+            0.020263577346397763
+          ]
+        },
+        {
+          "index": 1,
+          "translation_m": [
+            -0.008361012827845769,
+            -0.004332863074433046,
+            -0.00641562871735531
+          ]
+        }
+      ]
+    },
+    {
+      "id": "g47-train-S03-W94003229-N48",
+      "scene": 3,
+      "seed": 94003229,
+      "nodes": 48,
+      "deployment_seed": 94709517,
+      "source_seed": 94903229,
+      "source_truth": "C:\\Users\\rynat\\OneDrive\\ドキュメント\\ChatGPT\\松尾研\\purumogu-search\\experiments\\raw\\rescue\\generalization-v47-long-diverse\\train\\g47-train-S03-W94003229-N48\\truth-18000.json",
+      "source_truth_sha256": "d1954e70247653c5c4b08a12d90b751dcac2638f1de8dd8d48d62b8909caaa16",
+      "views": [
+        {
+          "index": 0,
+          "translation_m": [
+            -0.01419456492712044,
+            0.01901478413019627,
+            0.014932218579402468
+          ]
+        },
+        {
+          "index": 1,
+          "translation_m": [
+            0.008607540866587986,
+            -0.013365887999363077,
+            0.0018577303910082554
+          ]
+        }
+      ]
+    },
+    {
+      "id": "g47-train-S04-W94004238-N24",
+      "scene": 4,
+      "seed": 94004238,
+      "nodes": 24,
+      "deployment_seed": 94707382,
+      "source_seed": 94904238,
+      "source_truth": "C:\\Users\\rynat\\OneDrive\\ドキュメント\\ChatGPT\\松尾研\\purumogu-search\\experiments\\raw\\rescue\\generalization-v47-long-diverse\\train\\g47-train-S04-W94004238-N24\\truth-18000.json",
+      "source_truth_sha256": "0e3b088639988c1de695ce8855ff8dd5da8b333ad794665effdbd600dce09b3e",
+      "views": [
+        {
+          "index": 0,
+          "translation_m": [
+            0.02235811159980216,
+            0.0182249311602111,
+            0.019198018005769653
+          ]
+        },
+        {
+          "index": 1,
+          "translation_m": [
+            0.005533792988848346,
+            -0.007432275808445903,
+            -0.008512560929965341
+          ]
+        }
+      ]
+    },
+    {
+      "id": "g47-train-S05-W94005247-N36",
+      "scene": 5,
+      "seed": 94005247,
+      "nodes": 36,
+      "deployment_seed": 94709963,
+      "source_seed": 94905247,
+      "source_truth": "C:\\Users\\rynat\\OneDrive\\ドキュメント\\ChatGPT\\松尾研\\purumogu-search\\experiments\\raw\\rescue\\generalization-v47-long-diverse\\train\\g47-train-S05-W94005247-N36\\truth-18000.json",
+      "source_truth_sha256": "6fe0500e12fd94caf2dbbd7316c4c29de5cb9212d0089916589c86822c199859",
+      "views": [
+        {
+          "index": 0,
+          "translation_m": [
+            -0.010557728876003149,
+            -0.009812223583822903,
+            0.022867930002469887
+          ]
+        },
+        {
+          "index": 1,
+          "translation_m": [
+            -0.01758804821554484,
+            0.020038352345450032,
+            0.013280355936236818
+          ]
+        }
+      ]
+    },
+    {
+      "id": "g47-train-S06-W94006256-N48",
+      "scene": 6,
+      "seed": 94006256,
+      "nodes": 48,
+      "deployment_seed": 94712544,
+      "source_seed": 94906256,
+      "source_truth": "C:\\Users\\rynat\\OneDrive\\ドキュメント\\ChatGPT\\松尾研\\purumogu-search\\experiments\\raw\\rescue\\generalization-v47-long-diverse\\train\\g47-train-S06-W94006256-N48\\truth-18000.json",
+      "source_truth_sha256": "fa96fe5cc08a99177668776577d86174ed6bec1e0542008de092f6914f30fcb3",
+      "views": [
+        {
+          "index": 0,
+          "translation_m": [
+            -0.016716147438642835,
+            0.005365720316597475,
+            0.012761648470090536
+          ]
+        },
+        {
+          "index": 1,
+          "translation_m": [
+            0.021726626059833866,
+            0.019722545014028807,
+            0.01824069399842266
+          ]
+        }
+      ]
+    },
+    {
+      "id": "g47-train-S07-W94007265-N24",
+      "scene": 7,
+      "seed": 94007265,
+      "nodes": 24,
+      "deployment_seed": 94710409,
+      "source_seed": 94907265,
+      "source_truth": "C:\\Users\\rynat\\OneDrive\\ドキュメント\\ChatGPT\\松尾研\\purumogu-search\\experiments\\raw\\rescue\\generalization-v47-long-diverse\\train\\g47-train-S07-W94007265-N24\\truth-18000.json",
+      "source_truth_sha256": "ead21743cee872d04f05cc18c351d3b187668eb5fa509c98db82bdd01c64f9e0",
+      "views": [
+        {
+          "index": 0,
+          "translation_m": [
+            0.006496841490397094,
+            -0.017148791162556448,
+            -0.012058901788101832
+          ]
+        },
+        {
+          "index": 1,
+          "translation_m": [
+            0.00773884550302345,
+            -0.019609357211274978,
+            -0.0231450349895386
+          ]
+        }
+      ]
+    },
+    {
+      "id": "g47-train-S08-W94008274-N36",
+      "scene": 8,
+      "seed": 94008274,
+      "nodes": 36,
+      "deployment_seed": 94712990,
+      "source_seed": 94908274,
+      "source_truth": "C:\\Users\\rynat\\OneDrive\\ドキュメント\\ChatGPT\\松尾研\\purumogu-search\\experiments\\raw\\rescue\\generalization-v47-long-diverse\\train\\g47-train-S08-W94008274-N36\\truth-18000.json",
+      "source_truth_sha256": "b8fd96892c146761574eda3c27ab89f9a6ebd5e7f83915b329f9a7689bf687c6",
+      "views": [
+        {
+          "index": 0,
+          "translation_m": [
+            -0.011589552292582973,
+            -0.011597692169519048,
+            -0.018388552832700106
+          ]
+        },
+        {
+          "index": 1,
+          "translation_m": [
+            0.0004030931460213341,
+            0.005654161406366223,
+            -0.02329978268868272
+          ]
+        }
+      ]
+    },
+    {
+      "id": "g47-train-S09-W94009283-N48",
+      "scene": 9,
+      "seed": 94009283,
+      "nodes": 48,
+      "deployment_seed": 94715571,
+      "source_seed": 94909283,
+      "source_truth": "C:\\Users\\rynat\\OneDrive\\ドキュメント\\ChatGPT\\松尾研\\purumogu-search\\experiments\\raw\\rescue\\generalization-v47-long-diverse\\train\\g47-train-S09-W94009283-N48\\truth-18000.json",
+      "source_truth_sha256": "162b486f08e0f0309425543ecce6dda8e534369ae3d0d364ed255d130ae8d3bc",
+      "views": [
+        {
+          "index": 0,
+          "translation_m": [
+            0.015605981945445498,
+            0.006776757086526978,
+            0.015211292614076673
+          ]
+        },
+        {
+          "index": 1,
+          "translation_m": [
+            0.020223527706636595,
+            0.004066490793390529,
+            0.014420141112444551
+          ]
+        }
+      ]
+    },
+    {
+      "id": "g50-train-S25-W97025225-N24",
+      "scene": 25,
+      "seed": 97025225,
+      "nodes": 24,
+      "deployment_seed": 97728369,
+      "source_seed": 97925225,
+      "source_truth": "C:\\Users\\rynat\\OneDrive\\ドキュメント\\ChatGPT\\松尾研\\purumogu-search\\experiments\\raw\\rescue\\generalization-v50-long-diverse2\\train\\g50-train-S25-W97025225-N24\\truth-18000.json",
+      "source_truth_sha256": "ec011f52c21d767baafbcd00c063da8c17cc009c278868791840f6271fc0b43d",
+      "views": [
+        {
+          "index": 0,
+          "translation_m": [
+            -0.006336582686941657,
+            -0.010322548122319369,
+            -0.01229440857457804
+          ]
+        },
+        {
+          "index": 1,
+          "translation_m": [
+            0.004117608352714498,
+            -0.01472352681203151,
+            0.017322825769359444
+          ]
+        }
+      ]
+    },
+    {
+      "id": "g50-train-S26-W97026234-N36",
+      "scene": 26,
+      "seed": 97026234,
+      "nodes": 36,
+      "deployment_seed": 97730950,
+      "source_seed": 97926234,
+      "source_truth": "C:\\Users\\rynat\\OneDrive\\ドキュメント\\ChatGPT\\松尾研\\purumogu-search\\experiments\\raw\\rescue\\generalization-v50-long-diverse2\\train\\g50-train-S26-W97026234-N36\\truth-18000.json",
+      "source_truth_sha256": "30a05153353cedb2a0de0bbb0e38f19b31252ba8fe4d96deddcef97670fafcbe",
+      "views": [
+        {
+          "index": 0,
+          "translation_m": [
+            0.019988193463339958,
+            -0.0036282130748433,
+            -0.016402579425764466
+          ]
+        },
+        {
+          "index": 1,
+          "translation_m": [
+            -0.001726141339495009,
+            -0.02309889824607381,
+            -0.008028910201862794
+          ]
+        }
+      ]
+    },
+    {
+      "id": "g50-train-S20-W97020180-N24",
+      "scene": 20,
+      "seed": 97020180,
+      "nodes": 24,
+      "deployment_seed": 97723324,
+      "source_seed": 97920180,
+      "source_truth": "C:\\Users\\rynat\\OneDrive\\ドキュメント\\ChatGPT\\松尾研\\purumogu-search\\experiments\\raw\\rescue\\generalization-v50-long-diverse2\\train\\g50-train-S20-W97020180-N24\\truth-18000.json",
+      "source_truth_sha256": "d749755c04a1a6cfeb0189395a50b5ad18851a107487ec1f5b54e82d05442c1a",
+      "views": [
+        {
+          "index": 0,
+          "translation_m": [
+            0.011685625161022034,
+            0.0015859884809722516,
+            -0.005922579297928117
+          ]
+        },
+        {
+          "index": 1,
+          "translation_m": [
+            0.011379746940147255,
+            -0.008109218193497816,
+            -0.011423214986448738
+          ]
+        }
+      ]
+    },
+    {
+      "id": "g50-train-S21-W97021189-N36",
+      "scene": 21,
+      "seed": 97021189,
+      "nodes": 36,
+      "deployment_seed": 97725905,
+      "source_seed": 97921189,
+      "source_truth": "C:\\Users\\rynat\\OneDrive\\ドキュメント\\ChatGPT\\松尾研\\purumogu-search\\experiments\\raw\\rescue\\generalization-v50-long-diverse2\\train\\g50-train-S21-W97021189-N36\\truth-18000.json",
+      "source_truth_sha256": "4221a8edc1bb464344983a2de4e69fa0f8b11ab7d5cb1cfa0a08800249624bae",
+      "views": [
+        {
+          "index": 0,
+          "translation_m": [
+            0.010736551597520384,
+            0.01109348762346795,
+            0.013847967710269145
+          ]
+        },
+        {
+          "index": 1,
+          "translation_m": [
+            -0.021569805410741848,
+            0.018028448763512304,
+            0.016925018164066344
+          ]
+        }
+      ]
+    },
+    {
+      "id": "g50-train-S24-W97024216-N48",
+      "scene": 24,
+      "seed": 97024216,
+      "nodes": 48,
+      "deployment_seed": 97730504,
+      "source_seed": 97924216,
+      "source_truth": "C:\\Users\\rynat\\OneDrive\\ドキュメント\\ChatGPT\\松尾研\\purumogu-search\\experiments\\raw\\rescue\\generalization-v50-long-diverse2\\train\\g50-train-S24-W97024216-N48\\truth-18000.json",
+      "source_truth_sha256": "11c16b721d0dce13a80356be89a06e0084e38fcb6d66e60951856e31e3ec1c61",
+      "views": [
+        {
+          "index": 0,
+          "translation_m": [
+            0.002726990760156974,
+            0.0009519039036784832,
+            0.012233742578006496
+          ]
+        },
+        {
+          "index": 1,
+          "translation_m": [
+            0.019009228356120553,
+            0.023655682657974825,
+            0.00944639759347636
+          ]
+        }
+      ]
+    },
+    {
+      "id": "g50-train-S15-W97015135-N24",
+      "scene": 15,
+      "seed": 97015135,
+      "nodes": 24,
+      "deployment_seed": 97718279,
+      "source_seed": 97915135,
+      "source_truth": "C:\\Users\\rynat\\OneDrive\\ドキュメント\\ChatGPT\\松尾研\\purumogu-search\\experiments\\raw\\rescue\\generalization-v50-long-diverse2\\train\\g50-train-S15-W97015135-N24\\truth-18000.json",
+      "source_truth_sha256": "e34dc4676df14369af503ac84d5defbd244c09be8e4627c74fb4525fb0c15d19",
+      "views": [
+        {
+          "index": 0,
+          "translation_m": [
+            0.01591449245677544,
+            0.00012861540689213663,
+            0.014439760337560649
+          ]
+        },
+        {
+          "index": 1,
+          "translation_m": [
+            -0.01936061292827468,
+            -0.008076011698262827,
+            -0.014998679266795673
+          ]
+        }
+      ]
+    },
+    {
+      "id": "g50-train-S16-W97016144-N36",
+      "scene": 16,
+      "seed": 97016144,
+      "nodes": 36,
+      "deployment_seed": 97720860,
+      "source_seed": 97916144,
+      "source_truth": "C:\\Users\\rynat\\OneDrive\\ドキュメント\\ChatGPT\\松尾研\\purumogu-search\\experiments\\raw\\rescue\\generalization-v50-long-diverse2\\train\\g50-train-S16-W97016144-N36\\truth-18000.json",
+      "source_truth_sha256": "d8ccd6f8d34ab3d3268ea94fc243226a59ddf9616e31b8f82d9e71231775b18d",
+      "views": [
+        {
+          "index": 0,
+          "translation_m": [
+            -0.022855867869729533,
+            0.0016395598699501489,
+            0.011721237152606687
+          ]
+        },
+        {
+          "index": 1,
+          "translation_m": [
+            -0.008707324122993016,
+            0.016084565625653753,
+            0.005237914588365995
+          ]
+        }
+      ]
+    },
+    {
+      "id": "g50-train-S18-W97018162-N48",
+      "scene": 18,
+      "seed": 97018162,
+      "nodes": 48,
+      "deployment_seed": 97724450,
+      "source_seed": 97918162,
+      "source_truth": "C:\\Users\\rynat\\OneDrive\\ドキュメント\\ChatGPT\\松尾研\\purumogu-search\\experiments\\raw\\rescue\\generalization-v50-long-diverse2\\train\\g50-train-S18-W97018162-N48\\truth-18000.json",
+      "source_truth_sha256": "fcc4e5ab15527ead290806a479328749c1bd05857434c862eac70700cf59c9e2",
+      "views": [
+        {
+          "index": 0,
+          "translation_m": [
+            0.0011470210805776086,
+            -0.015697872763201965,
+            -0.02320683412962266
+          ]
+        },
+        {
+          "index": 1,
+          "translation_m": [
+            0.00501627344888609,
+            -0.014561108402687106,
+            -0.012357568835566372
+          ]
+        }
+      ]
+    },
+    {
+      "id": "g50-train-S00-W97000000-N24",
+      "scene": 0,
+      "seed": 97000000,
+      "nodes": 24,
+      "deployment_seed": 97703144,
+      "source_seed": 97900000,
+      "source_truth": "C:\\Users\\rynat\\OneDrive\\ドキュメント\\ChatGPT\\松尾研\\purumogu-search\\experiments\\raw\\rescue\\generalization-v50-long-diverse2\\train\\g50-train-S00-W97000000-N24\\truth-18000.json",
+      "source_truth_sha256": "a692dad5b7507a186e076e0811b28fba81ce204488ea9275cd6f6b55a762f23d",
+      "views": [
+        {
+          "index": 0,
+          "translation_m": [
+            -0.017310595928725938,
+            -0.007485350575535281,
+            -0.01209654233593476
+          ]
+        },
+        {
+          "index": 1,
+          "translation_m": [
+            -0.0023367672662599967,
+            0.015819628682375138,
+            0.015026473467775331
+          ]
+        }
+      ]
+    },
+    {
+      "id": "g50-train-S01-W97001009-N36",
+      "scene": 1,
+      "seed": 97001009,
+      "nodes": 36,
+      "deployment_seed": 97705725,
+      "source_seed": 97901009,
+      "source_truth": "C:\\Users\\rynat\\OneDrive\\ドキュメント\\ChatGPT\\松尾研\\purumogu-search\\experiments\\raw\\rescue\\generalization-v50-long-diverse2\\train\\g50-train-S01-W97001009-N36\\truth-18000.json",
+      "source_truth_sha256": "9473b887ebf0c5d3054957faa519d58e04d619c8cd0fd20fddeb3c11085adfe8",
+      "views": [
+        {
+          "index": 0,
+          "translation_m": [
+            0.008136274885480327,
+            0.020097042202907645,
+            -0.01185368252355762
+          ]
+        },
+        {
+          "index": 1,
+          "translation_m": [
+            0.004860635910956174,
+            -0.006143723768958588,
+            0.0038179198974490278
+          ]
+        }
+      ]
+    },
+    {
+      "id": "g50-train-S02-W97002018-N48",
+      "scene": 2,
+      "seed": 97002018,
+      "nodes": 48,
+      "deployment_seed": 97708306,
+      "source_seed": 97902018,
+      "source_truth": "C:\\Users\\rynat\\OneDrive\\ドキュメント\\ChatGPT\\松尾研\\purumogu-search\\experiments\\raw\\rescue\\generalization-v50-long-diverse2\\train\\g50-train-S02-W97002018-N48\\truth-18000.json",
+      "source_truth_sha256": "8368275ae18b1d2c639da0410f9ada1cb422fbbb47f81a6225db819870064a4f",
+      "views": [
+        {
+          "index": 0,
+          "translation_m": [
+            -0.004722560547687188,
+            -0.0136831817499038,
+            -0.014341916429151898
+          ]
+        },
+        {
+          "index": 1,
+          "translation_m": [
+            0.018090216260078645,
+            -0.02112343571090891,
+            0.0045397777264591065
+          ]
+        }
+      ]
+    },
+    {
+      "id": "g50-train-S03-W97003027-N24",
+      "scene": 3,
+      "seed": 97003027,
+      "nodes": 24,
+      "deployment_seed": 97706171,
+      "source_seed": 97903027,
+      "source_truth": "C:\\Users\\rynat\\OneDrive\\ドキュメント\\ChatGPT\\松尾研\\purumogu-search\\experiments\\raw\\rescue\\generalization-v50-long-diverse2\\train\\g50-train-S03-W97003027-N24\\truth-18000.json",
+      "source_truth_sha256": "25fec9cd980165acd32cf87f0abc6b0ba91d6790e43bf8d0bd22b42c31dcdf1c",
+      "views": [
+        {
+          "index": 0,
+          "translation_m": [
+            -0.005020765939126478,
+            0.0056270876305361435,
+            -0.015986886344288093
+          ]
+        },
+        {
+          "index": 1,
+          "translation_m": [
+            0.004654251380896628,
+            0.014091483216533092,
+            0.0034659105778180946
+          ]
+        }
+      ]
+    },
+    {
+      "id": "g50-train-S04-W97004036-N36",
+      "scene": 4,
+      "seed": 97004036,
+      "nodes": 36,
+      "deployment_seed": 97708752,
+      "source_seed": 97904036,
+      "source_truth": "C:\\Users\\rynat\\OneDrive\\ドキュメント\\ChatGPT\\松尾研\\purumogu-search\\experiments\\raw\\rescue\\generalization-v50-long-diverse2\\train\\g50-train-S04-W97004036-N36\\truth-18000.json",
+      "source_truth_sha256": "d7c30746507011c02fd7483655ad2ca37feb3004027d9a1f499458b3cb59d648",
+      "views": [
+        {
+          "index": 0,
+          "translation_m": [
+            0.023193663464765743,
+            0.01993839795986365,
+            -0.005767313942815475
+          ]
+        },
+        {
+          "index": 1,
+          "translation_m": [
+            -0.007840754314444753,
+            0.007173720580187705,
+            0.006689816068394732
+          ]
+        }
+      ]
+    },
+    {
+      "id": "g50-train-S05-W97005045-N48",
+      "scene": 5,
+      "seed": 97005045,
+      "nodes": 48,
+      "deployment_seed": 97711333,
+      "source_seed": 97905045,
+      "source_truth": "C:\\Users\\rynat\\OneDrive\\ドキュメント\\ChatGPT\\松尾研\\purumogu-search\\experiments\\raw\\rescue\\generalization-v50-long-diverse2\\train\\g50-train-S05-W97005045-N48\\truth-18000.json",
+      "source_truth_sha256": "0c2dfbfb93ed68e8a82a78c60960ae48b56ff94bdf59312a938bd70c20b37186",
+      "views": [
+        {
+          "index": 0,
+          "translation_m": [
+            0.022186911134070515,
+            -0.005615687509938846,
+            -0.007362991830929134
+          ]
+        },
+        {
+          "index": 1,
+          "translation_m": [
+            -0.022652768325385986,
+            0.02126148077349556,
+            -0.010625650137572976
+          ]
+        }
+      ]
+    },
+    {
+      "id": "g50-train-S06-W97006054-N24",
+      "scene": 6,
+      "seed": 97006054,
+      "nodes": 24,
+      "deployment_seed": 97709198,
+      "source_seed": 97906054,
+      "source_truth": "C:\\Users\\rynat\\OneDrive\\ドキュメント\\ChatGPT\\松尾研\\purumogu-search\\experiments\\raw\\rescue\\generalization-v50-long-diverse2\\train\\g50-train-S06-W97006054-N24\\truth-18000.json",
+      "source_truth_sha256": "3c216e849b717ca0bb1dc5a802b51dbea30caea0214fbd20f05e3ed7ef8b2be8",
+      "views": [
+        {
+          "index": 0,
+          "translation_m": [
+            -0.008134818093581696,
+            0.0065303933394832495,
+            0.005275092536588439
+          ]
+        },
+        {
+          "index": 1,
+          "translation_m": [
+            0.00855799369901395,
+            -0.015328094614205342,
+            0.007208337547261082
+          ]
+        }
+      ]
+    },
+    {
+      "id": "g50-train-S07-W97007063-N36",
+      "scene": 7,
+      "seed": 97007063,
+      "nodes": 36,
+      "deployment_seed": 97711779,
+      "source_seed": 97907063,
+      "source_truth": "C:\\Users\\rynat\\OneDrive\\ドキュメント\\ChatGPT\\松尾研\\purumogu-search\\experiments\\raw\\rescue\\generalization-v50-long-diverse2\\train\\g50-train-S07-W97007063-N36\\truth-18000.json",
+      "source_truth_sha256": "c7d0ea5f66bda93a9a4f8b3ad79de8a6ffc742097404cf8cd32c3677e1d44f8e",
+      "views": [
+        {
+          "index": 0,
+          "translation_m": [
+            0.010634117019639004,
+            0.009997867644833618,
+            -0.023194955719804417
+          ]
+        },
+        {
+          "index": 1,
+          "translation_m": [
+            0.00491418549534459,
+            0.0038471145547993822,
+            -0.011105924887524064
+          ]
+        }
+      ]
+    },
+    {
+      "id": "g50-train-S08-W97008072-N48",
+      "scene": 8,
+      "seed": 97008072,
+      "nodes": 48,
+      "deployment_seed": 97714360,
+      "source_seed": 97908072,
+      "source_truth": "C:\\Users\\rynat\\OneDrive\\ドキュメント\\ChatGPT\\松尾研\\purumogu-search\\experiments\\raw\\rescue\\generalization-v50-long-diverse2\\train\\g50-train-S08-W97008072-N48\\truth-18000.json",
+      "source_truth_sha256": "840d94d208be2ee5a092e6a592f56d876f659072772b294aaa1e87a23bc0f96d",
+      "views": [
+        {
+          "index": 0,
+          "translation_m": [
+            -0.02251840082782252,
+            0.01590234387908719,
+            0.010754734167379702
+          ]
+        },
+        {
+          "index": 1,
+          "translation_m": [
+            0.017271996250307085,
+            -0.00336138795593827,
+            -0.005606112535943172
+          ]
+        }
+      ]
+    },
+    {
+      "id": "g50-train-S09-W97009081-N24",
+      "scene": 9,
+      "seed": 97009081,
+      "nodes": 24,
+      "deployment_seed": 97712225,
+      "source_seed": 97909081,
+      "source_truth": "C:\\Users\\rynat\\OneDrive\\ドキュメント\\ChatGPT\\松尾研\\purumogu-search\\experiments\\raw\\rescue\\generalization-v50-long-diverse2\\train\\g50-train-S09-W97009081-N24\\truth-18000.json",
+      "source_truth_sha256": "240472b247065f681d94a010a4119010238fc4c78a293cf0264093f55c4fc554",
+      "views": [
+        {
+          "index": 0,
+          "translation_m": [
+            -0.019760542527661205,
+            -0.011461396990977715,
+            -0.014836834599898522
+          ]
+        },
+        {
+          "index": 1,
+          "translation_m": [
+            -0.020323498860366808,
+            -0.014132650715430638,
+            0.01648011875198123
+          ]
+        }
+      ]
+    },
+    {
+      "id": "g50-train-S25-W97025326-N36",
+      "scene": 25,
+      "seed": 97025326,
+      "nodes": 36,
+      "deployment_seed": 97730042,
+      "source_seed": 97925326,
+      "source_truth": "C:\\Users\\rynat\\OneDrive\\ドキュメント\\ChatGPT\\松尾研\\purumogu-search\\experiments\\raw\\rescue\\generalization-v50-long-diverse2\\train\\g50-train-S25-W97025326-N36\\truth-18000.json",
+      "source_truth_sha256": "6d8500c3cffada0c9c2109795be5850b4fab749d734f153ef7961f419c728c0a",
+      "views": [
+        {
+          "index": 0,
+          "translation_m": [
+            0.022587209334196896,
+            -0.0034185609979676367,
+            0.008561323881227698
+          ]
+        },
+        {
+          "index": 1,
+          "translation_m": [
+            -0.021964360058954403,
+            -0.0028971995610501504,
+            0.0013034063978406146
+          ]
+        }
+      ]
+    },
+    {
+      "id": "g50-train-S26-W97026335-N48",
+      "scene": 26,
+      "seed": 97026335,
+      "nodes": 48,
+      "deployment_seed": 97732623,
+      "source_seed": 97926335,
+      "source_truth": "C:\\Users\\rynat\\OneDrive\\ドキュメント\\ChatGPT\\松尾研\\purumogu-search\\experiments\\raw\\rescue\\generalization-v50-long-diverse2\\train\\g50-train-S26-W97026335-N48\\truth-18000.json",
+      "source_truth_sha256": "f8263e43d90b8530d0dfdadc40afa3b3d346ace035c6f309ebfde3523e204c53",
+      "views": [
+        {
+          "index": 0,
+          "translation_m": [
+            0.0044427876800814045,
+            0.021301387354075406,
+            -0.02365912763406104
+          ]
+        },
+        {
+          "index": 1,
+          "translation_m": [
+            0.012543096362023713,
+            0.005325547345856177,
+            -0.00839330858279911
+          ]
+        }
+      ]
+    },
+    {
+      "id": "g50-train-S20-W97020281-N36",
+      "scene": 20,
+      "seed": 97020281,
+      "nodes": 36,
+      "deployment_seed": 97724997,
+      "source_seed": 97920281,
+      "source_truth": "C:\\Users\\rynat\\OneDrive\\ドキュメント\\ChatGPT\\松尾研\\purumogu-search\\experiments\\raw\\rescue\\generalization-v50-long-diverse2\\train\\g50-train-S20-W97020281-N36\\truth-18000.json",
+      "source_truth_sha256": "2e4cc7c029c48f7a5e15ebff3cffd0aa6870e425509aabd205ae8854e9bad987",
+      "views": [
+        {
+          "index": 0,
+          "translation_m": [
+            0.016857348639567997,
+            -0.003791573910143276,
+            -0.014560322140677734
+          ]
+        },
+        {
+          "index": 1,
+          "translation_m": [
+            -0.012385463701508254,
+            -0.01828469878427246,
+            0.015383246089052685
+          ]
+        }
+      ]
+    },
+    {
+      "id": "g50-train-S21-W97021290-N48",
+      "scene": 21,
+      "seed": 97021290,
+      "nodes": 48,
+      "deployment_seed": 97727578,
+      "source_seed": 97921290,
+      "source_truth": "C:\\Users\\rynat\\OneDrive\\ドキュメント\\ChatGPT\\松尾研\\purumogu-search\\experiments\\raw\\rescue\\generalization-v50-long-diverse2\\train\\g50-train-S21-W97021290-N48\\truth-18000.json",
+      "source_truth_sha256": "0bedc9f9701c0b096975358ee60e8e42d53ed5cdc5645ef0f054034c0b5e904c",
+      "views": [
+        {
+          "index": 0,
+          "translation_m": [
+            0.023842005789638986,
+            0.02337328538879463,
+            -0.003224300282082593
+          ]
+        },
+        {
+          "index": 1,
+          "translation_m": [
+            0.014805350769994952,
+            0.006568778698250576,
+            0.0016998003981677431
+          ]
+        }
+      ]
+    },
+    {
+      "id": "g50-train-S24-W97024317-N24",
+      "scene": 24,
+      "seed": 97024317,
+      "nodes": 24,
+      "deployment_seed": 97727461,
+      "source_seed": 97924317,
+      "source_truth": "C:\\Users\\rynat\\OneDrive\\ドキュメント\\ChatGPT\\松尾研\\purumogu-search\\experiments\\raw\\rescue\\generalization-v50-long-diverse2\\train\\g50-train-S24-W97024317-N24\\truth-18000.json",
+      "source_truth_sha256": "ac1c714b7cc4b52ab0792f8898ca0970013a363dfebac65f70a64cf8d31450e1",
+      "views": [
+        {
+          "index": 0,
+          "translation_m": [
+            -0.012728165243527188,
+            -0.005949257250206157,
+            0.021669257690924718
+          ]
+        },
+        {
+          "index": 1,
+          "translation_m": [
+            0.0030105770937245806,
+            0.02050677599965653,
+            -0.013353110769957006
+          ]
+        }
+      ]
+    },
+    {
+      "id": "g50-train-S15-W97015236-N36",
+      "scene": 15,
+      "seed": 97015236,
+      "nodes": 36,
+      "deployment_seed": 97719952,
+      "source_seed": 97915236,
+      "source_truth": "C:\\Users\\rynat\\OneDrive\\ドキュメント\\ChatGPT\\松尾研\\purumogu-search\\experiments\\raw\\rescue\\generalization-v50-long-diverse2\\train\\g50-train-S15-W97015236-N36\\truth-18000.json",
+      "source_truth_sha256": "f2c8b72fe2527847fca198b2039c970001901fd753556e2ce9a64a9928a673c7",
+      "views": [
+        {
+          "index": 0,
+          "translation_m": [
+            -0.020306341203712323,
+            0.011039155577189798,
+            0.01902941790368356
+          ]
+        },
+        {
+          "index": 1,
+          "translation_m": [
+            0.011514920777060754,
+            0.021266770559676025,
+            -0.007879363693038929
+          ]
+        }
+      ]
+    },
+    {
+      "id": "g50-train-S16-W97016245-N48",
+      "scene": 16,
+      "seed": 97016245,
+      "nodes": 48,
+      "deployment_seed": 97722533,
+      "source_seed": 97916245,
+      "source_truth": "C:\\Users\\rynat\\OneDrive\\ドキュメント\\ChatGPT\\松尾研\\purumogu-search\\experiments\\raw\\rescue\\generalization-v50-long-diverse2\\train\\g50-train-S16-W97016245-N48\\truth-18000.json",
+      "source_truth_sha256": "7720279b565e578b6ec23b9dc583d6d264291a06f0014f9544ebb5fc11cd1ed6",
+      "views": [
+        {
+          "index": 0,
+          "translation_m": [
+            0.014893671255287379,
+            0.02372179460413664,
+            -0.021370280262468955
+          ]
+        },
+        {
+          "index": 1,
+          "translation_m": [
+            -0.01316753669496473,
+            -0.018622666101634013,
+            0.0180607211202232
+          ]
+        }
+      ]
+    },
+    {
+      "id": "g50-train-S18-W97018263-N24",
+      "scene": 18,
+      "seed": 97018263,
+      "nodes": 24,
+      "deployment_seed": 97721407,
+      "source_seed": 97918263,
+      "source_truth": "C:\\Users\\rynat\\OneDrive\\ドキュメント\\ChatGPT\\松尾研\\purumogu-search\\experiments\\raw\\rescue\\generalization-v50-long-diverse2\\train\\g50-train-S18-W97018263-N24\\truth-18000.json",
+      "source_truth_sha256": "c6f45efab9d0a528f31236969f85065e7573aeb4e005a7635b5f4adfb4ce6ee1",
+      "views": [
+        {
+          "index": 0,
+          "translation_m": [
+            -0.018307893369150265,
+            -0.0030869437947000228,
+            -0.009163607610856836
+          ]
+        },
+        {
+          "index": 1,
+          "translation_m": [
+            -0.002984524727225407,
+            -0.015025003769913671,
+            -0.017153753065497202
+          ]
+        }
+      ]
+    },
+    {
+      "id": "g50-train-S00-W97000101-N36",
+      "scene": 0,
+      "seed": 97000101,
+      "nodes": 36,
+      "deployment_seed": 97704817,
+      "source_seed": 97900101,
+      "source_truth": "C:\\Users\\rynat\\OneDrive\\ドキュメント\\ChatGPT\\松尾研\\purumogu-search\\experiments\\raw\\rescue\\generalization-v50-long-diverse2\\train\\g50-train-S00-W97000101-N36\\truth-18000.json",
+      "source_truth_sha256": "5f40030adb6cddfa2bfef00d6e7e89f0ee42724adb2cef3bd1a980dcb171fcb4",
+      "views": [
+        {
+          "index": 0,
+          "translation_m": [
+            -0.006322677616466495,
+            0.018919005552789324,
+            0.011498466805254307
+          ]
+        },
+        {
+          "index": 1,
+          "translation_m": [
+            0.003553504785679489,
+            0.00939642104895387,
+            0.020784412601474178
+          ]
+        }
+      ]
+    },
+    {
+      "id": "g50-train-S01-W97001110-N48",
+      "scene": 1,
+      "seed": 97001110,
+      "nodes": 48,
+      "deployment_seed": 97707398,
+      "source_seed": 97901110,
+      "source_truth": "C:\\Users\\rynat\\OneDrive\\ドキュメント\\ChatGPT\\松尾研\\purumogu-search\\experiments\\raw\\rescue\\generalization-v50-long-diverse2\\train\\g50-train-S01-W97001110-N48\\truth-18000.json",
+      "source_truth_sha256": "19d21dabbefb56d8f1942c62807213e84e593ef02c693e072c8213d0b4199126",
+      "views": [
+        {
+          "index": 0,
+          "translation_m": [
+            0.011851100419485207,
+            -0.019712228680404942,
+            -0.0002719490791617367
+          ]
+        },
+        {
+          "index": 1,
+          "translation_m": [
+            0.00678429740448442,
+            0.019029583828896232,
+            0.009826425636910864
+          ]
+        }
+      ]
+    },
+    {
+      "id": "g50-train-S02-W97002119-N24",
+      "scene": 2,
+      "seed": 97002119,
+      "nodes": 24,
+      "deployment_seed": 97705263,
+      "source_seed": 97902119,
+      "source_truth": "C:\\Users\\rynat\\OneDrive\\ドキュメント\\ChatGPT\\松尾研\\purumogu-search\\experiments\\raw\\rescue\\generalization-v50-long-diverse2\\train\\g50-train-S02-W97002119-N24\\truth-18000.json",
+      "source_truth_sha256": "17ae9ec5d1269c771472fdd887478347bbb0df1b760decf85647fd944963ba70",
+      "views": [
+        {
+          "index": 0,
+          "translation_m": [
+            0.01326936410508902,
+            0.013570931732632213,
+            0.009024061912893525
+          ]
+        },
+        {
+          "index": 1,
+          "translation_m": [
+            -0.019612451295597015,
+            -0.008800021331836704,
+            -0.02325221847550284
+          ]
+        }
+      ]
+    },
+    {
+      "id": "g50-train-S03-W97003128-N36",
+      "scene": 3,
+      "seed": 97003128,
+      "nodes": 36,
+      "deployment_seed": 97707844,
+      "source_seed": 97903128,
+      "source_truth": "C:\\Users\\rynat\\OneDrive\\ドキュメント\\ChatGPT\\松尾研\\purumogu-search\\experiments\\raw\\rescue\\generalization-v50-long-diverse2\\train\\g50-train-S03-W97003128-N36\\truth-18000.json",
+      "source_truth_sha256": "6911fe195223ac02f3c4d537bc789cd359b6abbb476dc4aea96fe653db6317d2",
+      "views": [
+        {
+          "index": 0,
+          "translation_m": [
+            -0.004444689068513613,
+            -0.023283437350797367,
+            -0.0032068503647953717
+          ]
+        },
+        {
+          "index": 1,
+          "translation_m": [
+            -0.022001629489211208,
+            0.0026900034925066464,
+            0.006828662963811939
+          ]
+        }
+      ]
+    },
+    {
+      "id": "g50-train-S04-W97004137-N48",
+      "scene": 4,
+      "seed": 97004137,
+      "nodes": 48,
+      "deployment_seed": 97710425,
+      "source_seed": 97904137,
+      "source_truth": "C:\\Users\\rynat\\OneDrive\\ドキュメント\\ChatGPT\\松尾研\\purumogu-search\\experiments\\raw\\rescue\\generalization-v50-long-diverse2\\train\\g50-train-S04-W97004137-N48\\truth-18000.json",
+      "source_truth_sha256": "dfbffbd983e2392bf7322236dbce5c0e857925c14ac1c3e7ba82d9e9a7b12ada",
+      "views": [
+        {
+          "index": 0,
+          "translation_m": [
+            0.007498488757926691,
+            0.018930074372675153,
+            0.007395808849860908
+          ]
+        },
+        {
+          "index": 1,
+          "translation_m": [
+            0.012929603023106237,
+            0.019044931317023582,
+            -0.020425184300217746
+          ]
+        }
+      ]
+    },
+    {
+      "id": "g50-train-S05-W97005146-N24",
+      "scene": 5,
+      "seed": 97005146,
+      "nodes": 24,
+      "deployment_seed": 97708290,
+      "source_seed": 97905146,
+      "source_truth": "C:\\Users\\rynat\\OneDrive\\ドキュメント\\ChatGPT\\松尾研\\purumogu-search\\experiments\\raw\\rescue\\generalization-v50-long-diverse2\\train\\g50-train-S05-W97005146-N24\\truth-18000.json",
+      "source_truth_sha256": "04f1e0dc9da079db2741ec56c8f359cd83965eeed19641fcdf92ac19b655c486",
+      "views": [
+        {
+          "index": 0,
+          "translation_m": [
+            -0.020559908161711788,
+            -0.006708265888387608,
+            0.014542132371124533
+          ]
+        },
+        {
+          "index": 1,
+          "translation_m": [
+            -0.003953266594939584,
+            0.012054119104777092,
+            -0.01587742906321036
+          ]
+        }
+      ]
+    },
+    {
+      "id": "g50-train-S06-W97006155-N36",
+      "scene": 6,
+      "seed": 97006155,
+      "nodes": 36,
+      "deployment_seed": 97710871,
+      "source_seed": 97906155,
+      "source_truth": "C:\\Users\\rynat\\OneDrive\\ドキュメント\\ChatGPT\\松尾研\\purumogu-search\\experiments\\raw\\rescue\\generalization-v50-long-diverse2\\train\\g50-train-S06-W97006155-N36\\truth-18000.json",
+      "source_truth_sha256": "72ede39086c6cc1cff986aedecb2f69792f7478a7c2825ea183f8813a56546a0",
+      "views": [
+        {
+          "index": 0,
+          "translation_m": [
+            0.02335712105618664,
+            -0.022081261473800205,
+            0.0005056701536287241
+          ]
+        },
+        {
+          "index": 1,
+          "translation_m": [
+            -0.0032638341552456533,
+            -0.01124263253845798,
+            -0.0024937537556720644
+          ]
+        }
+      ]
+    },
+    {
+      "id": "g50-train-S07-W97007164-N48",
+      "scene": 7,
+      "seed": 97007164,
+      "nodes": 48,
+      "deployment_seed": 97713452,
+      "source_seed": 97907164,
+      "source_truth": "C:\\Users\\rynat\\OneDrive\\ドキュメント\\ChatGPT\\松尾研\\purumogu-search\\experiments\\raw\\rescue\\generalization-v50-long-diverse2\\train\\g50-train-S07-W97007164-N48\\truth-18000.json",
+      "source_truth_sha256": "8351d58e05e2709ae430efcb8de9aad0d37066ab6deb68851ae06e6b84acc9f5",
+      "views": [
+        {
+          "index": 0,
+          "translation_m": [
+            0.015820318904894548,
+            0.01043096695736221,
+            0.007978381576557371
+          ]
+        },
+        {
+          "index": 1,
+          "translation_m": [
+            -0.01387924377967652,
+            0.01280993588916135,
+            0.00542801852807159
+          ]
+        }
+      ]
+    },
+    {
+      "id": "g50-train-S08-W97008173-N24",
+      "scene": 8,
+      "seed": 97008173,
+      "nodes": 24,
+      "deployment_seed": 97711317,
+      "source_seed": 97908173,
+      "source_truth": "C:\\Users\\rynat\\OneDrive\\ドキュメント\\ChatGPT\\松尾研\\purumogu-search\\experiments\\raw\\rescue\\generalization-v50-long-diverse2\\train\\g50-train-S08-W97008173-N24\\truth-18000.json",
+      "source_truth_sha256": "faee2f9f963decc53c97721189a3d916d15a399905d48d2fbdb827c9e5ada7a7",
+      "views": [
+        {
+          "index": 0,
+          "translation_m": [
+            0.00402931869697044,
+            0.008594442773329339,
+            -0.01729106432002273
+          ]
+        },
+        {
+          "index": 1,
+          "translation_m": [
+            0.00022546554166748972,
+            0.0007889507453496987,
+            -0.016234698105523894
+          ]
+        }
+      ]
+    },
+    {
+      "id": "g50-train-S09-W97009182-N36",
+      "scene": 9,
+      "seed": 97009182,
+      "nodes": 36,
+      "deployment_seed": 97713898,
+      "source_seed": 97909182,
+      "source_truth": "C:\\Users\\rynat\\OneDrive\\ドキュメント\\ChatGPT\\松尾研\\purumogu-search\\experiments\\raw\\rescue\\generalization-v50-long-diverse2\\train\\g50-train-S09-W97009182-N36\\truth-18000.json",
+      "source_truth_sha256": "23b0ef63f9b17c0756514cb05d0c24b656d8b897450885bf071db283c47ac246",
+      "views": [
+        {
+          "index": 0,
+          "translation_m": [
+            0.006050758956672817,
+            0.001355787400443155,
+            0.017495589447273273
+          ]
+        },
+        {
+          "index": 1,
+          "translation_m": [
+            0.016760518451463147,
+            -0.0032303010527890974,
+            0.0016134808918679584
+          ]
+        }
+      ]
+    },
+    {
+      "id": "g50-train-S25-W97025427-N48",
+      "scene": 25,
+      "seed": 97025427,
+      "nodes": 48,
+      "deployment_seed": 97731715,
+      "source_seed": 97925427,
+      "source_truth": "C:\\Users\\rynat\\OneDrive\\ドキュメント\\ChatGPT\\松尾研\\purumogu-search\\experiments\\raw\\rescue\\generalization-v50-long-diverse2\\train\\g50-train-S25-W97025427-N48\\truth-18000.json",
+      "source_truth_sha256": "811c51e5acc276de767ac55a5e9e3bee8b0d7dec976b4d808f3cef3311f46486",
+      "views": [
+        {
+          "index": 0,
+          "translation_m": [
+            0.002601907749364186,
+            0.02116723348433927,
+            -0.004651523458738493
+          ]
+        },
+        {
+          "index": 1,
+          "translation_m": [
+            -0.022102556206431315,
+            0.02113912453345352,
+            -0.01522091230327983
+          ]
+        }
+      ]
+    },
+    {
+      "id": "g50-train-S26-W97026436-N24",
+      "scene": 26,
+      "seed": 97026436,
+      "nodes": 24,
+      "deployment_seed": 97729580,
+      "source_seed": 97926436,
+      "source_truth": "C:\\Users\\rynat\\OneDrive\\ドキュメント\\ChatGPT\\松尾研\\purumogu-search\\experiments\\raw\\rescue\\generalization-v50-long-diverse2\\train\\g50-train-S26-W97026436-N24\\truth-18000.json",
+      "source_truth_sha256": "d0d6493fe5f3b6e3210184b19bb80ac40ee04fbfd12fb88b29cf7c58820b0753",
+      "views": [
+        {
+          "index": 0,
+          "translation_m": [
+            -0.013903825028313957,
+            0.022668262071478748,
+            0.012554147004450115
+          ]
+        },
+        {
+          "index": 1,
+          "translation_m": [
+            0.02202270317023613,
+            -0.02149066874633756,
+            0.013821808279830497
+          ]
+        }
+      ]
+    },
+    {
+      "id": "g50-train-S20-W97020382-N48",
+      "scene": 20,
+      "seed": 97020382,
+      "nodes": 48,
+      "deployment_seed": 97726670,
+      "source_seed": 97920382,
+      "source_truth": "C:\\Users\\rynat\\OneDrive\\ドキュメント\\ChatGPT\\松尾研\\purumogu-search\\experiments\\raw\\rescue\\generalization-v50-long-diverse2\\train\\g50-train-S20-W97020382-N48\\truth-18000.json",
+      "source_truth_sha256": "6a22059166ae26dd26851bf7c30833ea515e3e83109c1bc440959901b764f0b9",
+      "views": [
+        {
+          "index": 0,
+          "translation_m": [
+            -0.007302557369359492,
+            0.008014293360735149,
+            0.002734111763673105
+          ]
+        },
+        {
+          "index": 1,
+          "translation_m": [
+            -0.021438028145159625,
+            0.012260622563395586,
+            0.001734273274214146
+          ]
+        }
+      ]
+    },
+    {
+      "id": "g50-train-S21-W97021391-N24",
+      "scene": 21,
+      "seed": 97021391,
+      "nodes": 24,
+      "deployment_seed": 97724535,
+      "source_seed": 97921391,
+      "source_truth": "C:\\Users\\rynat\\OneDrive\\ドキュメント\\ChatGPT\\松尾研\\purumogu-search\\experiments\\raw\\rescue\\generalization-v50-long-diverse2\\train\\g50-train-S21-W97021391-N24\\truth-18000.json",
+      "source_truth_sha256": "31e1bffaa8d0996ae3e825f415bf0a6d4c5a2ec1e1407418dc1c2b246521fc3f",
+      "views": [
+        {
+          "index": 0,
+          "translation_m": [
+            -0.0015755345660774314,
+            -0.01377531538992379,
+            0.020611061353743985
+          ]
+        },
+        {
+          "index": 1,
+          "translation_m": [
+            0.022978125399352615,
+            0.021910133153793636,
+            -0.013788619960384043
+          ]
+        }
+      ]
+    },
+    {
+      "id": "g50-train-S24-W97024418-N36",
+      "scene": 24,
+      "seed": 97024418,
+      "nodes": 36,
+      "deployment_seed": 97729134,
+      "source_seed": 97924418,
+      "source_truth": "C:\\Users\\rynat\\OneDrive\\ドキュメント\\ChatGPT\\松尾研\\purumogu-search\\experiments\\raw\\rescue\\generalization-v50-long-diverse2\\train\\g50-train-S24-W97024418-N36\\truth-18000.json",
+      "source_truth_sha256": "e036bebf062fdf0506a8563b3de699617ecf059533838af978d5eade2a06c511",
+      "views": [
+        {
+          "index": 0,
+          "translation_m": [
+            0.007376578573070877,
+            -0.003093428433022176,
+            0.022666837171051238
+          ]
+        },
+        {
+          "index": 1,
+          "translation_m": [
+            -0.023605273795618983,
+            0.007718231838571829,
+            0.007017236714163627
+          ]
+        }
+      ]
+    },
+    {
+      "id": "g50-train-S15-W97015337-N48",
+      "scene": 15,
+      "seed": 97015337,
+      "nodes": 48,
+      "deployment_seed": 97721625,
+      "source_seed": 97915337,
+      "source_truth": "C:\\Users\\rynat\\OneDrive\\ドキュメント\\ChatGPT\\松尾研\\purumogu-search\\experiments\\raw\\rescue\\generalization-v50-long-diverse2\\train\\g50-train-S15-W97015337-N48\\truth-18000.json",
+      "source_truth_sha256": "5eb16686e0a98fc68fe51ec70432cf3def5b6f21c32f0168dd0256a158ae249b",
+      "views": [
+        {
+          "index": 0,
+          "translation_m": [
+            0.006501707913498588,
+            0.0025588374599215674,
+            0.00526513571845624
+          ]
+        },
+        {
+          "index": 1,
+          "translation_m": [
+            0.0007306612464612686,
+            0.008468359257241848,
+            -0.01930460311083175
+          ]
+        }
+      ]
+    },
+    {
+      "id": "g50-train-S16-W97016346-N24",
+      "scene": 16,
+      "seed": 97016346,
+      "nodes": 24,
+      "deployment_seed": 97719490,
+      "source_seed": 97916346,
+      "source_truth": "C:\\Users\\rynat\\OneDrive\\ドキュメント\\ChatGPT\\松尾研\\purumogu-search\\experiments\\raw\\rescue\\generalization-v50-long-diverse2\\train\\g50-train-S16-W97016346-N24\\truth-18000.json",
+      "source_truth_sha256": "68be8bccd58137a972deaf183588685ed9d236e45d1947d47e156e8ad2f79002",
+      "views": [
+        {
+          "index": 0,
+          "translation_m": [
+            0.0018040184410323852,
+            0.007627474577854676,
+            -0.002602862161206223
+          ]
+        },
+        {
+          "index": 1,
+          "translation_m": [
+            -0.014294609405911159,
+            -0.012310535668736584,
+            0.009192040829897705
+          ]
+        }
+      ]
+    },
+    {
+      "id": "g50-train-S18-W97018364-N36",
+      "scene": 18,
+      "seed": 97018364,
+      "nodes": 36,
+      "deployment_seed": 97723080,
+      "source_seed": 97918364,
+      "source_truth": "C:\\Users\\rynat\\OneDrive\\ドキュメント\\ChatGPT\\松尾研\\purumogu-search\\experiments\\raw\\rescue\\generalization-v50-long-diverse2\\train\\g50-train-S18-W97018364-N36\\truth-18000.json",
+      "source_truth_sha256": "f359d1fbcd8c6dbaa95e7a64c7ee4f35a94cbef4e2aab5efef48f58451541bc3",
+      "views": [
+        {
+          "index": 0,
+          "translation_m": [
+            0.020022144434227257,
+            -0.016398214858339824,
+            0.015195592076022592
+          ]
+        },
+        {
+          "index": 1,
+          "translation_m": [
+            0.017677526093051926,
+            -0.012006925520331085,
+            0.0031242783040661623
+          ]
+        }
+      ]
+    },
+    {
+      "id": "g50-train-S00-W97000202-N48",
+      "scene": 0,
+      "seed": 97000202,
+      "nodes": 48,
+      "deployment_seed": 97706490,
+      "source_seed": 97900202,
+      "source_truth": "C:\\Users\\rynat\\OneDrive\\ドキュメント\\ChatGPT\\松尾研\\purumogu-search\\experiments\\raw\\rescue\\generalization-v50-long-diverse2\\train\\g50-train-S00-W97000202-N48\\truth-18000.json",
+      "source_truth_sha256": "10b93a66bb1df0240b6645d7f1efdf4b869559d8123f48162be8ad694126f224",
+      "views": [
+        {
+          "index": 0,
+          "translation_m": [
+            0.012970303053007289,
+            -0.015417157763028858,
+            0.01611700979493716
+          ]
+        },
+        {
+          "index": 1,
+          "translation_m": [
+            0.022073562146654034,
+            -0.01321980589245886,
+            -0.0009515568459893299
+          ]
+        }
+      ]
+    },
+    {
+      "id": "g50-train-S01-W97001211-N24",
+      "scene": 1,
+      "seed": 97001211,
+      "nodes": 24,
+      "deployment_seed": 97704355,
+      "source_seed": 97901211,
+      "source_truth": "C:\\Users\\rynat\\OneDrive\\ドキュメント\\ChatGPT\\松尾研\\purumogu-search\\experiments\\raw\\rescue\\generalization-v50-long-diverse2\\train\\g50-train-S01-W97001211-N24\\truth-18000.json",
+      "source_truth_sha256": "601f58918cba5ceb1c6118bf791fc4b8a940969bd6db977a6a3a9466c803636b",
+      "views": [
+        {
+          "index": 0,
+          "translation_m": [
+            -0.0031662528104603217,
+            -0.012746448011106602,
+            -0.02292674030022197
+          ]
+        },
+        {
+          "index": 1,
+          "translation_m": [
+            -0.015213985233638497,
+            0.013719832174957758,
+            -0.011500975947461904
+          ]
+        }
+      ]
+    },
+    {
+      "id": "g50-train-S02-W97002220-N36",
+      "scene": 2,
+      "seed": 97002220,
+      "nodes": 36,
+      "deployment_seed": 97706936,
+      "source_seed": 97902220,
+      "source_truth": "C:\\Users\\rynat\\OneDrive\\ドキュメント\\ChatGPT\\松尾研\\purumogu-search\\experiments\\raw\\rescue\\generalization-v50-long-diverse2\\train\\g50-train-S02-W97002220-N36\\truth-18000.json",
+      "source_truth_sha256": "fc0448938a0c92acfb025e8243de6625d5d1bfbd12a8f26393845e1c20498bfa",
+      "views": [
+        {
+          "index": 0,
+          "translation_m": [
+            0.010585122529519889,
+            0.015429552815934056,
+            0.0010064828472873127
+          ]
+        },
+        {
+          "index": 1,
+          "translation_m": [
+            -0.009723082821821043,
+            0.00857913922965204,
+            0.018386441045971307
+          ]
+        }
+      ]
+    },
+    {
+      "id": "g50-train-S03-W97003229-N48",
+      "scene": 3,
+      "seed": 97003229,
+      "nodes": 48,
+      "deployment_seed": 97709517,
+      "source_seed": 97903229,
+      "source_truth": "C:\\Users\\rynat\\OneDrive\\ドキュメント\\ChatGPT\\松尾研\\purumogu-search\\experiments\\raw\\rescue\\generalization-v50-long-diverse2\\train\\g50-train-S03-W97003229-N48\\truth-18000.json",
+      "source_truth_sha256": "54f6207c927856ce71f2fe1d3ec3fe2cd64442e56f6c307ab1e95577010d6775",
+      "views": [
+        {
+          "index": 0,
+          "translation_m": [
+            0.010066696278982538,
+            -0.018567288631831987,
+            0.014209386962282362
+          ]
+        },
+        {
+          "index": 1,
+          "translation_m": [
+            -0.010428690886217295,
+            -0.020502612543427255,
+            0.019668238948209724
+          ]
+        }
+      ]
+    },
+    {
+      "id": "g50-train-S04-W97004238-N24",
+      "scene": 4,
+      "seed": 97004238,
+      "nodes": 24,
+      "deployment_seed": 97707382,
+      "source_seed": 97904238,
+      "source_truth": "C:\\Users\\rynat\\OneDrive\\ドキュメント\\ChatGPT\\松尾研\\purumogu-search\\experiments\\raw\\rescue\\generalization-v50-long-diverse2\\train\\g50-train-S04-W97004238-N24\\truth-18000.json",
+      "source_truth_sha256": "fdff31c12288df05c68a48b02da2514e342359eab678578b55573f9dfba69bb1",
+      "views": [
+        {
+          "index": 0,
+          "translation_m": [
+            -0.013675654166396009,
+            0.016539756428371695,
+            0.010431857326367158
+          ]
+        },
+        {
+          "index": 1,
+          "translation_m": [
+            0.018032546882417615,
+            -0.021486382509797737,
+            -0.018299533142895157
+          ]
+        }
+      ]
+    },
+    {
+      "id": "g50-train-S05-W97005247-N36",
+      "scene": 5,
+      "seed": 97005247,
+      "nodes": 36,
+      "deployment_seed": 97709963,
+      "source_seed": 97905247,
+      "source_truth": "C:\\Users\\rynat\\OneDrive\\ドキュメント\\ChatGPT\\松尾研\\purumogu-search\\experiments\\raw\\rescue\\generalization-v50-long-diverse2\\train\\g50-train-S05-W97005247-N36\\truth-18000.json",
+      "source_truth_sha256": "695c55447bffac55242da1d20afe751d66b39c81cc7ad407ca5944a01909587b",
+      "views": [
+        {
+          "index": 0,
+          "translation_m": [
+            0.00375531182196142,
+            0.0056536991993624,
+            0.017656296606231213
+          ]
+        },
+        {
+          "index": 1,
+          "translation_m": [
+            0.00044498077752508705,
+            0.02184237984591325,
+            0.023122025005972484
+          ]
+        }
+      ]
+    },
+    {
+      "id": "g50-train-S06-W97006256-N48",
+      "scene": 6,
+      "seed": 97006256,
+      "nodes": 48,
+      "deployment_seed": 97712544,
+      "source_seed": 97906256,
+      "source_truth": "C:\\Users\\rynat\\OneDrive\\ドキュメント\\ChatGPT\\松尾研\\purumogu-search\\experiments\\raw\\rescue\\generalization-v50-long-diverse2\\train\\g50-train-S06-W97006256-N48\\truth-18000.json",
+      "source_truth_sha256": "cc3234f59954511048533797f62d52201a5d271005d42ff2b9d383889c88a43c",
+      "views": [
+        {
+          "index": 0,
+          "translation_m": [
+            0.013936371525064987,
+            -0.011140180278989794,
+            0.012925470197449752
+          ]
+        },
+        {
+          "index": 1,
+          "translation_m": [
+            -0.010365148365176907,
+            -0.010421424796431981,
+            0.023589993967852017
+          ]
+        }
+      ]
+    },
+    {
+      "id": "g50-train-S07-W97007265-N24",
+      "scene": 7,
+      "seed": 97007265,
+      "nodes": 24,
+      "deployment_seed": 97710409,
+      "source_seed": 97907265,
+      "source_truth": "C:\\Users\\rynat\\OneDrive\\ドキュメント\\ChatGPT\\松尾研\\purumogu-search\\experiments\\raw\\rescue\\generalization-v50-long-diverse2\\train\\g50-train-S07-W97007265-N24\\truth-18000.json",
+      "source_truth_sha256": "06fd4a8f1b91ba8b9f342a3d7bbba52a8761bff636318679a7fcf37ace34e12e",
+      "views": [
+        {
+          "index": 0,
+          "translation_m": [
+            0.021311213732150072,
+            -0.009431580760463559,
+            0.022188392045351384
+          ]
+        },
+        {
+          "index": 1,
+          "translation_m": [
+            -0.001724287761289526,
+            0.007978012081163478,
+            -0.011743251080667415
+          ]
+        }
+      ]
+    },
+    {
+      "id": "g50-train-S08-W97008274-N36",
+      "scene": 8,
+      "seed": 97008274,
+      "nodes": 36,
+      "deployment_seed": 97712990,
+      "source_seed": 97908274,
+      "source_truth": "C:\\Users\\rynat\\OneDrive\\ドキュメント\\ChatGPT\\松尾研\\purumogu-search\\experiments\\raw\\rescue\\generalization-v50-long-diverse2\\train\\g50-train-S08-W97008274-N36\\truth-18000.json",
+      "source_truth_sha256": "02278ed5cf53afc7a5e7ca5781ce5db9fc5a84973322b1ee31075057282848e8",
+      "views": [
+        {
+          "index": 0,
+          "translation_m": [
+            0.009967198966759176,
+            0.012448331441083212,
+            -0.005731909776449256
+          ]
+        },
+        {
+          "index": 1,
+          "translation_m": [
+            0.002854224602808899,
+            -0.005084259025785087,
+            -0.01389806448501971
+          ]
+        }
+      ]
+    },
+    {
+      "id": "g50-train-S09-W97009283-N48",
+      "scene": 9,
+      "seed": 97009283,
+      "nodes": 48,
+      "deployment_seed": 97715571,
+      "source_seed": 97909283,
+      "source_truth": "C:\\Users\\rynat\\OneDrive\\ドキュメント\\ChatGPT\\松尾研\\purumogu-search\\experiments\\raw\\rescue\\generalization-v50-long-diverse2\\train\\g50-train-S09-W97009283-N48\\truth-18000.json",
+      "source_truth_sha256": "e576a47438cb0bec857fb40467297746362f67b7bcc48865f1ed8de151d6d834",
+      "views": [
+        {
+          "index": 0,
+          "translation_m": [
+            0.007336463288008681,
+            -0.003899858717348423,
+            0.022949631514054693
+          ]
+        },
+        {
+          "index": 1,
+          "translation_m": [
+            0.021264270565261034,
+            -0.007089448333056397,
+            -0.010750088499976645
+          ]
+        }
+      ]
+    },
+    {
+      "id": "g60-train-S30-W123030270-N24",
+      "scene": 30,
+      "seed": 123030270,
+      "nodes": 24,
+      "deployment_seed": 123733414,
+      "source_seed": 123930270,
+      "source_truth": "C:\\Users\\rynat\\OneDrive\\ドキュメント\\ChatGPT\\松尾研\\purumogu-search\\experiments\\raw\\rescue\\generalization-v60-partial-collapse\\train\\g60-train-S30-W123030270-N24\\truth-18000.json",
+      "source_truth_sha256": "ec08565734ddf5f04f59ad2b5eab749764b43a04ed1cfcb2d87b0354dc9cf80a",
+      "views": [
+        {
+          "index": 0,
+          "translation_m": [
+            -0.0220420507913639,
+            -0.016604673753003743,
+            0.009738129923595198
+          ]
+        },
+        {
+          "index": 1,
+          "translation_m": [
+            8.080484636327143e-05,
+            -0.013361413134387304,
+            0.021948430198687634
+          ]
+        }
+      ]
+    },
+    {
+      "id": "g60-train-S31-W123031279-N36",
+      "scene": 31,
+      "seed": 123031279,
+      "nodes": 36,
+      "deployment_seed": 123735995,
+      "source_seed": 123931279,
+      "source_truth": "C:\\Users\\rynat\\OneDrive\\ドキュメント\\ChatGPT\\松尾研\\purumogu-search\\experiments\\raw\\rescue\\generalization-v60-partial-collapse\\train\\g60-train-S31-W123031279-N36\\truth-18000.json",
+      "source_truth_sha256": "4286db1bc18fc49368db9f39dc124d73cd730226535dad28b2125333b9cb091a",
+      "views": [
+        {
+          "index": 0,
+          "translation_m": [
+            -0.023000220603584986,
+            -0.011101049453296557,
+            -0.017628104881986892
+          ]
+        },
+        {
+          "index": 1,
+          "translation_m": [
+            0.00996287155445321,
+            0.02253191992285241,
+            -0.005372471700721585
+          ]
+        }
+      ]
+    },
+    {
+      "id": "g60-train-S32-W123032288-N48",
+      "scene": 32,
+      "seed": 123032288,
+      "nodes": 48,
+      "deployment_seed": 123738576,
+      "source_seed": 123932288,
+      "source_truth": "C:\\Users\\rynat\\OneDrive\\ドキュメント\\ChatGPT\\松尾研\\purumogu-search\\experiments\\raw\\rescue\\generalization-v60-partial-collapse\\train\\g60-train-S32-W123032288-N48\\truth-18000.json",
+      "source_truth_sha256": "ac0a51b2b338d0c147e9e78332c1f2254cbf86d3c774ca4a3c750d77af4ad040",
+      "views": [
+        {
+          "index": 0,
+          "translation_m": [
+            -0.004725980092871264,
+            0.020276911454871725,
+            -0.015651288668219826
+          ]
+        },
+        {
+          "index": 1,
+          "translation_m": [
+            -0.01976158779574271,
+            -0.018263151156928257,
+            -0.010327078615038699
+          ]
+        }
+      ]
+    },
+    {
+      "id": "g60-train-S33-W123033297-N24",
+      "scene": 33,
+      "seed": 123033297,
+      "nodes": 24,
+      "deployment_seed": 123736441,
+      "source_seed": 123933297,
+      "source_truth": "C:\\Users\\rynat\\OneDrive\\ドキュメント\\ChatGPT\\松尾研\\purumogu-search\\experiments\\raw\\rescue\\generalization-v60-partial-collapse\\train\\g60-train-S33-W123033297-N24\\truth-18000.json",
+      "source_truth_sha256": "fef439b94c6b0c05820c1601ff046c2850f9120508771abe362294cd4a520784",
+      "views": [
+        {
+          "index": 0,
+          "translation_m": [
+            -0.00908631058486511,
+            -0.0035853271360296833,
+            -0.014348883705844834
+          ]
+        },
+        {
+          "index": 1,
+          "translation_m": [
+            0.021600531686868152,
+            -0.020902153491358363,
+            0.02176496523735231
+          ]
+        }
+      ]
+    },
+    {
+      "id": "g60-train-S30-W123030371-N36",
+      "scene": 30,
+      "seed": 123030371,
+      "nodes": 36,
+      "deployment_seed": 123735087,
+      "source_seed": 123930371,
+      "source_truth": "C:\\Users\\rynat\\OneDrive\\ドキュメント\\ChatGPT\\松尾研\\purumogu-search\\experiments\\raw\\rescue\\generalization-v60-partial-collapse\\train\\g60-train-S30-W123030371-N36\\truth-18000.json",
+      "source_truth_sha256": "c0a1bc32e76e7f6ef1854c535ae12d637d2a88915f75c92934c8d9914c56d6ab",
+      "views": [
+        {
+          "index": 0,
+          "translation_m": [
+            -0.019300252818322778,
+            0.014160076596702799,
+            0.010109004322013171
+          ]
+        },
+        {
+          "index": 1,
+          "translation_m": [
+            -0.017254728136677683,
+            -0.016368077199647786,
+            0.010655622177179233
+          ]
+        }
+      ]
+    },
+    {
+      "id": "g60-train-S31-W123031380-N48",
+      "scene": 31,
+      "seed": 123031380,
+      "nodes": 48,
+      "deployment_seed": 123737668,
+      "source_seed": 123931380,
+      "source_truth": "C:\\Users\\rynat\\OneDrive\\ドキュメント\\ChatGPT\\松尾研\\purumogu-search\\experiments\\raw\\rescue\\generalization-v60-partial-collapse\\train\\g60-train-S31-W123031380-N48\\truth-18000.json",
+      "source_truth_sha256": "cd4b777db13697f4175c4c415523165b425334e6ed120e1fc1e4609cfe51463c",
+      "views": [
+        {
+          "index": 0,
+          "translation_m": [
+            -0.016446187659263423,
+            0.02151840961759858,
+            -0.008863049812304999
+          ]
+        },
+        {
+          "index": 1,
+          "translation_m": [
+            0.009454823615195083,
+            -0.006814423925975761,
+            -0.012957109241880536
+          ]
+        }
+      ]
+    },
+    {
+      "id": "g60-train-S32-W123032389-N24",
+      "scene": 32,
+      "seed": 123032389,
+      "nodes": 24,
+      "deployment_seed": 123735533,
+      "source_seed": 123932389,
+      "source_truth": "C:\\Users\\rynat\\OneDrive\\ドキュメント\\ChatGPT\\松尾研\\purumogu-search\\experiments\\raw\\rescue\\generalization-v60-partial-collapse\\train\\g60-train-S32-W123032389-N24\\truth-18000.json",
+      "source_truth_sha256": "11764f6660a1b9e10044ae33e60f674f83290d6fb40d897b811cc4664dbd91e8",
+      "views": [
+        {
+          "index": 0,
+          "translation_m": [
+            -0.009369294126458115,
+            0.0201366285335743,
+            0.01947588530479919
+          ]
+        },
+        {
+          "index": 1,
+          "translation_m": [
+            0.01944671397128723,
+            0.016825605626666164,
+            0.014514089073326124
+          ]
+        }
+      ]
+    },
+    {
+      "id": "g60-train-S33-W123033398-N36",
+      "scene": 33,
+      "seed": 123033398,
+      "nodes": 36,
+      "deployment_seed": 123738114,
+      "source_seed": 123933398,
+      "source_truth": "C:\\Users\\rynat\\OneDrive\\ドキュメント\\ChatGPT\\松尾研\\purumogu-search\\experiments\\raw\\rescue\\generalization-v60-partial-collapse\\train\\g60-train-S33-W123033398-N36\\truth-18000.json",
+      "source_truth_sha256": "822dd483248eedee89b564932226b8d8116adfa90f32399c528b46892a70448a",
+      "views": [
+        {
+          "index": 0,
+          "translation_m": [
+            -0.006876089190812656,
+            0.0053099668841686265,
+            -0.001951692540028794
+          ]
+        },
+        {
+          "index": 1,
+          "translation_m": [
+            -0.023411336235079953,
+            0.023409892361989287,
+            0.023459809956315573
+          ]
+        }
+      ]
+    },
+    {
+      "id": "g60-train-S30-W123030472-N48",
+      "scene": 30,
+      "seed": 123030472,
+      "nodes": 48,
+      "deployment_seed": 123736760,
+      "source_seed": 123930472,
+      "source_truth": "C:\\Users\\rynat\\OneDrive\\ドキュメント\\ChatGPT\\松尾研\\purumogu-search\\experiments\\raw\\rescue\\generalization-v60-partial-collapse\\train\\g60-train-S30-W123030472-N48\\truth-18000.json",
+      "source_truth_sha256": "38f4f38e15e977f35f400e919adf5d6987e784114b9434d8423df4dfe6906f8d",
+      "views": [
+        {
+          "index": 0,
+          "translation_m": [
+            0.011524274756896838,
+            0.01689291592990816,
+            3.698092542385456e-05
+          ]
+        },
+        {
+          "index": 1,
+          "translation_m": [
+            0.0022744290087571943,
+            0.016552970210438847,
+            0.013664341925130712
+          ]
+        }
+      ]
+    },
+    {
+      "id": "g60-train-S31-W123031481-N24",
+      "scene": 31,
+      "seed": 123031481,
+      "nodes": 24,
+      "deployment_seed": 123734625,
+      "source_seed": 123931481,
+      "source_truth": "C:\\Users\\rynat\\OneDrive\\ドキュメント\\ChatGPT\\松尾研\\purumogu-search\\experiments\\raw\\rescue\\generalization-v60-partial-collapse\\train\\g60-train-S31-W123031481-N24\\truth-18000.json",
+      "source_truth_sha256": "ee7d4f07be9e297fb703b4ae213242088dffdc63100067fc4fead8fb018e3611",
+      "views": [
+        {
+          "index": 0,
+          "translation_m": [
+            0.01328360732588977,
+            0.001488139439183897,
+            0.0009447878963032806
+          ]
+        },
+        {
+          "index": 1,
+          "translation_m": [
+            -0.012632007779175228,
+            0.007682486993020883,
+            0.023330769155277258
+          ]
+        }
+      ]
+    },
+    {
+      "id": "g60-train-S32-W123032490-N36",
+      "scene": 32,
+      "seed": 123032490,
+      "nodes": 36,
+      "deployment_seed": 123737206,
+      "source_seed": 123932490,
+      "source_truth": "C:\\Users\\rynat\\OneDrive\\ドキュメント\\ChatGPT\\松尾研\\purumogu-search\\experiments\\raw\\rescue\\generalization-v60-partial-collapse\\train\\g60-train-S32-W123032490-N36\\truth-18000.json",
+      "source_truth_sha256": "cd2486bae38285ef4380abbdf04371292dd9de857fd744bd4ca2724cb96f1ef2",
+      "views": [
+        {
+          "index": 0,
+          "translation_m": [
+            -0.005338117900349687,
+            0.00541337932365708,
+            -0.004151872501671337
+          ]
+        },
+        {
+          "index": 1,
+          "translation_m": [
+            -0.015119047639851762,
+            0.021213523147884966,
+            -0.0081682002118595
+          ]
+        }
+      ]
+    },
+    {
+      "id": "g60-train-S33-W123033499-N48",
+      "scene": 33,
+      "seed": 123033499,
+      "nodes": 48,
+      "deployment_seed": 123739787,
+      "source_seed": 123933499,
+      "source_truth": "C:\\Users\\rynat\\OneDrive\\ドキュメント\\ChatGPT\\松尾研\\purumogu-search\\experiments\\raw\\rescue\\generalization-v60-partial-collapse\\train\\g60-train-S33-W123033499-N48\\truth-18000.json",
+      "source_truth_sha256": "96169a3721e155b18ce2fd6689d09724c73bf1a846b1937f8dd983b24bf997cc",
+      "views": [
+        {
+          "index": 0,
+          "translation_m": [
+            0.005702840901644007,
+            0.02280548518662813,
+            0.003955393783066311
+          ]
+        },
+        {
+          "index": 1,
+          "translation_m": [
+            -0.009952065832796246,
+            -0.009975047355980165,
+            -0.021020227483065743
+          ]
+        }
+      ]
+    },
+    {
+      "id": "g60-train-S30-W123030573-N24",
+      "scene": 30,
+      "seed": 123030573,
+      "nodes": 24,
+      "deployment_seed": 123733717,
+      "source_seed": 123930573,
+      "source_truth": "C:\\Users\\rynat\\OneDrive\\ドキュメント\\ChatGPT\\松尾研\\purumogu-search\\experiments\\raw\\rescue\\generalization-v60-partial-collapse\\train\\g60-train-S30-W123030573-N24\\truth-18000.json",
+      "source_truth_sha256": "3bf20802c38cb467feba613d0b6b4ca45b0c06bc262ea040b2f82e7be94ebb9e",
+      "views": [
+        {
+          "index": 0,
+          "translation_m": [
+            0.005416245971701254,
+            0.009833029175705374,
+            -0.020132000504507693
+          ]
+        },
+        {
+          "index": 1,
+          "translation_m": [
+            0.023848465430319793,
+            -0.015495854709570232,
+            0.01446144290341711
+          ]
+        }
+      ]
+    },
+    {
+      "id": "g60-train-S31-W123031582-N36",
+      "scene": 31,
+      "seed": 123031582,
+      "nodes": 36,
+      "deployment_seed": 123736298,
+      "source_seed": 123931582,
+      "source_truth": "C:\\Users\\rynat\\OneDrive\\ドキュメント\\ChatGPT\\松尾研\\purumogu-search\\experiments\\raw\\rescue\\generalization-v60-partial-collapse\\train\\g60-train-S31-W123031582-N36\\truth-18000.json",
+      "source_truth_sha256": "c236f24e44731286cc19ea85fe071a3a0b97581fb0df7492970ae6bbe9050cd0",
+      "views": [
+        {
+          "index": 0,
+          "translation_m": [
+            -0.00577556077497934,
+            -0.020224093156173132,
+            0.004192265641840078
+          ]
+        },
+        {
+          "index": 1,
+          "translation_m": [
+            -0.0032928509039389584,
+            -0.004640177288961548,
+            -0.011779499474029604
+          ]
+        }
+      ]
+    },
+    {
+      "id": "g60-train-S32-W123032591-N48",
+      "scene": 32,
+      "seed": 123032591,
+      "nodes": 48,
+      "deployment_seed": 123738879,
+      "source_seed": 123932591,
+      "source_truth": "C:\\Users\\rynat\\OneDrive\\ドキュメント\\ChatGPT\\松尾研\\purumogu-search\\experiments\\raw\\rescue\\generalization-v60-partial-collapse\\train\\g60-train-S32-W123032591-N48\\truth-18000.json",
+      "source_truth_sha256": "988ca77fcd3546737fdc11f31aee5b7f0cd29836c0540ebcab9cb9dba0269c29",
+      "views": [
+        {
+          "index": 0,
+          "translation_m": [
+            -0.021646529610907312,
+            -0.014200531082108917,
+            0.018755625643577085
+          ]
+        },
+        {
+          "index": 1,
+          "translation_m": [
+            -0.004279649194940602,
+            0.005632063402223799,
+            0.01578235193087176
+          ]
+        }
+      ]
+    },
+    {
+      "id": "g60-train-S33-W123033600-N24",
+      "scene": 33,
+      "seed": 123033600,
+      "nodes": 24,
+      "deployment_seed": 123736744,
+      "source_seed": 123933600,
+      "source_truth": "C:\\Users\\rynat\\OneDrive\\ドキュメント\\ChatGPT\\松尾研\\purumogu-search\\experiments\\raw\\rescue\\generalization-v60-partial-collapse\\train\\g60-train-S33-W123033600-N24\\truth-18000.json",
+      "source_truth_sha256": "f6f9c50b05239e0056ce733b5f2e1eff75c0874099828b6717227b2284f5bd25",
+      "views": [
+        {
+          "index": 0,
+          "translation_m": [
+            0.013297288101249104,
+            -0.014013673639095389,
+            -0.02138526284987384
+          ]
+        },
+        {
+          "index": 1,
+          "translation_m": [
+            0.0164233198683634,
+            0.023307206303589255,
+            0.01801333048230256
+          ]
+        }
+      ]
+    },
+    {
+      "id": "g60-train-S30-W123030674-N36",
+      "scene": 30,
+      "seed": 123030674,
+      "nodes": 36,
+      "deployment_seed": 123735390,
+      "source_seed": 123930674,
+      "source_truth": "C:\\Users\\rynat\\OneDrive\\ドキュメント\\ChatGPT\\松尾研\\purumogu-search\\experiments\\raw\\rescue\\generalization-v60-partial-collapse\\train\\g60-train-S30-W123030674-N36\\truth-18000.json",
+      "source_truth_sha256": "35183277d41adbecd9bb2fd0d59718506c6bb9a92da1a07a8d8a21fa3d3be20d",
+      "views": [
+        {
+          "index": 0,
+          "translation_m": [
+            -0.0205221847303487,
+            -0.011174561585144118,
+            0.0026744489750342437
+          ]
+        },
+        {
+          "index": 1,
+          "translation_m": [
+            -0.017468374902422742,
+            0.012195738152034556,
+            0.00930674310660997
+          ]
+        }
+      ]
+    },
+    {
+      "id": "g60-train-S31-W123031683-N48",
+      "scene": 31,
+      "seed": 123031683,
+      "nodes": 48,
+      "deployment_seed": 123737971,
+      "source_seed": 123931683,
+      "source_truth": "C:\\Users\\rynat\\OneDrive\\ドキュメント\\ChatGPT\\松尾研\\purumogu-search\\experiments\\raw\\rescue\\generalization-v60-partial-collapse\\train\\g60-train-S31-W123031683-N48\\truth-18000.json",
+      "source_truth_sha256": "c52ded945b3e3a2349bc5e811ed0f9b4eaa4bda307207233a5cfdeab1844755f",
+      "views": [
+        {
+          "index": 0,
+          "translation_m": [
+            -0.018904275925799796,
+            0.013940748072571597,
+            -0.017658231630356902
+          ]
+        },
+        {
+          "index": 1,
+          "translation_m": [
+            -0.019621932776610458,
+            -0.013824151278611793,
+            -0.019291134772062967
+          ]
+        }
+      ]
+    },
+    {
+      "id": "g60-train-S32-W123032692-N24",
+      "scene": 32,
+      "seed": 123032692,
+      "nodes": 24,
+      "deployment_seed": 123735836,
+      "source_seed": 123932692,
+      "source_truth": "C:\\Users\\rynat\\OneDrive\\ドキュメント\\ChatGPT\\松尾研\\purumogu-search\\experiments\\raw\\rescue\\generalization-v60-partial-collapse\\train\\g60-train-S32-W123032692-N24\\truth-18000.json",
+      "source_truth_sha256": "53805e2745b8b7600f8396a250e9ecfaa89f0f4eaa2c5429040c76720a980141",
+      "views": [
+        {
+          "index": 0,
+          "translation_m": [
+            0.006865740644546561,
+            0.004899144881335592,
+            -0.006779144932983438
+          ]
+        },
+        {
+          "index": 1,
+          "translation_m": [
+            0.01227190116629285,
+            0.008131652939878685,
+            0.023193504271703982
+          ]
+        }
+      ]
+    },
+    {
+      "id": "g60-train-S33-W123033701-N36",
+      "scene": 33,
+      "seed": 123033701,
+      "nodes": 36,
+      "deployment_seed": 123738417,
+      "source_seed": 123933701,
+      "source_truth": "C:\\Users\\rynat\\OneDrive\\ドキュメント\\ChatGPT\\松尾研\\purumogu-search\\experiments\\raw\\rescue\\generalization-v60-partial-collapse\\train\\g60-train-S33-W123033701-N36\\truth-18000.json",
+      "source_truth_sha256": "d617eb6255e594462fc6a2447b12481cf1f70d8b3b1754b5c7343c0df90341b3",
+      "views": [
+        {
+          "index": 0,
+          "translation_m": [
+            0.011440812324482387,
+            0.016883156153693207,
+            -0.02135362312614335
+          ]
+        },
+        {
+          "index": 1,
+          "translation_m": [
+            0.008343747812032731,
+            -0.020853174217930287,
+            0.014230669370100188
+          ]
+        }
+      ]
+    },
+    {
+      "id": "g60-train-S30-W123030775-N48",
+      "scene": 30,
+      "seed": 123030775,
+      "nodes": 48,
+      "deployment_seed": 123737063,
+      "source_seed": 123930775,
+      "source_truth": "C:\\Users\\rynat\\OneDrive\\ドキュメント\\ChatGPT\\松尾研\\purumogu-search\\experiments\\raw\\rescue\\generalization-v60-partial-collapse\\train\\g60-train-S30-W123030775-N48\\truth-18000.json",
+      "source_truth_sha256": "39a33ffc46b336749c49cfce0ca3c0f88a22b09d0d3a79ddc9b40571ed7ae985",
+      "views": [
+        {
+          "index": 0,
+          "translation_m": [
+            0.018808356749107566,
+            -0.020588989084171897,
+            -0.006958465140873466
+          ]
+        },
+        {
+          "index": 1,
+          "translation_m": [
+            0.01290934688509525,
+            0.01676115510864227,
+            -0.01915331907561492
+          ]
+        }
+      ]
+    },
+    {
+      "id": "g60-train-S31-W123031784-N24",
+      "scene": 31,
+      "seed": 123031784,
+      "nodes": 24,
+      "deployment_seed": 123734928,
+      "source_seed": 123931784,
+      "source_truth": "C:\\Users\\rynat\\OneDrive\\ドキュメント\\ChatGPT\\松尾研\\purumogu-search\\experiments\\raw\\rescue\\generalization-v60-partial-collapse\\train\\g60-train-S31-W123031784-N24\\truth-18000.json",
+      "source_truth_sha256": "7be42b80d83c42aae97bbdf3833e23aa64ceb81b6ae5aa3ac5447d6fe75ff003",
+      "views": [
+        {
+          "index": 0,
+          "translation_m": [
+            -0.018789554666718434,
+            0.022205770098291687,
+            -0.008882748972714318
+          ]
+        },
+        {
+          "index": 1,
+          "translation_m": [
+            0.004021505790526066,
+            -0.017753771061800316,
+            -0.0042960139689687295
+          ]
+        }
+      ]
+    },
+    {
+      "id": "g60-train-S32-W123032793-N36",
+      "scene": 32,
+      "seed": 123032793,
+      "nodes": 36,
+      "deployment_seed": 123737509,
+      "source_seed": 123932793,
+      "source_truth": "C:\\Users\\rynat\\OneDrive\\ドキュメント\\ChatGPT\\松尾研\\purumogu-search\\experiments\\raw\\rescue\\generalization-v60-partial-collapse\\train\\g60-train-S32-W123032793-N36\\truth-18000.json",
+      "source_truth_sha256": "74c7397bbc86606c2f27d68fe69df315440caeab9eb6cc541bc21bcc9e76853e",
+      "views": [
+        {
+          "index": 0,
+          "translation_m": [
+            0.019261219618851362,
+            -0.01054657046450172,
+            0.009259059055347615
+          ]
+        },
+        {
+          "index": 1,
+          "translation_m": [
+            -0.0009820368573876213,
+            -0.0043725367821855,
+            -0.0009802759400775116
+          ]
+        }
+      ]
+    },
+    {
+      "id": "g60-train-S33-W123033802-N48",
+      "scene": 33,
+      "seed": 123033802,
+      "nodes": 48,
+      "deployment_seed": 123740090,
+      "source_seed": 123933802,
+      "source_truth": "C:\\Users\\rynat\\OneDrive\\ドキュメント\\ChatGPT\\松尾研\\purumogu-search\\experiments\\raw\\rescue\\generalization-v60-partial-collapse\\train\\g60-train-S33-W123033802-N48\\truth-18000.json",
+      "source_truth_sha256": "e9527e6109444d57ffc0a670592148d3f036270e884e06d550cbfc2ea9e38af7",
+      "views": [
+        {
+          "index": 0,
+          "translation_m": [
+            -0.0015562108052483287,
+            0.00973515283716899,
+            0.004196528397740741
+          ]
+        },
+        {
+          "index": 1,
+          "translation_m": [
+            0.009964770511123051,
+            -0.00047929896552255727,
+            0.008509830023357437
+          ]
+        }
+      ]
+    }
+  ],
+  "current_geometry_sources": {
+    "RescueComplexScenes.cs": "6e696d3ed00f290e9a7b4bf9d95d570db884360c00659dd04440e8d6a171f583",
+    "RescueController.cs": "ff931f09a91e38f9a1c6e31c87634a4cbeaeaa3cabccfcfa4e282875fbf20639",
+    "RescueDeployment.cs": "357f833e13ba430a3a345136ba160fdc4413f4b32448f6b2daf8480e69f1f907",
+    "RescueEchoWireMap.cs": "ecca2c71b9bb740ef7fbbe0140d3ae263bf538dbceb353d6bc339cafb4cc739d",
+    "RescueExteriorDeployment.cs": "0d97b1016c2bb6ae0b81604474fe5af6978b723c9e1927598285f329ea4c2d12",
+    "RescueFloorOpenings.cs": "df9727dff2f04ae36fa020a5ccd507d3b9ea47e817050b070ab14cfe7161f067",
+    "RescueMapDashboard.cs": "74a626b7e9984a9060c1c788e75d349bb27b307be721802caca0a52a8b9df11d",
+    "RescueMapKnowledge.cs": "e4451ca0664e165ff3c2a69cb1da26d8b57f0a6928b4e8f8af54a3527037ce67",
+    "RescueMapView.cs": "4956713c06bbfa34670c66ad06eb8deaf7a7339f4592fca158dc04fe0f4da422",
+    "RescuePartialCollapse.cs": "fc0d5063f16bc65f8557176fce380ccb9ecc9d220aa575da552b37056b8d104e",
+    "RescueRobot.cs": "bd485f3c1d310637e25f7afc3b4fae238a6603cd289276a065cf9bbb6348a39e",
+    "RescueScene.cs": "d933ed02b267aedfdd6a99bc8f829796b1436ce191c749504ea9ef0514d86f58",
+    "RescueSimulation.cs": "5263de7cef8df646804ab9ea9c0d951c3c17f1026fa63e8cd28276ca98c325eb",
+    "RescueSurfaceLattice.cs": "59933137e0aadc8d589a10d3c31c93c38fd49723862674b3888e2d20e78dbbf8",
+    "RescueViewport.cs": "3f4c0fa0851fbf3bb699c2c78dd2285e729c16602958ba9c87fea9acdb203f2e"
+  },
+  "unchanged": [
+    "Raw range/bearing/temperature/audio readings",
+    "Odometry increments and pose error",
+    "5cm acceptance cells and .42 half extent",
+    "360-second deadline"
+  ],
+  "ground_truth_to_native": false,
+  "test_opened": false
+}

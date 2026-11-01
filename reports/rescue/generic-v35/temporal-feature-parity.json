@@ -1,0 +1,8 @@
+{
+  "train_case": "rescue-3.1-E01-20800000-N24-D30803144",
+  "step": 250,
+  "cells_identical": true,
+  "maximum_feature_difference": 0.0,
+  "later_packets_used": false,
+  "labels_sent": false
+}

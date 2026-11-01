@@ -1,0 +1,1138 @@
+{
+  "status": "passed",
+  "purpose": "Post-collapse geometry and passive release; not inference accuracy",
+  "test_opened": false,
+  "geometry": [
+    {
+      "scene": "C01",
+      "seed": 121030270,
+      "storeys": 2,
+      "geometry_sha256": "dac94e6b0fee46bab90ca0ff4371104b04c9b343d7d83dfd2b64a4d7278f8dfd",
+      "source_independence": true,
+      "openings": 8,
+      "layers": [
+        {
+          "Level": 1,
+          "OriginalHeight": 0.2890172,
+          "MissingArea": 0.35,
+          "SurvivingArea": 2.88999987,
+          "slabs": 2,
+          "heights": [
+            0.1470939,
+            0.152134985
+          ]
+        }
+      ]
+    },
+    {
+      "scene": "C01",
+      "seed": 121030371,
+      "storeys": 2,
+      "geometry_sha256": "b95c3de117844e724b2b0ebdfc5966e0264c89894b9c48bed74adc0175923c8b",
+      "source_independence": true,
+      "openings": 8,
+      "layers": [
+        {
+          "Level": 1,
+          "OriginalHeight": 0.2725642,
+          "MissingArea": 0.48,
+          "SurvivingArea": 2.76,
+          "slabs": 3,
+          "heights": [
+            0.147664189,
+            0.133383676,
+            0.140164927
+          ]
+        }
+      ]
+    },
+    {
+      "scene": "C01",
+      "seed": 121030472,
+      "storeys": 2,
+      "geometry_sha256": "13b06a24da956a21bf118885ab01047ac13d4b8b044d966d85274c099bceed25",
+      "source_independence": true,
+      "openings": 8,
+      "layers": [
+        {
+          "Level": 1,
+          "OriginalHeight": 0.256111175,
+          "MissingArea": 0.599999964,
+          "SurvivingArea": 2.63999987,
+          "slabs": 3,
+          "heights": [
+            0.11823447,
+            0.114632338,
+            0.131688625
+          ]
+        }
+      ]
+    },
+    {
+      "scene": "C01",
+      "seed": 121030573,
+      "storeys": 2,
+      "geometry_sha256": "f0bcee415e6e093ed7d20d9da510b78cee363ae12595867be888c5bbdac4efb1",
+      "source_independence": true,
+      "openings": 8,
+      "layers": [
+        {
+          "Level": 1,
+          "OriginalHeight": 0.30965814,
+          "MissingArea": 0.48999998,
+          "SurvivingArea": 2.75,
+          "slabs": 2,
+          "heights": [
+            0.188804716,
+            0.165880978
+          ]
+        }
+      ]
+    },
+    {
+      "scene": "C02",
+      "seed": 121031279,
+      "storeys": 2,
+      "geometry_sha256": "fc9caa6c731a1e85fee4d2246ef3df6c98233e5587a0d0fcf6de00c6183c0f3b",
+      "source_independence": true,
+      "openings": 8,
+      "layers": [
+        {
+          "Level": 1,
+          "OriginalHeight": 0.297917157,
+          "MissingArea": 0.399999976,
+          "SurvivingArea": 2.84,
+          "slabs": 3,
+          "heights": [
+            0.2114947,
+            0.1980775,
+            0.2265217
+          ]
+        }
+      ]
+    },
+    {
+      "scene": "C02",
+      "seed": 121031380,
+      "storeys": 2,
+      "geometry_sha256": "69648e4d2e5d25a9ff51aaa6fd99a7fda7a8296a7ea957c6539c60bbca6c77b0",
+      "source_independence": true,
+      "openings": 8,
+      "layers": [
+        {
+          "Level": 1,
+          "OriginalHeight": 0.28146413,
+          "MissingArea": 0.539999962,
+          "SurvivingArea": 2.7,
+          "slabs": 3,
+          "heights": [
+            0.1777394,
+            0.178560048,
+            0.1807043
+          ]
+        }
+      ]
+    },
+    {
+      "scene": "C02",
+      "seed": 121031481,
+      "storeys": 2,
+      "geometry_sha256": "a1d93d9c353d837463851c73326ab076e580aad80ca85a4eec89337ed0b16fa1",
+      "source_independence": true,
+      "openings": 8,
+      "layers": [
+        {
+          "Level": 1,
+          "OriginalHeight": 0.2650111,
+          "MissingArea": 0.48999998,
+          "SurvivingArea": 2.75,
+          "slabs": 2,
+          "heights": [
+            0.183984086,
+            0.1990426
+          ]
+        }
+      ]
+    },
+    {
+      "scene": "C02",
+      "seed": 121031582,
+      "storeys": 2,
+      "geometry_sha256": "a8e37a2f8c9d61adfa75833443b7f920b08d69701d16354fb2d75c21823209d3",
+      "source_independence": true,
+      "openings": 8,
+      "layers": [
+        {
+          "Level": 1,
+          "OriginalHeight": 0.318558067,
+          "MissingArea": 0.56,
+          "SurvivingArea": 2.67999983,
+          "slabs": 3,
+          "heights": [
+            0.220228776,
+            0.249525145,
+            0.239069521
+          ]
+        }
+      ]
+    },
+    {
+      "scene": "C03",
+      "seed": 121032288,
+      "storeys": 3,
+      "geometry_sha256": "158441e26328ac56870ac104fc03516099828c8648d6b50a16965c34e3af6d65",
+      "source_independence": true,
+      "openings": 12,
+      "layers": [
+        {
+          "Level": 1,
+          "OriginalHeight": 0.306817085,
+          "MissingArea": 0.07,
+          "SurvivingArea": 1.49,
+          "slabs": 4,
+          "heights": [
+            0.2348699,
+            0.23973608,
+            0.224768192,
+            0.241314054
+          ]
+        },
+        {
+          "Level": 2,
+          "OriginalHeight": 0.588040352,
+          "MissingArea": 0.149999991,
+          "SurvivingArea": 1.41,
+          "slabs": 4,
+          "heights": [
+            0.495719284,
+            0.51989156,
+            0.5186061,
+            0.5054849
+          ]
+        }
+      ]
+    },
+    {
+      "scene": "C03",
+      "seed": 121032389,
+      "storeys": 3,
+      "geometry_sha256": "d2f8e5275ab348e0dbd44382fb24d19d76c9f1c2f314ea71578fcf3af1272b32",
+      "source_independence": true,
+      "openings": 12,
+      "layers": [
+        {
+          "Level": 1,
+          "OriginalHeight": 0.290364057,
+          "MissingArea": 0.099999994,
+          "SurvivingArea": 1.45999992,
+          "slabs": 6,
+          "heights": [
+            0.2011146,
+            0.201451778,
+            0.220428824,
+            0.2217966,
+            0.210980713,
+            0.196279466
+          ]
+        },
+        {
+          "Level": 2,
+          "OriginalHeight": 0.546057,
+          "MissingArea": 0.14,
+          "SurvivingArea": 1.42,
+          "slabs": 4,
+          "heights": [
+            0.465265423,
+            0.467558444,
+            0.447178066,
+            0.461861968
+          ]
+        }
+      ]
+    },
+    {
+      "scene": "C03",
+      "seed": 121032490,
+      "storeys": 3,
+      "geometry_sha256": "1cca85b0bb57e8062ab42f9bfb15c88ad2b5fb14b0ffe5b904472895056945d3",
+      "source_independence": true,
+      "openings": 12,
+      "layers": [
+        {
+          "Level": 1,
+          "OriginalHeight": 0.273911029,
+          "MissingArea": 0.149999991,
+          "SurvivingArea": 1.41,
+          "slabs": 4,
+          "heights": [
+            0.207359284,
+            0.203167453,
+            0.176089466,
+            0.20227915
+          ]
+        },
+        {
+          "Level": 2,
+          "OriginalHeight": 0.574073553,
+          "MissingArea": 0.149999991,
+          "SurvivingArea": 1.41,
+          "slabs": 4,
+          "heights": [
+            0.499431968,
+            0.500364244,
+            0.481924623,
+            0.499631941
+          ]
+        }
+      ]
+    },
+    {
+      "scene": "C03",
+      "seed": 121032591,
+      "storeys": 3,
+      "geometry_sha256": "1b5272739c4efdf7636d56b150558527f3b66414c573054561b3a648980824ff",
+      "source_independence": true,
+      "openings": 12,
+      "layers": [
+        {
+          "Level": 1,
+          "OriginalHeight": 0.257458,
+          "MissingArea": 0.0899999961,
+          "SurvivingArea": 1.46999991,
+          "slabs": 6,
+          "heights": [
+            0.173603982,
+            0.164883137,
+            0.1717501,
+            0.1827617,
+            0.181573361,
+            0.153778851
+          ]
+        },
+        {
+          "Level": 2,
+          "OriginalHeight": 0.5320902,
+          "MissingArea": 0.149999991,
+          "SurvivingArea": 1.41,
+          "slabs": 4,
+          "heights": [
+            0.42858392,
+            0.4617055,
+            0.436292559,
+            0.460994244
+          ]
+        }
+      ]
+    },
+    {
+      "scene": "C04",
+      "seed": 121033297,
+      "storeys": 3,
+      "geometry_sha256": "df461baf964acb9b17cfb25d8aa17393df0b81755d4511f90b3b599a4a777d9e",
+      "source_independence": true,
+      "openings": 12,
+      "layers": [
+        {
+          "Level": 1,
+          "OriginalHeight": 0.315717041,
+          "MissingArea": 0.57,
+          "SurvivingArea": 0.98999995,
+          "slabs": 9,
+          "heights": [
+            0.211133376,
+            0.223256886,
+            0.241606861,
+            0.2164312,
+            0.245636791,
+            0.227269575,
+            0.222901911,
+            0.241947472,
+            0.2150315
+          ]
+        },
+        {
+          "Level": 2,
+          "OriginalHeight": 0.601097345,
+          "MissingArea": 0.51,
+          "SurvivingArea": 1.05,
+          "slabs": 8,
+          "heights": [
+            0.5012226,
+            0.5190689,
+            0.500071049,
+            0.49685,
+            0.510443866,
+            0.51597625,
+            0.5243288,
+            0.503042161
+          ]
+        }
+      ]
+    },
+    {
+      "scene": "C04",
+      "seed": 121033398,
+      "storeys": 3,
+      "geometry_sha256": "1ca99d1cfc79bb098a6de819559f2e645210d5fe0dcb847b80e7bd9681638836",
+      "source_independence": true,
+      "openings": 12,
+      "layers": [
+        {
+          "Level": 1,
+          "OriginalHeight": 0.299264,
+          "MissingArea": 0.53,
+          "SurvivingArea": 1.03,
+          "slabs": 9,
+          "heights": [
+            0.212849051,
+            0.222006589,
+            0.23399356,
+            0.2015188,
+            0.233283252,
+            0.22665298,
+            0.195767239,
+            0.232239217,
+            0.217086852
+          ]
+        },
+        {
+          "Level": 2,
+          "OriginalHeight": 0.5591139,
+          "MissingArea": 0.459999979,
+          "SurvivingArea": 1.1,
+          "slabs": 5,
+          "heights": [
+            0.464556575,
+            0.460985035,
+            0.475456655,
+            0.469165921,
+            0.457543463
+          ]
+        }
+      ]
+    },
+    {
+      "scene": "C04",
+      "seed": 121033499,
+      "storeys": 3,
+      "geometry_sha256": "0ab3bc36f2f72b93be4355ddaa57c573bd9e05ce801e8d0feca261f53ac10ff0",
+      "source_independence": true,
+      "openings": 12,
+      "layers": [
+        {
+          "Level": 1,
+          "OriginalHeight": 0.282811,
+          "MissingArea": 0.53,
+          "SurvivingArea": 1.03,
+          "slabs": 7,
+          "heights": [
+            0.214564741,
+            0.180756271,
+            0.186380282,
+            0.1866064,
+            0.2059028,
+            0.206865788,
+            0.182530969
+          ]
+        },
+        {
+          "Level": 2,
+          "OriginalHeight": 0.587130547,
+          "MissingArea": 0.39,
+          "SurvivingArea": 1.17,
+          "slabs": 4,
+          "heights": [
+            0.496582925,
+            0.495644718,
+            0.5025598,
+            0.488299042
+          ]
+        }
+      ]
+    },
+    {
+      "scene": "C04",
+      "seed": 121033600,
+      "storeys": 3,
+      "geometry_sha256": "732f730516ecbe178e0828c351141227264dafe3dea3dbec9be6c5db408735f0",
+      "source_independence": true,
+      "openings": 12,
+      "layers": [
+        {
+          "Level": 1,
+          "OriginalHeight": 0.266357958,
+          "MissingArea": 0.48999998,
+          "SurvivingArea": 1.06999993,
+          "slabs": 5,
+          "heights": [
+            0.176280424,
+            0.179505959,
+            0.178767,
+            0.171694025,
+            0.168576181
+          ]
+        },
+        {
+          "Level": 2,
+          "OriginalHeight": 0.5451471,
+          "MissingArea": 0.59,
+          "SurvivingArea": 0.969999969,
+          "slabs": 9,
+          "heights": [
+            0.4556098,
+            0.459986717,
+            0.467138976,
+            0.461224616,
+            0.471862435,
+            0.4746211,
+            0.4737615,
+            0.461005747,
+            0.441356659
+          ]
+        }
+      ]
+    },
+    {
+      "scene": "C05",
+      "seed": 121034306,
+      "storeys": 3,
+      "geometry_sha256": "c18a5c372b77a8b70c5bc3f14a98c4cf1d5b52cf51f352304be300d591b065ca",
+      "source_independence": true,
+      "openings": 12,
+      "layers": [
+        {
+          "Level": 1,
+          "OriginalHeight": 0.254616976,
+          "MissingArea": 0.13,
+          "SurvivingArea": 1.79,
+          "slabs": 5,
+          "heights": [
+            0.15253064,
+            0.182100132,
+            0.1681727,
+            0.184383735,
+            0.15646483
+          ]
+        },
+        {
+          "Level": 2,
+          "OriginalHeight": 0.544154167,
+          "MissingArea": 0.199999988,
+          "SurvivingArea": 1.71999991,
+          "slabs": 5,
+          "heights": [
+            0.458929241,
+            0.462032437,
+            0.4583574,
+            0.450425059,
+            0.4665494
+          ]
+        }
+      ]
+    },
+    {
+      "scene": "C05",
+      "seed": 121034407,
+      "storeys": 3,
+      "geometry_sha256": "45c9cc755f639ddc1da507b260c9738c9f334eb6b51cbe2e0c58090d14e12f47",
+      "source_independence": true,
+      "openings": 12,
+      "layers": [
+        {
+          "Level": 1,
+          "OriginalHeight": 0.308163941,
+          "MissingArea": 0.149999991,
+          "SurvivingArea": 1.77,
+          "slabs": 5,
+          "heights": [
+            0.224246323,
+            0.217396453,
+            0.217411935,
+            0.235150456,
+            0.211552441
+          ]
+        },
+        {
+          "Level": 2,
+          "OriginalHeight": 0.5721708,
+          "MissingArea": 0.06,
+          "SurvivingArea": 1.86,
+          "slabs": 2,
+          "heights": [
+            0.505660534,
+            0.503517866
+          ]
+        }
+      ]
+    },
+    {
+      "scene": "C05",
+      "seed": 121034508,
+      "storeys": 3,
+      "geometry_sha256": "c2ecec718af7c66397f785c03241758fd6c8e6bd1a0131d4e9e651dc5ef1685e",
+      "source_independence": true,
+      "openings": 12,
+      "layers": [
+        {
+          "Level": 1,
+          "OriginalHeight": 0.2917109,
+          "MissingArea": 0.04,
+          "SurvivingArea": 1.88,
+          "slabs": 2,
+          "heights": [
+            0.225962013,
+            0.222692788
+          ]
+        },
+        {
+          "Level": 2,
+          "OriginalHeight": 0.6001874,
+          "MissingArea": 0.07,
+          "SurvivingArea": 1.8499999,
+          "slabs": 2,
+          "heights": [
+            0.5347246,
+            0.525491
+          ]
+        }
+      ]
+    },
+    {
+      "scene": "C05",
+      "seed": 121034609,
+      "storeys": 3,
+      "geometry_sha256": "b30d87d77d7046eb1815c1114c572556e18e2cd7e59c950e39056d756c4f57e1",
+      "source_independence": true,
+      "openings": 12,
+      "layers": [
+        {
+          "Level": 1,
+          "OriginalHeight": 0.2752579,
+          "MissingArea": 0.21,
+          "SurvivingArea": 1.70999992,
+          "slabs": 4,
+          "heights": [
+            0.187677681,
+            0.187989116,
+            0.175890446,
+            0.196683913
+          ]
+        },
+        {
+          "Level": 2,
+          "OriginalHeight": 0.558204,
+          "MissingArea": 0.25,
+          "SurvivingArea": 1.67,
+          "slabs": 5,
+          "heights": [
+            0.461301684,
+            0.4891231,
+            0.47648865,
+            0.4706339,
+            0.4900569
+          ]
+        }
+      ]
+    },
+    {
+      "scene": "C06",
+      "seed": 121035315,
+      "storeys": 3,
+      "geometry_sha256": "911955de922b147550f2e9fe4453c2d888cbfe2671d1879fb833432ff677a5e9",
+      "source_independence": true,
+      "openings": 12,
+      "layers": [
+        {
+          "Level": 1,
+          "OriginalHeight": 0.263516933,
+          "MissingArea": 0.03,
+          "SurvivingArea": 1.77,
+          "slabs": 1,
+          "heights": [
+            0.163927943
+          ]
+        },
+        {
+          "Level": 2,
+          "OriginalHeight": 0.557211161,
+          "MissingArea": 0.03,
+          "SurvivingArea": 1.77,
+          "slabs": 2,
+          "heights": [
+            0.479522735,
+            0.4659357
+          ]
+        }
+      ]
+    },
+    {
+      "scene": "C06",
+      "seed": 121035416,
+      "storeys": 3,
+      "geometry_sha256": "67349561d5f6bab81b7e537b2d4bf58d1af7feb0c8dac5b361567540bd00bd06",
+      "source_independence": true,
+      "openings": 12,
+      "layers": [
+        {
+          "Level": 1,
+          "OriginalHeight": 0.3170639,
+          "MissingArea": 0.13,
+          "SurvivingArea": 1.67,
+          "slabs": 2,
+          "heights": [
+            0.23564361,
+            0.233460784
+          ]
+        },
+        {
+          "Level": 2,
+          "OriginalHeight": 0.5852277,
+          "MissingArea": 0.13,
+          "SurvivingArea": 1.67,
+          "slabs": 6,
+          "heights": [
+            0.5201974,
+            0.4897499,
+            0.4806909,
+            0.4863702,
+            0.5033339,
+            0.513346136
+          ]
+        }
+      ]
+    },
+    {
+      "scene": "C06",
+      "seed": 121035517,
+      "storeys": 3,
+      "geometry_sha256": "c4c0844b165a2f2874bba39ab23b0c7f95222f829ea9216b652bfea8c42ef253",
+      "source_independence": true,
+      "openings": 12,
+      "layers": [
+        {
+          "Level": 1,
+          "OriginalHeight": 0.30061087,
+          "MissingArea": 0.03,
+          "SurvivingArea": 1.77,
+          "slabs": 1,
+          "heights": [
+            0.1973593
+          ]
+        },
+        {
+          "Level": 2,
+          "OriginalHeight": 0.6132443,
+          "MissingArea": 0.13,
+          "SurvivingArea": 1.67,
+          "slabs": 4,
+          "heights": [
+            0.513235331,
+            0.5164083,
+            0.5422963,
+            0.512270868
+          ]
+        }
+      ]
+    },
+    {
+      "scene": "C06",
+      "seed": 121035618,
+      "storeys": 3,
+      "geometry_sha256": "f293d98a2003f4e15f3ee3452a85c4885bbcacb1bc75dce88417cc308242a9f5",
+      "source_independence": true,
+      "openings": 12,
+      "layers": [
+        {
+          "Level": 1,
+          "OriginalHeight": 0.284157842,
+          "MissingArea": 0.13,
+          "SurvivingArea": 1.67,
+          "slabs": 2,
+          "heights": [
+            0.199074984,
+            0.190960169
+          ]
+        },
+        {
+          "Level": 2,
+          "OriginalHeight": 0.5712609,
+          "MissingArea": 0.03,
+          "SurvivingArea": 1.77,
+          "slabs": 2,
+          "heights": [
+            0.474344432,
+            0.4788644
+          ]
+        }
+      ]
+    }
+  ],
+  "regressions": [
+    {
+      "id": "g41-valid-known-S00-W82000000-N24",
+      "coarse_geometry_exact": true
+    },
+    {
+      "id": "g41-valid-known-S15-W82015135-N24",
+      "coarse_geometry_exact": true
+    },
+    {
+      "id": "g41-valid-known-S25-W82025225-N24",
+      "coarse_geometry_exact": true
+    },
+    {
+      "id": "g41-valid-unknown-S29-W83029261-N24",
+      "coarse_geometry_exact": true
+    }
+  ],
+  "releases": [
+    {
+      "scene": "C01",
+      "count": 24,
+      "floor_heights": [
+        0.0,
+        0.31101045
+      ],
+      "side_nodes": 16,
+      "side_lost": 0,
+      "settled_per_level": {
+        "0": 8,
+        "1": 8
+      },
+      "steps": 850,
+      "seconds": 17,
+      "sensors_modified": false,
+      "source_guided_release": false
+    },
+    {
+      "scene": "C01",
+      "count": 36,
+      "floor_heights": [
+        0.0,
+        0.31101045
+      ],
+      "side_nodes": 24,
+      "side_lost": 0,
+      "settled_per_level": {
+        "0": 12,
+        "1": 12
+      },
+      "steps": 850,
+      "seconds": 17,
+      "sensors_modified": false,
+      "source_guided_release": false
+    },
+    {
+      "scene": "C01",
+      "count": 48,
+      "floor_heights": [
+        0.0,
+        0.31101045
+      ],
+      "side_nodes": 32,
+      "side_lost": 0,
+      "settled_per_level": {
+        "0": 16,
+        "1": 16
+      },
+      "steps": 850,
+      "seconds": 17,
+      "sensors_modified": false,
+      "source_guided_release": false
+    },
+    {
+      "scene": "C02",
+      "count": 24,
+      "floor_heights": [
+        0.0,
+        0.3199104
+      ],
+      "side_nodes": 16,
+      "side_lost": 0,
+      "settled_per_level": {
+        "0": 8,
+        "1": 8
+      },
+      "steps": 850,
+      "seconds": 17,
+      "sensors_modified": false,
+      "source_guided_release": false
+    },
+    {
+      "scene": "C02",
+      "count": 36,
+      "floor_heights": [
+        0.0,
+        0.3199104
+      ],
+      "side_nodes": 24,
+      "side_lost": 0,
+      "settled_per_level": {
+        "0": 12,
+        "1": 12
+      },
+      "steps": 850,
+      "seconds": 17,
+      "sensors_modified": false,
+      "source_guided_release": false
+    },
+    {
+      "scene": "C02",
+      "count": 48,
+      "floor_heights": [
+        0.0,
+        0.3199104
+      ],
+      "side_nodes": 32,
+      "side_lost": 0,
+      "settled_per_level": {
+        "0": 16,
+        "1": 16
+      },
+      "steps": 850,
+      "seconds": 17,
+      "sensors_modified": false,
+      "source_guided_release": false
+    },
+    {
+      "scene": "C03",
+      "count": 24,
+      "floor_heights": [
+        0.0,
+        0.258810341,
+        0.513264954
+      ],
+      "side_nodes": 16,
+      "side_lost": 0,
+      "settled_per_level": {
+        "0": 8,
+        "1": 4,
+        "2": 4
+      },
+      "steps": 850,
+      "seconds": 17,
+      "sensors_modified": false,
+      "source_guided_release": false
+    },
+    {
+      "scene": "C03",
+      "count": 36,
+      "floor_heights": [
+        0.0,
+        0.258810341,
+        0.513264954
+      ],
+      "side_nodes": 24,
+      "side_lost": 0,
+      "settled_per_level": {
+        "0": 8,
+        "1": 8,
+        "2": 8
+      },
+      "steps": 850,
+      "seconds": 17,
+      "sensors_modified": false,
+      "source_guided_release": false
+    },
+    {
+      "scene": "C03",
+      "count": 48,
+      "floor_heights": [
+        0.0,
+        0.258810341,
+        0.513264954
+      ],
+      "side_nodes": 32,
+      "side_lost": 0,
+      "settled_per_level": {
+        "0": 9,
+        "1": 12,
+        "2": 11
+      },
+      "steps": 850,
+      "seconds": 17,
+      "sensors_modified": false,
+      "source_guided_release": false
+    },
+    {
+      "scene": "C04",
+      "count": 24,
+      "floor_heights": [
+        0.0,
+        0.267710268,
+        0.5263219
+      ],
+      "side_nodes": 16,
+      "side_lost": 0,
+      "settled_per_level": {
+        "0": 4,
+        "1": 7,
+        "2": 5
+      },
+      "steps": 850,
+      "seconds": 17,
+      "sensors_modified": false,
+      "source_guided_release": false
+    },
+    {
+      "scene": "C04",
+      "count": 36,
+      "floor_heights": [
+        0.0,
+        0.267710268,
+        0.5263219
+      ],
+      "side_nodes": 24,
+      "side_lost": 0,
+      "settled_per_level": {
+        "0": 8,
+        "1": 8,
+        "2": 8
+      },
+      "steps": 850,
+      "seconds": 17,
+      "sensors_modified": false,
+      "source_guided_release": false
+    },
+    {
+      "scene": "C04",
+      "count": 48,
+      "floor_heights": [
+        0.0,
+        0.267710268,
+        0.5263219
+      ],
+      "side_nodes": 32,
+      "side_lost": 0,
+      "settled_per_level": {
+        "0": 9,
+        "1": 12,
+        "2": 11
+      },
+      "steps": 850,
+      "seconds": 17,
+      "sensors_modified": false,
+      "source_guided_release": false
+    },
+    {
+      "scene": "C05",
+      "count": 24,
+      "floor_heights": [
+        0.0,
+        0.276610225,
+        0.539378762
+      ],
+      "side_nodes": 16,
+      "side_lost": 0,
+      "settled_per_level": {
+        "0": 4,
+        "1": 7,
+        "2": 5
+      },
+      "steps": 850,
+      "seconds": 17,
+      "sensors_modified": false,
+      "source_guided_release": false
+    },
+    {
+      "scene": "C05",
+      "count": 36,
+      "floor_heights": [
+        0.0,
+        0.276610225,
+        0.539378762
+      ],
+      "side_nodes": 24,
+      "side_lost": 0,
+      "settled_per_level": {
+        "0": 8,
+        "1": 8,
+        "2": 8
+      },
+      "steps": 850,
+      "seconds": 17,
+      "sensors_modified": false,
+      "source_guided_release": false
+    },
+    {
+      "scene": "C05",
+      "count": 48,
+      "floor_heights": [
+        0.0,
+        0.276610225,
+        0.539378762
+      ],
+      "side_nodes": 32,
+      "side_lost": 0,
+      "settled_per_level": {
+        "0": 8,
+        "1": 12,
+        "2": 12
+      },
+      "steps": 850,
+      "seconds": 17,
+      "sensors_modified": false,
+      "source_guided_release": false
+    },
+    {
+      "scene": "C06",
+      "count": 24,
+      "floor_heights": [
+        0.0,
+        0.285510153,
+        0.552435637
+      ],
+      "side_nodes": 16,
+      "side_lost": 0,
+      "settled_per_level": {
+        "0": 6,
+        "1": 4,
+        "2": 6
+      },
+      "steps": 850,
+      "seconds": 17,
+      "sensors_modified": false,
+      "source_guided_release": false
+    },
+    {
+      "scene": "C06",
+      "count": 36,
+      "floor_heights": [
+        0.0,
+        0.285510153,
+        0.552435637
+      ],
+      "side_nodes": 24,
+      "side_lost": 0,
+      "settled_per_level": {
+        "0": 8,
+        "1": 8,
+        "2": 8
+      },
+      "steps": 850,
+      "seconds": 17,
+      "sensors_modified": false,
+      "source_guided_release": false
+    },
+    {
+      "scene": "C06",
+      "count": 48,
+      "floor_heights": [
+        0.0,
+        0.285510153,
+        0.552435637
+      ],
+      "side_nodes": 32,
+      "side_lost": 0,
+      "settled_per_level": {
+        "0": 8,
+        "1": 12,
+        "2": 12
+      },
+      "steps": 850,
+      "seconds": 17,
+      "sensors_modified": false,
+      "source_guided_release": false
+    }
+  ]
+}

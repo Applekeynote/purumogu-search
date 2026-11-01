@@ -1,0 +1,22 @@
+{
+  "purpose": "Separate weak true signals from persistent false aliases with a larger bounded forest and TRAIN-only hard example reweighting",
+  "training_worlds": 426,
+  "validation_cases": 54,
+  "unchanged_features": "thermal-spectral32-v3",
+  "leaf_sizes": [
+    31
+  ],
+  "round_counts": [
+    200,
+    256
+  ],
+  "hard_weights": [
+    0,
+    10
+  ],
+  "error_weights": "Two passes: fit TRAIN, weight TRAIN residual errors, refit TRAIN. VALID never changes example weights",
+  "thresholds_and_nms": "Existing global VALID grid, identical across areas and node counts",
+  "native_budget": "<=256 trees, <=63 nodes per tree",
+  "final_test_opened": false,
+  "closed_loop_acceptance": false
+}

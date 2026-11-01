@@ -1,0 +1,78 @@
+{
+  "purpose": "Upper bound for classification-only changes on this fixed proposal pool; not achieved model accuracy",
+  "status": "complete-diagnostic",
+  "test_opened": false,
+  "split": "valid-known",
+  "plan_sha256": "2c63f94e457fd482265f1333bc009a250c50a9690741e0c247460f2b86d3a452",
+  "cases": 4,
+  "pending": [],
+  "people": 12,
+  "oracle_matched": 12,
+  "oracle_recall": 1.0,
+  "rows": [
+    {
+      "id": "g67-valid-known-S25-W82025225-N24",
+      "area": 25,
+      "nodes": 24,
+      "proposals": 261,
+      "people": 3,
+      "oracle_matched": 3,
+      "oracle_matching_error_m": 0.15746812946687416,
+      "nearest_proposal_m": [
+        0.014999176140791916,
+        0.06671907118016956,
+        0.07574988214591268
+      ],
+      "acquisition_matched": 3,
+      "map_sha256": "e254e2b4f70568f6fa47a62f998e005805ac46b144cb1f2d157eceaeea518c65"
+    },
+    {
+      "id": "g67-valid-known-S25-W82025225-N48",
+      "area": 25,
+      "nodes": 48,
+      "proposals": 290,
+      "people": 3,
+      "oracle_matched": 3,
+      "oracle_matching_error_m": 0.23264518972482962,
+      "nearest_proposal_m": [
+        0.028978099330308163,
+        0.1368511338843355,
+        0.06681595651018596
+      ],
+      "acquisition_matched": 2,
+      "map_sha256": "0b1b79e32e1111b3c91773219753d745237f6af6be49c62f3b515803905ddd34"
+    },
+    {
+      "id": "g67-valid-known-S33-W124033297-N24",
+      "area": 33,
+      "nodes": 24,
+      "proposals": 260,
+      "people": 3,
+      "oracle_matched": 3,
+      "oracle_matching_error_m": 0.2909720624253208,
+      "nearest_proposal_m": [
+        0.059559089876655515,
+        0.11609904983028758,
+        0.1153139227183777
+      ],
+      "acquisition_matched": 3,
+      "map_sha256": "14c021abb37463a8a50ece9fb533ea42524d0afb264061caf71d9e4196b2f8ac"
+    },
+    {
+      "id": "g67-valid-known-S33-W124033297-N48",
+      "area": 33,
+      "nodes": 48,
+      "proposals": 386,
+      "people": 3,
+      "oracle_matched": 3,
+      "oracle_matching_error_m": 0.21815124881638057,
+      "nearest_proposal_m": [
+        0.07494571958796747,
+        0.07232098949239388,
+        0.0708845397360192
+      ],
+      "acquisition_matched": 2,
+      "map_sha256": "4b6298a892078eb7993093b8e43032ab434f4fc7ac2dadeea4fa68da9bc74c67"
+    }
+  ]
+}

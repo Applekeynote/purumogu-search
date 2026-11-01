@@ -1,0 +1,46 @@
+{
+  "purpose": "Upper bound for classification-only changes on this fixed proposal pool; not achieved model accuracy",
+  "status": "complete-diagnostic",
+  "test_opened": false,
+  "split": "valid-unknown",
+  "plan_sha256": "90456e5fdb28e5648b65ec30df4361a84d0385f329d400e2c4fe70fd6ccf802a",
+  "cases": 2,
+  "pending": [],
+  "people": 6,
+  "oracle_matched": 6,
+  "oracle_recall": 1.0,
+  "rows": [
+    {
+      "id": "g67-valid-unknown-S29-W83029261-N24",
+      "area": 29,
+      "nodes": 24,
+      "proposals": 292,
+      "people": 3,
+      "oracle_matched": 3,
+      "oracle_matching_error_m": 0.3315026072375812,
+      "nearest_proposal_m": [
+        0.13137555855450395,
+        0.0927555393580967,
+        0.1073715093249805
+      ],
+      "acquisition_matched": 2,
+      "map_sha256": "8b001c72b298391ba569c58394414135774c850f39b1453a98a333c73f883635"
+    },
+    {
+      "id": "g67-valid-unknown-S29-W83029261-N48",
+      "area": 29,
+      "nodes": 48,
+      "proposals": 270,
+      "people": 3,
+      "oracle_matched": 3,
+      "oracle_matching_error_m": 0.2706254273238706,
+      "nearest_proposal_m": [
+        0.1113005281429869,
+        0.06598882917951397,
+        0.09333607000136974
+      ],
+      "acquisition_matched": 3,
+      "map_sha256": "0ba76d61324670aeffe6478b6e124dc5d967a50011f48e01307af2ba35c448cc"
+    }
+  ]
+}

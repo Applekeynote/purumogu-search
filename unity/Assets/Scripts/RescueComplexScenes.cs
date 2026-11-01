@@ -7,12 +7,24 @@ namespace Purumogu.Rescue
 {
     public sealed partial class RescueScene
     {
-        public sealed class FloorZone {public Rect Bounds;public float Height;}
+        public sealed class FloorZone
+        {
+            public Rect Bounds;public float Height;public Vector2[] Polygon;public GameObject Surface;
+            public bool Contains(Vector2 point)
+            {
+                if(!Bounds.Contains(point))return false;
+                if(Polygon==null)return true;
+                for(int i=0;i<Polygon.Length;i++)if(Cross(Polygon[(i+1)%Polygon.Length]-Polygon[i],point-Polygon[i])<-.000001f)return false;
+                return true;
+            }
+        }
         public readonly List<FloorZone> FloorZones=new List<FloorZone>();
         /// Known exterior scatter envelope; no obstacles, cavities, or source positions.
         public readonly List<Rect> DeploymentRegions=new List<Rect>();
         public bool ComplexGeometry=>Spec.Layout>=15;
         public int FloorCount{get;private set;}=1;
+        readonly List<float> floorElevations=new List<float>();
+        public float FloorElevation(int level)=>level<floorElevations.Count?floorElevations[level]:level*.28f;
         GameObject WorldBox(string name,Vector3 p,Vector3 size,Material material)=>Box(name,p/Scale,size/Scale,material);
         static bool RectContains(float x,float z,float left,float bottom,float width,float depth)=>x>=left&&x<left+width&&z>=bottom&&z<bottom+depth;
         static bool Shape(int shape,float x,float z)
@@ -64,8 +76,9 @@ namespace Purumogu.Rescue
                 foreach(var rectangle in MergeTiles(tiles))
                 {
                     var center=new Vector3(rectangle.center.x,height-.018f,rectangle.center.y);var size=new Vector3(rectangle.width,.036f,rectangle.height);
-                    if(level>0)Roof("ShapedFloor_L"+level,center/Scale,size/Scale,Vector3.zero);else WorldBox("ShapedFloor_L"+level,center,size,Ground);
-                    FloorZones.Add(new FloorZone{Bounds=rectangle,Height=height});
+                    GameObject surface;
+                    if(level>0){Roof("ShapedFloor_L"+level,center/Scale,size/Scale,Vector3.zero);surface=Roofs[Roofs.Count-1].gameObject;}else surface=WorldBox("ShapedFloor_L"+level,center,size,Ground);
+                    FloorZones.Add(new FloorZone{Bounds=rectangle,Height=height,Surface=surface});
                 }
                 // Boundary follows the footprint; there is no enclosing rectangular tray.
                 foreach(var tile in tiles)foreach(var direction in new[]{Vector2Int.left,Vector2Int.right,Vector2Int.up,Vector2Int.down})
@@ -74,28 +87,19 @@ namespace Purumogu.Rescue
                     bool xWall=direction.x!=0;var p=new Vector3((tile.x+.5f+direction.x*.5f)*.1f,height+.115f,(tile.y+.5f+direction.y*.5f)*.1f);
                     WorldBox("FootprintWall_L"+level,p,xWall?new Vector3(.025f,.23f,.102f):new Vector3(.102f,.23f,.025f),Concrete);
                 }
-                foreach(var zone in FloorZones.FindAll(f=>Mathf.Abs(f.Height-height)<.001f))
-                {
-                    int pieces=Mathf.CeilToInt(zone.Bounds.width*zone.Bounds.height*(18+Spec.Difficulty*10));
-                    for(int i=0;i<pieces;i++)
-                    {
-                        var size=new Vector3(Range(.035f,.11f),Range(.018f,.065f),Range(.04f,.14f));
-                        float x=Range(zone.Bounds.xMin+.02f,zone.Bounds.xMax-.02f),z=Range(zone.Bounds.yMin+.02f,zone.Bounds.yMax-.02f);
-                        var debris=WorldBox("LevelDebris_L"+level,new Vector3(x,height+size.y*.35f,z),size,i%3==0?Stone:Concrete);
-                        Fracture(debris);debris.transform.rotation=Quaternion.Euler(Range(-15,15),Range(0,180),Range(-18,18));
-                    }
-                }
             }
             DeploymentRegions.AddRange(MergeTiles(envelope));
+            var flightZones=FloorZones.Select(f=>new FloorZone{Bounds=f.Bounds,Height=f.Height}).ToArray();
             for(int level=0;level<FloorCount-1;level++)
             {
                 // Each flight connects real floor zones; clear openings replace wall segments along it.
-                var low=FloorZones.Where(f=>Mathf.Abs(f.Height-level*.28f)<.001f).OrderByDescending(f=>f.Bounds.width*f.Bounds.height).First();
-                var high=FloorZones.Where(f=>Mathf.Abs(f.Height-(level+1)*.28f)<.001f).OrderByDescending(f=>f.Bounds.width*f.Bounds.height).First();
+                var low=flightZones.Where(f=>Mathf.Abs(f.Height-level*.28f)<.001f).OrderByDescending(f=>f.Bounds.width*f.Bounds.height).First();
+                var high=flightZones.Where(f=>Mathf.Abs(f.Height-(level+1)*.28f)<.001f).OrderByDescending(f=>f.Bounds.width*f.Bounds.height).First();
                 Vector3 start=new Vector3(low.Bounds.center.x,low.Height+.006f,Mathf.Clamp(low.Bounds.center.y-.45f,.25f,2.25f));
                 Vector3 end=new Vector3(high.Bounds.center.x,high.Height+.006f,Mathf.Clamp(high.Bounds.center.y+.35f,.65f,2.65f));
                 if(new Vector2(end.x-start.x,end.z-start.z).magnitude<.65f)start.z=Mathf.Max(.15f,end.z-.85f);
                 var delta=end-start;var ramp=WorldBox("ConnectingRamp_L"+level,(start+end)*.5f,new Vector3(.24f,.018f,delta.magnitude),Concrete);ramp.transform.rotation=Quaternion.LookRotation(delta,Vector3.up);
+                OpenRampLanding(level+1,start,end);
                 // Door cuts exist in geometry, not just in the rendered wall material.
                 foreach(var collider in Root.GetComponentsInChildren<BoxCollider>())
                 {
@@ -103,6 +107,44 @@ namespace Purumogu.Rescue
                     if(Physics.ComputePenetration(ramp.GetComponent<Collider>(),ramp.transform.position,ramp.transform.rotation,collider,collider.transform.position,collider.transform.rotation,out _,out _))UnityEngine.Object.DestroyImmediate(collider.gameObject);
                 }
                 if(variant==11)for(int step=0;step<6;step++)WorldBox("StairTread",Vector3.Lerp(start,end,(step+.5f)/6),new Vector3(.12f,.035f,delta.magnitude/6),Stone);
+            }
+            for(int level=0;level<FloorCount;level++)
+            {
+                float height=level*.28f;var zones=FloorZones.Where(f=>Mathf.Abs(f.Height-height)<.001f).ToArray();
+                if(zones.All(f=>f.Polygon==null))
+                {
+                    foreach(var zone in zones)
+                    {
+                        int originalPieces=Mathf.CeilToInt(zone.Bounds.width*zone.Bounds.height*(18+Spec.Difficulty*10));
+                        for(int i=0;i<originalPieces;i++)
+                        {
+                            var size=new Vector3(Range(.035f,.11f),Range(.018f,.065f),Range(.04f,.14f));
+                            float x=Range(zone.Bounds.xMin+.02f,zone.Bounds.xMax-.02f),z=Range(zone.Bounds.yMin+.02f,zone.Bounds.yMax-.02f);
+                            var debris=WorldBox("LevelDebris_L"+level,new Vector3(x,height+size.y*.35f,z),size,i%3==0?Stone:Concrete);
+                            Fracture(debris);debris.transform.rotation=Quaternion.Euler(Range(-15,15),Range(0,180),Range(-18,18));
+                        }
+                    }
+                    continue;
+                }
+                var areas=zones.Select(f=>f.Polygon==null?f.Bounds.width*f.Bounds.height:PolygonArea(f.Polygon)).ToArray();float area=areas.Sum();
+                // Keep the original number of rubble pieces. Creating a stairwell
+                // must not make the benchmark easier by removing obstacles.
+                int pieces=flightZones.Where(f=>Mathf.Abs(f.Height-height)<.001f).Sum(f=>Mathf.CeilToInt(f.Bounds.width*f.Bounds.height*(18+Spec.Difficulty*10)));
+                for(int i=0;i<pieces;i++)
+                {
+                    Vector2 point=Vector2.zero;bool placed=false;
+                    for(int attempt=0;attempt<2048;attempt++)
+                    {
+                        float choice=Range(0,area);int selected=zones.Length-1;
+                        for(int j=0;j<zones.Length;j++){choice-=areas[j];if(choice<=0){selected=j;break;}}
+                        var zone=zones[selected];point=new Vector2(Range(zone.Bounds.xMin,zone.Bounds.xMax),Range(zone.Bounds.yMin,zone.Bounds.yMax));
+                        if(zone.Contains(point)){placed=true;break;}
+                    }
+                    if(!placed)throw new System.InvalidOperationException("No supported debris location");
+                    var size=new Vector3(Range(.035f,.11f),Range(.018f,.065f),Range(.04f,.14f));
+                    var debris=WorldBox("LevelDebris_L"+level,new Vector3(point.x,height+size.y*.35f,point.y),size,i%3==0?Stone:Concrete);
+                    Fracture(debris);debris.transform.rotation=Quaternion.Euler(Range(-15,15),Range(0,180),Range(-18,18));
+                }
             }
             if(WaterHeight>0)foreach(var zone in FloorZones.FindAll(f=>f.Height<.01f))
             {
@@ -122,11 +164,12 @@ namespace Purumogu.Rescue
         }
         Vector3 SampleComplexPocket(System.Random rng,int floor)
         {
-            var choices=FloorZones.FindAll(f=>floor<0||Mathf.Abs(f.Height-floor*.28f)<.001f);
+            var choices=FloorZones.FindAll(f=>floor<0||Mathf.Abs(f.Height-FloorElevation(floor))<.001f);
             for(int attempt=0;attempt<2048;attempt++)
             {
                 var zone=choices[rng.Next(choices.Count)];var r=zone.Bounds;
                 var p=new Vector3(Mathf.Lerp(r.xMin+.025f,r.xMax-.025f,(float)rng.NextDouble()),zone.Height+.035f+(float)rng.NextDouble()*.045f,Mathf.Lerp(r.yMin+.025f,r.yMax-.025f,(float)rng.NextDouble()));
+                if(!zone.Contains(new Vector2(p.x,p.z)))continue;
                 if(Physics.CheckSphere(p,.012f,1<<6)||VictimPositions.Exists(other=>Vector3.Distance(other,p)<.28f))continue;return p;
             }
             throw new InvalidOperationException("No source pocket in "+Spec.Id);

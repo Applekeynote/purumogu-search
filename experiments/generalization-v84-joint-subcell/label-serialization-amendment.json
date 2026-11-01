@@ -1,0 +1,37 @@
+{
+  "reason": "Unity/Newtonsoft serialized3 Double coordinates with a last-digit rounding difference; actual Vector3 Float32 parameters are bit-identical",
+  "original_plan_sha256": "67669b52141bc16509c347d990ea99e99e0f9a363127c7651fed8350b9df7d06",
+  "original_plan_unchanged": true,
+  "simulator_precision_exact": true,
+  "all_other_fields_exact": true,
+  "differences": [
+    {
+      "id": "g47-train-S07-W94007164-N48",
+      "view": 0,
+      "axis": 0,
+      "original": 0.0077459122591791996,
+      "serialized": 0.0077459122591792,
+      "absolute_difference": 8.673617379884035e-19
+    },
+    {
+      "id": "g50-train-S21-W97021290-N48",
+      "view": 0,
+      "axis": 2,
+      "original": -0.003224300282082593,
+      "serialized": -0.0032243002820825932,
+      "absolute_difference": 4.336808689942018e-19
+    },
+    {
+      "id": "g50-train-S08-W97008274-N36",
+      "view": 1,
+      "axis": 1,
+      "original": -0.005084259025785087,
+      "serialized": -0.0050842590257850874,
+      "absolute_difference": 8.673617379884035e-19
+    }
+  ],
+  "original_guard_failure_log": "tmp/g84-joint-subcell-preparation.log",
+  "labels_reused_without_regeneration": true,
+  "accuracy_based_retry": false,
+  "final_test_opened": false
+}

@@ -1,0 +1,58 @@
+{
+  "purpose": "Paired development-only safety policy comparison, same seeds and R25 weights",
+  "test_opened": false,
+  "pairs": [
+    {
+      "area": "25",
+      "nodes": "24",
+      "old_iou": 0.9185227489053874,
+      "new_iou": 0.941955590183093,
+      "old_lost": 15,
+      "new_lost": 16
+    },
+    {
+      "area": "25",
+      "nodes": "48",
+      "old_iou": 0.950039184952978,
+      "new_iou": 0.9540816326530612,
+      "old_lost": 38,
+      "new_lost": 31
+    },
+    {
+      "area": "26",
+      "nodes": "24",
+      "old_iou": 0.9399553571428572,
+      "new_iou": 0.9446560609455523,
+      "old_lost": 12,
+      "new_lost": 9
+    },
+    {
+      "area": "26",
+      "nodes": "48",
+      "old_iou": 0.9441578829333931,
+      "new_iou": 0.9488445142472515,
+      "old_lost": 36,
+      "new_lost": 21
+    },
+    {
+      "area": "29",
+      "nodes": "24",
+      "old_iou": 0.9332504881945677,
+      "new_iou": 0.9172075074548325,
+      "old_lost": 19,
+      "new_lost": 14
+    },
+    {
+      "area": "29",
+      "nodes": "48",
+      "old_iou": 0.9301255970281267,
+      "new_iou": 0.9396474986647677,
+      "old_lost": 37,
+      "new_lost": 32
+    }
+  ],
+  "old_macro_iou": 0.9360085431928851,
+  "new_macro_iou": 0.941065467358093,
+  "old_lost": 157,
+  "new_lost": 123
+}

@@ -1,0 +1,6 @@
+{
+  "reason": "First attempt failed at import with a surplus closing parenthesis, before loading any cases or computing metrics; original source snapshot and error log retained",
+  "correction": "Remove surplus closing parenthesis; four temporal association/causality tests pass",
+  "accuracy_based_retry": false,
+  "final_test_opened": false
+}

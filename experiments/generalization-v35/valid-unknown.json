@@ -1,0 +1,79 @@
+{
+  "split": "valid-unknown",
+  "steps": 6000,
+  "output": "C:\\Users\\rynat\\OneDrive\\ドキュメント\\ChatGPT\\松尾研\\purumogu-search\\experiments\\raw\\rescue\\generalization-v35\\valid-unknown",
+  "cases": [
+    {
+      "id": "valid-unknown-S19-W43019171-N24",
+      "scene": 19,
+      "seed": 43019171,
+      "nodes": 24,
+      "deployment_seed": 43722315,
+      "source_seed": 43919171
+    },
+    {
+      "id": "valid-unknown-S19-W43019171-N36",
+      "scene": 19,
+      "seed": 43019171,
+      "nodes": 36,
+      "deployment_seed": 43723887,
+      "source_seed": 43919171
+    },
+    {
+      "id": "valid-unknown-S19-W43019171-N48",
+      "scene": 19,
+      "seed": 43019171,
+      "nodes": 48,
+      "deployment_seed": 43725459,
+      "source_seed": 43919171
+    },
+    {
+      "id": "valid-unknown-S22-W43022198-N24",
+      "scene": 22,
+      "seed": 43022198,
+      "nodes": 24,
+      "deployment_seed": 43725342,
+      "source_seed": 43922198
+    },
+    {
+      "id": "valid-unknown-S22-W43022198-N36",
+      "scene": 22,
+      "seed": 43022198,
+      "nodes": 36,
+      "deployment_seed": 43726914,
+      "source_seed": 43922198
+    },
+    {
+      "id": "valid-unknown-S22-W43022198-N48",
+      "scene": 22,
+      "seed": 43022198,
+      "nodes": 48,
+      "deployment_seed": 43728486,
+      "source_seed": 43922198
+    },
+    {
+      "id": "valid-unknown-S29-W43029261-N24",
+      "scene": 29,
+      "seed": 43029261,
+      "nodes": 24,
+      "deployment_seed": 43732405,
+      "source_seed": 43929261
+    },
+    {
+      "id": "valid-unknown-S29-W43029261-N36",
+      "scene": 29,
+      "seed": 43029261,
+      "nodes": 36,
+      "deployment_seed": 43733977,
+      "source_seed": 43929261
+    },
+    {
+      "id": "valid-unknown-S29-W43029261-N48",
+      "scene": 29,
+      "seed": 43029261,
+      "nodes": 48,
+      "deployment_seed": 43735549,
+      "source_seed": 43929261
+    }
+  ]
+}

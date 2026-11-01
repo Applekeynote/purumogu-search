@@ -1,0 +1,6 @@
+{
+  "status": "superseded-before-any-acquisition",
+  "replacement": "generalization-v60-partial-collapse",
+  "reason": "Independent storey height randomization .25-.32m prevents fixed .28m layout dependence",
+  "final_test_opened": false
+}

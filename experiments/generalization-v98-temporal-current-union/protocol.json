@@ -1,0 +1,11 @@
+{
+  "purpose": "Combine current provisional detections with previously confirmed stationary source hypotheses to preserve immediate recall",
+  "parent": "G97 temporal-only 88/90+3FP at360 but72/90+1FP at120; do not ship delayed confirmation-only display",
+  "unchanged_global_grid": "Same as G97",
+  "include_current": true,
+  "validation_cases": 54,
+  "no_gradient_training": true,
+  "final_test_opened": false,
+  "native_support_requires_separate_implementation_and_parity": true,
+  "weakness": "Persistent false alarms and stationary source assumption"
+}

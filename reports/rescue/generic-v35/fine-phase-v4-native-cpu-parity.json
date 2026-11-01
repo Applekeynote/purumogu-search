@@ -1,0 +1,16 @@
+{
+  "status": "pass",
+  "model": "models/generic-v71-phase-portability-probe",
+  "checkpoint_sha256": "ee33daac6de83735a3d8b67f16487878c17eb338b440d4090c874e44b8e48082",
+  "onnx_sha256": "a207ec6a3f0e4151acec4c8f81f64f9f1a500b2a51f58e3a9448afed60397842",
+  "architecture": "subvoxel-phase-refinement-v4",
+  "channels": 90,
+  "maximum_probability_error": 0.0002027173969814111,
+  "class_disagreements": 0,
+  "truth_to_native": false,
+  "requires_python_for_app": false,
+  "requires_cuda_for_app": false,
+  "native_binary": "tmp/g70-map-context-rust-target/release/complete_map.exe",
+  "native_binary_sha256": "d8ec3c2d020070f12b31d320638d40be453dad8fc45c469e35aaf19d7b15a598",
+  "inference_seconds": 0.9966796
+}

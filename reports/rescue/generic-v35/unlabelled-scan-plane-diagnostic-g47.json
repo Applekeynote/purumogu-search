@@ -1,0 +1,339 @@
+{
+  "purpose": "Unlabelled TRAIN plane-fitting diagnostic; not accuracy or correction validation",
+  "truth_opened": false,
+  "test_opened": false,
+  "scans": 2000,
+  "accepted": 25,
+  "median": {
+    "tilt_degrees": 0.8968507416862487,
+    "raw_height_rms_m": 0.0013567565809353287,
+    "plane_residual_rms_m": 0.00037831175489302406
+  },
+  "rows": [
+    {
+      "case": "g47-train-S00-W94000000-N24",
+      "step": 200,
+      "node": "N00",
+      "inliers": 16,
+      "tilt_degrees": 5.3737329299624745,
+      "raw_height_rms_m": 0.0100850461950776,
+      "plane_residual_rms_m": 0.000510355756419333,
+      "spread_eigenvalues_m2": [
+        0.009497839565463531,
+        0.032144645308156035
+      ]
+    },
+    {
+      "case": "g47-train-S00-W94000000-N24",
+      "step": 475,
+      "node": "N05",
+      "inliers": 15,
+      "tilt_degrees": 0.9435726488882854,
+      "raw_height_rms_m": 0.0016876027502935296,
+      "plane_residual_rms_m": 0.0010881512346064346,
+      "spread_eigenvalues_m2": [
+        0.0039409402667931566,
+        0.014258110127267526
+      ]
+    },
+    {
+      "case": "g47-train-S00-W94000000-N24",
+      "step": 550,
+      "node": "N09",
+      "inliers": 16,
+      "tilt_degrees": 4.4755660637005885,
+      "raw_height_rms_m": 0.006286694500211687,
+      "plane_residual_rms_m": 0.00043955674887087245,
+      "spread_eigenvalues_m2": [
+        0.0025623247925569033,
+        0.020461872968933634
+      ]
+    },
+    {
+      "case": "g47-train-S00-W94000000-N24",
+      "step": 800,
+      "node": "N13",
+      "inliers": 12,
+      "tilt_degrees": 0.49804050192701305,
+      "raw_height_rms_m": 0.0007659419766366245,
+      "plane_residual_rms_m": 0.00010719949483196459,
+      "spread_eigenvalues_m2": [
+        0.003205966328427551,
+        0.015686068458597616
+      ]
+    },
+    {
+      "case": "g47-train-S00-W94000000-N24",
+      "step": 925,
+      "node": "N12",
+      "inliers": 16,
+      "tilt_degrees": 0.28301669146571107,
+      "raw_height_rms_m": 0.000841034269418679,
+      "plane_residual_rms_m": 0.0007509491883743338,
+      "spread_eigenvalues_m2": [
+        0.004597022023160371,
+        0.010121987554705364
+      ]
+    },
+    {
+      "case": "g47-train-S00-W94000000-N24",
+      "step": 950,
+      "node": "N02",
+      "inliers": 12,
+      "tilt_degrees": 1.294316582266742,
+      "raw_height_rms_m": 0.0027905343147383867,
+      "plane_residual_rms_m": 0.000931994093675489,
+      "spread_eigenvalues_m2": [
+        0.007210369298350082,
+        0.02898928884122038
+      ]
+    },
+    {
+      "case": "g47-train-S00-W94000000-N24",
+      "step": 1000,
+      "node": "N11",
+      "inliers": 18,
+      "tilt_degrees": 1.4402968743874867,
+      "raw_height_rms_m": 0.003005234396471699,
+      "plane_residual_rms_m": 0.00022350334317843712,
+      "spread_eigenvalues_m2": [
+        0.0034533421467829607,
+        0.015808257762171134
+      ]
+    },
+    {
+      "case": "g47-train-S00-W94000000-N24",
+      "step": 1050,
+      "node": "N23",
+      "inliers": 12,
+      "tilt_degrees": 0.46335513980026055,
+      "raw_height_rms_m": 0.0007398492754795056,
+      "plane_residual_rms_m": 0.00018511937383075742,
+      "spread_eigenvalues_m2": [
+        0.0053364979241124575,
+        0.012125662005034035
+      ]
+    },
+    {
+      "case": "g47-train-S00-W94000000-N24",
+      "step": 1100,
+      "node": "N20",
+      "inliers": 13,
+      "tilt_degrees": 0.7211913814060358,
+      "raw_height_rms_m": 0.0009256447940149393,
+      "plane_residual_rms_m": 0.0006412631728791123,
+      "spread_eigenvalues_m2": [
+        0.0030427290574278807,
+        0.02045919593450155
+      ]
+    },
+    {
+      "case": "g47-train-S00-W94000000-N24",
+      "step": 1150,
+      "node": "N05",
+      "inliers": 12,
+      "tilt_degrees": 1.1597455763783642,
+      "raw_height_rms_m": 0.0013567565809353287,
+      "plane_residual_rms_m": 0.00017993788475801633,
+      "spread_eigenvalues_m2": [
+        0.004372704877051062,
+        0.01271143862663944
+      ]
+    },
+    {
+      "case": "g47-train-S00-W94000000-N24",
+      "step": 1250,
+      "node": "N13",
+      "inliers": 12,
+      "tilt_degrees": 0.6397873941845545,
+      "raw_height_rms_m": 0.0010827758221666668,
+      "plane_residual_rms_m": 0.00037831175489302406,
+      "spread_eigenvalues_m2": [
+        0.0025182544993466384,
+        0.01056110773373652
+      ]
+    },
+    {
+      "case": "g47-train-S00-W94000000-N24",
+      "step": 1350,
+      "node": "N14",
+      "inliers": 12,
+      "tilt_degrees": 0.7412118492856852,
+      "raw_height_rms_m": 0.0015280017136729417,
+      "plane_residual_rms_m": 0.0004529622416188502,
+      "spread_eigenvalues_m2": [
+        0.002616536070203639,
+        0.014202618826876904
+      ]
+    },
+    {
+      "case": "g47-train-S00-W94000000-N24",
+      "step": 1375,
+      "node": "N13",
+      "inliers": 15,
+      "tilt_degrees": 1.5348017716778457,
+      "raw_height_rms_m": 0.0023522654076910086,
+      "plane_residual_rms_m": 0.0014544321048694157,
+      "spread_eigenvalues_m2": [
+        0.0035383587270242213,
+        0.010052516639972255
+      ]
+    },
+    {
+      "case": "g47-train-S00-W94000000-N24",
+      "step": 1400,
+      "node": "N23",
+      "inliers": 19,
+      "tilt_degrees": 0.4671149224938334,
+      "raw_height_rms_m": 0.0006926679067819599,
+      "plane_residual_rms_m": 0.0002507112249360589,
+      "spread_eigenvalues_m2": [
+        0.003821778958449468,
+        0.013932703716508585
+      ]
+    },
+    {
+      "case": "g47-train-S00-W94000000-N24",
+      "step": 1450,
+      "node": "N14",
+      "inliers": 17,
+      "tilt_degrees": 1.0860445629373845,
+      "raw_height_rms_m": 0.0017043452964155827,
+      "plane_residual_rms_m": 0.00017695163209095925,
+      "spread_eigenvalues_m2": [
+        0.007667098094897323,
+        0.012471224052628353
+      ]
+    },
+    {
+      "case": "g47-train-S00-W94000000-N24",
+      "step": 1475,
+      "node": "N02",
+      "inliers": 15,
+      "tilt_degrees": 1.4798661607762986,
+      "raw_height_rms_m": 0.003974699834403687,
+      "plane_residual_rms_m": 0.0012292688331878748,
+      "spread_eigenvalues_m2": [
+        0.005819347888589857,
+        0.023364393362987207
+      ]
+    },
+    {
+      "case": "g47-train-S00-W94000000-N24",
+      "step": 1475,
+      "node": "N06",
+      "inliers": 14,
+      "tilt_degrees": 0.8968507416862487,
+      "raw_height_rms_m": 0.002961197243764662,
+      "plane_residual_rms_m": 0.0002447794473582591,
+      "spread_eigenvalues_m2": [
+        0.014903832734548397,
+        0.03827260123083231
+      ]
+    },
+    {
+      "case": "g47-train-S00-W94000000-N24",
+      "step": 1550,
+      "node": "N02",
+      "inliers": 15,
+      "tilt_degrees": 1.223587078721027,
+      "raw_height_rms_m": 0.0030303050472550255,
+      "plane_residual_rms_m": 0.0002747082611379675,
+      "spread_eigenvalues_m2": [
+        0.00265885362478987,
+        0.02219962228711319
+      ]
+    },
+    {
+      "case": "g47-train-S00-W94000000-N24",
+      "step": 1600,
+      "node": "N14",
+      "inliers": 14,
+      "tilt_degrees": 0.916747144287211,
+      "raw_height_rms_m": 0.0013098655786751713,
+      "plane_residual_rms_m": 0.00038080822466659566,
+      "spread_eigenvalues_m2": [
+        0.006562212352760623,
+        0.011760874536582214
+      ]
+    },
+    {
+      "case": "g47-train-S00-W94000000-N24",
+      "step": 1650,
+      "node": "N11",
+      "inliers": 18,
+      "tilt_degrees": 0.722874383512499,
+      "raw_height_rms_m": 0.0008684008893894074,
+      "plane_residual_rms_m": 0.0003033579066241406,
+      "spread_eigenvalues_m2": [
+        0.0043469438029904404,
+        0.011191330022487064
+      ]
+    },
+    {
+      "case": "g47-train-S00-W94000000-N24",
+      "step": 1675,
+      "node": "N05",
+      "inliers": 14,
+      "tilt_degrees": 0.7838125192528101,
+      "raw_height_rms_m": 0.0011187270951824263,
+      "plane_residual_rms_m": 0.00014020338202250387,
+      "spread_eigenvalues_m2": [
+        0.005626869424442851,
+        0.012173805124313142
+      ]
+    },
+    {
+      "case": "g47-train-S00-W94000000-N24",
+      "step": 1800,
+      "node": "N20",
+      "inliers": 17,
+      "tilt_degrees": 0.6318103344409375,
+      "raw_height_rms_m": 0.0010544328304635093,
+      "plane_residual_rms_m": 0.000359230251662179,
+      "spread_eigenvalues_m2": [
+        0.008553066199696403,
+        0.011160085314133327
+      ]
+    },
+    {
+      "case": "g47-train-S00-W94000000-N24",
+      "step": 1850,
+      "node": "N15",
+      "inliers": 16,
+      "tilt_degrees": 1.0880305479272803,
+      "raw_height_rms_m": 0.0022514382900422187,
+      "plane_residual_rms_m": 0.0009469237555502881,
+      "spread_eigenvalues_m2": [
+        0.004053161381068569,
+        0.019119300520617968
+      ]
+    },
+    {
+      "case": "g47-train-S00-W94000000-N24",
+      "step": 1975,
+      "node": "N08",
+      "inliers": 15,
+      "tilt_degrees": 0.27788742679441397,
+      "raw_height_rms_m": 0.0007596090766578298,
+      "plane_residual_rms_m": 0.0006865056915885358,
+      "spread_eigenvalues_m2": [
+        0.0034219452149769933,
+        0.01734327552473519
+      ]
+    },
+    {
+      "case": "g47-train-S00-W94000000-N24",
+      "step": 2225,
+      "node": "N05",
+      "inliers": 16,
+      "tilt_degrees": 0.593596617372832,
+      "raw_height_rms_m": 0.0010471542493556347,
+      "plane_residual_rms_m": 0.00016207297028831102,
+      "spread_eigenvalues_m2": [
+        0.00965632310619287,
+        0.010645846939457337
+      ]
+    }
+  ]
+}

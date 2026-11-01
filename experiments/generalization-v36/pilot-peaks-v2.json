@@ -1,0 +1,43 @@
+{
+  "split": "development-coupled-pilot",
+  "steps": 6000,
+  "output": "C:\\Users\\rynat\\OneDrive\\\u30c9\u30ad\u30e5\u30e1\u30f3\u30c8\\ChatGPT\\\u677e\u5c3e\u7814\\purumogu-search\\experiments\\raw\\rescue\\generalization-v36\\pilot-peaks-v2",
+  "cases": [
+    {
+      "id": "valid-known-S26-W42026234-N36",
+      "scene": 26,
+      "seed": 42026234,
+      "nodes": 36,
+      "deployment_seed": 42730950,
+      "source_seed": 42926234
+    },
+    {
+      "id": "valid-unknown-S22-W43022198-N36",
+      "scene": 22,
+      "seed": 43022198,
+      "nodes": 36,
+      "deployment_seed": 43726914,
+      "source_seed": 43922198
+    },
+    {
+      "id": "valid-unknown-S29-W43029261-N36",
+      "scene": 29,
+      "seed": 43029261,
+      "nodes": 36,
+      "deployment_seed": 43733977,
+      "source_seed": 43929261
+    },
+    {
+      "id": "valid-unknown-S29-W43029261-N48",
+      "scene": 29,
+      "seed": 43029261,
+      "nodes": 48,
+      "deployment_seed": 43735549,
+      "source_seed": 43929261
+    }
+  ],
+  "acquisition_revision": "original sensor/physics/noise; changed acoustic peak suppression; CPU 3D inference",
+  "model": "models/generic-v35-pilot-peaks-v2/model.json",
+  "model_sha256": "a7ed3a0e7bd1c200d34e82f7c127258801fb18741297c7be391c3da3438fefcb",
+  "purpose": "developmental closed-loop comparison, not final acceptance"
+}

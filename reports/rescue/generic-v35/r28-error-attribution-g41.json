@@ -1,0 +1,1231 @@
+{
+  "purpose": "Development error attribution, labels accessed after inference",
+  "checkpoint": "models/generic-v44-volume-r28-long/volume.pt",
+  "test_opened": false,
+  "rows": [
+    {
+      "id": "g41-valid-known-S25-W82025225-N24",
+      "area": 25,
+      "false_occupied": 249,
+      "missed_occupied": 175,
+      "unobserved_missed": 15,
+      "unobserved_false": 28,
+      "height": [
+        {
+          "y_index": -3,
+          "true_occupied": 0,
+          "fp": 0,
+          "fn": 0
+        },
+        {
+          "y_index": -2,
+          "true_occupied": 0,
+          "fp": 0,
+          "fn": 0
+        },
+        {
+          "y_index": -1,
+          "true_occupied": 650,
+          "fp": 7,
+          "fn": 7
+        },
+        {
+          "y_index": 0,
+          "true_occupied": 412,
+          "fp": 65,
+          "fn": 34
+        },
+        {
+          "y_index": 1,
+          "true_occupied": 161,
+          "fp": 10,
+          "fn": 21
+        },
+        {
+          "y_index": 2,
+          "true_occupied": 104,
+          "fp": 1,
+          "fn": 0
+        },
+        {
+          "y_index": 3,
+          "true_occupied": 110,
+          "fp": 1,
+          "fn": 0
+        },
+        {
+          "y_index": 4,
+          "true_occupied": 688,
+          "fp": 1,
+          "fn": 0
+        },
+        {
+          "y_index": 5,
+          "true_occupied": 686,
+          "fp": 8,
+          "fn": 4
+        },
+        {
+          "y_index": 6,
+          "true_occupied": 373,
+          "fp": 57,
+          "fn": 51
+        },
+        {
+          "y_index": 7,
+          "true_occupied": 130,
+          "fp": 28,
+          "fn": 4
+        },
+        {
+          "y_index": 8,
+          "true_occupied": 130,
+          "fp": 15,
+          "fn": 0
+        },
+        {
+          "y_index": 9,
+          "true_occupied": 146,
+          "fp": 6,
+          "fn": 0
+        },
+        {
+          "y_index": 10,
+          "true_occupied": 517,
+          "fp": 14,
+          "fn": 7
+        },
+        {
+          "y_index": 11,
+          "true_occupied": 479,
+          "fp": 14,
+          "fn": 13
+        },
+        {
+          "y_index": 12,
+          "true_occupied": 210,
+          "fp": 22,
+          "fn": 32
+        },
+        {
+          "y_index": 13,
+          "true_occupied": 58,
+          "fp": 0,
+          "fn": 0
+        },
+        {
+          "y_index": 14,
+          "true_occupied": 58,
+          "fp": 0,
+          "fn": 0
+        },
+        {
+          "y_index": 15,
+          "true_occupied": 74,
+          "fp": 0,
+          "fn": 2
+        },
+        {
+          "y_index": 16,
+          "true_occupied": 0,
+          "fp": 0,
+          "fn": 0
+        },
+        {
+          "y_index": 17,
+          "true_occupied": 0,
+          "fp": 0,
+          "fn": 0
+        }
+      ]
+    },
+    {
+      "id": "g41-valid-known-S25-W82025225-N36",
+      "area": 25,
+      "false_occupied": 109,
+      "missed_occupied": 109,
+      "unobserved_missed": 2,
+      "unobserved_false": 0,
+      "height": [
+        {
+          "y_index": -3,
+          "true_occupied": 0,
+          "fp": 0,
+          "fn": 0
+        },
+        {
+          "y_index": -2,
+          "true_occupied": 0,
+          "fp": 0,
+          "fn": 0
+        },
+        {
+          "y_index": -1,
+          "true_occupied": 650,
+          "fp": 6,
+          "fn": 8
+        },
+        {
+          "y_index": 0,
+          "true_occupied": 412,
+          "fp": 27,
+          "fn": 20
+        },
+        {
+          "y_index": 1,
+          "true_occupied": 161,
+          "fp": 12,
+          "fn": 16
+        },
+        {
+          "y_index": 2,
+          "true_occupied": 104,
+          "fp": 3,
+          "fn": 0
+        },
+        {
+          "y_index": 3,
+          "true_occupied": 110,
+          "fp": 0,
+          "fn": 0
+        },
+        {
+          "y_index": 4,
+          "true_occupied": 688,
+          "fp": 0,
+          "fn": 0
+        },
+        {
+          "y_index": 5,
+          "true_occupied": 686,
+          "fp": 2,
+          "fn": 5
+        },
+        {
+          "y_index": 6,
+          "true_occupied": 373,
+          "fp": 23,
+          "fn": 14
+        },
+        {
+          "y_index": 7,
+          "true_occupied": 130,
+          "fp": 5,
+          "fn": 0
+        },
+        {
+          "y_index": 8,
+          "true_occupied": 130,
+          "fp": 6,
+          "fn": 0
+        },
+        {
+          "y_index": 9,
+          "true_occupied": 146,
+          "fp": 1,
+          "fn": 1
+        },
+        {
+          "y_index": 10,
+          "true_occupied": 517,
+          "fp": 6,
+          "fn": 5
+        },
+        {
+          "y_index": 11,
+          "true_occupied": 479,
+          "fp": 5,
+          "fn": 10
+        },
+        {
+          "y_index": 12,
+          "true_occupied": 210,
+          "fp": 12,
+          "fn": 30
+        },
+        {
+          "y_index": 13,
+          "true_occupied": 58,
+          "fp": 1,
+          "fn": 0
+        },
+        {
+          "y_index": 14,
+          "true_occupied": 58,
+          "fp": 0,
+          "fn": 0
+        },
+        {
+          "y_index": 15,
+          "true_occupied": 74,
+          "fp": 0,
+          "fn": 0
+        },
+        {
+          "y_index": 16,
+          "true_occupied": 0,
+          "fp": 0,
+          "fn": 0
+        },
+        {
+          "y_index": 17,
+          "true_occupied": 0,
+          "fp": 0,
+          "fn": 0
+        }
+      ]
+    },
+    {
+      "id": "g41-valid-known-S25-W82025225-N48",
+      "area": 25,
+      "false_occupied": 96,
+      "missed_occupied": 143,
+      "unobserved_missed": 3,
+      "unobserved_false": 11,
+      "height": [
+        {
+          "y_index": -3,
+          "true_occupied": 0,
+          "fp": 0,
+          "fn": 0
+        },
+        {
+          "y_index": -2,
+          "true_occupied": 0,
+          "fp": 0,
+          "fn": 0
+        },
+        {
+          "y_index": -1,
+          "true_occupied": 650,
+          "fp": 4,
+          "fn": 7
+        },
+        {
+          "y_index": 0,
+          "true_occupied": 412,
+          "fp": 43,
+          "fn": 29
+        },
+        {
+          "y_index": 1,
+          "true_occupied": 161,
+          "fp": 11,
+          "fn": 23
+        },
+        {
+          "y_index": 2,
+          "true_occupied": 104,
+          "fp": 0,
+          "fn": 0
+        },
+        {
+          "y_index": 3,
+          "true_occupied": 110,
+          "fp": 0,
+          "fn": 0
+        },
+        {
+          "y_index": 4,
+          "true_occupied": 688,
+          "fp": 0,
+          "fn": 6
+        },
+        {
+          "y_index": 5,
+          "true_occupied": 686,
+          "fp": 2,
+          "fn": 5
+        },
+        {
+          "y_index": 6,
+          "true_occupied": 373,
+          "fp": 17,
+          "fn": 15
+        },
+        {
+          "y_index": 7,
+          "true_occupied": 130,
+          "fp": 0,
+          "fn": 1
+        },
+        {
+          "y_index": 8,
+          "true_occupied": 130,
+          "fp": 1,
+          "fn": 1
+        },
+        {
+          "y_index": 9,
+          "true_occupied": 146,
+          "fp": 2,
+          "fn": 3
+        },
+        {
+          "y_index": 10,
+          "true_occupied": 517,
+          "fp": 6,
+          "fn": 7
+        },
+        {
+          "y_index": 11,
+          "true_occupied": 479,
+          "fp": 2,
+          "fn": 13
+        },
+        {
+          "y_index": 12,
+          "true_occupied": 210,
+          "fp": 6,
+          "fn": 33
+        },
+        {
+          "y_index": 13,
+          "true_occupied": 58,
+          "fp": 2,
+          "fn": 0
+        },
+        {
+          "y_index": 14,
+          "true_occupied": 58,
+          "fp": 0,
+          "fn": 0
+        },
+        {
+          "y_index": 15,
+          "true_occupied": 74,
+          "fp": 0,
+          "fn": 0
+        },
+        {
+          "y_index": 16,
+          "true_occupied": 0,
+          "fp": 0,
+          "fn": 0
+        },
+        {
+          "y_index": 17,
+          "true_occupied": 0,
+          "fp": 0,
+          "fn": 0
+        }
+      ]
+    },
+    {
+      "id": "g41-valid-known-S26-W82026234-N24",
+      "area": 26,
+      "false_occupied": 104,
+      "missed_occupied": 170,
+      "unobserved_missed": 7,
+      "unobserved_false": 4,
+      "height": [
+        {
+          "y_index": -3,
+          "true_occupied": 0,
+          "fp": 0,
+          "fn": 0
+        },
+        {
+          "y_index": -2,
+          "true_occupied": 0,
+          "fp": 0,
+          "fn": 0
+        },
+        {
+          "y_index": -1,
+          "true_occupied": 687,
+          "fp": 4,
+          "fn": 15
+        },
+        {
+          "y_index": 0,
+          "true_occupied": 410,
+          "fp": 30,
+          "fn": 29
+        },
+        {
+          "y_index": 1,
+          "true_occupied": 143,
+          "fp": 10,
+          "fn": 29
+        },
+        {
+          "y_index": 2,
+          "true_occupied": 96,
+          "fp": 0,
+          "fn": 2
+        },
+        {
+          "y_index": 3,
+          "true_occupied": 96,
+          "fp": 0,
+          "fn": 0
+        },
+        {
+          "y_index": 4,
+          "true_occupied": 602,
+          "fp": 2,
+          "fn": 2
+        },
+        {
+          "y_index": 5,
+          "true_occupied": 592,
+          "fp": 5,
+          "fn": 9
+        },
+        {
+          "y_index": 6,
+          "true_occupied": 327,
+          "fp": 25,
+          "fn": 34
+        },
+        {
+          "y_index": 7,
+          "true_occupied": 87,
+          "fp": 5,
+          "fn": 1
+        },
+        {
+          "y_index": 8,
+          "true_occupied": 86,
+          "fp": 1,
+          "fn": 4
+        },
+        {
+          "y_index": 9,
+          "true_occupied": 94,
+          "fp": 1,
+          "fn": 4
+        },
+        {
+          "y_index": 10,
+          "true_occupied": 553,
+          "fp": 3,
+          "fn": 12
+        },
+        {
+          "y_index": 11,
+          "true_occupied": 500,
+          "fp": 2,
+          "fn": 12
+        },
+        {
+          "y_index": 12,
+          "true_occupied": 102,
+          "fp": 16,
+          "fn": 17
+        },
+        {
+          "y_index": 13,
+          "true_occupied": 0,
+          "fp": 0,
+          "fn": 0
+        },
+        {
+          "y_index": 14,
+          "true_occupied": 0,
+          "fp": 0,
+          "fn": 0
+        },
+        {
+          "y_index": 15,
+          "true_occupied": 0,
+          "fp": 0,
+          "fn": 0
+        },
+        {
+          "y_index": 16,
+          "true_occupied": 0,
+          "fp": 0,
+          "fn": 0
+        },
+        {
+          "y_index": 17,
+          "true_occupied": 0,
+          "fp": 0,
+          "fn": 0
+        }
+      ]
+    },
+    {
+      "id": "g41-valid-known-S26-W82026234-N36",
+      "area": 26,
+      "false_occupied": 83,
+      "missed_occupied": 167,
+      "unobserved_missed": 6,
+      "unobserved_false": 0,
+      "height": [
+        {
+          "y_index": -3,
+          "true_occupied": 0,
+          "fp": 0,
+          "fn": 0
+        },
+        {
+          "y_index": -2,
+          "true_occupied": 0,
+          "fp": 0,
+          "fn": 0
+        },
+        {
+          "y_index": -1,
+          "true_occupied": 687,
+          "fp": 0,
+          "fn": 15
+        },
+        {
+          "y_index": 0,
+          "true_occupied": 410,
+          "fp": 23,
+          "fn": 20
+        },
+        {
+          "y_index": 1,
+          "true_occupied": 143,
+          "fp": 10,
+          "fn": 26
+        },
+        {
+          "y_index": 2,
+          "true_occupied": 96,
+          "fp": 0,
+          "fn": 1
+        },
+        {
+          "y_index": 3,
+          "true_occupied": 96,
+          "fp": 5,
+          "fn": 0
+        },
+        {
+          "y_index": 4,
+          "true_occupied": 602,
+          "fp": 0,
+          "fn": 4
+        },
+        {
+          "y_index": 5,
+          "true_occupied": 592,
+          "fp": 1,
+          "fn": 7
+        },
+        {
+          "y_index": 6,
+          "true_occupied": 327,
+          "fp": 16,
+          "fn": 44
+        },
+        {
+          "y_index": 7,
+          "true_occupied": 87,
+          "fp": 2,
+          "fn": 1
+        },
+        {
+          "y_index": 8,
+          "true_occupied": 86,
+          "fp": 0,
+          "fn": 4
+        },
+        {
+          "y_index": 9,
+          "true_occupied": 94,
+          "fp": 0,
+          "fn": 5
+        },
+        {
+          "y_index": 10,
+          "true_occupied": 553,
+          "fp": 2,
+          "fn": 14
+        },
+        {
+          "y_index": 11,
+          "true_occupied": 500,
+          "fp": 3,
+          "fn": 11
+        },
+        {
+          "y_index": 12,
+          "true_occupied": 102,
+          "fp": 21,
+          "fn": 15
+        },
+        {
+          "y_index": 13,
+          "true_occupied": 0,
+          "fp": 0,
+          "fn": 0
+        },
+        {
+          "y_index": 14,
+          "true_occupied": 0,
+          "fp": 0,
+          "fn": 0
+        },
+        {
+          "y_index": 15,
+          "true_occupied": 0,
+          "fp": 0,
+          "fn": 0
+        },
+        {
+          "y_index": 16,
+          "true_occupied": 0,
+          "fp": 0,
+          "fn": 0
+        },
+        {
+          "y_index": 17,
+          "true_occupied": 0,
+          "fp": 0,
+          "fn": 0
+        }
+      ]
+    },
+    {
+      "id": "g41-valid-known-S26-W82026234-N48",
+      "area": 26,
+      "false_occupied": 75,
+      "missed_occupied": 161,
+      "unobserved_missed": 0,
+      "unobserved_false": 0,
+      "height": [
+        {
+          "y_index": -3,
+          "true_occupied": 0,
+          "fp": 0,
+          "fn": 0
+        },
+        {
+          "y_index": -2,
+          "true_occupied": 0,
+          "fp": 0,
+          "fn": 0
+        },
+        {
+          "y_index": -1,
+          "true_occupied": 687,
+          "fp": 7,
+          "fn": 10
+        },
+        {
+          "y_index": 0,
+          "true_occupied": 410,
+          "fp": 20,
+          "fn": 20
+        },
+        {
+          "y_index": 1,
+          "true_occupied": 143,
+          "fp": 7,
+          "fn": 25
+        },
+        {
+          "y_index": 2,
+          "true_occupied": 96,
+          "fp": 0,
+          "fn": 1
+        },
+        {
+          "y_index": 3,
+          "true_occupied": 96,
+          "fp": 0,
+          "fn": 3
+        },
+        {
+          "y_index": 4,
+          "true_occupied": 602,
+          "fp": 1,
+          "fn": 5
+        },
+        {
+          "y_index": 5,
+          "true_occupied": 592,
+          "fp": 4,
+          "fn": 9
+        },
+        {
+          "y_index": 6,
+          "true_occupied": 327,
+          "fp": 14,
+          "fn": 25
+        },
+        {
+          "y_index": 7,
+          "true_occupied": 87,
+          "fp": 1,
+          "fn": 1
+        },
+        {
+          "y_index": 8,
+          "true_occupied": 86,
+          "fp": 0,
+          "fn": 0
+        },
+        {
+          "y_index": 9,
+          "true_occupied": 94,
+          "fp": 1,
+          "fn": 2
+        },
+        {
+          "y_index": 10,
+          "true_occupied": 553,
+          "fp": 2,
+          "fn": 19
+        },
+        {
+          "y_index": 11,
+          "true_occupied": 500,
+          "fp": 3,
+          "fn": 15
+        },
+        {
+          "y_index": 12,
+          "true_occupied": 102,
+          "fp": 15,
+          "fn": 26
+        },
+        {
+          "y_index": 13,
+          "true_occupied": 0,
+          "fp": 0,
+          "fn": 0
+        },
+        {
+          "y_index": 14,
+          "true_occupied": 0,
+          "fp": 0,
+          "fn": 0
+        },
+        {
+          "y_index": 15,
+          "true_occupied": 0,
+          "fp": 0,
+          "fn": 0
+        },
+        {
+          "y_index": 16,
+          "true_occupied": 0,
+          "fp": 0,
+          "fn": 0
+        },
+        {
+          "y_index": 17,
+          "true_occupied": 0,
+          "fp": 0,
+          "fn": 0
+        }
+      ]
+    },
+    {
+      "id": "g41-valid-unknown-S29-W83029261-N24",
+      "area": 29,
+      "false_occupied": 165,
+      "missed_occupied": 201,
+      "unobserved_missed": 2,
+      "unobserved_false": 0,
+      "height": [
+        {
+          "y_index": -3,
+          "true_occupied": 0,
+          "fp": 0,
+          "fn": 0
+        },
+        {
+          "y_index": -2,
+          "true_occupied": 0,
+          "fp": 0,
+          "fn": 0
+        },
+        {
+          "y_index": -1,
+          "true_occupied": 781,
+          "fp": 1,
+          "fn": 10
+        },
+        {
+          "y_index": 0,
+          "true_occupied": 447,
+          "fp": 12,
+          "fn": 51
+        },
+        {
+          "y_index": 1,
+          "true_occupied": 134,
+          "fp": 8,
+          "fn": 26
+        },
+        {
+          "y_index": 2,
+          "true_occupied": 80,
+          "fp": 0,
+          "fn": 5
+        },
+        {
+          "y_index": 3,
+          "true_occupied": 86,
+          "fp": 0,
+          "fn": 7
+        },
+        {
+          "y_index": 4,
+          "true_occupied": 816,
+          "fp": 0,
+          "fn": 2
+        },
+        {
+          "y_index": 5,
+          "true_occupied": 878,
+          "fp": 18,
+          "fn": 22
+        },
+        {
+          "y_index": 6,
+          "true_occupied": 516,
+          "fp": 53,
+          "fn": 35
+        },
+        {
+          "y_index": 7,
+          "true_occupied": 128,
+          "fp": 8,
+          "fn": 4
+        },
+        {
+          "y_index": 8,
+          "true_occupied": 128,
+          "fp": 8,
+          "fn": 1
+        },
+        {
+          "y_index": 9,
+          "true_occupied": 136,
+          "fp": 6,
+          "fn": 4
+        },
+        {
+          "y_index": 10,
+          "true_occupied": 500,
+          "fp": 14,
+          "fn": 2
+        },
+        {
+          "y_index": 11,
+          "true_occupied": 482,
+          "fp": 18,
+          "fn": 17
+        },
+        {
+          "y_index": 12,
+          "true_occupied": 145,
+          "fp": 19,
+          "fn": 14
+        },
+        {
+          "y_index": 13,
+          "true_occupied": 63,
+          "fp": 0,
+          "fn": 0
+        },
+        {
+          "y_index": 14,
+          "true_occupied": 63,
+          "fp": 0,
+          "fn": 0
+        },
+        {
+          "y_index": 15,
+          "true_occupied": 70,
+          "fp": 0,
+          "fn": 1
+        },
+        {
+          "y_index": 16,
+          "true_occupied": 0,
+          "fp": 0,
+          "fn": 0
+        },
+        {
+          "y_index": 17,
+          "true_occupied": 0,
+          "fp": 0,
+          "fn": 0
+        }
+      ]
+    },
+    {
+      "id": "g41-valid-unknown-S29-W83029261-N36",
+      "area": 29,
+      "false_occupied": 169,
+      "missed_occupied": 204,
+      "unobserved_missed": 4,
+      "unobserved_false": 4,
+      "height": [
+        {
+          "y_index": -3,
+          "true_occupied": 0,
+          "fp": 0,
+          "fn": 0
+        },
+        {
+          "y_index": -2,
+          "true_occupied": 0,
+          "fp": 0,
+          "fn": 0
+        },
+        {
+          "y_index": -1,
+          "true_occupied": 781,
+          "fp": 1,
+          "fn": 10
+        },
+        {
+          "y_index": 0,
+          "true_occupied": 447,
+          "fp": 31,
+          "fn": 54
+        },
+        {
+          "y_index": 1,
+          "true_occupied": 134,
+          "fp": 14,
+          "fn": 29
+        },
+        {
+          "y_index": 2,
+          "true_occupied": 80,
+          "fp": 0,
+          "fn": 5
+        },
+        {
+          "y_index": 3,
+          "true_occupied": 86,
+          "fp": 0,
+          "fn": 6
+        },
+        {
+          "y_index": 4,
+          "true_occupied": 816,
+          "fp": 2,
+          "fn": 0
+        },
+        {
+          "y_index": 5,
+          "true_occupied": 878,
+          "fp": 23,
+          "fn": 25
+        },
+        {
+          "y_index": 6,
+          "true_occupied": 516,
+          "fp": 48,
+          "fn": 37
+        },
+        {
+          "y_index": 7,
+          "true_occupied": 128,
+          "fp": 7,
+          "fn": 2
+        },
+        {
+          "y_index": 8,
+          "true_occupied": 128,
+          "fp": 5,
+          "fn": 2
+        },
+        {
+          "y_index": 9,
+          "true_occupied": 136,
+          "fp": 8,
+          "fn": 1
+        },
+        {
+          "y_index": 10,
+          "true_occupied": 500,
+          "fp": 12,
+          "fn": 1
+        },
+        {
+          "y_index": 11,
+          "true_occupied": 482,
+          "fp": 8,
+          "fn": 16
+        },
+        {
+          "y_index": 12,
+          "true_occupied": 145,
+          "fp": 10,
+          "fn": 15
+        },
+        {
+          "y_index": 13,
+          "true_occupied": 63,
+          "fp": 0,
+          "fn": 0
+        },
+        {
+          "y_index": 14,
+          "true_occupied": 63,
+          "fp": 0,
+          "fn": 0
+        },
+        {
+          "y_index": 15,
+          "true_occupied": 70,
+          "fp": 0,
+          "fn": 1
+        },
+        {
+          "y_index": 16,
+          "true_occupied": 0,
+          "fp": 0,
+          "fn": 0
+        },
+        {
+          "y_index": 17,
+          "true_occupied": 0,
+          "fp": 0,
+          "fn": 0
+        }
+      ]
+    },
+    {
+      "id": "g41-valid-unknown-S29-W83029261-N48",
+      "area": 29,
+      "false_occupied": 188,
+      "missed_occupied": 191,
+      "unobserved_missed": 11,
+      "unobserved_false": 6,
+      "height": [
+        {
+          "y_index": -3,
+          "true_occupied": 0,
+          "fp": 0,
+          "fn": 0
+        },
+        {
+          "y_index": -2,
+          "true_occupied": 0,
+          "fp": 0,
+          "fn": 0
+        },
+        {
+          "y_index": -1,
+          "true_occupied": 781,
+          "fp": 6,
+          "fn": 10
+        },
+        {
+          "y_index": 0,
+          "true_occupied": 447,
+          "fp": 51,
+          "fn": 51
+        },
+        {
+          "y_index": 1,
+          "true_occupied": 134,
+          "fp": 11,
+          "fn": 25
+        },
+        {
+          "y_index": 2,
+          "true_occupied": 80,
+          "fp": 1,
+          "fn": 5
+        },
+        {
+          "y_index": 3,
+          "true_occupied": 86,
+          "fp": 0,
+          "fn": 7
+        },
+        {
+          "y_index": 4,
+          "true_occupied": 816,
+          "fp": 0,
+          "fn": 0
+        },
+        {
+          "y_index": 5,
+          "true_occupied": 878,
+          "fp": 12,
+          "fn": 18
+        },
+        {
+          "y_index": 6,
+          "true_occupied": 516,
+          "fp": 49,
+          "fn": 28
+        },
+        {
+          "y_index": 7,
+          "true_occupied": 128,
+          "fp": 7,
+          "fn": 0
+        },
+        {
+          "y_index": 8,
+          "true_occupied": 128,
+          "fp": 7,
+          "fn": 0
+        },
+        {
+          "y_index": 9,
+          "true_occupied": 136,
+          "fp": 9,
+          "fn": 2
+        },
+        {
+          "y_index": 10,
+          "true_occupied": 500,
+          "fp": 11,
+          "fn": 4
+        },
+        {
+          "y_index": 11,
+          "true_occupied": 482,
+          "fp": 12,
+          "fn": 15
+        },
+        {
+          "y_index": 12,
+          "true_occupied": 145,
+          "fp": 12,
+          "fn": 25
+        },
+        {
+          "y_index": 13,
+          "true_occupied": 63,
+          "fp": 0,
+          "fn": 0
+        },
+        {
+          "y_index": 14,
+          "true_occupied": 63,
+          "fp": 0,
+          "fn": 0
+        },
+        {
+          "y_index": 15,
+          "true_occupied": 70,
+          "fp": 0,
+          "fn": 1
+        },
+        {
+          "y_index": 16,
+          "true_occupied": 0,
+          "fp": 0,
+          "fn": 0
+        },
+        {
+          "y_index": 17,
+          "true_occupied": 0,
+          "fp": 0,
+          "fn": 0
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "purpose": "Fresh six-case closed-loop development comparison after full-data R36 training",
+  "checkpoint": "models/generic-v64-volume-r36-collapse-adapted/volume.pt",
+  "tracks": "models/generic-v75-residual-scale/model.json",
+  "cases": "Same registered S25/S29/S33 worlds at24 and48 nodes as R35 pilot; no36, not full acceptance",
+  "fixed_tracks_before_new_rollouts": true,
+  "steps": [
+    6000,
+    18000
+  ],
+  "final_test_opened": false,
+  "full_acceptance": false
+}

@@ -1,0 +1,12 @@
+{
+  "purpose": "Expand full independent TRAIN and partial-collapse VALID with sensor-only geometry; replace the two first-pass TRAIN subsets",
+  "train_worlds_new": 162,
+  "validation_cases": 54,
+  "fine_worlds_total": 248,
+  "final_test_opened": false,
+  "generations": [
+    "generalization-v47-long-diverse",
+    "generalization-v50-long-diverse2",
+    "generalization-v60-partial-collapse"
+  ]
+}

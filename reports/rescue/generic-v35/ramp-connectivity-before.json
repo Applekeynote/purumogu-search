@@ -1,0 +1,79 @@
+{
+  "purpose": "Physical ramp clearance audit; TRAIN/VALID scenes only",
+  "test_opened": false,
+  "blocked_flights": 6,
+  "results": [
+    {
+      "scene": "M06",
+      "ramp": "ConnectingRamp_L0",
+      "blocked_samples": 0,
+      "obstructions": []
+    },
+    {
+      "scene": "M07",
+      "ramp": "ConnectingRamp_L0",
+      "blocked_samples": 2,
+      "obstructions": [
+        "ShapedFloor_L1"
+      ]
+    },
+    {
+      "scene": "M08",
+      "ramp": "ConnectingRamp_L0",
+      "blocked_samples": 0,
+      "obstructions": []
+    },
+    {
+      "scene": "M10",
+      "ramp": "ConnectingRamp_L0",
+      "blocked_samples": 2,
+      "obstructions": [
+        "ShapedFloor_L1"
+      ]
+    },
+    {
+      "scene": "H06",
+      "ramp": "ConnectingRamp_L0",
+      "blocked_samples": 2,
+      "obstructions": [
+        "ShapedFloor_L1"
+      ]
+    },
+    {
+      "scene": "H06",
+      "ramp": "ConnectingRamp_L1",
+      "blocked_samples": 2,
+      "obstructions": [
+        "ShapedFloor_L2"
+      ]
+    },
+    {
+      "scene": "H07",
+      "ramp": "ConnectingRamp_L0",
+      "blocked_samples": 2,
+      "obstructions": [
+        "ShapedFloor_L1"
+      ]
+    },
+    {
+      "scene": "H07",
+      "ramp": "ConnectingRamp_L1",
+      "blocked_samples": 2,
+      "obstructions": [
+        "ShapedFloor_L2"
+      ]
+    },
+    {
+      "scene": "H10",
+      "ramp": "ConnectingRamp_L0",
+      "blocked_samples": 0,
+      "obstructions": []
+    },
+    {
+      "scene": "H10",
+      "ramp": "ConnectingRamp_L1",
+      "blocked_samples": 0,
+      "obstructions": []
+    }
+  ]
+}

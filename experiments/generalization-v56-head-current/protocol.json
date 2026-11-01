@@ -1,0 +1,17 @@
+{
+  "purpose": "Development selection of people localization heads with current 360-second TRAIN passes",
+  "test_opened": false,
+  "training_worlds": 310,
+  "current_360_second_worlds": 55,
+  "old_120_second_worlds": 255,
+  "current_360_world_weight": 0.5,
+  "snapshot_weighting": "Normalize all snapshots within each physical world; snapshots do not count as independent worlds",
+  "validation": "36 G41 development cases, 12 physical worlds, evaluated at 18000 ticks",
+  "targets_compared": ["binary localization within 0.25m", "Gaussian distance logit ranking with sigma 0.15m"],
+  "native_tree_budget": {"leaves": [15,31], "trees": [120,200,256]},
+  "features": "Existing 32 spectral/thermal/acoustic proposal features; no coordinates or scene IDs",
+  "staged_training": ["generalization-v47-first-pass/train", "generalization-v50-first-pass/train"],
+  "staging_rule": "Complete first registered pass, one world per TRAIN family; no outcome selection. Replace staged roots with full cohorts in later fits, never double count.",
+  "selection": "Minimum precision/recall across VALID area, node count and domain, then global criteria",
+  "acceptance": "Fresh physical rollout and untouched final TEST still required after model selection"
+}

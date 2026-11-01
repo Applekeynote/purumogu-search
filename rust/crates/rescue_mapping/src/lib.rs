@@ -4,10 +4,17 @@ use serde::{Deserialize, Serialize};
 use std::collections::{BTreeMap, BTreeSet, VecDeque};
 use std::sync::Arc;
 pub mod completion;
+pub mod generic;
 pub mod hazards;
 pub mod learned;
+mod map_context;
 mod navigation;
+pub mod range_moments;
+pub mod registration;
 pub mod surface;
+pub mod thermal;
+pub mod track_fusion;
+pub mod volume;
 use learned::LearnedModel;
 
 pub const VERSION: &str = "2.0";
@@ -122,10 +129,10 @@ struct CueEvidence {
     heat: f64,
     range_error: f64,
 }
-#[derive(Clone, Debug, Serialize)]
+#[derive(Clone, Debug, Serialize, Deserialize)]
 pub struct Proposal {
     pub position: V3,
-    pub features: [f64; 12],
+    pub features: Vec<f64>,
     pub observers: usize,
     pub first_seen_step: u64,
     pub last_seen_step: u64,
@@ -150,7 +157,7 @@ impl Track {
             observers: self.observers,
             first_seen_step: self.first_seen,
             last_seen_step: self.last_seen,
-            features: [
+            features: vec![
                 self.score,
                 self.peak_score,
                 (1.0 + f64::from(self.hits)).ln() / 5.0,
@@ -193,6 +200,8 @@ pub struct MapReply {
     pub water_observed_nodes: usize,
     pub surface_resolution_m: Option<f64>,
     pub surface_points: Vec<[f64; 6]>,
+    #[serde(skip_serializing_if = "Vec::is_empty")]
+    pub range_moments: Vec<range_moments::MomentRow>,
 }
 #[derive(Default, Clone)]
 struct Voxel {
@@ -204,6 +213,7 @@ struct Pose {
     position: V3,
     sigma: f64,
     anchor: V3,
+    last_seen: u64,
 }
 #[derive(Clone)]
 struct Bearing {
@@ -242,8 +252,24 @@ pub struct Mapper {
     fine_surface: surface::SurfaceMap,
     recent_visits: BTreeMap<[i32; 2], u64>,
     recent_visits3: BTreeMap<[i32; 3], u64>,
+    range_moments: range_moments::RangeMoments,
+    observer_indices: BTreeMap<String, usize>,
+    registration: registration::AxisConsensus,
+    export_fine_ranges: bool,
+    planning_probability: Vec<f64>,
+    planned_goals: Vec<Goal>,
+    last_plan_step: u64,
+    thermal: thermal::ThermalField,
 }
 impl Mapper {
+    /// Offline feature export; production network replies omit the large fine tensor.
+    pub fn range_moment_rows(&self, channels: usize) -> Vec<range_moments::MomentRow> {
+        self.range_moments.rows_for(channels)
+    }
+    /// Enables sensor-tensor extraction without loading an inference network.
+    pub fn enable_fine_range_export(&mut self) {
+        self.export_fine_ranges = true;
+    }
     pub fn new(run: &str, cell: f64) -> Result<Self> {
         ensure!(
             !run.is_empty() && run.len() <= 96 && cell.is_finite() && (0.01..=0.2).contains(&cell),
@@ -272,12 +298,24 @@ impl Mapper {
             fine_surface: surface::SurfaceMap::default(),
             recent_visits: BTreeMap::new(),
             recent_visits3: BTreeMap::new(),
+            range_moments: range_moments::RangeMoments::default(),
+            observer_indices: BTreeMap::new(),
+            registration: registration::AxisConsensus::default(),
+            export_fine_ranges: false,
+            planning_probability: vec![],
+            planned_goals: vec![],
+            last_plan_step: 0,
+            thermal: thermal::ThermalField::default(),
         })
     }
     pub fn with_model(run: &str, cell: f64, model: Option<Arc<LearnedModel>>) -> Result<Self> {
         let mut mapper = Self::new(run, cell)?;
         if let Some(m) = &model {
             m.validate()?;
+            ensure!(
+                m.volume_file.is_empty() || m.volume_runtime.is_some(),
+                "3D inference runtime was not loaded"
+            );
             ensure!((m.cell_m - cell).abs() < 1e-9, "model cell size mismatch");
             mapper.proposal_mode = m.has_track_model() || m.distributed_swarm;
         }
@@ -413,15 +451,38 @@ impl Mapper {
                 );
             }
         }
-        self.proposal_mode |= p.request_diagnostics;
+        // The learned peak pipeline uses the same candidate population during training
+        // and normal app inference. Requesting diagnostic output must not alter it.
+        self.proposal_mode |=
+            p.request_diagnostics || self.model.as_ref().is_some_and(|m| m.acoustic_peaks_v2);
+        let registered = if self.model.as_ref().is_some_and(|m| m.plane_registration_v1) {
+            self.registration.packet(
+                &p.scans,
+                self.model
+                    .as_ref()
+                    .is_some_and(|m| m.axis_plane_registration_v2),
+            )
+        } else {
+            BTreeMap::new()
+        };
         for s in &p.scans {
+            let next_observer = self.observer_indices.len();
+            let observer = *self
+                .observer_indices
+                .entry(s.node_id.clone())
+                .or_insert(next_observer);
             let pose = self.poses.entry(s.node_id.clone()).or_insert(Pose {
                 position: s.deployment_anchor,
                 sigma: 0.0,
                 anchor: s.deployment_anchor,
+                last_seen: p.sim_step,
             });
-            pose.position = add(pose.position, s.odometry_delta);
+            pose.position = registered
+                .get(&s.node_id)
+                .copied()
+                .unwrap_or_else(|| add(pose.position, s.odometry_delta));
             pose.sigma = s.pose_sigma_m;
+            pose.last_seen = p.sim_step;
             let origin = pose.position;
             let visit = [
                 (origin[0] / self.cell).floor() as i32,
@@ -458,8 +519,66 @@ impl Mapper {
                 );
             }
             let reliability = 1.0 / (1.0 + (s.pose_sigma_m / self.cell).powi(2));
+            if self.model.as_ref().is_some_and(|m| {
+                matches!(
+                    m.track_feature_map.as_str(),
+                    "thermal16-v1"
+                        | "thermal24-v2"
+                        | "thermal-spectral32-v3"
+                        | map_context::FEATURE_MAP
+                        | learned::TEACHER_FEATURE_MAP
+                )
+            }) {
+                self.thermal
+                    .observe(origin, s.temperature_delta_c, s.pose_sigma_m);
+                if self.model.as_ref().is_some_and(|m| {
+                    matches!(
+                        m.track_feature_map.as_str(),
+                        "thermal-spectral32-v3"
+                            | map_context::FEATURE_MAP
+                            | learned::TEACHER_FEATURE_MAP
+                    )
+                }) {
+                    self.thermal.observe_spectral(
+                        origin,
+                        s.pose_sigma_m,
+                        s.acoustic_snr_db,
+                        s.voice_band_ratio,
+                        s.modulation,
+                    );
+                }
+            }
             let mut observed = BTreeMap::new();
+            if self.model.as_ref().is_some_and(|m| m.volume_channels == 90) {
+                if self.model.as_ref().is_some_and(|m| m.range_tsdf_v1) {
+                    self.range_moments
+                        .integrate_surface_distance(origin, &s.rays, reliability);
+                } else {
+                    self.range_moments
+                        .integrate_free_space(origin, &s.rays, reliability);
+                }
+            }
             for ray in &s.rays {
+                if ray.hit
+                    && (self.export_fine_ranges
+                        || self
+                            .model
+                            .as_ref()
+                            .is_some_and(|m| !m.volume_file.is_empty() && m.volume_channels > 2))
+                {
+                    self.range_moments.observe_for_node(
+                        origin,
+                        ray.direction,
+                        ray.distance_m,
+                        reliability,
+                        observer,
+                        self.export_fine_ranges
+                            || self
+                                .model
+                                .as_ref()
+                                .is_some_and(|m| matches!(m.volume_channels, 74 | 90)),
+                    );
+                }
                 let n = (ray.distance_m / (self.cell * 0.45)).ceil() as usize;
                 for i in 0..n {
                     observed
@@ -516,7 +635,9 @@ impl Mapper {
             {
                 let weight = if let Some(model) = &self.model {
                     let human = model.human_score(mean);
-                    if human < if self.proposal_mode { 0.35 } else { 0.55 } {
+                    if model.joint_acoustic_fusion {
+                        1.0 / (1.0 + (s.bearing_sigma_deg / 45.0).powi(2))
+                    } else if human < if self.proposal_mode { 0.35 } else { 0.55 } {
                         0.0
                     } else {
                         // SNR is already a classifier feature and increases bearing sigma.
@@ -550,7 +671,13 @@ impl Mapper {
                         human: self
                             .model
                             .as_ref()
-                            .map_or(s.voice_band_ratio * s.modulation, |m| m.human_score(mean)),
+                            .map_or(s.voice_band_ratio * s.modulation, |m| {
+                                m.human_score(if m.joint_acoustic_fusion {
+                                    features
+                                } else {
+                                    mean
+                                })
+                            }),
                         heat: s.temperature_delta_c,
                     });
                 }
@@ -588,6 +715,13 @@ impl Mapper {
                 sensor_occupancy: Some(1.0 / (1.0 + (-v.log_odds).exp())),
             })
             .collect();
+        // A separately frozen explorer reads the same raw observations. The
+        // current map decoder cannot feed its completions into that explorer.
+        let mut navigation_cells = self
+            .model
+            .as_ref()
+            .filter(|m| m.navigation_runtime.is_some() && p.request_map)
+            .map(|_| cells.clone());
         let mut completion_family = String::new();
         let mut completion_confidence = 0.0;
         if p.request_map
@@ -668,10 +802,11 @@ impl Mapper {
             }
         }
         if p.request_map
-            && self
-                .model
-                .as_ref()
-                .is_some_and(|m| m.local_surface_completion)
+            && self.model.as_ref().is_some_and(|m| {
+                m.local_surface_completion
+                    && m.geometry_trees.is_empty()
+                    && m.volume_file.is_empty()
+            })
         {
             let mut inferred = completion::infer(&cells);
             for c in &mut cells {
@@ -689,6 +824,46 @@ impl Mapper {
             }));
             completion_family = "local-plane-v1".into();
         }
+        if p.request_map
+            && let Some(model) = &self.model
+            && !model.geometry_trees.is_empty()
+        {
+            generic::apply(&mut cells, model);
+            completion_family = "local-learned-v1".into();
+        }
+        if p.request_map
+            && let Some(model) = &self.model
+            && let Some(runtime) = &model.volume_runtime
+        {
+            let extra = if model.volume_channels > 2 {
+                Some(range_moments::grid(
+                    &self.range_moments.rows_for(model.volume_channels),
+                    model.volume_channels,
+                )?)
+            } else {
+                None
+            };
+            runtime.apply(&mut cells, model.volume_logit_bias, extra.as_deref())?;
+            completion_family = "volume-unet-v1".into();
+        }
+        if p.request_map && self.model.as_ref().is_some_and(|m| m.learned_navigation_v1) {
+            if let Some(model) = &self.model
+                && let Some(runtime) = &model.navigation_runtime
+                && let Some(observed) = navigation_cells.as_mut()
+            {
+                let extra = range_moments::grid(
+                    &self.range_moments.rows_for(model.navigation_channels),
+                    model.navigation_channels,
+                )?;
+                runtime.apply(observed, model.navigation_logit_bias, Some(&extra))?;
+            }
+            self.planning_probability = vec![0.5; learned::GRID_CELLS];
+            for cell in navigation_cells.as_ref().unwrap_or(&cells) {
+                if let Some(index) = learned::index(cell.key) {
+                    self.planning_probability[index] = cell.occupancy;
+                }
+            }
+        }
         let entropy = cells
             .iter()
             .map(|c| {
@@ -697,7 +872,9 @@ impl Mapper {
             })
             .sum::<f64>()
             / cells.len().max(1) as f64;
-        let cues = if p.sim_step >= self.last_cue_step + 100 {
+        let cues = if self.export_fine_ranges {
+            vec![]
+        } else if p.sim_step >= self.last_cue_step + 100 {
             let instantaneous = self.cues();
             if self.model.as_ref().is_some_and(|m| m.acoustic_probe) {
                 self.probe_cues.clone_from(&instantaneous);
@@ -706,6 +883,18 @@ impl Mapper {
             self.track_cues(&instantaneous, p.sim_step)
         } else {
             self.current_tracks(p.sim_step)
+        };
+        let goals = if self.export_fine_ranges {
+            vec![]
+        } else if self.model.as_ref().is_some_and(|m| m.learned_navigation_v1) {
+            if self.planned_goals.is_empty() || p.sim_step.saturating_sub(self.last_plan_step) >= 50
+            {
+                self.planned_goals = self.frontiers();
+                self.last_plan_step = p.sim_step;
+            }
+            self.planned_goals.clone()
+        } else {
+            self.frontiers()
         };
         let mut reply = MapReply {
             protocol_version: VERSION,
@@ -724,7 +913,7 @@ impl Mapper {
                 })
                 .collect(),
             cues,
-            goals: self.frontiers(),
+            goals,
             observed_cells: self.voxels.len(),
             rejected_scans: self.rejected,
             hazards: self.environment.current(p.sim_step),
@@ -736,12 +925,28 @@ impl Mapper {
             } else {
                 vec![]
             },
+            range_moments: if p.request_map
+                && p.request_diagnostics
+                && self.model.as_ref().is_some_and(|m| {
+                    !m.volume_file.is_empty() && m.volume_channels > 2 && m.volume_channels <= 18
+                }) {
+                self.range_moments
+                    .rows_for(self.model.as_ref().unwrap().volume_channels)
+            } else {
+                vec![]
+            },
             mean_entropy_bits: entropy,
             note: "Sensor observations and learned geometry completion are distinguished. Cue scores are uncalibrated search priorities, not confirmed people.",
-            model_version: self
-                .model
-                .as_ref()
-                .map_or_else(|| "sensor-baseline".into(), |m| m.version.clone()),
+            model_version: self.model.as_ref().map_or_else(
+                || "sensor-baseline".into(),
+                |m| {
+                    if m.model_id.is_empty() {
+                        m.version.clone()
+                    } else {
+                        m.model_id.clone()
+                    }
+                },
+            ),
             person_classifier_ready: self.model.as_ref().is_some_and(|m| m.has_track_model()),
             distributed_swarm: self.model.as_ref().is_some_and(|m| m.distributed_swarm),
             completion_family,
@@ -750,7 +955,7 @@ impl Mapper {
                 self.tracks
                     .iter()
                     .chain(&self.archived_tracks)
-                    .map(|t| t.proposal(p.sim_step, self.observer_denominator()))
+                    .map(|t| self.track_proposal(t, p.sim_step))
                     .collect()
             } else {
                 vec![]
@@ -779,6 +984,14 @@ impl Mapper {
     }
     fn cues(&self) -> Vec<Cue> {
         let mut candidates = vec![];
+        let joint = self.model.as_ref().is_some_and(|m| m.joint_acoustic_fusion);
+        // Group once, retaining acquisition order within each node. Rebuilding a tree
+        // for every voxel dominated multi-floor inference time.
+        let mut groups: BTreeMap<&str, Vec<&Bearing>> = BTreeMap::new();
+        for bearing in &self.bearings {
+            groups.entry(&bearing.id).or_default().push(bearing);
+        }
+        let groups: Vec<_> = groups.into_values().collect();
         // Acoustic evidence can nominate unobserved space, but never known solid cells.
         for x in (-14..15).step_by(2) {
             for y in (0..if self
@@ -798,49 +1011,102 @@ impl Mapper {
                         continue;
                     }
                     let p = self.center(k);
-                    let mut by_node: BTreeMap<&str, NodeEvidence> = BTreeMap::new();
-                    for b in &self.bearings {
-                        let delta = sub(p, b.origin);
-                        let d = norm(delta);
-                        if d < self.cell * 2.0 || d > self.cell * 45.0 {
-                            continue;
+                    let mut by_node: Vec<NodeEvidence> = Vec::with_capacity(groups.len());
+                    for group in &groups {
+                        let mut old: NodeEvidence = (0.0, [0.0; 3], 0.0, 0, 0.0, 0.0, 0.0, 0.0);
+                        for b in group {
+                            let delta = sub(p, b.origin);
+                            let d = norm(delta);
+                            if d < self.cell * 2.0 || d > self.cell * 45.0 {
+                                continue;
+                            }
+                            let angle = (dot(delta, b.direction) / d).clamp(-1.0, 1.0).acos();
+                            let uncertainty = b.sigma + (b.pose_sigma / d).atan();
+                            let radial = b.radial.map_or(1.0, |(range, sigma)| {
+                                (-0.5
+                                    * (((d + 0.04) / (range + 0.04)).ln()
+                                        / (sigma + b.pose_sigma / (d + 0.04)))
+                                        .powi(2))
+                                .exp()
+                            });
+                            let angular = if let Some(model) = &self.model
+                                && model.bearing_likelihood.len() == 4
+                            {
+                                let c = &model.bearing_likelihood;
+                                let difference =
+                                    delta[0].atan2(delta[2]) - b.direction[0].atan2(b.direction[2]);
+                                let predicted_elevation = (delta[1] / d).clamp(-1.0, 1.0).asin();
+                                let observed_elevation =
+                                    (b.direction[1] / norm(b.direction)).clamp(-1.0, 1.0).asin();
+                                let projection =
+                                    ((predicted_elevation + observed_elevation) * 0.5).cos();
+                                let azimuth = difference.sin().atan2(difference.cos()) * projection;
+                                let elevation = predicted_elevation - observed_elevation;
+                                let reflection = c[2] * projection;
+                                let horizontal = b.sigma * c[0] + (b.pose_sigma / d).atan();
+                                let vertical = b.sigma * c[1] + (b.pose_sigma / d).atan();
+                                let mixture = |angle: f64| {
+                                    c[3] * (-0.5 * (angle / horizontal).powi(2)).exp()
+                                        + (1.0 - c[3])
+                                            * 0.5
+                                            * ((-0.5 * ((angle - reflection) / horizontal).powi(2))
+                                                .exp()
+                                                + (-0.5
+                                                    * ((angle + reflection) / horizontal).powi(2))
+                                                .exp())
+                                };
+                                let maximum = [0.0, reflection * 0.5, reflection]
+                                    .into_iter()
+                                    .map(mixture)
+                                    .fold(0.0f64, f64::max);
+                                (mixture(azimuth) / maximum).min(1.0)
+                                    * (-0.5 * (elevation / vertical).powi(2)).exp()
+                            } else {
+                                (-0.5 * (angle / uncertainty).powi(2)).exp()
+                            };
+                            let score = b.weight * angular * radial;
+                            if old.3 == 0 && !joint {
+                                old.1 = b.origin;
+                            }
+                            if joint {
+                                old.1 = add(old.1, mul(b.origin, score));
+                            }
+                            old.0 += score;
+                            let evidence_weight = if joint { score } else { 1.0 };
+                            old.2 += uncertainty * evidence_weight;
+                            old.3 += 1;
+                            old.4 += b.human * evidence_weight;
+                            old.5 += b.heat * evidence_weight;
+                            old.6 += d * evidence_weight;
+                            old.7 += evidence_weight
+                                * b.radial.map_or(0.0, |(range, sigma)| {
+                                    (((d + 0.04) / (range + 0.04)).ln()
+                                        / (sigma + b.pose_sigma / (d + 0.04)))
+                                        .abs()
+                                });
                         }
-                        let angle = (dot(delta, b.direction) / d).clamp(-1.0, 1.0).acos();
-                        let uncertainty = b.sigma + (b.pose_sigma / d).atan();
-                        let radial = b.radial.map_or(1.0, |(range, sigma)| {
-                            (-0.5
-                                * (((d + 0.04) / (range + 0.04)).ln()
-                                    / (sigma + b.pose_sigma / (d + 0.04)))
-                                    .powi(2))
-                            .exp()
-                        });
-                        let score =
-                            b.weight * (-0.5 * (angle / uncertainty).powi(2)).exp() * radial;
-                        let old = by_node
-                            .entry(&b.id)
-                            .or_insert((0.0, b.origin, 0.0, 0, 0.0, 0.0, 0.0, 0.0));
-                        old.0 += score;
-                        old.2 += uncertainty;
-                        old.3 += 1;
-                        old.4 += b.human;
-                        old.5 += b.heat;
-                        old.6 += d;
-                        old.7 += b.radial.map_or(0.0, |(range, sigma)| {
-                            (((d + 0.04) / (range + 0.04)).ln()
-                                / (sigma + b.pose_sigma / (d + 0.04)))
-                                .abs()
-                        });
+                        if old.3 > 0 {
+                            by_node.push(old);
+                        }
                     }
-                    for item in by_node.values_mut() {
+                    for item in &mut by_node {
+                        let evidence_weight = if joint {
+                            item.0.max(1e-12)
+                        } else {
+                            item.3 as f64
+                        };
+                        if joint {
+                            item.1 = mul(item.1, 1.0 / evidence_weight);
+                        }
                         item.0 /= item.3 as f64;
-                        item.2 /= item.3 as f64;
-                        item.4 /= item.3 as f64;
-                        item.5 /= item.3 as f64;
-                        item.6 /= item.3 as f64;
-                        item.7 /= item.3 as f64;
+                        item.2 /= evidence_weight;
+                        item.4 /= evidence_weight;
+                        item.5 /= evidence_weight;
+                        item.6 /= evidence_weight;
+                        item.7 /= evidence_weight;
                     }
                     let support: Vec<_> = by_node
-                        .values()
+                        .iter()
                         .filter(|v| v.0 > if self.proposal_mode { 0.05 } else { 0.16 })
                         .collect();
                     if support.len() < 3 {
@@ -922,14 +1188,27 @@ impl Mapper {
             candidates.retain(|c| c.score >= best * 0.70);
         }
         let mut result: Vec<Cue> = vec![];
+        let distinct_peaks = self.model.as_ref().is_some_and(|m| m.acoustic_peaks_v2);
         for c in candidates {
-            if result
-                .iter()
-                .all(|r| norm(sub(r.position, c.position)) > r.radius_m.max(self.cell * 4.0))
-            {
+            if result.iter().all(|r| {
+                norm(sub(r.position, c.position))
+                    > if distinct_peaks {
+                        self.cell * 3.0
+                    } else {
+                        r.radius_m.max(self.cell * 4.0)
+                    }
+            }) {
                 result.push(c);
             }
-            if result.len() == if self.proposal_mode { 6 } else { 3 } {
+            if result.len()
+                == if distinct_peaks {
+                    16
+                } else if self.proposal_mode {
+                    6
+                } else {
+                    3
+                }
+            {
                 break;
             }
         }
@@ -1004,38 +1283,13 @@ impl Mapper {
         if let Some(model) = &self.model
             && model.has_track_model()
         {
-            let mut candidates: Vec<_> = self
+            let proposals: Vec<_> = self
                 .tracks
                 .iter()
                 .chain(&self.archived_tracks)
-                .filter_map(|t| {
-                    let score = model
-                        .track_score(t.proposal(step, self.observer_denominator()).features)?;
-                    (score >= model.track_threshold).then(|| Cue {
-                        position: t.position,
-                        score,
-                        radius_m: t.radius.max(t.spread.sqrt() * 2.0),
-                        observers: t.observers,
-                        status: "UNCONFIRMED_LEARNED_TRACK",
-                        last_seen_step: t.last_seen,
-                        evidence: t.evidence.clone(),
-                    })
-                })
+                .map(|t| self.track_proposal(t, step))
                 .collect();
-            candidates.sort_by(|a, b| b.score.total_cmp(&a.score));
-            let mut result: Vec<Cue> = vec![];
-            for cue in candidates {
-                if result
-                    .iter()
-                    .all(|c| norm(sub(c.position, cue.position)) > model.track_nms_m)
-                {
-                    result.push(cue);
-                }
-                if result.len() == 3 {
-                    break;
-                }
-            }
-            return result;
+            return track_fusion::classify(model, &proposals);
         }
         let mut cues: Vec<_> = self
             .tracks
@@ -1074,10 +1328,99 @@ impl Mapper {
             12.0
         }
     }
+    fn track_proposal(&self, track: &Track, step: u64) -> Proposal {
+        let mut proposal = track.proposal(step, self.observer_denominator());
+        if self.model.as_ref().is_some_and(|m| {
+            matches!(
+                m.track_feature_map.as_str(),
+                "thermal-spectral32-v3" | map_context::FEATURE_MAP | learned::TEACHER_FEATURE_MAP
+            )
+        }) {
+            proposal
+                .features
+                .extend(self.thermal.spectral_features(track.position));
+            if let Some(model) = &self.model
+                && model.track_feature_map == learned::TEACHER_FEATURE_MAP
+            {
+                proposal
+                    .features
+                    .push(model.track_teacher_feature(&proposal.features));
+            }
+            if self
+                .model
+                .as_ref()
+                .is_some_and(|m| m.track_feature_map == map_context::FEATURE_MAP)
+            {
+                proposal
+                    .features
+                    .extend(map_context::features(track.position, |key| {
+                        self.voxels
+                            .get(&key)
+                            .filter(|v| v.count > 0)
+                            .map(|v| 1.0 / (1.0 + (-v.log_odds).exp()))
+                    }));
+            }
+            return proposal;
+        }
+        if self
+            .model
+            .as_ref()
+            .is_some_and(|m| m.track_feature_map == "thermal24-v2")
+        {
+            proposal
+                .features
+                .extend(self.thermal.local_features(track.position));
+            return proposal;
+        }
+        if self
+            .model
+            .as_ref()
+            .is_some_and(|m| m.track_feature_map == "thermal16-v1")
+        {
+            proposal
+                .features
+                .extend(self.thermal.features(track.position));
+        }
+        proposal
+    }
+    fn inferred_scouts(&self) -> BTreeSet<String> {
+        if !self
+            .model
+            .as_ref()
+            .is_some_and(|m| m.scout_inferred_routes_v1)
+        {
+            return BTreeSet::new();
+        }
+        let live: Vec<_> = self
+            .poses
+            .iter()
+            .filter(|(_, p)| self.last_step.saturating_sub(p.last_seen) <= 250)
+            .map(|(id, _)| id.clone())
+            .collect();
+        if live.is_empty() {
+            return BTreeSet::new();
+        }
+        let count = live.len().div_ceil(12).clamp(1, 4);
+        let start = (self.last_step as usize / 1000 * count) % live.len();
+        (0..count)
+            .map(|i| live[(start + i) % live.len()].clone())
+            .collect()
+    }
     fn frontiers(&self) -> Vec<Goal> {
+        let scouts = self.inferred_scouts();
         let distributed = self.model.as_ref().is_some_and(|m| m.distributed_swarm);
+        let learned_navigation = self.model.as_ref().is_some_and(|m| m.learned_navigation_v1);
         let verification_budget = if distributed {
-            self.poses.len().div_ceil(8).clamp(3, 6)
+            if learned_navigation {
+                self.poses
+                    .values()
+                    .filter(|p| self.last_step.saturating_sub(p.last_seen) <= 250)
+                    .count()
+                    .div_ceil(8)
+                    .clamp(1, 6)
+            } else {
+                self.poses.len().div_ceil(8).clamp(3, 6)
+            }
         } else {
             usize::MAX
         };
@@ -1089,7 +1432,12 @@ impl Mapper {
                 let mut nearby: Vec<_> = self
                     .poses
                     .iter()
-                    .filter(|(id, _)| !verification_roster.contains(*id))
+                    .filter(|(id, pose)| {
+                        !verification_roster.contains(*id)
+                            && !scouts.contains(*id)
+                            && (!learned_navigation
+                                || self.last_step.saturating_sub(pose.last_seen) <= 250)
+                    })
                     .collect();
                 nearby.sort_by(|(aid, a), (bid, b)| {
                     norm(sub(a.position, cue.position))
@@ -1107,7 +1455,14 @@ impl Mapper {
                 }
             }
             for (id, &until) in &self.verify_until {
-                if until > self.last_step && verification_roster.len() < verification_budget {
+                if until > self.last_step
+                    && verification_roster.len() < verification_budget
+                    && !scouts.contains(id)
+                    && (!learned_navigation
+                        || self.poses.get(id).is_some_and(|pose| {
+                            self.last_step.saturating_sub(pose.last_seen) <= 250
+                        }))
+                {
                     verification_roster.insert(id.clone());
                 }
             }
@@ -1371,6 +1726,7 @@ mod tests {
                     position,
                     sigma: 0.001,
                     anchor: position,
+                    last_seen: 0,
                 },
             );
             mapper.verify_until.insert(id, 1000);
@@ -1420,6 +1776,7 @@ mod tests {
                     position,
                     sigma: 0.001,
                     anchor: position,
+                    last_seen: 0,
                 },
             );
         }
@@ -1502,15 +1859,165 @@ mod tests {
             check_classifier_independent_control(distributed, bootstrap);
         }
     }
+    #[test]
+    fn independent_explorer_descriptor_requires_fixed_local_weights_and_known_features() {
+        let mut model = learned_fixture();
+        model.local_surface_completion = true;
+        model.prototypes.clear();
+        model.volume_file = "volume.onnx".into();
+        model.volume_sha256 = "a".repeat(64);
+        model.volume_channels = 90;
+        model.learned_navigation_v1 = true;
+        model.navigation_file = "navigation.onnx".into();
+        model.navigation_sha256 = "b".repeat(64);
+        model.navigation_channels = 74;
+        model.navigation_logit_bias = 0.1;
+        model.validate().unwrap();
+        model.navigation_file = "../navigation.onnx".into();
+        assert!(model.validate().is_err());
+        model.navigation_file = "navigation.onnx".into();
+        model.navigation_channels = 90;
+        assert!(model.validate().is_err());
+        model.navigation_channels = 74;
+        model.navigation_sha256 = "changed".into();
+        assert!(model.validate().is_err());
+        model.navigation_sha256 = "b".repeat(64);
+        model.navigation_logit_bias = f64::NAN;
+        assert!(model.validate().is_err());
+        model.navigation_logit_bias = 0.1;
+        model.learned_navigation_v1 = false;
+        assert!(model.validate().is_err());
+        model.learned_navigation_v1 = true;
+        model.navigation_file.clear();
+        assert!(model.validate().is_err());
+    }
+    #[test]
+    fn measured_context_extends_the_spectral_prefix_without_using_completed_cells() {
+        let mut model = learned_fixture();
+        model.track_feature_map = map_context::FEATURE_MAP.into();
+        let mut map = Mapper::with_model("test", 0.05, Some(Arc::new(model.clone()))).unwrap();
+        map.voxels.insert(
+            [0, 0, 0],
+            Voxel {
+                log_odds: -1.0,
+                count: 3,
+            },
+        );
+        // An unobserved storage entry cannot turn into measured support.
+        map.voxels.insert(
+            [1, 0, 0],
+            Voxel {
+                log_odds: 10.0,
+                count: 0,
+            },
+        );
+        map.thermal.observe([0.025; 3], 0.7, 0.01);
+        map.thermal
+            .observe_spectral([0.025; 3], 0.01, 20.0, 0.8, 0.6);
+        let track = Track {
+            position: [0.025; 3],
+            score: 0.7,
+            radius: 0.2,
+            observers: 3,
+            hits: 5,
+            last_seen: 100,
+            spread: 0.02,
+            first_seen: 25,
+            peak_score: 0.8,
+            evidence: CueEvidence::default(),
+        };
+        let extended = map.track_proposal(&track, 150);
+        assert_eq!(extended.features.len(), 40);
+        assert_eq!(extended.features[32], 1.0 / 27.0);
+        assert_eq!(extended.features[33], 0.0);
+        assert_eq!(extended.features[35], 1.0 / (1.0 + 1.0_f64.exp()));
+        map.planning_probability = vec![0.999; learned::GRID_CELLS];
+        assert_eq!(extended.features, map.track_proposal(&track, 150).features);
+        model.track_feature_map = "thermal-spectral32-v3".into();
+        map.model = Some(Arc::new(model));
+        assert_eq!(
+            &extended.features[..32],
+            map.track_proposal(&track, 150).features
+        );
+    }
+    #[test]
+    fn frozen_teacher_confidence_precedes_correction_and_rejects_recursive_inputs() {
+        use learned::{DecisionTree, TreeNode};
+        let leaf = |value| TreeNode {
+            feature: None,
+            threshold: 0.0,
+            left: 0,
+            right: 0,
+            value,
+        };
+        let mut model = learned_fixture();
+        model.track_weights.clear();
+        model.track_feature_map = learned::TEACHER_FEATURE_MAP.into();
+        model.track_teacher_trees = 1;
+        model.track_teacher_bias = 0.3;
+        model.track_bias = 0.4;
+        model.track_trees = vec![
+            DecisionTree {
+                nodes: vec![
+                    TreeNode {
+                        feature: Some(0),
+                        threshold: 0.5,
+                        left: 1,
+                        right: 2,
+                        value: 0.0,
+                    },
+                    leaf(-1.0),
+                    leaf(1.0),
+                ],
+            },
+            DecisionTree {
+                nodes: vec![
+                    TreeNode {
+                        feature: Some(32),
+                        threshold: 0.0,
+                        left: 1,
+                        right: 2,
+                        value: 0.0,
+                    },
+                    leaf(0.2),
+                    leaf(-0.2),
+                ],
+            },
+        ];
+        model.validate().unwrap();
+        let mut input = vec![0.0; 32];
+        input[0] = 0.5;
+        let teacher = model.track_teacher_feature(&input);
+        assert_eq!(teacher, 1.3 / 10.0);
+        input.push(teacher);
+        assert!(
+            (model.track_score(&input).unwrap() - 1.0 / (1.0 + (-1.2_f64).exp())).abs() < 1e-14
+        );
+        model.track_trees[1].nodes[2].value = -3.0;
+        assert_eq!(teacher, model.track_teacher_feature(&input));
+        model.track_trees[0].nodes[0].feature = Some(32);
+        assert!(
+            model.validate().is_err(),
+            "teacher prefix cannot depend on its own output"
+        );
+        model.track_trees[0].nodes[0].feature = Some(0);
+        model.track_feature_map = "thermal-spectral32-v3".into();
+        assert!(
+            model.validate().is_err(),
+            "dangling teacher metadata is rejected"
+        );
+    }
     fn check_classifier_independent_control(distributed: bool, bootstrap: bool) {
         let mut accept = learned_fixture();
         accept.acoustic_probe = true;
         accept.distributed_swarm = distributed;
         accept.track_weights = vec![0.0; 13];
         accept.track_weights[0] = 8.0;
+        accept.track_refine_radius_m = 0.6;
         accept.occupancy_weights[0] = 2.0;
         let mut reject = accept.clone();
         reject.track_weights[0] = -8.0;
+        reject.track_refine_radius_m = 0.0;
         if bootstrap {
             reject.track_weights.clear();
         }
@@ -1574,6 +2081,7 @@ mod tests {
                 position,
                 sigma: 0.001,
                 anchor: position,
+                last_seen: 0,
             },
         );
         for x in -16..16 {
@@ -1687,6 +2195,99 @@ mod tests {
             "prototypes":(0..15).map(|i|serde_json::json!({"family":format!("fixture{i}"),"occupancy":vec![0.5;learned::GRID_CELLS]})).collect::<Vec<_>>(),
             "train_maps":["fixture-train"],"valid_maps":["fixture-valid"],"data_sha256":"fixture"
         })).unwrap()
+    }
+    #[test]
+    fn distinct_people_on_nearby_storeys_are_not_merged_by_uncertainty_radius() {
+        let targets = [[-0.175, 0.125, 1.025], [0.225, 0.425, 1.025]];
+        let mut model = learned_fixture();
+        model.local_surface_completion = true;
+        model.prototypes.clear();
+        model.acoustic_peaks_v2 = true;
+        let mut map = Mapper::with_model("two-storeys", 0.05, Some(Arc::new(model))).unwrap();
+        let offsets = [
+            [-0.16, 0.02, -0.12],
+            [0.15, -0.03, -0.13],
+            [-0.12, -0.02, 0.16],
+            [0.14, 0.04, 0.13],
+            [0.02, 0.10, -0.18],
+            [-0.02, -0.08, 0.18],
+        ];
+        for (source, target) in targets.iter().enumerate() {
+            for (i, offset) in offsets.iter().enumerate() {
+                let origin = add(*target, *offset);
+                let delta = sub(*target, origin);
+                let distance = norm(delta);
+                map.bearings.push(Bearing {
+                    id: format!("S{source}N{i}"),
+                    origin,
+                    direction: mul(delta, 1.0 / distance),
+                    sigma: 0.7,
+                    weight: 0.9,
+                    step: 0,
+                    pose_sigma: 0.001,
+                    radial: Some((distance, 0.04)),
+                    human: 0.95,
+                    heat: 0.3,
+                });
+            }
+        }
+        let cues = map.cues();
+        for target in targets {
+            assert!(
+                cues.iter().any(|c| norm(sub(c.position, target)) < 0.11),
+                "Missing distinct storey peak: {target:?}"
+            );
+        }
+    }
+    #[test]
+    fn source_conditioned_semantics_do_not_follow_a_node_to_a_different_sound() {
+        let targets = [[-0.275, 0.125, 1.025], [0.325, 0.125, 1.025]];
+        let mut model = learned_fixture();
+        model.local_surface_completion = true;
+        model.prototypes.clear();
+        model.distributed_swarm = true;
+        model.acoustic_peaks_v2 = true;
+        model.joint_acoustic_fusion = true;
+        let mut map =
+            Mapper::with_model("source-association", 0.05, Some(Arc::new(model))).unwrap();
+        for (node, origin) in [[-0.4, 0.125, 0.5], [0.1, 0.125, 1.6], [0.5, 0.125, 0.6]]
+            .into_iter()
+            .enumerate()
+        {
+            for (source, target) in targets.iter().enumerate() {
+                let delta = sub(*target, origin);
+                let distance = norm(delta);
+                for _ in 0..4 {
+                    map.bearings.push(Bearing {
+                        id: format!("N{node}"),
+                        origin,
+                        direction: mul(delta, 1.0 / distance),
+                        sigma: 0.06,
+                        weight: 0.9,
+                        step: 0,
+                        pose_sigma: 0.001,
+                        radial: None,
+                        human: if source == 0 { 0.95 } else { 0.05 },
+                        heat: 0.0,
+                    });
+                }
+            }
+        }
+        let cues = map.cues();
+        let human = cues
+            .iter()
+            .min_by(|a, b| {
+                norm(sub(a.position, targets[0])).total_cmp(&norm(sub(b.position, targets[0])))
+            })
+            .unwrap();
+        let machine = cues
+            .iter()
+            .min_by(|a, b| {
+                norm(sub(a.position, targets[1])).total_cmp(&norm(sub(b.position, targets[1])))
+            })
+            .unwrap();
+        assert!(norm(sub(human.position, targets[0])) < 0.11 && human.evidence.human > 0.8);
+        assert!(norm(sub(machine.position, targets[1])) < 0.11 && machine.evidence.human < 0.2);
     }
     #[test]
     fn learned_uncertain_bearing_is_not_discarded_by_a_hard_snr_gate() {
@@ -1957,6 +2558,28 @@ mod tests {
         assert!(m.apply(&p).is_err());
         assert!(m.voxels.is_empty());
         assert!(m.poses.is_empty());
+    }
+    #[test]
+    fn registration_does_not_accumulate_a_rejected_packet() {
+        let mut model = learned_fixture();
+        model.plane_registration_v1 = true;
+        let model = Arc::new(model);
+        let mut mapper = Mapper::with_model("test", 0.05, Some(model.clone())).unwrap();
+        let mut reference = Mapper::with_model("test", 0.05, Some(model)).unwrap();
+        let mut good = packet();
+        good.scans[0].odometry_delta = [0., -0.01, 0.];
+        let mut invalid = good.clone();
+        let mut bad = good.scans[0].clone();
+        bad.node_id = "N1".into();
+        bad.pose_sigma_m = f64::NAN;
+        invalid.scans.push(bad);
+        assert!(mapper.apply(&invalid).is_err());
+        let actual = mapper.apply(&good).unwrap();
+        let expected = reference.apply(&good).unwrap();
+        assert_eq!(
+            serde_json::to_value(actual).unwrap(),
+            serde_json::to_value(expected).unwrap()
+        );
     }
     #[test]
     fn uncertain_odometry_does_not_paint_walls() {

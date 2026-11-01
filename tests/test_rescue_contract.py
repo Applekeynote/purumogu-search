@@ -9,7 +9,7 @@ import time
 import unittest
 
 ROOT = Path(__file__).resolve().parents[1]
-BIN = ROOT / 'rust/target/release' / ('rescue_server.exe' if os.name == 'nt' else 'rescue_server')
+BIN = Path(os.environ['PURUMOGU_RESCUE_SERVER']) if 'PURUMOGU_RESCUE_SERVER' in os.environ else ROOT / 'rust/target/release' / ('rescue_server.exe' if os.name == 'nt' else 'rescue_server')
 
 
 def packet(seq=0, step=25, full=True):

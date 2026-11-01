@@ -1,0 +1,14 @@
+{
+  "status": "pass",
+  "cases": 36,
+  "maximum_position_difference_m": 1.355199909595506e-15,
+  "maximum_score_difference": 9.992007221626409e-16,
+  "truth_sent_to_native": false,
+  "precision": 1.0,
+  "recall": 1.0,
+  "matched": 54,
+  "people": 54,
+  "false_alarms": 0,
+  "test_opened": false,
+  "purpose": "Native/Python parity and developmental VALID selection; not final TEST"
+}

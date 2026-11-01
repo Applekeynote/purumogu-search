@@ -1,0 +1,12 @@
+{
+  "parent_checkpoint_sha256": "a8a099953be68bf8282833f2345737995da2ca55b8cdd1f1d5cb72334df01536",
+  "parent_development_sha256": "f0084161fffc694169120b55cda61cab833be18d247b8956960e716dab8aff74",
+  "manifests": {
+    "experiments/raw/rescue/generalization-v46-tsdf/registered-mixed": "6aab4a47e2c068b57c3ac512b4e17661e2b42aa7f2d63155c5ff9a22e215540b",
+    "experiments/raw/rescue/generalization-v62-expanded/registered-temporal-tsdf": "4b50a3af9056001973dd9c11c429d80c7bf675597db9c658dd3e0b6ec0c3b138",
+    "experiments/raw/rescue/generalization-v62-expanded/validation-tsdf": "913563b525b0fa92ce9eb36739e24a36813dcbd942ff653aa699d7a230e4c911",
+    "experiments/raw/rescue/generalization-v63-fine-expanded/prepared": "d19d0c938d46d6aaaf61d35f4275529fb3c8f79c66a92fece682754a2a2977fc"
+  },
+  "optimizer_reset": true,
+  "final_test_opened": false
+}

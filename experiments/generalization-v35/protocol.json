@@ -1,0 +1,63 @@
+{
+  "version": 1,
+  "targets": {
+    "global_occupancy_iou": 0.95,
+    "human_precision": 0.95,
+    "human_recall": 0.95
+  },
+  "cell_m": 0.05,
+  "match_radius_m": 0.25,
+  "occupancy_threshold": 0.6,
+  "train_scenes": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    18,
+    20,
+    21,
+    24,
+    25,
+    26
+  ],
+  "valid_unknown_scenes": [
+    19,
+    22,
+    29
+  ],
+  "test_unknown_scenes": [
+    17,
+    23,
+    27,
+    28
+  ],
+  "node_counts": [
+    24,
+    36,
+    48
+  ],
+  "inference_excludes": [
+    "scene ID",
+    "world seed",
+    "absolute-coordinate shape prototypes",
+    "true robot positions",
+    "true occupied voxels",
+    "true victim positions"
+  ],
+  "aggregation": "Existing and unknown domains reported separately, including every node-count stratum and per-area rows.",
+  "test_policy": "No TEST collection or label access until model selection is frozen. A failed TEST cannot be reused for selection.",
+  "acquisition": "rescue-3.4 physical sensors and control, 120 seconds; no sensor or truth definition changes"
+}

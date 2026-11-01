@@ -1,12 +1,27 @@
 """Offline split identity and complete-record reads; never sent to inference."""
 import json
+import hashlib
 import re
 from pathlib import Path
 
-_WORLD=re.compile(r'^rescue-\d+(?:\.\d+)?-([EMH]\d{2})-(\d+)(?:-N(?:24|36|48)-D\d+)?$')
+_WORLD=re.compile(r'^rescue-\d+(?:\.\d+)?-([EMHC]\d{2})-(\d+)(?:-N(?:24|36|48)-D\d+)?$')
+_GENERIC_WORLD=re.compile(r'^(?:g\d+-)?(?:train|valid-known|valid-unknown|test-known|test-unknown|test-validation-families|test-supplement)-S(\d+)-W(\d+)-N(?:24|36|48)$')
+
+
+def scene_index(code):
+    if not re.fullmatch(r'[EMHC]\d{2}',code):raise ValueError('Unregistered scene code')
+    number=int(code[1:])
+    if code[0]=='C':
+        if not 1<=number<=6:raise ValueError('Unregistered collapse scene')
+        return 29+number
+    if not 1<=number<=10:raise ValueError('Unregistered scene code')
+    group={'E':0,'M':1,'H':2}[code[0]]
+    return group*5+number-1 if number<=5 else 15+group*5+number-6
 
 
 def world_group(map_id):
+    generic=_GENERIC_WORLD.fullmatch(map_id)
+    if generic:return f'rescue-generic-world-S{int(generic[1])}-W{generic[2]}'
     match=_WORLD.fullmatch(map_id)
     if match:return f'rescue-world-{match[1]}-{match[2]}'
     if map_id.startswith('rescue-3.'):
@@ -26,7 +41,7 @@ def validate_model_splits(model):
 
 def node_count(row):
     if 'nodes' in row:return int(row['nodes'])
-    match=re.search(r'-N(24|36|48)-D',row['map_id'])
+    match=re.search(r'-N(24|36|48)(?:-D\d+)?$',row['map_id'])
     return int(match[1]) if match else 12
 
 
@@ -44,12 +59,29 @@ def validate_paired_rows(rows):
 
 
 def control_signature(model,diagnostics=False):
-    fields=['acoustic_weights','acoustic_feature_map','acoustic_window_frames','log_range_weights','log_range_sigma']
+    fields=['acoustic_weights','acoustic_feature_map','acoustic_window_frames','log_range_weights','log_range_sigma','bearing_likelihood']
     signature={key:model.get(key) for key in fields}
     signature['acoustic_probe']=model.get('acoustic_probe',False)
+    signature['acoustic_peaks_v2']=model.get('acoustic_peaks_v2',False)
+    signature['joint_acoustic_fusion']=model.get('joint_acoustic_fusion',False)
+    signature['plane_registration_v1']=model.get('plane_registration_v1',False)
+    signature['axis_plane_registration_v2']=model.get('axis_plane_registration_v2',False)
+    signature['learned_navigation_v1']=model.get('learned_navigation_v1',False)
+    signature['scout_inferred_routes_v1']=model.get('scout_inferred_routes_v1',False)
+    signature['footprint_safe_routes_v1']=model.get('footprint_safe_routes_v1',False)
     signature['distributed_swarm']=model.get('distributed_swarm',False)
     signature['proposal_mode']=bool(model.get('track_weights') or model.get('track_trees') or model.get('distributed_swarm') or diagnostics)
+    if model.get('learned_navigation_v1'):
+        independent=bool(model.get('navigation_file'))
+        signature['navigation_geometry']=dict(volume_sha256=model.get('navigation_sha256','') if independent else model.get('volume_sha256',''),channels=model.get('navigation_channels') if independent else model.get('volume_channels',2),bias=model.get('navigation_logit_bias',0) if independent else model.get('volume_logit_bias',0),range_tsdf_v1=False if independent else model.get('range_tsdf_v1',False),
+            local_geometry_sha256=hashlib.sha256(json.dumps({k:model.get(k) for k in ['geometry_trees','geometry_feature_map','geometry_bias','local_surface_completion']},sort_keys=True).encode()).hexdigest())
     return signature
+
+
+def acoustic_feature_signature(model):
+    """A fixed sensor trajectory can compare heads without claiming changed-policy acceptance."""
+    fields=['acoustic_weights','acoustic_feature_map','acoustic_window_frames','log_range_weights','log_range_sigma','bearing_likelihood','acoustic_peaks_v2','joint_acoustic_fusion','distributed_swarm','plane_registration_v1','axis_plane_registration_v2','local_surface_completion']
+    return {key:model.get(key) for key in fields}
 
 
 def complete_jsonl(path):

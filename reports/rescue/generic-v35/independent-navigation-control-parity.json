@@ -1,0 +1,19 @@
+{
+  "status": "pass",
+  "purpose": "Control equivalence on fixed TRAIN sensor replay, not accuracy or closed-loop acceptance",
+  "case": "g60-train-S33-W123033499-N48",
+  "steps": 6000,
+  "frames": 240,
+  "all_goals_identical": true,
+  "all_estimated_poses_identical": true,
+  "all_cues_identical": true,
+  "unchanged_raw_observation_counts": true,
+  "changed_output_cells": 3854,
+  "model_sha256": "475dc3e5366cc95f68a5dffb5af9ffe6c31c75c3fe8e61bd3e705370640754ac",
+  "navigation_sha256": "45b4327841d356f7407f8f9af382ee5f392f08d4a1f4cf0fa122cfd94a46b882",
+  "server_sha256": "115af9d496eee25a4d0bbe57aa2803a625d235a19c4098842d1e3bf1c1da123d",
+  "sensor_packets_sha256": "a83f4d99fde493dc84d06c73eda35ab5ffb8a1e6c19c9d7bdcc313780e71e8aa",
+  "truth_to_native": false,
+  "final_test_opened": false,
+  "closed_loop_acceptance": false
+}

@@ -1,0 +1,18 @@
+{
+  "purpose": "Global convex checkpoint interpolation of common-init R36 and completed R37 without extra runtime networks",
+  "right_weights": [
+    0,
+    0.25,
+    0.5,
+    0.75,
+    1
+  ],
+  "validation_cases": 54,
+  "no_gradient_fitting": true,
+  "no_area_specific_parameters": true,
+  "original_v3_converted_to_v4_with_zero_appended_weights": true,
+  "primary_reference": "https://proceedings.mlr.press/v162/wortsman22a.html",
+  "reference_scope": "Weight averaging principle, not rescue accuracy",
+  "final_test_opened": false,
+  "fresh_control_equivalent_validation_still_required": true
+}

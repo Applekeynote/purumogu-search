@@ -1,0 +1,18 @@
+{
+  "status": "pass",
+  "player": "build-generic-v35-preview/PurumoguSearch.exe",
+  "bundled_model": "generic-v39-acquisition-r21",
+  "external_port_argument": false,
+  "real_map": true,
+  "world_drag": true,
+  "world_wheel_zoom": true,
+  "map_drag": true,
+  "map_wheel_zoom": true,
+  "scan_packets": 232,
+  "fixed_25_step_sampling": true,
+  "map_cadence_100_steps": true,
+  "map_retained_across_partial_replies": true,
+  "paused": true,
+  "model_accuracy_acceptance": false,
+  "truth_sent": false
+}

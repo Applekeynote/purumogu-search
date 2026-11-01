@@ -1,0 +1,14 @@
+{
+  "purpose": "Matching5cm and2.5cm coordinate-phase supervision on132 existing static TRAIN worlds",
+  "plan_sha256": "67669b52141bc16509c347d990ea99e99e0f9a363127c7651fed8350b9df7d06",
+  "wrapper_sha256": "e1d724bf416ec3c8f950a788445dacac5d170c5af2cd7c29b93efa740ea09d7b",
+  "coordinate_views": 264,
+  "sensor_snapshots": 528,
+  "independent_worlds": 132,
+  "final_test_opened": false,
+  "raw_sensor_noise_unchanged": true,
+  "native_sees": "Only deployment anchors translated by the same coordinate delta; original odometry, errors and all sensor values unchanged",
+  "deadline": 18000,
+  "retained_checkpoint": 6000,
+  "zero_translation_exact_required": true
+}

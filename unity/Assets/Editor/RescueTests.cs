@@ -37,6 +37,13 @@ namespace Purumogu.Editor
                 if(view.Quads!=24||view.Segments!=48)throw new Exception($"Surface net must have 24 quads and 48 edges without triangle diagonals: {view.Quads}/{view.Segments}");
                 if(view.MaximumRelaxation>.01751f)throw new Exception("Surface relaxation exceeded its display-only bound");
                 var baseReply=(JObject)reply.DeepClone();
+                using(var calibrated=new RescueEchoWireMap())
+                {
+                    var learned=(JObject)baseReply.DeepClone();learned["completion_family"]="volume-unet-v1";
+                    var boundary=((JArray)learned["cells"]).First(c=>(int)c["key"][0]==0&&(int)c["key"][1]==0&&(int)c["key"][2]==0);
+                    boundary["sensor_occupancy"]=.05;boundary["occupancy"]=.99;boundary["source"]="local_surface_completion";
+                    calibrated.Update(learned);if(calibrated.InferredCells!=1||calibrated.Quads!=24)throw new Exception("Learned volume correction was hidden by raw point evidence");
+                }
                 var gapReply=(JObject)reply.DeepClone();var missing=((JArray)gapReply["cells"]).First(c=>(int)c["key"][0]==2&&(int)c["key"][1]==0&&(int)c["key"][2]==0);missing.Remove();
                 using(var gapView=new RescueEchoWireMap())
                 {

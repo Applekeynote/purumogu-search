@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Purumogu.Rescue
 {
-    public enum RescueDeploymentMode { EntranceGrid, WholeSceneDrop }
+    public enum RescueDeploymentMode { EntranceGrid, WholeSceneDrop, RoofAndFacadeDrop }
 
     /// Release plans are known actuator inputs. They never query hidden cavities or sources.
     public static class RescueDeployment
@@ -12,12 +12,37 @@ namespace Purumogu.Rescue
         public const int MaximumNodes=48;
         public const float DropHeight=1.05f;
         public const int ScatterSteps=600;
-        public struct ReleasePose {public Vector3 Position;public Quaternion Rotation;public int Step;}
+        public const float SideLaunchSpeed=.12f;
+        public struct ReleasePose {public Vector3 Position,Velocity;public Quaternion Rotation;public int Step;}
 
-        public static List<ReleasePose> Plan(int count,int seed,RescueDeploymentMode mode,IReadOnlyList<Rect> regions=null)
+        public static List<ReleasePose> Plan(int count,int seed,RescueDeploymentMode mode,IReadOnlyList<Rect> regions=null,IReadOnlyList<RescueScene.ExteriorOpening> openings=null)
         {
             if(count<1||count>MaximumNodes)throw new ArgumentOutOfRangeException(nameof(count));
             var result=new List<ReleasePose>();
+            if(mode==RescueDeploymentMode.RoofAndFacadeDrop)
+            {
+                if(openings==null||openings.Count<2)throw new ArgumentException("Visible exterior openings required");
+                int roofCount=(count+2)/3;var roof=Plan(roofCount,seed,RescueDeploymentMode.WholeSceneDrop,regions);var rng=new System.Random(seed^0x17a94);
+                int offset=rng.Next(openings.Count),side=0,above=0;
+                for(int i=0;i<count;i++)
+                {
+                    ReleasePose pose;
+                    if(i%3==0&&above<roof.Count)pose=roof[above++];
+                    else
+                    {
+                        int port=(offset+side)%openings.Count,visit=side/openings.Count;side++;
+                        var opening=openings[port];var inward=-opening.Outward;
+                        var tangent=Vector3.Cross(Vector3.up,inward);
+                        // Insert the 7 cm body through the visible threshold and release it.
+                        // Its rear still protrudes outside; no interior teleport or flight.
+                        int lane=(visit+port*5)%6;
+                        pose=new ReleasePose{Position=opening.FloorPoint-opening.Outward*.025f+Vector3.up*.12f+tangent*(-.075f+lane*.03f+((float)rng.NextDouble()-.5f)*.003f),
+                            Rotation=Quaternion.LookRotation(inward,Vector3.up)*Quaternion.Euler((float)rng.NextDouble()*12-6,0,(float)rng.NextDouble()*20-10),Velocity=inward*SideLaunchSpeed};
+                    }
+                    pose.Step=(int)Math.Round(i*(double)ScatterSteps/Math.Max(1,count-1));result.Add(pose);
+                }
+                return result;
+            }
             if(mode==RescueDeploymentMode.EntranceGrid)
             {
                 int columns=Math.Min(12,Math.Max(3,(count+3)/4));

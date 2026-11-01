@@ -1,0 +1,1418 @@
+{
+  "purpose": "Formal VALID ensemble selection, not final acceptance",
+  "test_opened": false,
+  "best": {
+    "models": [
+      "models/generic-v35-volume-r5-range/volume.pt",
+      "models/generic-v35-volume-r7-full-mix/volume.pt",
+      "models/generic-v35-volume-r8-covariance/volume.pt"
+    ],
+    "views": 4,
+    "threshold": 0.5,
+    "domains": {
+      "valid-known": 0.9423793367277775,
+      "valid-unknown": 0.9205544467913617
+    },
+    "minimum_case_iou": 0.8331955695156225,
+    "rows": [
+      {
+        "id": "valid-known-S00-W42000000-N24",
+        "scene": "E01",
+        "nodes": 24,
+        "split": "valid-known",
+        "iou": 0.9545507652763173,
+        "intersection": 8170,
+        "union": 8559,
+        "predicted": 8421,
+        "occupied": 8308
+      },
+      {
+        "id": "valid-known-S00-W42000000-N36",
+        "scene": "E01",
+        "nodes": 36,
+        "split": "valid-known",
+        "iou": 0.9604261796042618,
+        "intersection": 8203,
+        "union": 8541,
+        "predicted": 8436,
+        "occupied": 8308
+      },
+      {
+        "id": "valid-known-S00-W42000000-N48",
+        "scene": "E01",
+        "nodes": 48,
+        "split": "valid-known",
+        "iou": 0.9740398293029872,
+        "intersection": 8217,
+        "union": 8436,
+        "predicted": 8345,
+        "occupied": 8308
+      },
+      {
+        "id": "valid-known-S03-W42003027-N24",
+        "scene": "E04",
+        "nodes": 24,
+        "split": "valid-known",
+        "iou": 0.9690041430105877,
+        "intersection": 6315,
+        "union": 6517,
+        "predicted": 6461,
+        "occupied": 6371
+      },
+      {
+        "id": "valid-known-S03-W42003027-N36",
+        "scene": "E04",
+        "nodes": 36,
+        "split": "valid-known",
+        "iou": 0.9679004761173399,
+        "intersection": 6302,
+        "union": 6511,
+        "predicted": 6442,
+        "occupied": 6371
+      },
+      {
+        "id": "valid-known-S03-W42003027-N48",
+        "scene": "E04",
+        "nodes": 48,
+        "split": "valid-known",
+        "iou": 0.9723978411719353,
+        "intersection": 6306,
+        "union": 6485,
+        "predicted": 6420,
+        "occupied": 6371
+      },
+      {
+        "id": "valid-known-S08-W42008072-N24",
+        "scene": "M04",
+        "nodes": 24,
+        "split": "valid-known",
+        "iou": 0.9630917357582242,
+        "intersection": 7202,
+        "union": 7478,
+        "predicted": 7392,
+        "occupied": 7288
+      },
+      {
+        "id": "valid-known-S08-W42008072-N36",
+        "scene": "M04",
+        "nodes": 36,
+        "split": "valid-known",
+        "iou": 0.9606876332622601,
+        "intersection": 7209,
+        "union": 7504,
+        "predicted": 7425,
+        "occupied": 7288
+      },
+      {
+        "id": "valid-known-S08-W42008072-N48",
+        "scene": "M04",
+        "nodes": 48,
+        "split": "valid-known",
+        "iou": 0.9672947510094213,
+        "intersection": 7187,
+        "union": 7430,
+        "predicted": 7329,
+        "occupied": 7288
+      },
+      {
+        "id": "valid-known-S13-W42013117-N24",
+        "scene": "H04",
+        "nodes": 24,
+        "split": "valid-known",
+        "iou": 0.9236095599731964,
+        "intersection": 8270,
+        "union": 8954,
+        "predicted": 8775,
+        "occupied": 8449
+      },
+      {
+        "id": "valid-known-S13-W42013117-N36",
+        "scene": "H04",
+        "nodes": 36,
+        "split": "valid-known",
+        "iou": 0.9546029192046891,
+        "intersection": 8306,
+        "union": 8701,
+        "predicted": 8572,
+        "occupied": 8435
+      },
+      {
+        "id": "valid-known-S13-W42013117-N48",
+        "scene": "H04",
+        "nodes": 48,
+        "split": "valid-known",
+        "iou": 0.9625187406296851,
+        "intersection": 8346,
+        "union": 8671,
+        "predicted": 8571,
+        "occupied": 8446
+      },
+      {
+        "id": "valid-known-S15-W42015135-N24",
+        "scene": "E06",
+        "nodes": 24,
+        "split": "valid-known",
+        "iou": 0.983085808580858,
+        "intersection": 2383,
+        "union": 2424,
+        "predicted": 2397,
+        "occupied": 2410
+      },
+      {
+        "id": "valid-known-S15-W42015135-N36",
+        "scene": "E06",
+        "nodes": 36,
+        "split": "valid-known",
+        "iou": 0.9806584362139917,
+        "intersection": 2383,
+        "union": 2430,
+        "predicted": 2403,
+        "occupied": 2410
+      },
+      {
+        "id": "valid-known-S15-W42015135-N48",
+        "scene": "E06",
+        "nodes": 48,
+        "split": "valid-known",
+        "iou": 0.9819004524886877,
+        "intersection": 2387,
+        "union": 2431,
+        "predicted": 2408,
+        "occupied": 2410
+      },
+      {
+        "id": "valid-known-S18-W42018162-N24",
+        "scene": "E09",
+        "nodes": 24,
+        "split": "valid-known",
+        "iou": 0.9856897538637664,
+        "intersection": 3444,
+        "union": 3494,
+        "predicted": 3460,
+        "occupied": 3478
+      },
+      {
+        "id": "valid-known-S18-W42018162-N36",
+        "scene": "E09",
+        "nodes": 36,
+        "split": "valid-known",
+        "iou": 0.9839954272649328,
+        "intersection": 3443,
+        "union": 3499,
+        "predicted": 3464,
+        "occupied": 3478
+      },
+      {
+        "id": "valid-known-S18-W42018162-N48",
+        "scene": "E09",
+        "nodes": 48,
+        "split": "valid-known",
+        "iou": 0.9825664475564447,
+        "intersection": 3438,
+        "union": 3499,
+        "predicted": 3459,
+        "occupied": 3478
+      },
+      {
+        "id": "valid-known-S20-W42020180-N24",
+        "scene": "M06",
+        "nodes": 24,
+        "split": "valid-known",
+        "iou": 0.9129967776584318,
+        "intersection": 4250,
+        "union": 4655,
+        "predicted": 4426,
+        "occupied": 4479
+      },
+      {
+        "id": "valid-known-S20-W42020180-N36",
+        "scene": "M06",
+        "nodes": 36,
+        "split": "valid-known",
+        "iou": 0.925614489003881,
+        "intersection": 4293,
+        "union": 4638,
+        "predicted": 4452,
+        "occupied": 4479
+      },
+      {
+        "id": "valid-known-S20-W42020180-N48",
+        "scene": "M06",
+        "nodes": 48,
+        "split": "valid-known",
+        "iou": 0.932034632034632,
+        "intersection": 4306,
+        "union": 4620,
+        "predicted": 4447,
+        "occupied": 4479
+      },
+      {
+        "id": "valid-known-S25-W42025225-N24",
+        "scene": "H06",
+        "nodes": 24,
+        "split": "valid-known",
+        "iou": 0.869697512081618,
+        "intersection": 4859,
+        "union": 5587,
+        "predicted": 5291,
+        "occupied": 5155
+      },
+      {
+        "id": "valid-known-S25-W42025225-N36",
+        "scene": "H06",
+        "nodes": 36,
+        "split": "valid-known",
+        "iou": 0.8851376146788991,
+        "intersection": 4824,
+        "union": 5450,
+        "predicted": 5119,
+        "occupied": 5155
+      },
+      {
+        "id": "valid-known-S25-W42025225-N48",
+        "scene": "H06",
+        "nodes": 48,
+        "split": "valid-known",
+        "iou": 0.8757990867579909,
+        "intersection": 4795,
+        "union": 5475,
+        "predicted": 5115,
+        "occupied": 5155
+      },
+      {
+        "id": "valid-known-S26-W42026234-N24",
+        "scene": "H07",
+        "nodes": 24,
+        "split": "valid-known",
+        "iou": 0.8615895413986304,
+        "intersection": 4152,
+        "union": 4819,
+        "predicted": 4563,
+        "occupied": 4408
+      },
+      {
+        "id": "valid-known-S26-W42026234-N36",
+        "scene": "H07",
+        "nodes": 36,
+        "split": "valid-known",
+        "iou": 0.8785106382978723,
+        "intersection": 4129,
+        "union": 4700,
+        "predicted": 4421,
+        "occupied": 4408
+      },
+      {
+        "id": "valid-known-S26-W42026234-N48",
+        "scene": "H07",
+        "nodes": 48,
+        "split": "valid-known",
+        "iou": 0.8748408994484514,
+        "intersection": 4124,
+        "union": 4714,
+        "predicted": 4430,
+        "occupied": 4408
+      },
+      {
+        "id": "valid-unknown-S19-W43019171-N24",
+        "scene": "E10",
+        "nodes": 24,
+        "split": "valid-unknown",
+        "iou": 0.9811686513431183,
+        "intersection": 3543,
+        "union": 3611,
+        "predicted": 3572,
+        "occupied": 3582
+      },
+      {
+        "id": "valid-unknown-S19-W43019171-N36",
+        "scene": "E10",
+        "nodes": 36,
+        "split": "valid-unknown",
+        "iou": 0.9883040935672515,
+        "intersection": 3549,
+        "union": 3591,
+        "predicted": 3558,
+        "occupied": 3582
+      },
+      {
+        "id": "valid-unknown-S19-W43019171-N48",
+        "scene": "E10",
+        "nodes": 48,
+        "split": "valid-unknown",
+        "iou": 0.988317107093185,
+        "intersection": 3553,
+        "union": 3595,
+        "predicted": 3566,
+        "occupied": 3582
+      },
+      {
+        "id": "valid-unknown-S22-W43022198-N24",
+        "scene": "M08",
+        "nodes": 24,
+        "split": "valid-unknown",
+        "iou": 0.91168337366056,
+        "intersection": 5275,
+        "union": 5786,
+        "predicted": 5544,
+        "occupied": 5517
+      },
+      {
+        "id": "valid-unknown-S22-W43022198-N36",
+        "scene": "M08",
+        "nodes": 36,
+        "split": "valid-unknown",
+        "iou": 0.9221952066689822,
+        "intersection": 5310,
+        "union": 5758,
+        "predicted": 5551,
+        "occupied": 5517
+      },
+      {
+        "id": "valid-unknown-S22-W43022198-N48",
+        "scene": "M08",
+        "nodes": 48,
+        "split": "valid-unknown",
+        "iou": 0.9242105263157895,
+        "intersection": 5268,
+        "union": 5700,
+        "predicted": 5451,
+        "occupied": 5517
+      },
+      {
+        "id": "valid-unknown-S29-W43029261-N24",
+        "scene": "H10",
+        "nodes": 24,
+        "split": "valid-unknown",
+        "iou": 0.8331955695156225,
+        "intersection": 5040,
+        "union": 6049,
+        "predicted": 5562,
+        "occupied": 5527
+      },
+      {
+        "id": "valid-unknown-S29-W43029261-N36",
+        "scene": "H10",
+        "nodes": 36,
+        "split": "valid-unknown",
+        "iou": 0.8569751844399732,
+        "intersection": 5111,
+        "union": 5964,
+        "predicted": 5548,
+        "occupied": 5527
+      },
+      {
+        "id": "valid-unknown-S29-W43029261-N48",
+        "scene": "H10",
+        "nodes": 48,
+        "split": "valid-unknown",
+        "iou": 0.8789403085177733,
+        "intersection": 5242,
+        "union": 5964,
+        "predicted": 5679,
+        "occupied": 5527
+      }
+    ]
+  },
+  "trials": [
+    {
+      "models": [
+        "models/generic-v35-volume-r5-range/volume.pt"
+      ],
+      "views": 1,
+      "threshold": 0.4,
+      "domains": {
+        "valid-known": 0.93456687338782,
+        "valid-unknown": 0.9060334877446776
+      },
+      "minimum_case_iou": 0.8147011308562198
+    },
+    {
+      "models": [
+        "models/generic-v35-volume-r5-range/volume.pt"
+      ],
+      "views": 1,
+      "threshold": 0.45,
+      "domains": {
+        "valid-known": 0.9355805458989765,
+        "valid-unknown": 0.9063086921038044
+      },
+      "minimum_case_iou": 0.816701937164252
+    },
+    {
+      "models": [
+        "models/generic-v35-volume-r5-range/volume.pt"
+      ],
+      "views": 1,
+      "threshold": 0.5,
+      "domains": {
+        "valid-known": 0.9359988552815041,
+        "valid-unknown": 0.9060141393543566
+      },
+      "minimum_case_iou": 0.8183308739137564
+    },
+    {
+      "models": [
+        "models/generic-v35-volume-r5-range/volume.pt"
+      ],
+      "views": 1,
+      "threshold": 0.55,
+      "domains": {
+        "valid-known": 0.9359440183709583,
+        "valid-unknown": 0.9056448223602772
+      },
+      "minimum_case_iou": 0.8186314921681781
+    },
+    {
+      "models": [
+        "models/generic-v35-volume-r5-range/volume.pt"
+      ],
+      "views": 1,
+      "threshold": 0.6,
+      "domains": {
+        "valid-known": 0.935883870149992,
+        "valid-unknown": 0.9049212316180587
+      },
+      "minimum_case_iou": 0.8176850471932439
+    },
+    {
+      "models": [
+        "models/generic-v35-volume-r5-range/volume.pt"
+      ],
+      "views": 1,
+      "threshold": 0.65,
+      "domains": {
+        "valid-known": 0.9356325275031533,
+        "valid-unknown": 0.904923148340099
+      },
+      "minimum_case_iou": 0.8169858451290591
+    },
+    {
+      "models": [
+        "models/generic-v35-volume-r5-range/volume.pt"
+      ],
+      "views": 1,
+      "threshold": 0.7,
+      "domains": {
+        "valid-known": 0.9349718928795133,
+        "valid-unknown": 0.9040358960289977
+      },
+      "minimum_case_iou": 0.8156265685126317
+    },
+    {
+      "models": [
+        "models/generic-v35-volume-r5-range/volume.pt"
+      ],
+      "views": 1,
+      "threshold": 0.75,
+      "domains": {
+        "valid-known": 0.9344210164241895,
+        "valid-unknown": 0.9029140658727329
+      },
+      "minimum_case_iou": 0.8154260693836308
+    },
+    {
+      "models": [
+        "models/generic-v35-volume-r5-range/volume.pt"
+      ],
+      "views": 1,
+      "threshold": 0.8,
+      "domains": {
+        "valid-known": 0.9331685979428848,
+        "valid-unknown": 0.9003822426607583
+      },
+      "minimum_case_iou": 0.812584803256445
+    },
+    {
+      "models": [
+        "models/generic-v35-volume-r5-range/volume.pt"
+      ],
+      "views": 1,
+      "threshold": 0.85,
+      "domains": {
+        "valid-known": 0.9313540687502131,
+        "valid-unknown": 0.8976531096250842
+      },
+      "minimum_case_iou": 0.8097928436911488
+    },
+    {
+      "models": [
+        "models/generic-v35-volume-r5-range/volume.pt"
+      ],
+      "views": 4,
+      "threshold": 0.4,
+      "domains": {
+        "valid-known": 0.9371331849765965,
+        "valid-unknown": 0.9110273965641886
+      },
+      "minimum_case_iou": 0.8123694779116466
+    },
+    {
+      "models": [
+        "models/generic-v35-volume-r5-range/volume.pt"
+      ],
+      "views": 4,
+      "threshold": 0.45,
+      "domains": {
+        "valid-known": 0.9379471381805073,
+        "valid-unknown": 0.9112443493052987
+      },
+      "minimum_case_iou": 0.8150607287449393
+    },
+    {
+      "models": [
+        "models/generic-v35-volume-r5-range/volume.pt"
+      ],
+      "views": 4,
+      "threshold": 0.5,
+      "domains": {
+        "valid-known": 0.9386994368325915,
+        "valid-unknown": 0.9109662641430193
+      },
+      "minimum_case_iou": 0.8168599901976801
+    },
+    {
+      "models": [
+        "models/generic-v35-volume-r5-range/volume.pt"
+      ],
+      "views": 4,
+      "threshold": 0.55,
+      "domains": {
+        "valid-known": 0.9391180122615672,
+        "valid-unknown": 0.910555877172174
+      },
+      "minimum_case_iou": 0.8188250781635675
+    },
+    {
+      "models": [
+        "models/generic-v35-volume-r5-range/volume.pt"
+      ],
+      "views": 4,
+      "threshold": 0.6,
+      "domains": {
+        "valid-known": 0.938848551804581,
+        "valid-unknown": 0.9094242057864673
+      },
+      "minimum_case_iou": 0.8204447394623299
+    },
+    {
+      "models": [
+        "models/generic-v35-volume-r5-range/volume.pt"
+      ],
+      "views": 4,
+      "threshold": 0.65,
+      "domains": {
+        "valid-known": 0.9380226273800493,
+        "valid-unknown": 0.9082459269387425
+      },
+      "minimum_case_iou": 0.8211599532007354
+    },
+    {
+      "models": [
+        "models/generic-v35-volume-r5-range/volume.pt"
+      ],
+      "views": 4,
+      "threshold": 0.7,
+      "domains": {
+        "valid-known": 0.937312407203499,
+        "valid-unknown": 0.9062026034978538
+      },
+      "minimum_case_iou": 0.8210614995787701
+    },
+    {
+      "models": [
+        "models/generic-v35-volume-r5-range/volume.pt"
+      ],
+      "views": 4,
+      "threshold": 0.75,
+      "domains": {
+        "valid-known": 0.936020099218007,
+        "valid-unknown": 0.9040620338793425
+      },
+      "minimum_case_iou": 0.8177973270174251
+    },
+    {
+      "models": [
+        "models/generic-v35-volume-r5-range/volume.pt"
+      ],
+      "views": 4,
+      "threshold": 0.8,
+      "domains": {
+        "valid-known": 0.934138862009946,
+        "valid-unknown": 0.8996837636207127
+      },
+      "minimum_case_iou": 0.8148464163822525
+    },
+    {
+      "models": [
+        "models/generic-v35-volume-r5-range/volume.pt"
+      ],
+      "views": 4,
+      "threshold": 0.85,
+      "domains": {
+        "valid-known": 0.9310425289604788,
+        "valid-unknown": 0.8951275945773526
+      },
+      "minimum_case_iou": 0.8103507565337001
+    },
+    {
+      "models": [
+        "models/generic-v35-volume-r7-full-mix/volume.pt"
+      ],
+      "views": 1,
+      "threshold": 0.4,
+      "domains": {
+        "valid-known": 0.9363579325979885,
+        "valid-unknown": 0.9143311942728798
+      },
+      "minimum_case_iou": 0.830237862495927
+    },
+    {
+      "models": [
+        "models/generic-v35-volume-r7-full-mix/volume.pt"
+      ],
+      "views": 1,
+      "threshold": 0.45,
+      "domains": {
+        "valid-known": 0.9371877836471343,
+        "valid-unknown": 0.9155377801166912
+      },
+      "minimum_case_iou": 0.833634719710669
+    },
+    {
+      "models": [
+        "models/generic-v35-volume-r7-full-mix/volume.pt"
+      ],
+      "views": 1,
+      "threshold": 0.5,
+      "domains": {
+        "valid-known": 0.9379521973431876,
+        "valid-unknown": 0.9159618528556935
+      },
+      "minimum_case_iou": 0.8339397949057228
+    },
+    {
+      "models": [
+        "models/generic-v35-volume-r7-full-mix/volume.pt"
+      ],
+      "views": 1,
+      "threshold": 0.55,
+      "domains": {
+        "valid-known": 0.9383386158045106,
+        "valid-unknown": 0.9156800201624262
+      },
+      "minimum_case_iou": 0.8336103723404256
+    },
+    {
+      "models": [
+        "models/generic-v35-volume-r7-full-mix/volume.pt"
+      ],
+      "views": 1,
+      "threshold": 0.6,
+      "domains": {
+        "valid-known": 0.9382831841969738,
+        "valid-unknown": 0.9163201821654722
+      },
+      "minimum_case_iou": 0.8346469897702499
+    },
+    {
+      "models": [
+        "models/generic-v35-volume-r7-full-mix/volume.pt"
+      ],
+      "views": 1,
+      "threshold": 0.65,
+      "domains": {
+        "valid-known": 0.9380756782634018,
+        "valid-unknown": 0.9160812823087667
+      },
+      "minimum_case_iou": 0.8354152599594868
+    },
+    {
+      "models": [
+        "models/generic-v35-volume-r7-full-mix/volume.pt"
+      ],
+      "views": 1,
+      "threshold": 0.7,
+      "domains": {
+        "valid-known": 0.9374876009011127,
+        "valid-unknown": 0.9157747564784743
+      },
+      "minimum_case_iou": 0.8336448598130841
+    },
+    {
+      "models": [
+        "models/generic-v35-volume-r7-full-mix/volume.pt"
+      ],
+      "views": 1,
+      "threshold": 0.75,
+      "domains": {
+        "valid-known": 0.9363174871229043,
+        "valid-unknown": 0.9143669133073027
+      },
+      "minimum_case_iou": 0.8324481754325852
+    },
+    {
+      "models": [
+        "models/generic-v35-volume-r7-full-mix/volume.pt"
+      ],
+      "views": 1,
+      "threshold": 0.8,
+      "domains": {
+        "valid-known": 0.93450728226068,
+        "valid-unknown": 0.9121634100567699
+      },
+      "minimum_case_iou": 0.8323239314760339
+    },
+    {
+      "models": [
+        "models/generic-v35-volume-r7-full-mix/volume.pt"
+      ],
+      "views": 1,
+      "threshold": 0.85,
+      "domains": {
+        "valid-known": 0.9320070841526871,
+        "valid-unknown": 0.9067947386083731
+      },
+      "minimum_case_iou": 0.822884012539185
+    },
+    {
+      "models": [
+        "models/generic-v35-volume-r7-full-mix/volume.pt"
+      ],
+      "views": 4,
+      "threshold": 0.4,
+      "domains": {
+        "valid-known": 0.9382740072750823,
+        "valid-unknown": 0.9182841577197534
+      },
+      "minimum_case_iou": 0.8319478402607987
+    },
+    {
+      "models": [
+        "models/generic-v35-volume-r7-full-mix/volume.pt"
+      ],
+      "views": 4,
+      "threshold": 0.45,
+      "domains": {
+        "valid-known": 0.9393938848137134,
+        "valid-unknown": 0.919095245610518
+      },
+      "minimum_case_iou": 0.8325390304026294
+    },
+    {
+      "models": [
+        "models/generic-v35-volume-r7-full-mix/volume.pt"
+      ],
+      "views": 4,
+      "threshold": 0.5,
+      "domains": {
+        "valid-known": 0.9402504188888444,
+        "valid-unknown": 0.920047910085734
+      },
+      "minimum_case_iou": 0.8344941956882256
+    },
+    {
+      "models": [
+        "models/generic-v35-volume-r7-full-mix/volume.pt"
+      ],
+      "views": 4,
+      "threshold": 0.55,
+      "domains": {
+        "valid-known": 0.9406018756468113,
+        "valid-unknown": 0.9201904324676227
+      },
+      "minimum_case_iou": 0.8353393513874958
+    },
+    {
+      "models": [
+        "models/generic-v35-volume-r7-full-mix/volume.pt"
+      ],
+      "views": 4,
+      "threshold": 0.6,
+      "domains": {
+        "valid-known": 0.9405560370167363,
+        "valid-unknown": 0.9196141494667864
+      },
+      "minimum_case_iou": 0.8365902964959568
+    },
+    {
+      "models": [
+        "models/generic-v35-volume-r7-full-mix/volume.pt"
+      ],
+      "views": 4,
+      "threshold": 0.65,
+      "domains": {
+        "valid-known": 0.9401523582862865,
+        "valid-unknown": 0.9182896701685195
+      },
+      "minimum_case_iou": 0.8360461173279078
+    },
+    {
+      "models": [
+        "models/generic-v35-volume-r7-full-mix/volume.pt"
+      ],
+      "views": 4,
+      "threshold": 0.7,
+      "domains": {
+        "valid-known": 0.939080911306096,
+        "valid-unknown": 0.9170564438234664
+      },
+      "minimum_case_iou": 0.8356398428156501
+    },
+    {
+      "models": [
+        "models/generic-v35-volume-r7-full-mix/volume.pt"
+      ],
+      "views": 4,
+      "threshold": 0.75,
+      "domains": {
+        "valid-known": 0.9374611234672778,
+        "valid-unknown": 0.9144220239806593
+      },
+      "minimum_case_iou": 0.835491109960297
+    },
+    {
+      "models": [
+        "models/generic-v35-volume-r7-full-mix/volume.pt"
+      ],
+      "views": 4,
+      "threshold": 0.8,
+      "domains": {
+        "valid-known": 0.9354206852194269,
+        "valid-unknown": 0.910616991016729
+      },
+      "minimum_case_iou": 0.8308926080892608
+    },
+    {
+      "models": [
+        "models/generic-v35-volume-r7-full-mix/volume.pt"
+      ],
+      "views": 4,
+      "threshold": 0.85,
+      "domains": {
+        "valid-known": 0.9319040941942066,
+        "valid-unknown": 0.9052794405625346
+      },
+      "minimum_case_iou": 0.8218985786980172
+    },
+    {
+      "models": [
+        "models/generic-v35-volume-r8-covariance/volume.pt"
+      ],
+      "views": 1,
+      "threshold": 0.4,
+      "domains": {
+        "valid-known": 0.9362553566961263,
+        "valid-unknown": 0.9109589662668723
+      },
+      "minimum_case_iou": 0.8106764988778454
+    },
+    {
+      "models": [
+        "models/generic-v35-volume-r8-covariance/volume.pt"
+      ],
+      "views": 1,
+      "threshold": 0.45,
+      "domains": {
+        "valid-known": 0.9370926912865215,
+        "valid-unknown": 0.911954446255725
+      },
+      "minimum_case_iou": 0.810889175257732
+    },
+    {
+      "models": [
+        "models/generic-v35-volume-r8-covariance/volume.pt"
+      ],
+      "views": 1,
+      "threshold": 0.5,
+      "domains": {
+        "valid-known": 0.9378996190201652,
+        "valid-unknown": 0.9121056985247509
+      },
+      "minimum_case_iou": 0.810880829015544
+    },
+    {
+      "models": [
+        "models/generic-v35-volume-r8-covariance/volume.pt"
+      ],
+      "views": 1,
+      "threshold": 0.55,
+      "domains": {
+        "valid-known": 0.9384937057358558,
+        "valid-unknown": 0.9126485738951655
+      },
+      "minimum_case_iou": 0.8125101808112071
+    },
+    {
+      "models": [
+        "models/generic-v35-volume-r8-covariance/volume.pt"
+      ],
+      "views": 1,
+      "threshold": 0.6,
+      "domains": {
+        "valid-known": 0.9387442817121368,
+        "valid-unknown": 0.913140573631052
+      },
+      "minimum_case_iou": 0.8137512307187398
+    },
+    {
+      "models": [
+        "models/generic-v35-volume-r8-covariance/volume.pt"
+      ],
+      "views": 1,
+      "threshold": 0.65,
+      "domains": {
+        "valid-known": 0.9388430063070216,
+        "valid-unknown": 0.9132421607277615
+      },
+      "minimum_case_iou": 0.8149801587301587
+    },
+    {
+      "models": [
+        "models/generic-v35-volume-r8-covariance/volume.pt"
+      ],
+      "views": 1,
+      "threshold": 0.7,
+      "domains": {
+        "valid-known": 0.9383837223756882,
+        "valid-unknown": 0.9131739954179439
+      },
+      "minimum_case_iou": 0.8149318257399402
+    },
+    {
+      "models": [
+        "models/generic-v35-volume-r8-covariance/volume.pt"
+      ],
+      "views": 1,
+      "threshold": 0.75,
+      "domains": {
+        "valid-known": 0.9377020658227531,
+        "valid-unknown": 0.9123210189700143
+      },
+      "minimum_case_iou": 0.8133578841647138
+    },
+    {
+      "models": [
+        "models/generic-v35-volume-r8-covariance/volume.pt"
+      ],
+      "views": 1,
+      "threshold": 0.8,
+      "domains": {
+        "valid-known": 0.9369413663483094,
+        "valid-unknown": 0.9116229046190664
+      },
+      "minimum_case_iou": 0.813510781671159
+    },
+    {
+      "models": [
+        "models/generic-v35-volume-r8-covariance/volume.pt"
+      ],
+      "views": 1,
+      "threshold": 0.85,
+      "domains": {
+        "valid-known": 0.9357585776140432,
+        "valid-unknown": 0.9096084212787976
+      },
+      "minimum_case_iou": 0.8126698369565217
+    },
+    {
+      "models": [
+        "models/generic-v35-volume-r8-covariance/volume.pt"
+      ],
+      "views": 4,
+      "threshold": 0.4,
+      "domains": {
+        "valid-known": 0.9387834179691595,
+        "valid-unknown": 0.9146668180077852
+      },
+      "minimum_case_iou": 0.8167816460773304
+    },
+    {
+      "models": [
+        "models/generic-v35-volume-r8-covariance/volume.pt"
+      ],
+      "views": 4,
+      "threshold": 0.45,
+      "domains": {
+        "valid-known": 0.9397960405843335,
+        "valid-unknown": 0.9161706644324159
+      },
+      "minimum_case_iou": 0.8197862694300518
+    },
+    {
+      "models": [
+        "models/generic-v35-volume-r8-covariance/volume.pt"
+      ],
+      "views": 4,
+      "threshold": 0.5,
+      "domains": {
+        "valid-known": 0.940786744803823,
+        "valid-unknown": 0.916465149094565
+      },
+      "minimum_case_iou": 0.820094601206981
+    },
+    {
+      "models": [
+        "models/generic-v35-volume-r8-covariance/volume.pt"
+      ],
+      "views": 4,
+      "threshold": 0.55,
+      "domains": {
+        "valid-known": 0.9414628910694698,
+        "valid-unknown": 0.9174917255697674
+      },
+      "minimum_case_iou": 0.8224268332785268
+    },
+    {
+      "models": [
+        "models/generic-v35-volume-r8-covariance/volume.pt"
+      ],
+      "views": 4,
+      "threshold": 0.6,
+      "domains": {
+        "valid-known": 0.9417049966854876,
+        "valid-unknown": 0.9176087201136394
+      },
+      "minimum_case_iou": 0.8243086603742341
+    },
+    {
+      "models": [
+        "models/generic-v35-volume-r8-covariance/volume.pt"
+      ],
+      "views": 4,
+      "threshold": 0.65,
+      "domains": {
+        "valid-known": 0.9414480561538279,
+        "valid-unknown": 0.9174288727880019
+      },
+      "minimum_case_iou": 0.8227045075125209
+    },
+    {
+      "models": [
+        "models/generic-v35-volume-r8-covariance/volume.pt"
+      ],
+      "views": 4,
+      "threshold": 0.7,
+      "domains": {
+        "valid-known": 0.9406282508986384,
+        "valid-unknown": 0.9160861590603387
+      },
+      "minimum_case_iou": 0.8228763666947014
+    },
+    {
+      "models": [
+        "models/generic-v35-volume-r8-covariance/volume.pt"
+      ],
+      "views": 4,
+      "threshold": 0.75,
+      "domains": {
+        "valid-known": 0.9396990518022238,
+        "valid-unknown": 0.9144427178800897
+      },
+      "minimum_case_iou": 0.8223728813559322
+    },
+    {
+      "models": [
+        "models/generic-v35-volume-r8-covariance/volume.pt"
+      ],
+      "views": 4,
+      "threshold": 0.8,
+      "domains": {
+        "valid-known": 0.9383038328007489,
+        "valid-unknown": 0.9121437837503399
+      },
+      "minimum_case_iou": 0.8203245089666952
+    },
+    {
+      "models": [
+        "models/generic-v35-volume-r8-covariance/volume.pt"
+      ],
+      "views": 4,
+      "threshold": 0.85,
+      "domains": {
+        "valid-known": 0.9365889562387223,
+        "valid-unknown": 0.9088017312204631
+      },
+      "minimum_case_iou": 0.8173838209982788
+    },
+    {
+      "models": [
+        "models/generic-v35-volume-r5-range/volume.pt",
+        "models/generic-v35-volume-r7-full-mix/volume.pt",
+        "models/generic-v35-volume-r8-covariance/volume.pt"
+      ],
+      "views": 1,
+      "threshold": 0.4,
+      "domains": {
+        "valid-known": 0.9385408451262618,
+        "valid-unknown": 0.9154857927143021
+      },
+      "minimum_case_iou": 0.8230446024563671
+    },
+    {
+      "models": [
+        "models/generic-v35-volume-r5-range/volume.pt",
+        "models/generic-v35-volume-r7-full-mix/volume.pt",
+        "models/generic-v35-volume-r8-covariance/volume.pt"
+      ],
+      "views": 1,
+      "threshold": 0.45,
+      "domains": {
+        "valid-known": 0.9397105743507678,
+        "valid-unknown": 0.915935035094923
+      },
+      "minimum_case_iou": 0.8251223491027733
+    },
+    {
+      "models": [
+        "models/generic-v35-volume-r5-range/volume.pt",
+        "models/generic-v35-volume-r7-full-mix/volume.pt",
+        "models/generic-v35-volume-r8-covariance/volume.pt"
+      ],
+      "views": 1,
+      "threshold": 0.5,
+      "domains": {
+        "valid-known": 0.9405515240827574,
+        "valid-unknown": 0.9160180780456114
+      },
+      "minimum_case_iou": 0.8267302317935229
+    },
+    {
+      "models": [
+        "models/generic-v35-volume-r5-range/volume.pt",
+        "models/generic-v35-volume-r7-full-mix/volume.pt",
+        "models/generic-v35-volume-r8-covariance/volume.pt"
+      ],
+      "views": 1,
+      "threshold": 0.55,
+      "domains": {
+        "valid-known": 0.9407420935812966,
+        "valid-unknown": 0.9167965274929863
+      },
+      "minimum_case_iou": 0.829324929507381
+    },
+    {
+      "models": [
+        "models/generic-v35-volume-r5-range/volume.pt",
+        "models/generic-v35-volume-r7-full-mix/volume.pt",
+        "models/generic-v35-volume-r8-covariance/volume.pt"
+      ],
+      "views": 1,
+      "threshold": 0.6,
+      "domains": {
+        "valid-known": 0.9407816545428757,
+        "valid-unknown": 0.9164170428505902
+      },
+      "minimum_case_iou": 0.8315754227356438
+    },
+    {
+      "models": [
+        "models/generic-v35-volume-r5-range/volume.pt",
+        "models/generic-v35-volume-r7-full-mix/volume.pt",
+        "models/generic-v35-volume-r8-covariance/volume.pt"
+      ],
+      "views": 1,
+      "threshold": 0.65,
+      "domains": {
+        "valid-known": 0.9403740721965128,
+        "valid-unknown": 0.9159407592944595
+      },
+      "minimum_case_iou": 0.8325431764307484
+    },
+    {
+      "models": [
+        "models/generic-v35-volume-r5-range/volume.pt",
+        "models/generic-v35-volume-r7-full-mix/volume.pt",
+        "models/generic-v35-volume-r8-covariance/volume.pt"
+      ],
+      "views": 1,
+      "threshold": 0.7,
+      "domains": {
+        "valid-known": 0.9392040744935198,
+        "valid-unknown": 0.9148441750589645
+      },
+      "minimum_case_iou": 0.8332761578044597
+    },
+    {
+      "models": [
+        "models/generic-v35-volume-r5-range/volume.pt",
+        "models/generic-v35-volume-r7-full-mix/volume.pt",
+        "models/generic-v35-volume-r8-covariance/volume.pt"
+      ],
+      "views": 1,
+      "threshold": 0.75,
+      "domains": {
+        "valid-known": 0.9377108115345274,
+        "valid-unknown": 0.9129849394818517
+      },
+      "minimum_case_iou": 0.8317191283292978
+    },
+    {
+      "models": [
+        "models/generic-v35-volume-r5-range/volume.pt",
+        "models/generic-v35-volume-r7-full-mix/volume.pt",
+        "models/generic-v35-volume-r8-covariance/volume.pt"
+      ],
+      "views": 1,
+      "threshold": 0.8,
+      "domains": {
+        "valid-known": 0.9356397565816523,
+        "valid-unknown": 0.9096977680134195
+      },
+      "minimum_case_iou": 0.8274058577405857
+    },
+    {
+      "models": [
+        "models/generic-v35-volume-r5-range/volume.pt",
+        "models/generic-v35-volume-r7-full-mix/volume.pt",
+        "models/generic-v35-volume-r8-covariance/volume.pt"
+      ],
+      "views": 1,
+      "threshold": 0.85,
+      "domains": {
+        "valid-known": 0.9325748336963465,
+        "valid-unknown": 0.9044501857300187
+      },
+      "minimum_case_iou": 0.8211967011756448
+    },
+    {
+      "models": [
+        "models/generic-v35-volume-r5-range/volume.pt",
+        "models/generic-v35-volume-r7-full-mix/volume.pt",
+        "models/generic-v35-volume-r8-covariance/volume.pt"
+      ],
+      "views": 4,
+      "threshold": 0.4,
+      "domains": {
+        "valid-known": 0.9404433059682291,
+        "valid-unknown": 0.9188018768979048
+      },
+      "minimum_case_iou": 0.8275582901554405
+    },
+    {
+      "models": [
+        "models/generic-v35-volume-r5-range/volume.pt",
+        "models/generic-v35-volume-r7-full-mix/volume.pt",
+        "models/generic-v35-volume-r8-covariance/volume.pt"
+      ],
+      "views": 4,
+      "threshold": 0.45,
+      "domains": {
+        "valid-known": 0.9418204594260002,
+        "valid-unknown": 0.9198490260900206
+      },
+      "minimum_case_iou": 0.8299542184434271
+    },
+    {
+      "models": [
+        "models/generic-v35-volume-r5-range/volume.pt",
+        "models/generic-v35-volume-r7-full-mix/volume.pt",
+        "models/generic-v35-volume-r8-covariance/volume.pt"
+      ],
+      "views": 4,
+      "threshold": 0.5,
+      "domains": {
+        "valid-known": 0.9423793367277775,
+        "valid-unknown": 0.9205544467913617
+      },
+      "minimum_case_iou": 0.8331955695156225
+    },
+    {
+      "models": [
+        "models/generic-v35-volume-r5-range/volume.pt",
+        "models/generic-v35-volume-r7-full-mix/volume.pt",
+        "models/generic-v35-volume-r8-covariance/volume.pt"
+      ],
+      "views": 4,
+      "threshold": 0.55,
+      "domains": {
+        "valid-known": 0.9427319333088667,
+        "valid-unknown": 0.9203476544842341
+      },
+      "minimum_case_iou": 0.836475888536626
+    },
+    {
+      "models": [
+        "models/generic-v35-volume-r5-range/volume.pt",
+        "models/generic-v35-volume-r7-full-mix/volume.pt",
+        "models/generic-v35-volume-r8-covariance/volume.pt"
+      ],
+      "views": 4,
+      "threshold": 0.6,
+      "domains": {
+        "valid-known": 0.9423638159468096,
+        "valid-unknown": 0.9201254498507004
+      },
+      "minimum_case_iou": 0.8357406785354383
+    },
+    {
+      "models": [
+        "models/generic-v35-volume-r5-range/volume.pt",
+        "models/generic-v35-volume-r7-full-mix/volume.pt",
+        "models/generic-v35-volume-r8-covariance/volume.pt"
+      ],
+      "views": 4,
+      "threshold": 0.65,
+      "domains": {
+        "valid-known": 0.9415957903156913,
+        "valid-unknown": 0.918907920628588
+      },
+      "minimum_case_iou": 0.836271186440678
+    },
+    {
+      "models": [
+        "models/generic-v35-volume-r5-range/volume.pt",
+        "models/generic-v35-volume-r7-full-mix/volume.pt",
+        "models/generic-v35-volume-r8-covariance/volume.pt"
+      ],
+      "views": 4,
+      "threshold": 0.7,
+      "domains": {
+        "valid-known": 0.940828731154137,
+        "valid-unknown": 0.9170375271655513
+      },
+      "minimum_case_iou": 0.8373369938229238
+    },
+    {
+      "models": [
+        "models/generic-v35-volume-r5-range/volume.pt",
+        "models/generic-v35-volume-r7-full-mix/volume.pt",
+        "models/generic-v35-volume-r8-covariance/volume.pt"
+      ],
+      "views": 4,
+      "threshold": 0.75,
+      "domains": {
+        "valid-known": 0.9387762133078188,
+        "valid-unknown": 0.9133468450192969
+      },
+      "minimum_case_iou": 0.8329004329004329
+    },
+    {
+      "models": [
+        "models/generic-v35-volume-r5-range/volume.pt",
+        "models/generic-v35-volume-r7-full-mix/volume.pt",
+        "models/generic-v35-volume-r8-covariance/volume.pt"
+      ],
+      "views": 4,
+      "threshold": 0.8,
+      "domains": {
+        "valid-known": 0.9367268460555644,
+        "valid-unknown": 0.9096902851958854
+      },
+      "minimum_case_iou": 0.8269666841095412
+    },
+    {
+      "models": [
+        "models/generic-v35-volume-r5-range/volume.pt",
+        "models/generic-v35-volume-r7-full-mix/volume.pt",
+        "models/generic-v35-volume-r8-covariance/volume.pt"
+      ],
+      "views": 4,
+      "threshold": 0.85,
+      "domains": {
+        "valid-known": 0.9333965149808188,
+        "valid-unknown": 0.9030865214138003
+      },
+      "minimum_case_iou": 0.8216549295774648
+    }
+  ]
+}

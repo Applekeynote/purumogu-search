@@ -1,0 +1,48 @@
+{
+  "purpose": "Retain a stationary human source confirmed at multiple causal checkpoints instead of letting later acoustic aliases displace it",
+  "head": "Frozen G75 native32, unchanged per-frame threshold and NMS",
+  "association_radii_m": [
+    0.15,
+    0.2,
+    0.25
+  ],
+  "inactive_retention_steps": [
+    6000,
+    18000
+  ],
+  "minimum_support": [
+    2,
+    3
+  ],
+  "mean_threshold": [
+    0.4,
+    0.6,
+    0.8,
+    0.9
+  ],
+  "support_rank": [
+    false,
+    true
+  ],
+  "output_nms_m": [
+    0.2,
+    0.3,
+    0.4
+  ],
+  "validation_cases": 54,
+  "schedule_steps": [
+    1500,
+    3000,
+    4500,
+    6000,
+    9000,
+    12000,
+    15000,
+    18000
+  ],
+  "prefix120_evaluated_without_future_data": true,
+  "no_training": true,
+  "final_test_opened": false,
+  "native_support_requires_separate_implementation_and_parity": true,
+  "weakness": "Stationary-source assumption and persistent false alarms"
+}

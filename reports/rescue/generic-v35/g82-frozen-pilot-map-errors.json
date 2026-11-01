@@ -1,0 +1,1628 @@
+{
+  "purpose": "Error attribution on all six fixed-explorer live development pilot cases, not final acceptance",
+  "caveat": "A nonzero observation count includes free-space ray traversals, not proof that a true surface was directly measured",
+  "no_model_fitting": true,
+  "final_test_opened": false,
+  "rows": [
+    {
+      "id": "g82-valid-known-S25-W82025225-N24",
+      "role": "valid-known",
+      "step": 6000,
+      "iou": 0.954954954954955,
+      "fp": 120,
+      "fn": 110,
+      "raw_sensor_groups": {
+        "no_ray_traversal": {
+          "fp": 5,
+          "fn": 2
+        },
+        "ray_free": {
+          "fp": 88,
+          "fn": 105
+        },
+        "ray_ambiguous": {
+          "fp": 25,
+          "fn": 1
+        },
+        "ray_solid": {
+          "fp": 2,
+          "fn": 2
+        }
+      },
+      "by_height": [
+        {
+          "key_y": -3,
+          "fp": 0,
+          "fn": 0
+        },
+        {
+          "key_y": -2,
+          "fp": 0,
+          "fn": 0
+        },
+        {
+          "key_y": -1,
+          "fp": 8,
+          "fn": 7
+        },
+        {
+          "key_y": 0,
+          "fp": 41,
+          "fn": 21
+        },
+        {
+          "key_y": 1,
+          "fp": 20,
+          "fn": 25
+        },
+        {
+          "key_y": 2,
+          "fp": 6,
+          "fn": 0
+        },
+        {
+          "key_y": 3,
+          "fp": 0,
+          "fn": 0
+        },
+        {
+          "key_y": 4,
+          "fp": 0,
+          "fn": 0
+        },
+        {
+          "key_y": 5,
+          "fp": 2,
+          "fn": 1
+        },
+        {
+          "key_y": 6,
+          "fp": 29,
+          "fn": 15
+        },
+        {
+          "key_y": 7,
+          "fp": 0,
+          "fn": 0
+        },
+        {
+          "key_y": 8,
+          "fp": 0,
+          "fn": 0
+        },
+        {
+          "key_y": 9,
+          "fp": 0,
+          "fn": 0
+        },
+        {
+          "key_y": 10,
+          "fp": 0,
+          "fn": 6
+        },
+        {
+          "key_y": 11,
+          "fp": 2,
+          "fn": 6
+        },
+        {
+          "key_y": 12,
+          "fp": 11,
+          "fn": 29
+        },
+        {
+          "key_y": 13,
+          "fp": 0,
+          "fn": 0
+        },
+        {
+          "key_y": 14,
+          "fp": 1,
+          "fn": 0
+        },
+        {
+          "key_y": 15,
+          "fp": 0,
+          "fn": 0
+        },
+        {
+          "key_y": 16,
+          "fp": 0,
+          "fn": 0
+        },
+        {
+          "key_y": 17,
+          "fp": 0,
+          "fn": 0
+        }
+      ],
+      "map_sha256": "fe5f2a0259205fba54d183b598ce8c443e1db2b5c7e6536d80e9132dff38a7b9",
+      "truth_sha256": "14c8fd8d73c3a21dbe5ebb05d8de8331a545e02d0d44f60d1389e680c954485d"
+    },
+    {
+      "id": "g82-valid-known-S25-W82025225-N24",
+      "role": "valid-known",
+      "step": 18000,
+      "iou": 0.9635539795114263,
+      "fp": 90,
+      "fn": 95,
+      "raw_sensor_groups": {
+        "no_ray_traversal": {
+          "fp": 0,
+          "fn": 2
+        },
+        "ray_free": {
+          "fp": 79,
+          "fn": 89
+        },
+        "ray_ambiguous": {
+          "fp": 3,
+          "fn": 3
+        },
+        "ray_solid": {
+          "fp": 8,
+          "fn": 1
+        }
+      },
+      "by_height": [
+        {
+          "key_y": -3,
+          "fp": 0,
+          "fn": 0
+        },
+        {
+          "key_y": -2,
+          "fp": 0,
+          "fn": 0
+        },
+        {
+          "key_y": -1,
+          "fp": 6,
+          "fn": 7
+        },
+        {
+          "key_y": 0,
+          "fp": 28,
+          "fn": 16
+        },
+        {
+          "key_y": 1,
+          "fp": 16,
+          "fn": 16
+        },
+        {
+          "key_y": 2,
+          "fp": 3,
+          "fn": 0
+        },
+        {
+          "key_y": 3,
+          "fp": 0,
+          "fn": 0
+        },
+        {
+          "key_y": 4,
+          "fp": 0,
+          "fn": 0
+        },
+        {
+          "key_y": 5,
+          "fp": 2,
+          "fn": 1
+        },
+        {
+          "key_y": 6,
+          "fp": 23,
+          "fn": 13
+        },
+        {
+          "key_y": 7,
+          "fp": 0,
+          "fn": 0
+        },
+        {
+          "key_y": 8,
+          "fp": 0,
+          "fn": 0
+        },
+        {
+          "key_y": 9,
+          "fp": 0,
+          "fn": 0
+        },
+        {
+          "key_y": 10,
+          "fp": 3,
+          "fn": 4
+        },
+        {
+          "key_y": 11,
+          "fp": 3,
+          "fn": 4
+        },
+        {
+          "key_y": 12,
+          "fp": 6,
+          "fn": 34
+        },
+        {
+          "key_y": 13,
+          "fp": 0,
+          "fn": 0
+        },
+        {
+          "key_y": 14,
+          "fp": 0,
+          "fn": 0
+        },
+        {
+          "key_y": 15,
+          "fp": 0,
+          "fn": 0
+        },
+        {
+          "key_y": 16,
+          "fp": 0,
+          "fn": 0
+        },
+        {
+          "key_y": 17,
+          "fp": 0,
+          "fn": 0
+        }
+      ],
+      "map_sha256": "6865bd8aa25f04617a7fb67e0a8a68aba24ee896ebd1fbf326b556b2ce2aedd9",
+      "truth_sha256": "27472c0e5eeb3437bcfeb5ee1d537c1bf054e3ebde6f82dcfab06740a42f103e"
+    },
+    {
+      "id": "g82-valid-known-S25-W82025225-N48",
+      "role": "valid-known",
+      "step": 6000,
+      "iou": 0.961576354679803,
+      "fp": 89,
+      "fn": 106,
+      "raw_sensor_groups": {
+        "no_ray_traversal": {
+          "fp": 4,
+          "fn": 4
+        },
+        "ray_free": {
+          "fp": 62,
+          "fn": 85
+        },
+        "ray_ambiguous": {
+          "fp": 15,
+          "fn": 9
+        },
+        "ray_solid": {
+          "fp": 8,
+          "fn": 8
+        }
+      },
+      "by_height": [
+        {
+          "key_y": -3,
+          "fp": 0,
+          "fn": 0
+        },
+        {
+          "key_y": -2,
+          "fp": 0,
+          "fn": 0
+        },
+        {
+          "key_y": -1,
+          "fp": 6,
+          "fn": 5
+        },
+        {
+          "key_y": 0,
+          "fp": 27,
+          "fn": 22
+        },
+        {
+          "key_y": 1,
+          "fp": 13,
+          "fn": 19
+        },
+        {
+          "key_y": 2,
+          "fp": 5,
+          "fn": 0
+        },
+        {
+          "key_y": 3,
+          "fp": 0,
+          "fn": 0
+        },
+        {
+          "key_y": 4,
+          "fp": 0,
+          "fn": 0
+        },
+        {
+          "key_y": 5,
+          "fp": 2,
+          "fn": 1
+        },
+        {
+          "key_y": 6,
+          "fp": 16,
+          "fn": 14
+        },
+        {
+          "key_y": 7,
+          "fp": 0,
+          "fn": 3
+        },
+        {
+          "key_y": 8,
+          "fp": 1,
+          "fn": 0
+        },
+        {
+          "key_y": 9,
+          "fp": 0,
+          "fn": 0
+        },
+        {
+          "key_y": 10,
+          "fp": 3,
+          "fn": 5
+        },
+        {
+          "key_y": 11,
+          "fp": 6,
+          "fn": 9
+        },
+        {
+          "key_y": 12,
+          "fp": 10,
+          "fn": 28
+        },
+        {
+          "key_y": 13,
+          "fp": 0,
+          "fn": 0
+        },
+        {
+          "key_y": 14,
+          "fp": 0,
+          "fn": 0
+        },
+        {
+          "key_y": 15,
+          "fp": 0,
+          "fn": 0
+        },
+        {
+          "key_y": 16,
+          "fp": 0,
+          "fn": 0
+        },
+        {
+          "key_y": 17,
+          "fp": 0,
+          "fn": 0
+        }
+      ],
+      "map_sha256": "36c53dd5a910fa1bbad067f85f9076607ee21fc5dbbbe635fe11b761c91e9581",
+      "truth_sha256": "8a821d263f003225be74096db7ad0d7b1e00f251c9863608aa2721a23990e4ae"
+    },
+    {
+      "id": "g82-valid-known-S25-W82025225-N48",
+      "role": "valid-known",
+      "step": 18000,
+      "iou": 0.9654900414119503,
+      "fp": 85,
+      "fn": 90,
+      "raw_sensor_groups": {
+        "no_ray_traversal": {
+          "fp": 1,
+          "fn": 2
+        },
+        "ray_free": {
+          "fp": 73,
+          "fn": 82
+        },
+        "ray_ambiguous": {
+          "fp": 4,
+          "fn": 3
+        },
+        "ray_solid": {
+          "fp": 7,
+          "fn": 3
+        }
+      },
+      "by_height": [
+        {
+          "key_y": -3,
+          "fp": 0,
+          "fn": 0
+        },
+        {
+          "key_y": -2,
+          "fp": 0,
+          "fn": 0
+        },
+        {
+          "key_y": -1,
+          "fp": 6,
+          "fn": 6
+        },
+        {
+          "key_y": 0,
+          "fp": 25,
+          "fn": 17
+        },
+        {
+          "key_y": 1,
+          "fp": 12,
+          "fn": 14
+        },
+        {
+          "key_y": 2,
+          "fp": 2,
+          "fn": 0
+        },
+        {
+          "key_y": 3,
+          "fp": 0,
+          "fn": 0
+        },
+        {
+          "key_y": 4,
+          "fp": 0,
+          "fn": 1
+        },
+        {
+          "key_y": 5,
+          "fp": 3,
+          "fn": 0
+        },
+        {
+          "key_y": 6,
+          "fp": 16,
+          "fn": 15
+        },
+        {
+          "key_y": 7,
+          "fp": 0,
+          "fn": 1
+        },
+        {
+          "key_y": 8,
+          "fp": 0,
+          "fn": 0
+        },
+        {
+          "key_y": 9,
+          "fp": 1,
+          "fn": 0
+        },
+        {
+          "key_y": 10,
+          "fp": 2,
+          "fn": 6
+        },
+        {
+          "key_y": 11,
+          "fp": 3,
+          "fn": 6
+        },
+        {
+          "key_y": 12,
+          "fp": 15,
+          "fn": 24
+        },
+        {
+          "key_y": 13,
+          "fp": 0,
+          "fn": 0
+        },
+        {
+          "key_y": 14,
+          "fp": 0,
+          "fn": 0
+        },
+        {
+          "key_y": 15,
+          "fp": 0,
+          "fn": 0
+        },
+        {
+          "key_y": 16,
+          "fp": 0,
+          "fn": 0
+        },
+        {
+          "key_y": 17,
+          "fp": 0,
+          "fn": 0
+        }
+      ],
+      "map_sha256": "3a3ec4acd438d6a10909450a010a0b0bce675101a8fcdd6d4e8475bfcc57a06c",
+      "truth_sha256": "f0f703a94d48ca4cee8111bad6c71cf85bd1e8aacbc26d2a4f0053af3f49653c"
+    },
+    {
+      "id": "g82-valid-known-S33-W124033297-N24",
+      "role": "valid-known",
+      "step": 6000,
+      "iou": 0.9598138747884941,
+      "fp": 129,
+      "fn": 156,
+      "raw_sensor_groups": {
+        "no_ray_traversal": {
+          "fp": 25,
+          "fn": 16
+        },
+        "ray_free": {
+          "fp": 74,
+          "fn": 115
+        },
+        "ray_ambiguous": {
+          "fp": 26,
+          "fn": 16
+        },
+        "ray_solid": {
+          "fp": 4,
+          "fn": 9
+        }
+      },
+      "by_height": [
+        {
+          "key_y": -3,
+          "fp": 0,
+          "fn": 0
+        },
+        {
+          "key_y": -2,
+          "fp": 0,
+          "fn": 0
+        },
+        {
+          "key_y": -1,
+          "fp": 0,
+          "fn": 8
+        },
+        {
+          "key_y": 0,
+          "fp": 53,
+          "fn": 23
+        },
+        {
+          "key_y": 1,
+          "fp": 6,
+          "fn": 0
+        },
+        {
+          "key_y": 2,
+          "fp": 0,
+          "fn": 4
+        },
+        {
+          "key_y": 3,
+          "fp": 1,
+          "fn": 4
+        },
+        {
+          "key_y": 4,
+          "fp": 12,
+          "fn": 1
+        },
+        {
+          "key_y": 5,
+          "fp": 7,
+          "fn": 10
+        },
+        {
+          "key_y": 6,
+          "fp": 8,
+          "fn": 0
+        },
+        {
+          "key_y": 7,
+          "fp": 6,
+          "fn": 8
+        },
+        {
+          "key_y": 8,
+          "fp": 3,
+          "fn": 5
+        },
+        {
+          "key_y": 9,
+          "fp": 6,
+          "fn": 6
+        },
+        {
+          "key_y": 10,
+          "fp": 13,
+          "fn": 29
+        },
+        {
+          "key_y": 11,
+          "fp": 5,
+          "fn": 13
+        },
+        {
+          "key_y": 12,
+          "fp": 8,
+          "fn": 36
+        },
+        {
+          "key_y": 13,
+          "fp": 0,
+          "fn": 3
+        },
+        {
+          "key_y": 14,
+          "fp": 0,
+          "fn": 2
+        },
+        {
+          "key_y": 15,
+          "fp": 0,
+          "fn": 4
+        },
+        {
+          "key_y": 16,
+          "fp": 1,
+          "fn": 0
+        },
+        {
+          "key_y": 17,
+          "fp": 0,
+          "fn": 0
+        }
+      ],
+      "map_sha256": "2af6b0ae37b9a0ee2122a76c8eeffaf73f1fd9206f608262626787e3746820a2",
+      "truth_sha256": "c53a263053d181c37d1a54582408424d8a00df42f70bfaada332bee320c98bda"
+    },
+    {
+      "id": "g82-valid-known-S33-W124033297-N24",
+      "role": "valid-known",
+      "step": 18000,
+      "iou": 0.9566445417313939,
+      "fp": 118,
+      "fn": 189,
+      "raw_sensor_groups": {
+        "no_ray_traversal": {
+          "fp": 10,
+          "fn": 16
+        },
+        "ray_free": {
+          "fp": 80,
+          "fn": 141
+        },
+        "ray_ambiguous": {
+          "fp": 25,
+          "fn": 26
+        },
+        "ray_solid": {
+          "fp": 3,
+          "fn": 6
+        }
+      },
+      "by_height": [
+        {
+          "key_y": -3,
+          "fp": 0,
+          "fn": 0
+        },
+        {
+          "key_y": -2,
+          "fp": 0,
+          "fn": 0
+        },
+        {
+          "key_y": -1,
+          "fp": 0,
+          "fn": 7
+        },
+        {
+          "key_y": 0,
+          "fp": 38,
+          "fn": 25
+        },
+        {
+          "key_y": 1,
+          "fp": 7,
+          "fn": 0
+        },
+        {
+          "key_y": 2,
+          "fp": 0,
+          "fn": 4
+        },
+        {
+          "key_y": 3,
+          "fp": 3,
+          "fn": 3
+        },
+        {
+          "key_y": 4,
+          "fp": 13,
+          "fn": 3
+        },
+        {
+          "key_y": 5,
+          "fp": 6,
+          "fn": 8
+        },
+        {
+          "key_y": 6,
+          "fp": 8,
+          "fn": 1
+        },
+        {
+          "key_y": 7,
+          "fp": 6,
+          "fn": 9
+        },
+        {
+          "key_y": 8,
+          "fp": 2,
+          "fn": 7
+        },
+        {
+          "key_y": 9,
+          "fp": 4,
+          "fn": 8
+        },
+        {
+          "key_y": 10,
+          "fp": 10,
+          "fn": 27
+        },
+        {
+          "key_y": 11,
+          "fp": 8,
+          "fn": 26
+        },
+        {
+          "key_y": 12,
+          "fp": 10,
+          "fn": 41
+        },
+        {
+          "key_y": 13,
+          "fp": 0,
+          "fn": 7
+        },
+        {
+          "key_y": 14,
+          "fp": 0,
+          "fn": 7
+        },
+        {
+          "key_y": 15,
+          "fp": 0,
+          "fn": 6
+        },
+        {
+          "key_y": 16,
+          "fp": 3,
+          "fn": 0
+        },
+        {
+          "key_y": 17,
+          "fp": 0,
+          "fn": 0
+        }
+      ],
+      "map_sha256": "305bdc04f86114311e5e29c6d5249503e3385bcdd3bccb3e963119af294d506c",
+      "truth_sha256": "291f9018f854dc65b564c76b8bdcff99e0d4fa43a610d89e4817c8d9a197eeee"
+    },
+    {
+      "id": "g82-valid-known-S33-W124033297-N48",
+      "role": "valid-known",
+      "step": 6000,
+      "iou": 0.9758110415480934,
+      "fp": 65,
+      "fn": 105,
+      "raw_sensor_groups": {
+        "no_ray_traversal": {
+          "fp": 0,
+          "fn": 5
+        },
+        "ray_free": {
+          "fp": 62,
+          "fn": 92
+        },
+        "ray_ambiguous": {
+          "fp": 0,
+          "fn": 5
+        },
+        "ray_solid": {
+          "fp": 3,
+          "fn": 3
+        }
+      },
+      "by_height": [
+        {
+          "key_y": -3,
+          "fp": 0,
+          "fn": 0
+        },
+        {
+          "key_y": -2,
+          "fp": 0,
+          "fn": 0
+        },
+        {
+          "key_y": -1,
+          "fp": 0,
+          "fn": 8
+        },
+        {
+          "key_y": 0,
+          "fp": 10,
+          "fn": 18
+        },
+        {
+          "key_y": 1,
+          "fp": 2,
+          "fn": 1
+        },
+        {
+          "key_y": 2,
+          "fp": 3,
+          "fn": 1
+        },
+        {
+          "key_y": 3,
+          "fp": 4,
+          "fn": 2
+        },
+        {
+          "key_y": 4,
+          "fp": 7,
+          "fn": 0
+        },
+        {
+          "key_y": 5,
+          "fp": 6,
+          "fn": 7
+        },
+        {
+          "key_y": 6,
+          "fp": 5,
+          "fn": 2
+        },
+        {
+          "key_y": 7,
+          "fp": 2,
+          "fn": 7
+        },
+        {
+          "key_y": 8,
+          "fp": 3,
+          "fn": 2
+        },
+        {
+          "key_y": 9,
+          "fp": 1,
+          "fn": 5
+        },
+        {
+          "key_y": 10,
+          "fp": 8,
+          "fn": 30
+        },
+        {
+          "key_y": 11,
+          "fp": 7,
+          "fn": 1
+        },
+        {
+          "key_y": 12,
+          "fp": 7,
+          "fn": 21
+        },
+        {
+          "key_y": 13,
+          "fp": 0,
+          "fn": 0
+        },
+        {
+          "key_y": 14,
+          "fp": 0,
+          "fn": 0
+        },
+        {
+          "key_y": 15,
+          "fp": 0,
+          "fn": 0
+        },
+        {
+          "key_y": 16,
+          "fp": 0,
+          "fn": 0
+        },
+        {
+          "key_y": 17,
+          "fp": 0,
+          "fn": 0
+        }
+      ],
+      "map_sha256": "ed603513689eb270b6f3c346f33505d8c76466924540a12eb0ee3c776a57c28e",
+      "truth_sha256": "96d49f91fd1ba3da828980d0c909e3e84c191ffd47a69a9b4e3c0171b9b5d53e"
+    },
+    {
+      "id": "g82-valid-known-S33-W124033297-N48",
+      "role": "valid-known",
+      "step": 18000,
+      "iou": 0.9738636363636364,
+      "fp": 77,
+      "fn": 107,
+      "raw_sensor_groups": {
+        "no_ray_traversal": {
+          "fp": 1,
+          "fn": 5
+        },
+        "ray_free": {
+          "fp": 70,
+          "fn": 87
+        },
+        "ray_ambiguous": {
+          "fp": 3,
+          "fn": 5
+        },
+        "ray_solid": {
+          "fp": 3,
+          "fn": 10
+        }
+      },
+      "by_height": [
+        {
+          "key_y": -3,
+          "fp": 0,
+          "fn": 0
+        },
+        {
+          "key_y": -2,
+          "fp": 0,
+          "fn": 0
+        },
+        {
+          "key_y": -1,
+          "fp": 1,
+          "fn": 8
+        },
+        {
+          "key_y": 0,
+          "fp": 16,
+          "fn": 15
+        },
+        {
+          "key_y": 1,
+          "fp": 4,
+          "fn": 1
+        },
+        {
+          "key_y": 2,
+          "fp": 4,
+          "fn": 4
+        },
+        {
+          "key_y": 3,
+          "fp": 7,
+          "fn": 3
+        },
+        {
+          "key_y": 4,
+          "fp": 12,
+          "fn": 1
+        },
+        {
+          "key_y": 5,
+          "fp": 4,
+          "fn": 7
+        },
+        {
+          "key_y": 6,
+          "fp": 5,
+          "fn": 0
+        },
+        {
+          "key_y": 7,
+          "fp": 2,
+          "fn": 7
+        },
+        {
+          "key_y": 8,
+          "fp": 3,
+          "fn": 1
+        },
+        {
+          "key_y": 9,
+          "fp": 1,
+          "fn": 3
+        },
+        {
+          "key_y": 10,
+          "fp": 6,
+          "fn": 35
+        },
+        {
+          "key_y": 11,
+          "fp": 5,
+          "fn": 2
+        },
+        {
+          "key_y": 12,
+          "fp": 7,
+          "fn": 20
+        },
+        {
+          "key_y": 13,
+          "fp": 0,
+          "fn": 0
+        },
+        {
+          "key_y": 14,
+          "fp": 0,
+          "fn": 0
+        },
+        {
+          "key_y": 15,
+          "fp": 0,
+          "fn": 0
+        },
+        {
+          "key_y": 16,
+          "fp": 0,
+          "fn": 0
+        },
+        {
+          "key_y": 17,
+          "fp": 0,
+          "fn": 0
+        }
+      ],
+      "map_sha256": "bd4e810d06fdaa42f22fa1532ca555e43191e2d27324c91128c2250dc06e47a1",
+      "truth_sha256": "c3b0d586bed3550c5dfdb335e99dc311e5b2e22c114bf6a84541478354e316fb"
+    },
+    {
+      "id": "g82-valid-unknown-S29-W83029261-N24",
+      "role": "valid-unknown",
+      "step": 6000,
+      "iou": 0.9266666666666666,
+      "fp": 247,
+      "fn": 171,
+      "raw_sensor_groups": {
+        "no_ray_traversal": {
+          "fp": 4,
+          "fn": 6
+        },
+        "ray_free": {
+          "fp": 200,
+          "fn": 138
+        },
+        "ray_ambiguous": {
+          "fp": 36,
+          "fn": 21
+        },
+        "ray_solid": {
+          "fp": 7,
+          "fn": 6
+        }
+      },
+      "by_height": [
+        {
+          "key_y": -3,
+          "fp": 0,
+          "fn": 0
+        },
+        {
+          "key_y": -2,
+          "fp": 0,
+          "fn": 0
+        },
+        {
+          "key_y": -1,
+          "fp": 5,
+          "fn": 11
+        },
+        {
+          "key_y": 0,
+          "fp": 37,
+          "fn": 44
+        },
+        {
+          "key_y": 1,
+          "fp": 16,
+          "fn": 21
+        },
+        {
+          "key_y": 2,
+          "fp": 0,
+          "fn": 0
+        },
+        {
+          "key_y": 3,
+          "fp": 0,
+          "fn": 1
+        },
+        {
+          "key_y": 4,
+          "fp": 4,
+          "fn": 1
+        },
+        {
+          "key_y": 5,
+          "fp": 17,
+          "fn": 7
+        },
+        {
+          "key_y": 6,
+          "fp": 91,
+          "fn": 24
+        },
+        {
+          "key_y": 7,
+          "fp": 14,
+          "fn": 12
+        },
+        {
+          "key_y": 8,
+          "fp": 11,
+          "fn": 5
+        },
+        {
+          "key_y": 9,
+          "fp": 13,
+          "fn": 7
+        },
+        {
+          "key_y": 10,
+          "fp": 14,
+          "fn": 15
+        },
+        {
+          "key_y": 11,
+          "fp": 5,
+          "fn": 12
+        },
+        {
+          "key_y": 12,
+          "fp": 20,
+          "fn": 9
+        },
+        {
+          "key_y": 13,
+          "fp": 0,
+          "fn": 0
+        },
+        {
+          "key_y": 14,
+          "fp": 0,
+          "fn": 0
+        },
+        {
+          "key_y": 15,
+          "fp": 0,
+          "fn": 2
+        },
+        {
+          "key_y": 16,
+          "fp": 0,
+          "fn": 0
+        },
+        {
+          "key_y": 17,
+          "fp": 0,
+          "fn": 0
+        }
+      ],
+      "map_sha256": "d82d2c522100df97810a8f9a76b16b6d6c400797c83a1765ca3902ee945974be",
+      "truth_sha256": "25160e5c301c6211668b32356f4638d7dfc646bbe2d6f4ee3fe84f5362798759"
+    },
+    {
+      "id": "g82-valid-unknown-S29-W83029261-N24",
+      "role": "valid-unknown",
+      "step": 18000,
+      "iou": 0.9294138355923253,
+      "fp": 228,
+      "fn": 173,
+      "raw_sensor_groups": {
+        "no_ray_traversal": {
+          "fp": 2,
+          "fn": 4
+        },
+        "ray_free": {
+          "fp": 205,
+          "fn": 144
+        },
+        "ray_ambiguous": {
+          "fp": 12,
+          "fn": 20
+        },
+        "ray_solid": {
+          "fp": 9,
+          "fn": 5
+        }
+      },
+      "by_height": [
+        {
+          "key_y": -3,
+          "fp": 0,
+          "fn": 0
+        },
+        {
+          "key_y": -2,
+          "fp": 0,
+          "fn": 0
+        },
+        {
+          "key_y": -1,
+          "fp": 6,
+          "fn": 12
+        },
+        {
+          "key_y": 0,
+          "fp": 28,
+          "fn": 56
+        },
+        {
+          "key_y": 1,
+          "fp": 20,
+          "fn": 20
+        },
+        {
+          "key_y": 2,
+          "fp": 0,
+          "fn": 0
+        },
+        {
+          "key_y": 3,
+          "fp": 0,
+          "fn": 1
+        },
+        {
+          "key_y": 4,
+          "fp": 4,
+          "fn": 0
+        },
+        {
+          "key_y": 5,
+          "fp": 19,
+          "fn": 7
+        },
+        {
+          "key_y": 6,
+          "fp": 85,
+          "fn": 23
+        },
+        {
+          "key_y": 7,
+          "fp": 11,
+          "fn": 8
+        },
+        {
+          "key_y": 8,
+          "fp": 8,
+          "fn": 5
+        },
+        {
+          "key_y": 9,
+          "fp": 7,
+          "fn": 9
+        },
+        {
+          "key_y": 10,
+          "fp": 10,
+          "fn": 12
+        },
+        {
+          "key_y": 11,
+          "fp": 11,
+          "fn": 10
+        },
+        {
+          "key_y": 12,
+          "fp": 19,
+          "fn": 8
+        },
+        {
+          "key_y": 13,
+          "fp": 0,
+          "fn": 0
+        },
+        {
+          "key_y": 14,
+          "fp": 0,
+          "fn": 0
+        },
+        {
+          "key_y": 15,
+          "fp": 0,
+          "fn": 2
+        },
+        {
+          "key_y": 16,
+          "fp": 0,
+          "fn": 0
+        },
+        {
+          "key_y": 17,
+          "fp": 0,
+          "fn": 0
+        }
+      ],
+      "map_sha256": "9c78c8670737c19506206686b90cc38fd092365d4918fcc986cb5f2f933349a0",
+      "truth_sha256": "8af20c0d18bf70e28e458625bc58b23faadecda3942f690bf06d7932517c5a28"
+    },
+    {
+      "id": "g82-valid-unknown-S29-W83029261-N48",
+      "role": "valid-unknown",
+      "step": 6000,
+      "iou": 0.9411974340698503,
+      "fp": 159,
+      "fn": 171,
+      "raw_sensor_groups": {
+        "no_ray_traversal": {
+          "fp": 9,
+          "fn": 6
+        },
+        "ray_free": {
+          "fp": 131,
+          "fn": 152
+        },
+        "ray_ambiguous": {
+          "fp": 18,
+          "fn": 13
+        },
+        "ray_solid": {
+          "fp": 1,
+          "fn": 0
+        }
+      },
+      "by_height": [
+        {
+          "key_y": -3,
+          "fp": 0,
+          "fn": 0
+        },
+        {
+          "key_y": -2,
+          "fp": 0,
+          "fn": 0
+        },
+        {
+          "key_y": -1,
+          "fp": 5,
+          "fn": 10
+        },
+        {
+          "key_y": 0,
+          "fp": 40,
+          "fn": 42
+        },
+        {
+          "key_y": 1,
+          "fp": 13,
+          "fn": 23
+        },
+        {
+          "key_y": 2,
+          "fp": 0,
+          "fn": 4
+        },
+        {
+          "key_y": 3,
+          "fp": 0,
+          "fn": 2
+        },
+        {
+          "key_y": 4,
+          "fp": 0,
+          "fn": 0
+        },
+        {
+          "key_y": 5,
+          "fp": 12,
+          "fn": 10
+        },
+        {
+          "key_y": 6,
+          "fp": 43,
+          "fn": 29
+        },
+        {
+          "key_y": 7,
+          "fp": 5,
+          "fn": 3
+        },
+        {
+          "key_y": 8,
+          "fp": 4,
+          "fn": 3
+        },
+        {
+          "key_y": 9,
+          "fp": 11,
+          "fn": 1
+        },
+        {
+          "key_y": 10,
+          "fp": 8,
+          "fn": 6
+        },
+        {
+          "key_y": 11,
+          "fp": 9,
+          "fn": 10
+        },
+        {
+          "key_y": 12,
+          "fp": 9,
+          "fn": 27
+        },
+        {
+          "key_y": 13,
+          "fp": 0,
+          "fn": 0
+        },
+        {
+          "key_y": 14,
+          "fp": 0,
+          "fn": 0
+        },
+        {
+          "key_y": 15,
+          "fp": 0,
+          "fn": 1
+        },
+        {
+          "key_y": 16,
+          "fp": 0,
+          "fn": 0
+        },
+        {
+          "key_y": 17,
+          "fp": 0,
+          "fn": 0
+        }
+      ],
+      "map_sha256": "024b5b0e37146a92b74a4ff7360f15510340b00f2f3b5308e7f1c60e9fc7cff0",
+      "truth_sha256": "031b6372b0b47bf5aedd635ea976f949693f884402a43cf9ac5fc71aafef004b"
+    },
+    {
+      "id": "g82-valid-unknown-S29-W83029261-N48",
+      "role": "valid-unknown",
+      "step": 18000,
+      "iou": 0.9477638640429338,
+      "fp": 137,
+      "fn": 155,
+      "raw_sensor_groups": {
+        "no_ray_traversal": {
+          "fp": 1,
+          "fn": 1
+        },
+        "ray_free": {
+          "fp": 123,
+          "fn": 146
+        },
+        "ray_ambiguous": {
+          "fp": 8,
+          "fn": 5
+        },
+        "ray_solid": {
+          "fp": 5,
+          "fn": 3
+        }
+      },
+      "by_height": [
+        {
+          "key_y": -3,
+          "fp": 0,
+          "fn": 0
+        },
+        {
+          "key_y": -2,
+          "fp": 0,
+          "fn": 0
+        },
+        {
+          "key_y": -1,
+          "fp": 5,
+          "fn": 8
+        },
+        {
+          "key_y": 0,
+          "fp": 33,
+          "fn": 37
+        },
+        {
+          "key_y": 1,
+          "fp": 12,
+          "fn": 19
+        },
+        {
+          "key_y": 2,
+          "fp": 0,
+          "fn": 4
+        },
+        {
+          "key_y": 3,
+          "fp": 0,
+          "fn": 1
+        },
+        {
+          "key_y": 4,
+          "fp": 0,
+          "fn": 0
+        },
+        {
+          "key_y": 5,
+          "fp": 9,
+          "fn": 10
+        },
+        {
+          "key_y": 6,
+          "fp": 32,
+          "fn": 32
+        },
+        {
+          "key_y": 7,
+          "fp": 5,
+          "fn": 3
+        },
+        {
+          "key_y": 8,
+          "fp": 4,
+          "fn": 3
+        },
+        {
+          "key_y": 9,
+          "fp": 11,
+          "fn": 0
+        },
+        {
+          "key_y": 10,
+          "fp": 8,
+          "fn": 5
+        },
+        {
+          "key_y": 11,
+          "fp": 9,
+          "fn": 12
+        },
+        {
+          "key_y": 12,
+          "fp": 9,
+          "fn": 21
+        },
+        {
+          "key_y": 13,
+          "fp": 0,
+          "fn": 0
+        },
+        {
+          "key_y": 14,
+          "fp": 0,
+          "fn": 0
+        },
+        {
+          "key_y": 15,
+          "fp": 0,
+          "fn": 0
+        },
+        {
+          "key_y": 16,
+          "fp": 0,
+          "fn": 0
+        },
+        {
+          "key_y": 17,
+          "fp": 0,
+          "fn": 0
+        }
+      ],
+      "map_sha256": "225c5f317377c24b47f46c29cb4beab1dd08a3c5bb01206c31bcbd15f28ee4c1",
+      "truth_sha256": "5b64ab34a754954f58451bbd9be7e1d0287d455f9f6025fb98d62261cf7b8f91"
+    }
+  ]
+}

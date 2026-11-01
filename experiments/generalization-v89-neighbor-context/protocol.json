@@ -1,0 +1,31 @@
+{
+  "purpose": "Distinguish a separate weak source from a duplicate acoustic hypothesis using relative context among inferred proposals",
+  "feature_map": "thermal-spectral-neighbor45-v6",
+  "training_worlds": 426,
+  "validation_cases": 54,
+  "teacher": "Frozen200-tree TRAIN forest",
+  "correction_rounds": [
+    28,
+    56
+  ],
+  "leaves": [
+    7,
+    15
+  ],
+  "neighbor_radii_m": [
+    0.2,
+    0.65
+  ],
+  "features": "Twelve local/rival summaries of frozen teacher score, voice, heat, freshness, relative distance and relative height difference",
+  "no_absolute_coordinates_or_true_source_locations_in_features": true,
+  "causal_per_snapshot_only": true,
+  "permutation_and_translation_and_gravity_yaw_invariance_tested": true,
+  "variants": [
+    "Original normalized world weights",
+    "Equal-person positive mass .5 within unchanged world budgets"
+  ],
+  "native_support_verified": false,
+  "requires_separate_native_implementation_and_parity": true,
+  "final_test_opened": false,
+  "closed_loop_acceptance": false
+}

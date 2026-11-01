@@ -1,0 +1,8 @@
+{
+  "status": "pass",
+  "maximum_feature_error": 5.960464477539063e-08,
+  "features": 72,
+  "packet_accumulation": true,
+  "plane_pose_parity_error": 0.0,
+  "test_opened": false
+}

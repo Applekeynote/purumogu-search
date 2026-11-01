@@ -1,0 +1,592 @@
+{
+  "version": 2,
+  "steps": 18000,
+  "inference_map_interval": 100,
+  "geometry_revision": "exterior-release-clearance-and-hold-brake-v3",
+  "geometry_sources": {
+    "RescueComplexScenes.cs": "170d79564076cd16ec4c9441c225cdee6921cdecc2b60886e469321e3f1547e0",
+    "RescueController.cs": "9e1acc4afa0ddd5116613a37be5d6ef90df7207156e48c9e7e1323936b1b461b",
+    "RescueDeployment.cs": "357f833e13ba430a3a345136ba160fdc4413f4b32448f6b2daf8480e69f1f907",
+    "RescueEchoWireMap.cs": "ecca2c71b9bb740ef7fbbe0140d3ae263bf538dbceb353d6bc339cafb4cc739d",
+    "RescueExteriorDeployment.cs": "a8aafd6e55c09629238f7d51b838c36d4d647d307707b3e7e598565eeecabfa1",
+    "RescueFloorOpenings.cs": "df9727dff2f04ae36fa020a5ccd507d3b9ea47e817050b070ab14cfe7161f067",
+    "RescueMapDashboard.cs": "74a626b7e9984a9060c1c788e75d349bb27b307be721802caca0a52a8b9df11d",
+    "RescueMapKnowledge.cs": "e4451ca0664e165ff3c2a69cb1da26d8b57f0a6928b4e8f8af54a3527037ce67",
+    "RescueMapView.cs": "4956713c06bbfa34670c66ad06eb8deaf7a7339f4592fca158dc04fe0f4da422",
+    "RescueRobot.cs": "bd485f3c1d310637e25f7afc3b4fae238a6603cd289276a065cf9bbb6348a39e",
+    "RescueScene.cs": "2eb390ca02c75b9f0301adb22526f2d0d6b17d86d74a8b7b9bfee4aff171ddbd",
+    "RescueSimulation.cs": "5263de7cef8df646804ab9ea9c0d951c3c17f1026fa63e8cd28276ca98c325eb",
+    "RescueSurfaceLattice.cs": "59933137e0aadc8d589a10d3c31c93c38fd49723862674b3888e2d20e78dbbf8",
+    "RescueViewport.cs": "3f4c0fa0851fbf3bb699c2c78dd2285e729c16602958ba9c87fea9acdb203f2e"
+  },
+  "acquisition_sources": {
+    "unity/Assets/Editor/RescueGeneralization.cs": "257946e2cbe19577df3425b447b91f69f19ba3e2d11630ba9f5209fa87f2eb93",
+    "unity/Assets/Editor/ProjectTools.cs": "32545299690da1aaabfe00b7f772dd63e64dd1a468d8f0853b785186d1888460",
+    "scripts/collect_rescue_registered.py": "c21d66f1eb9d51a1912252f1db8b3ac8a1ac5c85b392f89f2f5bfe5b49d86d12",
+    "scripts/plan_rescue_registered.py": "5e1553185b9f45dc7ffe183235bd435d09f12d82a428f9b3a6f89b16428ba0f9"
+  },
+  "model_sha256": "95714618c3351c5bc38eb8f48eee7a181f454ea18ada0acdfc44bd00e34928b5",
+  "server_sha256": "b02e4f418646a4cc1600537952b4014be7433eb1413c8c1a99a75370344cdaa7",
+  "sensor_source_sha256": "bd485f3c1d310637e25f7afc3b4fae238a6603cd289276a065cf9bbb6348a39e",
+  "model": "models/generic-v47-acquisition-r28-long/model.json",
+  "server": "tmp/generic-tsdf-rust-target/release/rescue_server.exe",
+  "deployment_mode": "RoofAndFacadeDrop",
+  "deployment": "One third overhead; two thirds released at several visible facade thresholds on all levels",
+  "test_opened": false,
+  "split": "train",
+  "output": "C:\\Users\\rynat\\OneDrive\\ドキュメント\\ChatGPT\\松尾研\\purumogu-search\\experiments\\raw\\rescue\\generalization-v47-long-diverse\\train",
+  "cases": [
+    {
+      "id": "g47-train-S25-W94025225-N24",
+      "scene": 25,
+      "seed": 94025225,
+      "nodes": 24,
+      "deployment_seed": 94728369,
+      "source_seed": 94925225
+    },
+    {
+      "id": "g47-train-S26-W94026234-N36",
+      "scene": 26,
+      "seed": 94026234,
+      "nodes": 36,
+      "deployment_seed": 94730950,
+      "source_seed": 94926234
+    },
+    {
+      "id": "g47-train-S13-W94013117-N48",
+      "scene": 13,
+      "seed": 94013117,
+      "nodes": 48,
+      "deployment_seed": 94719405,
+      "source_seed": 94913117
+    },
+    {
+      "id": "g47-train-S20-W94020180-N24",
+      "scene": 20,
+      "seed": 94020180,
+      "nodes": 24,
+      "deployment_seed": 94723324,
+      "source_seed": 94920180
+    },
+    {
+      "id": "g47-train-S21-W94021189-N36",
+      "scene": 21,
+      "seed": 94021189,
+      "nodes": 36,
+      "deployment_seed": 94725905,
+      "source_seed": 94921189
+    },
+    {
+      "id": "g47-train-S24-W94024216-N48",
+      "scene": 24,
+      "seed": 94024216,
+      "nodes": 48,
+      "deployment_seed": 94730504,
+      "source_seed": 94924216
+    },
+    {
+      "id": "g47-train-S15-W94015135-N24",
+      "scene": 15,
+      "seed": 94015135,
+      "nodes": 24,
+      "deployment_seed": 94718279,
+      "source_seed": 94915135
+    },
+    {
+      "id": "g47-train-S16-W94016144-N36",
+      "scene": 16,
+      "seed": 94016144,
+      "nodes": 36,
+      "deployment_seed": 94720860,
+      "source_seed": 94916144
+    },
+    {
+      "id": "g47-train-S18-W94018162-N48",
+      "scene": 18,
+      "seed": 94018162,
+      "nodes": 48,
+      "deployment_seed": 94724450,
+      "source_seed": 94918162
+    },
+    {
+      "id": "g47-train-S00-W94000000-N24",
+      "scene": 0,
+      "seed": 94000000,
+      "nodes": 24,
+      "deployment_seed": 94703144,
+      "source_seed": 94900000
+    },
+    {
+      "id": "g47-train-S01-W94001009-N36",
+      "scene": 1,
+      "seed": 94001009,
+      "nodes": 36,
+      "deployment_seed": 94705725,
+      "source_seed": 94901009
+    },
+    {
+      "id": "g47-train-S02-W94002018-N48",
+      "scene": 2,
+      "seed": 94002018,
+      "nodes": 48,
+      "deployment_seed": 94708306,
+      "source_seed": 94902018
+    },
+    {
+      "id": "g47-train-S03-W94003027-N24",
+      "scene": 3,
+      "seed": 94003027,
+      "nodes": 24,
+      "deployment_seed": 94706171,
+      "source_seed": 94903027
+    },
+    {
+      "id": "g47-train-S04-W94004036-N36",
+      "scene": 4,
+      "seed": 94004036,
+      "nodes": 36,
+      "deployment_seed": 94708752,
+      "source_seed": 94904036
+    },
+    {
+      "id": "g47-train-S05-W94005045-N48",
+      "scene": 5,
+      "seed": 94005045,
+      "nodes": 48,
+      "deployment_seed": 94711333,
+      "source_seed": 94905045
+    },
+    {
+      "id": "g47-train-S06-W94006054-N24",
+      "scene": 6,
+      "seed": 94006054,
+      "nodes": 24,
+      "deployment_seed": 94709198,
+      "source_seed": 94906054
+    },
+    {
+      "id": "g47-train-S07-W94007063-N36",
+      "scene": 7,
+      "seed": 94007063,
+      "nodes": 36,
+      "deployment_seed": 94711779,
+      "source_seed": 94907063
+    },
+    {
+      "id": "g47-train-S08-W94008072-N48",
+      "scene": 8,
+      "seed": 94008072,
+      "nodes": 48,
+      "deployment_seed": 94714360,
+      "source_seed": 94908072
+    },
+    {
+      "id": "g47-train-S09-W94009081-N24",
+      "scene": 9,
+      "seed": 94009081,
+      "nodes": 24,
+      "deployment_seed": 94712225,
+      "source_seed": 94909081
+    },
+    {
+      "id": "g47-train-S10-W94010090-N36",
+      "scene": 10,
+      "seed": 94010090,
+      "nodes": 36,
+      "deployment_seed": 94714806,
+      "source_seed": 94910090
+    },
+    {
+      "id": "g47-train-S11-W94011099-N48",
+      "scene": 11,
+      "seed": 94011099,
+      "nodes": 48,
+      "deployment_seed": 94717387,
+      "source_seed": 94911099
+    },
+    {
+      "id": "g47-train-S12-W94012108-N24",
+      "scene": 12,
+      "seed": 94012108,
+      "nodes": 24,
+      "deployment_seed": 94715252,
+      "source_seed": 94912108
+    },
+    {
+      "id": "g47-train-S14-W94014126-N36",
+      "scene": 14,
+      "seed": 94014126,
+      "nodes": 36,
+      "deployment_seed": 94718842,
+      "source_seed": 94914126
+    },
+    {
+      "id": "g47-train-S25-W94025326-N36",
+      "scene": 25,
+      "seed": 94025326,
+      "nodes": 36,
+      "deployment_seed": 94730042,
+      "source_seed": 94925326
+    },
+    {
+      "id": "g47-train-S26-W94026335-N48",
+      "scene": 26,
+      "seed": 94026335,
+      "nodes": 48,
+      "deployment_seed": 94732623,
+      "source_seed": 94926335
+    },
+    {
+      "id": "g47-train-S13-W94013218-N24",
+      "scene": 13,
+      "seed": 94013218,
+      "nodes": 24,
+      "deployment_seed": 94716362,
+      "source_seed": 94913218
+    },
+    {
+      "id": "g47-train-S20-W94020281-N36",
+      "scene": 20,
+      "seed": 94020281,
+      "nodes": 36,
+      "deployment_seed": 94724997,
+      "source_seed": 94920281
+    },
+    {
+      "id": "g47-train-S21-W94021290-N48",
+      "scene": 21,
+      "seed": 94021290,
+      "nodes": 48,
+      "deployment_seed": 94727578,
+      "source_seed": 94921290
+    },
+    {
+      "id": "g47-train-S24-W94024317-N24",
+      "scene": 24,
+      "seed": 94024317,
+      "nodes": 24,
+      "deployment_seed": 94727461,
+      "source_seed": 94924317
+    },
+    {
+      "id": "g47-train-S15-W94015236-N36",
+      "scene": 15,
+      "seed": 94015236,
+      "nodes": 36,
+      "deployment_seed": 94719952,
+      "source_seed": 94915236
+    },
+    {
+      "id": "g47-train-S16-W94016245-N48",
+      "scene": 16,
+      "seed": 94016245,
+      "nodes": 48,
+      "deployment_seed": 94722533,
+      "source_seed": 94916245
+    },
+    {
+      "id": "g47-train-S18-W94018263-N24",
+      "scene": 18,
+      "seed": 94018263,
+      "nodes": 24,
+      "deployment_seed": 94721407,
+      "source_seed": 94918263
+    },
+    {
+      "id": "g47-train-S00-W94000101-N36",
+      "scene": 0,
+      "seed": 94000101,
+      "nodes": 36,
+      "deployment_seed": 94704817,
+      "source_seed": 94900101
+    },
+    {
+      "id": "g47-train-S01-W94001110-N48",
+      "scene": 1,
+      "seed": 94001110,
+      "nodes": 48,
+      "deployment_seed": 94707398,
+      "source_seed": 94901110
+    },
+    {
+      "id": "g47-train-S02-W94002119-N24",
+      "scene": 2,
+      "seed": 94002119,
+      "nodes": 24,
+      "deployment_seed": 94705263,
+      "source_seed": 94902119
+    },
+    {
+      "id": "g47-train-S03-W94003128-N36",
+      "scene": 3,
+      "seed": 94003128,
+      "nodes": 36,
+      "deployment_seed": 94707844,
+      "source_seed": 94903128
+    },
+    {
+      "id": "g47-train-S04-W94004137-N48",
+      "scene": 4,
+      "seed": 94004137,
+      "nodes": 48,
+      "deployment_seed": 94710425,
+      "source_seed": 94904137
+    },
+    {
+      "id": "g47-train-S05-W94005146-N24",
+      "scene": 5,
+      "seed": 94005146,
+      "nodes": 24,
+      "deployment_seed": 94708290,
+      "source_seed": 94905146
+    },
+    {
+      "id": "g47-train-S06-W94006155-N36",
+      "scene": 6,
+      "seed": 94006155,
+      "nodes": 36,
+      "deployment_seed": 94710871,
+      "source_seed": 94906155
+    },
+    {
+      "id": "g47-train-S07-W94007164-N48",
+      "scene": 7,
+      "seed": 94007164,
+      "nodes": 48,
+      "deployment_seed": 94713452,
+      "source_seed": 94907164
+    },
+    {
+      "id": "g47-train-S08-W94008173-N24",
+      "scene": 8,
+      "seed": 94008173,
+      "nodes": 24,
+      "deployment_seed": 94711317,
+      "source_seed": 94908173
+    },
+    {
+      "id": "g47-train-S09-W94009182-N36",
+      "scene": 9,
+      "seed": 94009182,
+      "nodes": 36,
+      "deployment_seed": 94713898,
+      "source_seed": 94909182
+    },
+    {
+      "id": "g47-train-S10-W94010191-N48",
+      "scene": 10,
+      "seed": 94010191,
+      "nodes": 48,
+      "deployment_seed": 94716479,
+      "source_seed": 94910191
+    },
+    {
+      "id": "g47-train-S11-W94011200-N24",
+      "scene": 11,
+      "seed": 94011200,
+      "nodes": 24,
+      "deployment_seed": 94714344,
+      "source_seed": 94911200
+    },
+    {
+      "id": "g47-train-S12-W94012209-N36",
+      "scene": 12,
+      "seed": 94012209,
+      "nodes": 36,
+      "deployment_seed": 94716925,
+      "source_seed": 94912209
+    },
+    {
+      "id": "g47-train-S14-W94014227-N48",
+      "scene": 14,
+      "seed": 94014227,
+      "nodes": 48,
+      "deployment_seed": 94720515,
+      "source_seed": 94914227
+    },
+    {
+      "id": "g47-train-S25-W94025427-N48",
+      "scene": 25,
+      "seed": 94025427,
+      "nodes": 48,
+      "deployment_seed": 94731715,
+      "source_seed": 94925427
+    },
+    {
+      "id": "g47-train-S26-W94026436-N24",
+      "scene": 26,
+      "seed": 94026436,
+      "nodes": 24,
+      "deployment_seed": 94729580,
+      "source_seed": 94926436
+    },
+    {
+      "id": "g47-train-S13-W94013319-N36",
+      "scene": 13,
+      "seed": 94013319,
+      "nodes": 36,
+      "deployment_seed": 94718035,
+      "source_seed": 94913319
+    },
+    {
+      "id": "g47-train-S20-W94020382-N48",
+      "scene": 20,
+      "seed": 94020382,
+      "nodes": 48,
+      "deployment_seed": 94726670,
+      "source_seed": 94920382
+    },
+    {
+      "id": "g47-train-S21-W94021391-N24",
+      "scene": 21,
+      "seed": 94021391,
+      "nodes": 24,
+      "deployment_seed": 94724535,
+      "source_seed": 94921391
+    },
+    {
+      "id": "g47-train-S24-W94024418-N36",
+      "scene": 24,
+      "seed": 94024418,
+      "nodes": 36,
+      "deployment_seed": 94729134,
+      "source_seed": 94924418
+    },
+    {
+      "id": "g47-train-S15-W94015337-N48",
+      "scene": 15,
+      "seed": 94015337,
+      "nodes": 48,
+      "deployment_seed": 94721625,
+      "source_seed": 94915337
+    },
+    {
+      "id": "g47-train-S16-W94016346-N24",
+      "scene": 16,
+      "seed": 94016346,
+      "nodes": 24,
+      "deployment_seed": 94719490,
+      "source_seed": 94916346
+    },
+    {
+      "id": "g47-train-S18-W94018364-N36",
+      "scene": 18,
+      "seed": 94018364,
+      "nodes": 36,
+      "deployment_seed": 94723080,
+      "source_seed": 94918364
+    },
+    {
+      "id": "g47-train-S00-W94000202-N48",
+      "scene": 0,
+      "seed": 94000202,
+      "nodes": 48,
+      "deployment_seed": 94706490,
+      "source_seed": 94900202
+    },
+    {
+      "id": "g47-train-S01-W94001211-N24",
+      "scene": 1,
+      "seed": 94001211,
+      "nodes": 24,
+      "deployment_seed": 94704355,
+      "source_seed": 94901211
+    },
+    {
+      "id": "g47-train-S02-W94002220-N36",
+      "scene": 2,
+      "seed": 94002220,
+      "nodes": 36,
+      "deployment_seed": 94706936,
+      "source_seed": 94902220
+    },
+    {
+      "id": "g47-train-S03-W94003229-N48",
+      "scene": 3,
+      "seed": 94003229,
+      "nodes": 48,
+      "deployment_seed": 94709517,
+      "source_seed": 94903229
+    },
+    {
+      "id": "g47-train-S04-W94004238-N24",
+      "scene": 4,
+      "seed": 94004238,
+      "nodes": 24,
+      "deployment_seed": 94707382,
+      "source_seed": 94904238
+    },
+    {
+      "id": "g47-train-S05-W94005247-N36",
+      "scene": 5,
+      "seed": 94005247,
+      "nodes": 36,
+      "deployment_seed": 94709963,
+      "source_seed": 94905247
+    },
+    {
+      "id": "g47-train-S06-W94006256-N48",
+      "scene": 6,
+      "seed": 94006256,
+      "nodes": 48,
+      "deployment_seed": 94712544,
+      "source_seed": 94906256
+    },
+    {
+      "id": "g47-train-S07-W94007265-N24",
+      "scene": 7,
+      "seed": 94007265,
+      "nodes": 24,
+      "deployment_seed": 94710409,
+      "source_seed": 94907265
+    },
+    {
+      "id": "g47-train-S08-W94008274-N36",
+      "scene": 8,
+      "seed": 94008274,
+      "nodes": 36,
+      "deployment_seed": 94712990,
+      "source_seed": 94908274
+    },
+    {
+      "id": "g47-train-S09-W94009283-N48",
+      "scene": 9,
+      "seed": 94009283,
+      "nodes": 48,
+      "deployment_seed": 94715571,
+      "source_seed": 94909283
+    },
+    {
+      "id": "g47-train-S10-W94010292-N24",
+      "scene": 10,
+      "seed": 94010292,
+      "nodes": 24,
+      "deployment_seed": 94713436,
+      "source_seed": 94910292
+    },
+    {
+      "id": "g47-train-S11-W94011301-N36",
+      "scene": 11,
+      "seed": 94011301,
+      "nodes": 36,
+      "deployment_seed": 94716017,
+      "source_seed": 94911301
+    },
+    {
+      "id": "g47-train-S12-W94012310-N48",
+      "scene": 12,
+      "seed": 94012310,
+      "nodes": 48,
+      "deployment_seed": 94718598,
+      "source_seed": 94912310
+    },
+    {
+      "id": "g47-train-S14-W94014328-N24",
+      "scene": 14,
+      "seed": 94014328,
+      "nodes": 24,
+      "deployment_seed": 94717472,
+      "source_seed": 94914328
+    }
+  ]
+}

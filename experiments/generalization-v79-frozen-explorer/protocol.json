@@ -1,0 +1,26 @@
+{
+  "purpose": "Separate learned exploration from updated geometry completion to remove decoder-driven trajectory feedback",
+  "frozen_explorer": "R28, trained and selected before the partial-collapse adaptation; sensor-only74 features",
+  "map_decoder": "Final selected R36, unchanged weights",
+  "person_head": "Fixed G75 residual scale, unchanged weights",
+  "sources": {
+    "models/generic-v64-volume-r36-collapse-adapted/volume.pt": "a8a099953be68bf8282833f2345737995da2ca55b8cdd1f1d5cb72334df01536",
+    "models/generic-v75-residual-scale/model.json": "996ce384052a3c4cf89eb2a80b14bc95b0d395b103a400152cf7be358202bf47",
+    "models/generic-v47-acquisition-r28-long/model.json": "95714618c3351c5bc38eb8f48eee7a181f454ea18ada0acdfc44bd00e34928b5",
+    "models/generic-v47-acquisition-r28-long/volume.onnx": "45b4327841d356f7407f8f9af382ee5f392f08d4a1f4cf0fa122cfd94a46b882"
+  },
+  "sequence": [
+    "CPU mapping export parity",
+    "Paired TRAIN replay: same raw observations, every goal/pose/cue identical to the frozen explorer reference while map outputs differ",
+    "Only if both pass, fresh six-case VALID pilot with120/360 checkpoints"
+  ],
+  "guards": [
+    "No true floor masks or source locations in inference",
+    "No changes to sensor noise, pose errors, robot size or counts",
+    "No changes to evaluation cells/thresholds or360 deadline",
+    "No numerical miss retries or discarded cases"
+  ],
+  "disadvantage": "One extra bundled CPU inference network and extra inference time",
+  "final_test_opened": false,
+  "full_acceptance": false
+}

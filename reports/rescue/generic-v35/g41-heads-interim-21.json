@@ -1,0 +1,626 @@
+{
+  "purpose": "Interim fixed-proposal diagnostics; incomplete VALID, no acceptance",
+  "completed_cases": 21,
+  "expected_cases": 36,
+  "test_opened": false,
+  "rows": [
+    {
+      "head": "generic-v39-tracks-fused",
+      "id": "g41-valid-known-S00-W82000000-N24",
+      "matched": 1,
+      "false_alarms": 0,
+      "people": 1
+    },
+    {
+      "head": "generic-v39-tracks-fused",
+      "id": "g41-valid-known-S00-W82000000-N36",
+      "matched": 1,
+      "false_alarms": 0,
+      "people": 1
+    },
+    {
+      "head": "generic-v39-tracks-fused",
+      "id": "g41-valid-known-S00-W82000000-N48",
+      "matched": 1,
+      "false_alarms": 1,
+      "people": 1
+    },
+    {
+      "head": "generic-v39-tracks-fused",
+      "id": "g41-valid-known-S03-W82003027-N24",
+      "matched": 1,
+      "false_alarms": 0,
+      "people": 1
+    },
+    {
+      "head": "generic-v39-tracks-fused",
+      "id": "g41-valid-known-S03-W82003027-N36",
+      "matched": 1,
+      "false_alarms": 0,
+      "people": 1
+    },
+    {
+      "head": "generic-v39-tracks-fused",
+      "id": "g41-valid-known-S03-W82003027-N48",
+      "matched": 1,
+      "false_alarms": 0,
+      "people": 1
+    },
+    {
+      "head": "generic-v39-tracks-fused",
+      "id": "g41-valid-known-S08-W82008072-N24",
+      "matched": 1,
+      "false_alarms": 0,
+      "people": 1
+    },
+    {
+      "head": "generic-v39-tracks-fused",
+      "id": "g41-valid-known-S08-W82008072-N36",
+      "matched": 1,
+      "false_alarms": 0,
+      "people": 1
+    },
+    {
+      "head": "generic-v39-tracks-fused",
+      "id": "g41-valid-known-S08-W82008072-N48",
+      "matched": 1,
+      "false_alarms": 0,
+      "people": 1
+    },
+    {
+      "head": "generic-v39-tracks-fused",
+      "id": "g41-valid-known-S13-W82013117-N24",
+      "matched": 1,
+      "false_alarms": 2,
+      "people": 2
+    },
+    {
+      "head": "generic-v39-tracks-fused",
+      "id": "g41-valid-known-S13-W82013117-N36",
+      "matched": 0,
+      "false_alarms": 2,
+      "people": 2
+    },
+    {
+      "head": "generic-v39-tracks-fused",
+      "id": "g41-valid-known-S13-W82013117-N48",
+      "matched": 1,
+      "false_alarms": 0,
+      "people": 2
+    },
+    {
+      "head": "generic-v39-tracks-fused",
+      "id": "g41-valid-known-S15-W82015135-N24",
+      "matched": 1,
+      "false_alarms": 0,
+      "people": 1
+    },
+    {
+      "head": "generic-v39-tracks-fused",
+      "id": "g41-valid-known-S15-W82015135-N36",
+      "matched": 1,
+      "false_alarms": 0,
+      "people": 1
+    },
+    {
+      "head": "generic-v39-tracks-fused",
+      "id": "g41-valid-known-S18-W82018162-N24",
+      "matched": 1,
+      "false_alarms": 0,
+      "people": 1
+    },
+    {
+      "head": "generic-v39-tracks-fused",
+      "id": "g41-valid-unknown-S19-W83019171-N24",
+      "matched": 0,
+      "false_alarms": 0,
+      "people": 0
+    },
+    {
+      "head": "generic-v39-tracks-fused",
+      "id": "g41-valid-unknown-S19-W83019171-N36",
+      "matched": 0,
+      "false_alarms": 0,
+      "people": 0
+    },
+    {
+      "head": "generic-v39-tracks-fused",
+      "id": "g41-valid-unknown-S19-W83019171-N48",
+      "matched": 0,
+      "false_alarms": 0,
+      "people": 0
+    },
+    {
+      "head": "generic-v39-tracks-fused",
+      "id": "g41-valid-unknown-S22-W83022198-N24",
+      "matched": 1,
+      "false_alarms": 0,
+      "people": 1
+    },
+    {
+      "head": "generic-v39-tracks-fused",
+      "id": "g41-valid-unknown-S22-W83022198-N36",
+      "matched": 1,
+      "false_alarms": 0,
+      "people": 1
+    },
+    {
+      "head": "generic-v39-tracks-fused",
+      "id": "g41-valid-unknown-S22-W83022198-N48",
+      "matched": 1,
+      "false_alarms": 0,
+      "people": 1
+    },
+    {
+      "head": "generic-v40-tracks-balanced-worlds",
+      "id": "g41-valid-known-S00-W82000000-N24",
+      "matched": 1,
+      "false_alarms": 0,
+      "people": 1
+    },
+    {
+      "head": "generic-v40-tracks-balanced-worlds",
+      "id": "g41-valid-known-S00-W82000000-N36",
+      "matched": 1,
+      "false_alarms": 0,
+      "people": 1
+    },
+    {
+      "head": "generic-v40-tracks-balanced-worlds",
+      "id": "g41-valid-known-S00-W82000000-N48",
+      "matched": 1,
+      "false_alarms": 0,
+      "people": 1
+    },
+    {
+      "head": "generic-v40-tracks-balanced-worlds",
+      "id": "g41-valid-known-S03-W82003027-N24",
+      "matched": 1,
+      "false_alarms": 0,
+      "people": 1
+    },
+    {
+      "head": "generic-v40-tracks-balanced-worlds",
+      "id": "g41-valid-known-S03-W82003027-N36",
+      "matched": 1,
+      "false_alarms": 0,
+      "people": 1
+    },
+    {
+      "head": "generic-v40-tracks-balanced-worlds",
+      "id": "g41-valid-known-S03-W82003027-N48",
+      "matched": 1,
+      "false_alarms": 0,
+      "people": 1
+    },
+    {
+      "head": "generic-v40-tracks-balanced-worlds",
+      "id": "g41-valid-known-S08-W82008072-N24",
+      "matched": 1,
+      "false_alarms": 0,
+      "people": 1
+    },
+    {
+      "head": "generic-v40-tracks-balanced-worlds",
+      "id": "g41-valid-known-S08-W82008072-N36",
+      "matched": 1,
+      "false_alarms": 0,
+      "people": 1
+    },
+    {
+      "head": "generic-v40-tracks-balanced-worlds",
+      "id": "g41-valid-known-S08-W82008072-N48",
+      "matched": 1,
+      "false_alarms": 0,
+      "people": 1
+    },
+    {
+      "head": "generic-v40-tracks-balanced-worlds",
+      "id": "g41-valid-known-S13-W82013117-N24",
+      "matched": 2,
+      "false_alarms": 1,
+      "people": 2
+    },
+    {
+      "head": "generic-v40-tracks-balanced-worlds",
+      "id": "g41-valid-known-S13-W82013117-N36",
+      "matched": 2,
+      "false_alarms": 1,
+      "people": 2
+    },
+    {
+      "head": "generic-v40-tracks-balanced-worlds",
+      "id": "g41-valid-known-S13-W82013117-N48",
+      "matched": 1,
+      "false_alarms": 0,
+      "people": 2
+    },
+    {
+      "head": "generic-v40-tracks-balanced-worlds",
+      "id": "g41-valid-known-S15-W82015135-N24",
+      "matched": 1,
+      "false_alarms": 0,
+      "people": 1
+    },
+    {
+      "head": "generic-v40-tracks-balanced-worlds",
+      "id": "g41-valid-known-S15-W82015135-N36",
+      "matched": 1,
+      "false_alarms": 0,
+      "people": 1
+    },
+    {
+      "head": "generic-v40-tracks-balanced-worlds",
+      "id": "g41-valid-known-S18-W82018162-N24",
+      "matched": 1,
+      "false_alarms": 0,
+      "people": 1
+    },
+    {
+      "head": "generic-v40-tracks-balanced-worlds",
+      "id": "g41-valid-unknown-S19-W83019171-N24",
+      "matched": 0,
+      "false_alarms": 0,
+      "people": 0
+    },
+    {
+      "head": "generic-v40-tracks-balanced-worlds",
+      "id": "g41-valid-unknown-S19-W83019171-N36",
+      "matched": 0,
+      "false_alarms": 0,
+      "people": 0
+    },
+    {
+      "head": "generic-v40-tracks-balanced-worlds",
+      "id": "g41-valid-unknown-S19-W83019171-N48",
+      "matched": 0,
+      "false_alarms": 0,
+      "people": 0
+    },
+    {
+      "head": "generic-v40-tracks-balanced-worlds",
+      "id": "g41-valid-unknown-S22-W83022198-N24",
+      "matched": 1,
+      "false_alarms": 0,
+      "people": 1
+    },
+    {
+      "head": "generic-v40-tracks-balanced-worlds",
+      "id": "g41-valid-unknown-S22-W83022198-N36",
+      "matched": 1,
+      "false_alarms": 0,
+      "people": 1
+    },
+    {
+      "head": "generic-v40-tracks-balanced-worlds",
+      "id": "g41-valid-unknown-S22-W83022198-N48",
+      "matched": 1,
+      "false_alarms": 0,
+      "people": 1
+    },
+    {
+      "head": "generic-v40-tracks-worldcv",
+      "id": "g41-valid-known-S00-W82000000-N24",
+      "matched": 1,
+      "false_alarms": 0,
+      "people": 1
+    },
+    {
+      "head": "generic-v40-tracks-worldcv",
+      "id": "g41-valid-known-S00-W82000000-N36",
+      "matched": 1,
+      "false_alarms": 0,
+      "people": 1
+    },
+    {
+      "head": "generic-v40-tracks-worldcv",
+      "id": "g41-valid-known-S00-W82000000-N48",
+      "matched": 1,
+      "false_alarms": 0,
+      "people": 1
+    },
+    {
+      "head": "generic-v40-tracks-worldcv",
+      "id": "g41-valid-known-S03-W82003027-N24",
+      "matched": 1,
+      "false_alarms": 0,
+      "people": 1
+    },
+    {
+      "head": "generic-v40-tracks-worldcv",
+      "id": "g41-valid-known-S03-W82003027-N36",
+      "matched": 1,
+      "false_alarms": 0,
+      "people": 1
+    },
+    {
+      "head": "generic-v40-tracks-worldcv",
+      "id": "g41-valid-known-S03-W82003027-N48",
+      "matched": 1,
+      "false_alarms": 0,
+      "people": 1
+    },
+    {
+      "head": "generic-v40-tracks-worldcv",
+      "id": "g41-valid-known-S08-W82008072-N24",
+      "matched": 1,
+      "false_alarms": 0,
+      "people": 1
+    },
+    {
+      "head": "generic-v40-tracks-worldcv",
+      "id": "g41-valid-known-S08-W82008072-N36",
+      "matched": 1,
+      "false_alarms": 0,
+      "people": 1
+    },
+    {
+      "head": "generic-v40-tracks-worldcv",
+      "id": "g41-valid-known-S08-W82008072-N48",
+      "matched": 1,
+      "false_alarms": 0,
+      "people": 1
+    },
+    {
+      "head": "generic-v40-tracks-worldcv",
+      "id": "g41-valid-known-S13-W82013117-N24",
+      "matched": 2,
+      "false_alarms": 1,
+      "people": 2
+    },
+    {
+      "head": "generic-v40-tracks-worldcv",
+      "id": "g41-valid-known-S13-W82013117-N36",
+      "matched": 2,
+      "false_alarms": 0,
+      "people": 2
+    },
+    {
+      "head": "generic-v40-tracks-worldcv",
+      "id": "g41-valid-known-S13-W82013117-N48",
+      "matched": 1,
+      "false_alarms": 0,
+      "people": 2
+    },
+    {
+      "head": "generic-v40-tracks-worldcv",
+      "id": "g41-valid-known-S15-W82015135-N24",
+      "matched": 1,
+      "false_alarms": 0,
+      "people": 1
+    },
+    {
+      "head": "generic-v40-tracks-worldcv",
+      "id": "g41-valid-known-S15-W82015135-N36",
+      "matched": 1,
+      "false_alarms": 0,
+      "people": 1
+    },
+    {
+      "head": "generic-v40-tracks-worldcv",
+      "id": "g41-valid-known-S18-W82018162-N24",
+      "matched": 1,
+      "false_alarms": 0,
+      "people": 1
+    },
+    {
+      "head": "generic-v40-tracks-worldcv",
+      "id": "g41-valid-unknown-S19-W83019171-N24",
+      "matched": 0,
+      "false_alarms": 0,
+      "people": 0
+    },
+    {
+      "head": "generic-v40-tracks-worldcv",
+      "id": "g41-valid-unknown-S19-W83019171-N36",
+      "matched": 0,
+      "false_alarms": 0,
+      "people": 0
+    },
+    {
+      "head": "generic-v40-tracks-worldcv",
+      "id": "g41-valid-unknown-S19-W83019171-N48",
+      "matched": 0,
+      "false_alarms": 0,
+      "people": 0
+    },
+    {
+      "head": "generic-v40-tracks-worldcv",
+      "id": "g41-valid-unknown-S22-W83022198-N24",
+      "matched": 1,
+      "false_alarms": 0,
+      "people": 1
+    },
+    {
+      "head": "generic-v40-tracks-worldcv",
+      "id": "g41-valid-unknown-S22-W83022198-N36",
+      "matched": 1,
+      "false_alarms": 0,
+      "people": 1
+    },
+    {
+      "head": "generic-v40-tracks-worldcv",
+      "id": "g41-valid-unknown-S22-W83022198-N48",
+      "matched": 1,
+      "false_alarms": 0,
+      "people": 1
+    },
+    {
+      "head": "generic-v41-tracks-blended-fused",
+      "id": "g41-valid-known-S00-W82000000-N24",
+      "matched": 1,
+      "false_alarms": 1,
+      "people": 1
+    },
+    {
+      "head": "generic-v41-tracks-blended-fused",
+      "id": "g41-valid-known-S00-W82000000-N36",
+      "matched": 1,
+      "false_alarms": 0,
+      "people": 1
+    },
+    {
+      "head": "generic-v41-tracks-blended-fused",
+      "id": "g41-valid-known-S00-W82000000-N48",
+      "matched": 1,
+      "false_alarms": 1,
+      "people": 1
+    },
+    {
+      "head": "generic-v41-tracks-blended-fused",
+      "id": "g41-valid-known-S03-W82003027-N24",
+      "matched": 1,
+      "false_alarms": 0,
+      "people": 1
+    },
+    {
+      "head": "generic-v41-tracks-blended-fused",
+      "id": "g41-valid-known-S03-W82003027-N36",
+      "matched": 1,
+      "false_alarms": 0,
+      "people": 1
+    },
+    {
+      "head": "generic-v41-tracks-blended-fused",
+      "id": "g41-valid-known-S03-W82003027-N48",
+      "matched": 1,
+      "false_alarms": 0,
+      "people": 1
+    },
+    {
+      "head": "generic-v41-tracks-blended-fused",
+      "id": "g41-valid-known-S08-W82008072-N24",
+      "matched": 1,
+      "false_alarms": 0,
+      "people": 1
+    },
+    {
+      "head": "generic-v41-tracks-blended-fused",
+      "id": "g41-valid-known-S08-W82008072-N36",
+      "matched": 1,
+      "false_alarms": 0,
+      "people": 1
+    },
+    {
+      "head": "generic-v41-tracks-blended-fused",
+      "id": "g41-valid-known-S08-W82008072-N48",
+      "matched": 1,
+      "false_alarms": 0,
+      "people": 1
+    },
+    {
+      "head": "generic-v41-tracks-blended-fused",
+      "id": "g41-valid-known-S13-W82013117-N24",
+      "matched": 2,
+      "false_alarms": 1,
+      "people": 2
+    },
+    {
+      "head": "generic-v41-tracks-blended-fused",
+      "id": "g41-valid-known-S13-W82013117-N36",
+      "matched": 1,
+      "false_alarms": 1,
+      "people": 2
+    },
+    {
+      "head": "generic-v41-tracks-blended-fused",
+      "id": "g41-valid-known-S13-W82013117-N48",
+      "matched": 1,
+      "false_alarms": 1,
+      "people": 2
+    },
+    {
+      "head": "generic-v41-tracks-blended-fused",
+      "id": "g41-valid-known-S15-W82015135-N24",
+      "matched": 1,
+      "false_alarms": 0,
+      "people": 1
+    },
+    {
+      "head": "generic-v41-tracks-blended-fused",
+      "id": "g41-valid-known-S15-W82015135-N36",
+      "matched": 1,
+      "false_alarms": 0,
+      "people": 1
+    },
+    {
+      "head": "generic-v41-tracks-blended-fused",
+      "id": "g41-valid-known-S18-W82018162-N24",
+      "matched": 1,
+      "false_alarms": 0,
+      "people": 1
+    },
+    {
+      "head": "generic-v41-tracks-blended-fused",
+      "id": "g41-valid-unknown-S19-W83019171-N24",
+      "matched": 0,
+      "false_alarms": 0,
+      "people": 0
+    },
+    {
+      "head": "generic-v41-tracks-blended-fused",
+      "id": "g41-valid-unknown-S19-W83019171-N36",
+      "matched": 0,
+      "false_alarms": 0,
+      "people": 0
+    },
+    {
+      "head": "generic-v41-tracks-blended-fused",
+      "id": "g41-valid-unknown-S19-W83019171-N48",
+      "matched": 0,
+      "false_alarms": 0,
+      "people": 0
+    },
+    {
+      "head": "generic-v41-tracks-blended-fused",
+      "id": "g41-valid-unknown-S22-W83022198-N24",
+      "matched": 1,
+      "false_alarms": 0,
+      "people": 1
+    },
+    {
+      "head": "generic-v41-tracks-blended-fused",
+      "id": "g41-valid-unknown-S22-W83022198-N36",
+      "matched": 1,
+      "false_alarms": 0,
+      "people": 1
+    },
+    {
+      "head": "generic-v41-tracks-blended-fused",
+      "id": "g41-valid-unknown-S22-W83022198-N48",
+      "matched": 1,
+      "false_alarms": 0,
+      "people": 1
+    }
+  ],
+  "summaries": {
+    "generic-v39-tracks-fused": {
+      "matched": 17,
+      "false_alarms": 5,
+      "people": 21,
+      "precision": 0.7727272727272727,
+      "recall": 0.8095238095238095
+    },
+    "generic-v40-tracks-balanced-worlds": {
+      "matched": 20,
+      "false_alarms": 2,
+      "people": 21,
+      "precision": 0.9090909090909091,
+      "recall": 0.9523809523809523
+    },
+    "generic-v40-tracks-worldcv": {
+      "matched": 20,
+      "false_alarms": 1,
+      "people": 21,
+      "precision": 0.9523809523809523,
+      "recall": 0.9523809523809523
+    },
+    "generic-v41-tracks-blended-fused": {
+      "matched": 19,
+      "false_alarms": 5,
+      "people": 21,
+      "precision": 0.7916666666666666,
+      "recall": 0.9047619047619048
+    }
+  }
+}

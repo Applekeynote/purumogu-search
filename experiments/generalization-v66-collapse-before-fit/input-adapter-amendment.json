@@ -1,0 +1,8 @@
+{
+  "reason": "Offline probe harness must inject the exported 88-channel f32 features, because normal map JSON intentionally excludes dense moment rows",
+  "before_successful_inference": true,
+  "source": "prepare_geometry moments-final.f32",
+  "features": "All nonzero88 including SDF-only voxels; no ground truth",
+  "original_failure_log": "tmp/g66-collapse-before-fit-probe.log",
+  "script_sha256": "784bd703e34dc2ee88fd29f46954ea7ff9979c924a14e585a1b1e03b2f2712c7"
+}

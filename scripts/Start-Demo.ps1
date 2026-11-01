@@ -1,4 +1,4 @@
-param([int]$Port=47120,[ValidateRange(0,14)][int]$Scene=0,[string]$Model='models/swarm-v3-bootstrap/model.json',[int]$Steps=18000,[string]$Unity='C:\Program Files\Unity\Hub\Editor\6000.4.1f1\Editor\Unity.exe',[ValidateSet(24,36,48)][int]$Nodes=24,[int]$DeploymentSeed=907231)
+param([int]$Port=47120,[ValidateRange(0,35)][int]$Scene=0,[string]$Model='models/swarm-v3-bootstrap/model.json',[int]$Steps=18000,[string]$Unity='C:\Program Files\Unity\Hub\Editor\6000.4.1f1\Editor\Unity.exe',[ValidateSet(24,36,48)][int]$Nodes=24,[int]$DeploymentSeed=907231,[int]$Seed=20261027)
 $ErrorActionPreference='Stop'
 $projectRoot=Split-Path $PSScriptRoot -Parent
 Push-Location $projectRoot
@@ -15,8 +15,10 @@ try {
     $rustProcess=Start-Process -FilePath $server -ArgumentList $serverArgs -WorkingDirectory $projectRoot -WindowStyle Hidden -PassThru
     try {
         if($rustProcess.WaitForExit(150)){throw 'Inference server exited during startup'}
+        $demoArgs=@('--port',$Port,'--scene',$Scene,'--nodes',$Nodes,'--deployment-seed',$DeploymentSeed,'--steps',$Steps)
+        if($PSBoundParameters.ContainsKey('Seed')){$demoArgs+=@('--seed',$Seed)}
         $player=Join-Path $projectRoot 'build\PurumoguSearch.exe'
-        if(Test-Path -LiteralPath $player){Start-Process -FilePath $player -ArgumentList @('--port',$Port,'--scene',$Scene,'--nodes',$Nodes,'--deployment-seed',$DeploymentSeed,'--steps',$Steps) -WindowStyle Normal -Wait}
-        else {Start-Process -FilePath $Unity -ArgumentList @('-projectPath',"`"$(Join-Path $projectRoot 'unity')`"",'--port',$Port,'--scene',$Scene,'--nodes',$Nodes,'--deployment-seed',$DeploymentSeed,'--steps',$Steps) -WindowStyle Normal -Wait}
+        if(Test-Path -LiteralPath $player){Start-Process -FilePath $player -ArgumentList $demoArgs -WindowStyle Normal -Wait}
+        else {Start-Process -FilePath $Unity -ArgumentList (@('-projectPath',"`"$(Join-Path $projectRoot 'unity')`"")+$demoArgs) -WindowStyle Normal -Wait}
     } finally {if(!$rustProcess.HasExited){Stop-Process -Id $rustProcess.Id}}
 } finally {Pop-Location}

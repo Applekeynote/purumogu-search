@@ -61,10 +61,18 @@ namespace Purumogu.Rescue
             if(reply["hazards"] is JArray hazards)foreach(var hazard in hazards)
                 zones.Add(new WireZone(RescueEvaluation.Vector(hazard["position"]),Mathf.Clamp((float)hazard["radius_m"],.09f,.4f),(string)hazard["kind"]=="gas"?3:2));
             var merged=new Dictionary<Vector3Int,float>(settled);var inferred=new HashSet<Vector3Int>();
+            bool learnedVolume=(string)reply["completion_family"]=="volume-unet-v1"||(string)reply["completion_family"]=="local-learned-v1";
             foreach(var item in (JArray)reply["cells"])
             {
                 if((string)item["source"]!="local_surface_completion")continue;var k=item["key"];var key=new Vector3Int((int)k[0],(int)k[1],(int)k[2]);
-                if(merged.ContainsKey(key))continue;merged[key]=(float)item["occupancy"];inferred.Add(key);
+                float probability=(float)item["occupancy"];
+                if(merged.TryGetValue(key,out float measured))
+                {
+                    // Volumetric calibration may disagree with a point-ray cell at a thin wall.
+                    // Keep that correction visibly inferred; never rewrite the measured history.
+                    if(!learnedVolume||measured>.5f&&probability>.2f||measured<.5f&&probability<.8f)continue;
+                }
+                merged[key]=probability;inferred.Add(key);
             }
             InferredCells=inferred.Count;PersonSegments=WaterSegments=GasSegments=0;
             var builder=new SurfaceNet(merged,cell,inferred);

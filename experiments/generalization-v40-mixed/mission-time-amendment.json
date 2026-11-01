@@ -1,0 +1,24 @@
+{
+  "user_choice": "360 seconds, the existing app default",
+  "registered_before_any_360_second_validation": true,
+  "validation_deadline_steps": 18000,
+  "retain_steps": [
+    6000,
+    18000
+  ],
+  "training_acquisition_v40_steps": 6000,
+  "reason": "User explicitly chose the existing app mission duration; keep the 120-second checkpoint for comparison",
+  "unchanged": {
+    "cell_m": 0.05,
+    "truth_box_extent_fraction": 0.42,
+    "occupancy_threshold": 0.6,
+    "person_match_radius_m": 0.25,
+    "targets": {
+      "iou": 0.95,
+      "precision": 0.95,
+      "recall": 0.95
+    }
+  },
+  "sensor_source_sha256": "bd485f3c1d310637e25f7afc3b4fae238a6603cd289276a065cf9bbb6348a39e",
+  "final_test_opened": false
+}

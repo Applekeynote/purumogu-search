@@ -1,0 +1,7 @@
+{
+  "status": "complete",
+  "train_geometry": "experiments/raw/rescue/generalization-v62-expanded/registered-temporal-tsdf",
+  "validation_geometry": "experiments/raw/rescue/generalization-v62-expanded/validation-tsdf",
+  "fine_truth": "experiments/raw/rescue/generalization-v63-fine-expanded/prepared",
+  "final_test_opened": false
+}

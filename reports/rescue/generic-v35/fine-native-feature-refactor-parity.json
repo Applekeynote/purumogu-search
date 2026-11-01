@@ -1,0 +1,14 @@
+{
+  "status": "pass",
+  "model": "models/generic-v48-fine-portability-probe",
+  "checkpoint_sha256": "78d78d70ef3f7012f05b1ee04c4ffc74ec5ecabae0b0f3dde752e594f7e094ac",
+  "onnx_sha256": "9b023c79ab2f26aed90bb514e170874fe621b8bb818eaf4346f50bfdc8e492d9",
+  "architecture": "subvoxel-refinement-v1",
+  "channels": 90,
+  "maximum_probability_error": 1.982193599270321e-05,
+  "class_disagreements": 0,
+  "truth_to_native": false,
+  "requires_python_for_app": false,
+  "requires_cuda_for_app": false,
+  "inference_seconds": 0.5295493
+}

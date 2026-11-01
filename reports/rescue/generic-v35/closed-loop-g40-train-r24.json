@@ -1,0 +1,4181 @@
+{
+  "purpose": "Actual closed-loop development acquisition; no fixed-trajectory substitution",
+  "test_opened": false,
+  "collection_complete": true,
+  "seconds": 120.0,
+  "evaluation_step": 6000,
+  "acceptance_deadline": true,
+  "acquisition": {
+    "version": 2,
+    "steps": 6000,
+    "inference_map_interval": 100,
+    "geometry_revision": "exterior-release-clearance-and-hold-brake-v3",
+    "geometry_sources": {
+      "RescueComplexScenes.cs": "170d79564076cd16ec4c9441c225cdee6921cdecc2b60886e469321e3f1547e0",
+      "RescueController.cs": "bc75e80226229187ac837581666c2958c23f23b903862573139bd68a3aceab23",
+      "RescueDeployment.cs": "357f833e13ba430a3a345136ba160fdc4413f4b32448f6b2daf8480e69f1f907",
+      "RescueEchoWireMap.cs": "ecca2c71b9bb740ef7fbbe0140d3ae263bf538dbceb353d6bc339cafb4cc739d",
+      "RescueExteriorDeployment.cs": "a8aafd6e55c09629238f7d51b838c36d4d647d307707b3e7e598565eeecabfa1",
+      "RescueFloorOpenings.cs": "df9727dff2f04ae36fa020a5ccd507d3b9ea47e817050b070ab14cfe7161f067",
+      "RescueMapDashboard.cs": "74a626b7e9984a9060c1c788e75d349bb27b307be721802caca0a52a8b9df11d",
+      "RescueMapKnowledge.cs": "e4451ca0664e165ff3c2a69cb1da26d8b57f0a6928b4e8f8af54a3527037ce67",
+      "RescueMapView.cs": "4956713c06bbfa34670c66ad06eb8deaf7a7339f4592fca158dc04fe0f4da422",
+      "RescueRobot.cs": "bd485f3c1d310637e25f7afc3b4fae238a6603cd289276a065cf9bbb6348a39e",
+      "RescueScene.cs": "2eb390ca02c75b9f0301adb22526f2d0d6b17d86d74a8b7b9bfee4aff171ddbd",
+      "RescueSimulation.cs": "5263de7cef8df646804ab9ea9c0d951c3c17f1026fa63e8cd28276ca98c325eb",
+      "RescueSurfaceLattice.cs": "59933137e0aadc8d589a10d3c31c93c38fd49723862674b3888e2d20e78dbbf8",
+      "RescueViewport.cs": "3f4c0fa0851fbf3bb699c2c78dd2285e729c16602958ba9c87fea9acdb203f2e"
+    },
+    "acquisition_sources": {
+      "unity/Assets/Editor/RescueGeneralization.cs": "257946e2cbe19577df3425b447b91f69f19ba3e2d11630ba9f5209fa87f2eb93",
+      "unity/Assets/Editor/ProjectTools.cs": "73156b92eb3a821c46a5cb2c2d3a1ef8bd51454d746889c46243b14639fd056d",
+      "scripts/collect_rescue_registered.py": "c21d66f1eb9d51a1912252f1db8b3ac8a1ac5c85b392f89f2f5bfe5b49d86d12",
+      "scripts/plan_rescue_registered.py": "d7cffc73e4af50fb7900fa88a9ba9194dca90684123d5d05550a4c9d39b6680b"
+    },
+    "model_sha256": "0b12cf19ed96fa82c5d8e0c1a0cd76f39e9355026c3cc56e4495ab6eaeed6e92",
+    "server_sha256": "74fbcfe896bb7181f89c1bad751699089203ac07fac7d36a3730f8bfefc5cbe9",
+    "sensor_source_sha256": "bd485f3c1d310637e25f7afc3b4fae238a6603cd289276a065cf9bbb6348a39e",
+    "model": "models/generic-v40-acquisition-r24-fused/model.json",
+    "server": "tmp/generic-rust-target/release/rescue_server.exe",
+    "deployment_mode": "RoofAndFacadeDrop",
+    "deployment": "One third overhead; two thirds released at several visible facade thresholds on all levels",
+    "test_opened": false,
+    "split": "train",
+    "output": "C:\\Users\\rynat\\OneDrive\\\u30c9\u30ad\u30e5\u30e1\u30f3\u30c8\\ChatGPT\\\u677e\u5c3e\u7814\\purumogu-search\\experiments\\raw\\rescue\\generalization-v40-mixed\\train",
+    "cases": [
+      {
+        "id": "g40-train-S25-W71025225-N24",
+        "scene": 25,
+        "seed": 71025225,
+        "nodes": 24,
+        "deployment_seed": 71728369,
+        "source_seed": 71925225
+      },
+      {
+        "id": "g40-train-S26-W71026234-N36",
+        "scene": 26,
+        "seed": 71026234,
+        "nodes": 36,
+        "deployment_seed": 71730950,
+        "source_seed": 71926234
+      },
+      {
+        "id": "g40-train-S13-W71013117-N48",
+        "scene": 13,
+        "seed": 71013117,
+        "nodes": 48,
+        "deployment_seed": 71719405,
+        "source_seed": 71913117
+      },
+      {
+        "id": "g40-train-S20-W71020180-N24",
+        "scene": 20,
+        "seed": 71020180,
+        "nodes": 24,
+        "deployment_seed": 71723324,
+        "source_seed": 71920180
+      },
+      {
+        "id": "g40-train-S21-W71021189-N36",
+        "scene": 21,
+        "seed": 71021189,
+        "nodes": 36,
+        "deployment_seed": 71725905,
+        "source_seed": 71921189
+      },
+      {
+        "id": "g40-train-S24-W71024216-N48",
+        "scene": 24,
+        "seed": 71024216,
+        "nodes": 48,
+        "deployment_seed": 71730504,
+        "source_seed": 71924216
+      },
+      {
+        "id": "g40-train-S15-W71015135-N24",
+        "scene": 15,
+        "seed": 71015135,
+        "nodes": 24,
+        "deployment_seed": 71718279,
+        "source_seed": 71915135
+      },
+      {
+        "id": "g40-train-S16-W71016144-N36",
+        "scene": 16,
+        "seed": 71016144,
+        "nodes": 36,
+        "deployment_seed": 71720860,
+        "source_seed": 71916144
+      },
+      {
+        "id": "g40-train-S18-W71018162-N48",
+        "scene": 18,
+        "seed": 71018162,
+        "nodes": 48,
+        "deployment_seed": 71724450,
+        "source_seed": 71918162
+      },
+      {
+        "id": "g40-train-S00-W71000000-N24",
+        "scene": 0,
+        "seed": 71000000,
+        "nodes": 24,
+        "deployment_seed": 71703144,
+        "source_seed": 71900000
+      },
+      {
+        "id": "g40-train-S01-W71001009-N36",
+        "scene": 1,
+        "seed": 71001009,
+        "nodes": 36,
+        "deployment_seed": 71705725,
+        "source_seed": 71901009
+      },
+      {
+        "id": "g40-train-S02-W71002018-N48",
+        "scene": 2,
+        "seed": 71002018,
+        "nodes": 48,
+        "deployment_seed": 71708306,
+        "source_seed": 71902018
+      },
+      {
+        "id": "g40-train-S03-W71003027-N24",
+        "scene": 3,
+        "seed": 71003027,
+        "nodes": 24,
+        "deployment_seed": 71706171,
+        "source_seed": 71903027
+      },
+      {
+        "id": "g40-train-S04-W71004036-N36",
+        "scene": 4,
+        "seed": 71004036,
+        "nodes": 36,
+        "deployment_seed": 71708752,
+        "source_seed": 71904036
+      },
+      {
+        "id": "g40-train-S05-W71005045-N48",
+        "scene": 5,
+        "seed": 71005045,
+        "nodes": 48,
+        "deployment_seed": 71711333,
+        "source_seed": 71905045
+      },
+      {
+        "id": "g40-train-S06-W71006054-N24",
+        "scene": 6,
+        "seed": 71006054,
+        "nodes": 24,
+        "deployment_seed": 71709198,
+        "source_seed": 71906054
+      },
+      {
+        "id": "g40-train-S07-W71007063-N36",
+        "scene": 7,
+        "seed": 71007063,
+        "nodes": 36,
+        "deployment_seed": 71711779,
+        "source_seed": 71907063
+      },
+      {
+        "id": "g40-train-S08-W71008072-N48",
+        "scene": 8,
+        "seed": 71008072,
+        "nodes": 48,
+        "deployment_seed": 71714360,
+        "source_seed": 71908072
+      },
+      {
+        "id": "g40-train-S09-W71009081-N24",
+        "scene": 9,
+        "seed": 71009081,
+        "nodes": 24,
+        "deployment_seed": 71712225,
+        "source_seed": 71909081
+      },
+      {
+        "id": "g40-train-S10-W71010090-N36",
+        "scene": 10,
+        "seed": 71010090,
+        "nodes": 36,
+        "deployment_seed": 71714806,
+        "source_seed": 71910090
+      },
+      {
+        "id": "g40-train-S11-W71011099-N48",
+        "scene": 11,
+        "seed": 71011099,
+        "nodes": 48,
+        "deployment_seed": 71717387,
+        "source_seed": 71911099
+      },
+      {
+        "id": "g40-train-S12-W71012108-N24",
+        "scene": 12,
+        "seed": 71012108,
+        "nodes": 24,
+        "deployment_seed": 71715252,
+        "source_seed": 71912108
+      },
+      {
+        "id": "g40-train-S14-W71014126-N36",
+        "scene": 14,
+        "seed": 71014126,
+        "nodes": 36,
+        "deployment_seed": 71718842,
+        "source_seed": 71914126
+      },
+      {
+        "id": "g40-train-S25-W71025326-N36",
+        "scene": 25,
+        "seed": 71025326,
+        "nodes": 36,
+        "deployment_seed": 71730042,
+        "source_seed": 71925326
+      },
+      {
+        "id": "g40-train-S26-W71026335-N48",
+        "scene": 26,
+        "seed": 71026335,
+        "nodes": 48,
+        "deployment_seed": 71732623,
+        "source_seed": 71926335
+      },
+      {
+        "id": "g40-train-S13-W71013218-N24",
+        "scene": 13,
+        "seed": 71013218,
+        "nodes": 24,
+        "deployment_seed": 71716362,
+        "source_seed": 71913218
+      },
+      {
+        "id": "g40-train-S20-W71020281-N36",
+        "scene": 20,
+        "seed": 71020281,
+        "nodes": 36,
+        "deployment_seed": 71724997,
+        "source_seed": 71920281
+      },
+      {
+        "id": "g40-train-S21-W71021290-N48",
+        "scene": 21,
+        "seed": 71021290,
+        "nodes": 48,
+        "deployment_seed": 71727578,
+        "source_seed": 71921290
+      },
+      {
+        "id": "g40-train-S24-W71024317-N24",
+        "scene": 24,
+        "seed": 71024317,
+        "nodes": 24,
+        "deployment_seed": 71727461,
+        "source_seed": 71924317
+      },
+      {
+        "id": "g40-train-S15-W71015236-N36",
+        "scene": 15,
+        "seed": 71015236,
+        "nodes": 36,
+        "deployment_seed": 71719952,
+        "source_seed": 71915236
+      },
+      {
+        "id": "g40-train-S16-W71016245-N48",
+        "scene": 16,
+        "seed": 71016245,
+        "nodes": 48,
+        "deployment_seed": 71722533,
+        "source_seed": 71916245
+      },
+      {
+        "id": "g40-train-S18-W71018263-N24",
+        "scene": 18,
+        "seed": 71018263,
+        "nodes": 24,
+        "deployment_seed": 71721407,
+        "source_seed": 71918263
+      },
+      {
+        "id": "g40-train-S00-W71000101-N36",
+        "scene": 0,
+        "seed": 71000101,
+        "nodes": 36,
+        "deployment_seed": 71704817,
+        "source_seed": 71900101
+      },
+      {
+        "id": "g40-train-S01-W71001110-N48",
+        "scene": 1,
+        "seed": 71001110,
+        "nodes": 48,
+        "deployment_seed": 71707398,
+        "source_seed": 71901110
+      },
+      {
+        "id": "g40-train-S02-W71002119-N24",
+        "scene": 2,
+        "seed": 71002119,
+        "nodes": 24,
+        "deployment_seed": 71705263,
+        "source_seed": 71902119
+      },
+      {
+        "id": "g40-train-S03-W71003128-N36",
+        "scene": 3,
+        "seed": 71003128,
+        "nodes": 36,
+        "deployment_seed": 71707844,
+        "source_seed": 71903128
+      },
+      {
+        "id": "g40-train-S04-W71004137-N48",
+        "scene": 4,
+        "seed": 71004137,
+        "nodes": 48,
+        "deployment_seed": 71710425,
+        "source_seed": 71904137
+      },
+      {
+        "id": "g40-train-S05-W71005146-N24",
+        "scene": 5,
+        "seed": 71005146,
+        "nodes": 24,
+        "deployment_seed": 71708290,
+        "source_seed": 71905146
+      },
+      {
+        "id": "g40-train-S06-W71006155-N36",
+        "scene": 6,
+        "seed": 71006155,
+        "nodes": 36,
+        "deployment_seed": 71710871,
+        "source_seed": 71906155
+      },
+      {
+        "id": "g40-train-S07-W71007164-N48",
+        "scene": 7,
+        "seed": 71007164,
+        "nodes": 48,
+        "deployment_seed": 71713452,
+        "source_seed": 71907164
+      },
+      {
+        "id": "g40-train-S08-W71008173-N24",
+        "scene": 8,
+        "seed": 71008173,
+        "nodes": 24,
+        "deployment_seed": 71711317,
+        "source_seed": 71908173
+      },
+      {
+        "id": "g40-train-S09-W71009182-N36",
+        "scene": 9,
+        "seed": 71009182,
+        "nodes": 36,
+        "deployment_seed": 71713898,
+        "source_seed": 71909182
+      },
+      {
+        "id": "g40-train-S10-W71010191-N48",
+        "scene": 10,
+        "seed": 71010191,
+        "nodes": 48,
+        "deployment_seed": 71716479,
+        "source_seed": 71910191
+      },
+      {
+        "id": "g40-train-S11-W71011200-N24",
+        "scene": 11,
+        "seed": 71011200,
+        "nodes": 24,
+        "deployment_seed": 71714344,
+        "source_seed": 71911200
+      },
+      {
+        "id": "g40-train-S12-W71012209-N36",
+        "scene": 12,
+        "seed": 71012209,
+        "nodes": 36,
+        "deployment_seed": 71716925,
+        "source_seed": 71912209
+      },
+      {
+        "id": "g40-train-S14-W71014227-N48",
+        "scene": 14,
+        "seed": 71014227,
+        "nodes": 48,
+        "deployment_seed": 71720515,
+        "source_seed": 71914227
+      },
+      {
+        "id": "g40-train-S25-W71025427-N48",
+        "scene": 25,
+        "seed": 71025427,
+        "nodes": 48,
+        "deployment_seed": 71731715,
+        "source_seed": 71925427
+      },
+      {
+        "id": "g40-train-S26-W71026436-N24",
+        "scene": 26,
+        "seed": 71026436,
+        "nodes": 24,
+        "deployment_seed": 71729580,
+        "source_seed": 71926436
+      },
+      {
+        "id": "g40-train-S13-W71013319-N36",
+        "scene": 13,
+        "seed": 71013319,
+        "nodes": 36,
+        "deployment_seed": 71718035,
+        "source_seed": 71913319
+      },
+      {
+        "id": "g40-train-S20-W71020382-N48",
+        "scene": 20,
+        "seed": 71020382,
+        "nodes": 48,
+        "deployment_seed": 71726670,
+        "source_seed": 71920382
+      },
+      {
+        "id": "g40-train-S21-W71021391-N24",
+        "scene": 21,
+        "seed": 71021391,
+        "nodes": 24,
+        "deployment_seed": 71724535,
+        "source_seed": 71921391
+      },
+      {
+        "id": "g40-train-S24-W71024418-N36",
+        "scene": 24,
+        "seed": 71024418,
+        "nodes": 36,
+        "deployment_seed": 71729134,
+        "source_seed": 71924418
+      },
+      {
+        "id": "g40-train-S15-W71015337-N48",
+        "scene": 15,
+        "seed": 71015337,
+        "nodes": 48,
+        "deployment_seed": 71721625,
+        "source_seed": 71915337
+      },
+      {
+        "id": "g40-train-S16-W71016346-N24",
+        "scene": 16,
+        "seed": 71016346,
+        "nodes": 24,
+        "deployment_seed": 71719490,
+        "source_seed": 71916346
+      },
+      {
+        "id": "g40-train-S18-W71018364-N36",
+        "scene": 18,
+        "seed": 71018364,
+        "nodes": 36,
+        "deployment_seed": 71723080,
+        "source_seed": 71918364
+      },
+      {
+        "id": "g40-train-S00-W71000202-N48",
+        "scene": 0,
+        "seed": 71000202,
+        "nodes": 48,
+        "deployment_seed": 71706490,
+        "source_seed": 71900202
+      },
+      {
+        "id": "g40-train-S01-W71001211-N24",
+        "scene": 1,
+        "seed": 71001211,
+        "nodes": 24,
+        "deployment_seed": 71704355,
+        "source_seed": 71901211
+      },
+      {
+        "id": "g40-train-S02-W71002220-N36",
+        "scene": 2,
+        "seed": 71002220,
+        "nodes": 36,
+        "deployment_seed": 71706936,
+        "source_seed": 71902220
+      },
+      {
+        "id": "g40-train-S03-W71003229-N48",
+        "scene": 3,
+        "seed": 71003229,
+        "nodes": 48,
+        "deployment_seed": 71709517,
+        "source_seed": 71903229
+      },
+      {
+        "id": "g40-train-S04-W71004238-N24",
+        "scene": 4,
+        "seed": 71004238,
+        "nodes": 24,
+        "deployment_seed": 71707382,
+        "source_seed": 71904238
+      },
+      {
+        "id": "g40-train-S05-W71005247-N36",
+        "scene": 5,
+        "seed": 71005247,
+        "nodes": 36,
+        "deployment_seed": 71709963,
+        "source_seed": 71905247
+      },
+      {
+        "id": "g40-train-S06-W71006256-N48",
+        "scene": 6,
+        "seed": 71006256,
+        "nodes": 48,
+        "deployment_seed": 71712544,
+        "source_seed": 71906256
+      },
+      {
+        "id": "g40-train-S07-W71007265-N24",
+        "scene": 7,
+        "seed": 71007265,
+        "nodes": 24,
+        "deployment_seed": 71710409,
+        "source_seed": 71907265
+      },
+      {
+        "id": "g40-train-S08-W71008274-N36",
+        "scene": 8,
+        "seed": 71008274,
+        "nodes": 36,
+        "deployment_seed": 71712990,
+        "source_seed": 71908274
+      },
+      {
+        "id": "g40-train-S09-W71009283-N48",
+        "scene": 9,
+        "seed": 71009283,
+        "nodes": 48,
+        "deployment_seed": 71715571,
+        "source_seed": 71909283
+      },
+      {
+        "id": "g40-train-S10-W71010292-N24",
+        "scene": 10,
+        "seed": 71010292,
+        "nodes": 24,
+        "deployment_seed": 71713436,
+        "source_seed": 71910292
+      },
+      {
+        "id": "g40-train-S11-W71011301-N36",
+        "scene": 11,
+        "seed": 71011301,
+        "nodes": 36,
+        "deployment_seed": 71716017,
+        "source_seed": 71911301
+      },
+      {
+        "id": "g40-train-S12-W71012310-N48",
+        "scene": 12,
+        "seed": 71012310,
+        "nodes": 48,
+        "deployment_seed": 71718598,
+        "source_seed": 71912310
+      },
+      {
+        "id": "g40-train-S14-W71014328-N24",
+        "scene": 14,
+        "seed": 71014328,
+        "nodes": 24,
+        "deployment_seed": 71717472,
+        "source_seed": 71914328
+      },
+      {
+        "id": "g40-train-S25-W71025528-N24",
+        "scene": 25,
+        "seed": 71025528,
+        "nodes": 24,
+        "deployment_seed": 71728672,
+        "source_seed": 71925528
+      },
+      {
+        "id": "g40-train-S26-W71026537-N36",
+        "scene": 26,
+        "seed": 71026537,
+        "nodes": 36,
+        "deployment_seed": 71731253,
+        "source_seed": 71926537
+      },
+      {
+        "id": "g40-train-S13-W71013420-N48",
+        "scene": 13,
+        "seed": 71013420,
+        "nodes": 48,
+        "deployment_seed": 71719708,
+        "source_seed": 71913420
+      },
+      {
+        "id": "g40-train-S20-W71020483-N24",
+        "scene": 20,
+        "seed": 71020483,
+        "nodes": 24,
+        "deployment_seed": 71723627,
+        "source_seed": 71920483
+      },
+      {
+        "id": "g40-train-S21-W71021492-N36",
+        "scene": 21,
+        "seed": 71021492,
+        "nodes": 36,
+        "deployment_seed": 71726208,
+        "source_seed": 71921492
+      },
+      {
+        "id": "g40-train-S24-W71024519-N48",
+        "scene": 24,
+        "seed": 71024519,
+        "nodes": 48,
+        "deployment_seed": 71730807,
+        "source_seed": 71924519
+      },
+      {
+        "id": "g40-train-S15-W71015438-N24",
+        "scene": 15,
+        "seed": 71015438,
+        "nodes": 24,
+        "deployment_seed": 71718582,
+        "source_seed": 71915438
+      },
+      {
+        "id": "g40-train-S16-W71016447-N36",
+        "scene": 16,
+        "seed": 71016447,
+        "nodes": 36,
+        "deployment_seed": 71721163,
+        "source_seed": 71916447
+      },
+      {
+        "id": "g40-train-S18-W71018465-N48",
+        "scene": 18,
+        "seed": 71018465,
+        "nodes": 48,
+        "deployment_seed": 71724753,
+        "source_seed": 71918465
+      },
+      {
+        "id": "g40-train-S00-W71000303-N24",
+        "scene": 0,
+        "seed": 71000303,
+        "nodes": 24,
+        "deployment_seed": 71703447,
+        "source_seed": 71900303
+      },
+      {
+        "id": "g40-train-S01-W71001312-N36",
+        "scene": 1,
+        "seed": 71001312,
+        "nodes": 36,
+        "deployment_seed": 71706028,
+        "source_seed": 71901312
+      },
+      {
+        "id": "g40-train-S02-W71002321-N48",
+        "scene": 2,
+        "seed": 71002321,
+        "nodes": 48,
+        "deployment_seed": 71708609,
+        "source_seed": 71902321
+      },
+      {
+        "id": "g40-train-S03-W71003330-N24",
+        "scene": 3,
+        "seed": 71003330,
+        "nodes": 24,
+        "deployment_seed": 71706474,
+        "source_seed": 71903330
+      },
+      {
+        "id": "g40-train-S04-W71004339-N36",
+        "scene": 4,
+        "seed": 71004339,
+        "nodes": 36,
+        "deployment_seed": 71709055,
+        "source_seed": 71904339
+      },
+      {
+        "id": "g40-train-S05-W71005348-N48",
+        "scene": 5,
+        "seed": 71005348,
+        "nodes": 48,
+        "deployment_seed": 71711636,
+        "source_seed": 71905348
+      },
+      {
+        "id": "g40-train-S06-W71006357-N24",
+        "scene": 6,
+        "seed": 71006357,
+        "nodes": 24,
+        "deployment_seed": 71709501,
+        "source_seed": 71906357
+      },
+      {
+        "id": "g40-train-S07-W71007366-N36",
+        "scene": 7,
+        "seed": 71007366,
+        "nodes": 36,
+        "deployment_seed": 71712082,
+        "source_seed": 71907366
+      },
+      {
+        "id": "g40-train-S08-W71008375-N48",
+        "scene": 8,
+        "seed": 71008375,
+        "nodes": 48,
+        "deployment_seed": 71714663,
+        "source_seed": 71908375
+      },
+      {
+        "id": "g40-train-S09-W71009384-N24",
+        "scene": 9,
+        "seed": 71009384,
+        "nodes": 24,
+        "deployment_seed": 71712528,
+        "source_seed": 71909384
+      },
+      {
+        "id": "g40-train-S10-W71010393-N36",
+        "scene": 10,
+        "seed": 71010393,
+        "nodes": 36,
+        "deployment_seed": 71715109,
+        "source_seed": 71910393
+      },
+      {
+        "id": "g40-train-S11-W71011402-N48",
+        "scene": 11,
+        "seed": 71011402,
+        "nodes": 48,
+        "deployment_seed": 71717690,
+        "source_seed": 71911402
+      },
+      {
+        "id": "g40-train-S12-W71012411-N24",
+        "scene": 12,
+        "seed": 71012411,
+        "nodes": 24,
+        "deployment_seed": 71715555,
+        "source_seed": 71912411
+      },
+      {
+        "id": "g40-train-S14-W71014429-N36",
+        "scene": 14,
+        "seed": 71014429,
+        "nodes": 36,
+        "deployment_seed": 71719145,
+        "source_seed": 71914429
+      },
+      {
+        "id": "g40-train-S25-W71025629-N36",
+        "scene": 25,
+        "seed": 71025629,
+        "nodes": 36,
+        "deployment_seed": 71730345,
+        "source_seed": 71925629
+      },
+      {
+        "id": "g40-train-S26-W71026638-N48",
+        "scene": 26,
+        "seed": 71026638,
+        "nodes": 48,
+        "deployment_seed": 71732926,
+        "source_seed": 71926638
+      },
+      {
+        "id": "g40-train-S13-W71013521-N24",
+        "scene": 13,
+        "seed": 71013521,
+        "nodes": 24,
+        "deployment_seed": 71716665,
+        "source_seed": 71913521
+      },
+      {
+        "id": "g40-train-S20-W71020584-N36",
+        "scene": 20,
+        "seed": 71020584,
+        "nodes": 36,
+        "deployment_seed": 71725300,
+        "source_seed": 71920584
+      },
+      {
+        "id": "g40-train-S21-W71021593-N48",
+        "scene": 21,
+        "seed": 71021593,
+        "nodes": 48,
+        "deployment_seed": 71727881,
+        "source_seed": 71921593
+      },
+      {
+        "id": "g40-train-S24-W71024620-N24",
+        "scene": 24,
+        "seed": 71024620,
+        "nodes": 24,
+        "deployment_seed": 71727764,
+        "source_seed": 71924620
+      },
+      {
+        "id": "g40-train-S15-W71015539-N36",
+        "scene": 15,
+        "seed": 71015539,
+        "nodes": 36,
+        "deployment_seed": 71720255,
+        "source_seed": 71915539
+      },
+      {
+        "id": "g40-train-S16-W71016548-N48",
+        "scene": 16,
+        "seed": 71016548,
+        "nodes": 48,
+        "deployment_seed": 71722836,
+        "source_seed": 71916548
+      },
+      {
+        "id": "g40-train-S18-W71018566-N24",
+        "scene": 18,
+        "seed": 71018566,
+        "nodes": 24,
+        "deployment_seed": 71721710,
+        "source_seed": 71918566
+      },
+      {
+        "id": "g40-train-S00-W71000404-N36",
+        "scene": 0,
+        "seed": 71000404,
+        "nodes": 36,
+        "deployment_seed": 71705120,
+        "source_seed": 71900404
+      },
+      {
+        "id": "g40-train-S01-W71001413-N48",
+        "scene": 1,
+        "seed": 71001413,
+        "nodes": 48,
+        "deployment_seed": 71707701,
+        "source_seed": 71901413
+      },
+      {
+        "id": "g40-train-S02-W71002422-N24",
+        "scene": 2,
+        "seed": 71002422,
+        "nodes": 24,
+        "deployment_seed": 71705566,
+        "source_seed": 71902422
+      },
+      {
+        "id": "g40-train-S03-W71003431-N36",
+        "scene": 3,
+        "seed": 71003431,
+        "nodes": 36,
+        "deployment_seed": 71708147,
+        "source_seed": 71903431
+      },
+      {
+        "id": "g40-train-S04-W71004440-N48",
+        "scene": 4,
+        "seed": 71004440,
+        "nodes": 48,
+        "deployment_seed": 71710728,
+        "source_seed": 71904440
+      },
+      {
+        "id": "g40-train-S05-W71005449-N24",
+        "scene": 5,
+        "seed": 71005449,
+        "nodes": 24,
+        "deployment_seed": 71708593,
+        "source_seed": 71905449
+      },
+      {
+        "id": "g40-train-S06-W71006458-N36",
+        "scene": 6,
+        "seed": 71006458,
+        "nodes": 36,
+        "deployment_seed": 71711174,
+        "source_seed": 71906458
+      },
+      {
+        "id": "g40-train-S07-W71007467-N48",
+        "scene": 7,
+        "seed": 71007467,
+        "nodes": 48,
+        "deployment_seed": 71713755,
+        "source_seed": 71907467
+      },
+      {
+        "id": "g40-train-S08-W71008476-N24",
+        "scene": 8,
+        "seed": 71008476,
+        "nodes": 24,
+        "deployment_seed": 71711620,
+        "source_seed": 71908476
+      },
+      {
+        "id": "g40-train-S09-W71009485-N36",
+        "scene": 9,
+        "seed": 71009485,
+        "nodes": 36,
+        "deployment_seed": 71714201,
+        "source_seed": 71909485
+      },
+      {
+        "id": "g40-train-S10-W71010494-N48",
+        "scene": 10,
+        "seed": 71010494,
+        "nodes": 48,
+        "deployment_seed": 71716782,
+        "source_seed": 71910494
+      },
+      {
+        "id": "g40-train-S11-W71011503-N24",
+        "scene": 11,
+        "seed": 71011503,
+        "nodes": 24,
+        "deployment_seed": 71714647,
+        "source_seed": 71911503
+      },
+      {
+        "id": "g40-train-S12-W71012512-N36",
+        "scene": 12,
+        "seed": 71012512,
+        "nodes": 36,
+        "deployment_seed": 71717228,
+        "source_seed": 71912512
+      },
+      {
+        "id": "g40-train-S14-W71014530-N48",
+        "scene": 14,
+        "seed": 71014530,
+        "nodes": 48,
+        "deployment_seed": 71720818,
+        "source_seed": 71914530
+      },
+      {
+        "id": "g40-train-S25-W71025730-N48",
+        "scene": 25,
+        "seed": 71025730,
+        "nodes": 48,
+        "deployment_seed": 71732018,
+        "source_seed": 71925730
+      },
+      {
+        "id": "g40-train-S26-W71026739-N24",
+        "scene": 26,
+        "seed": 71026739,
+        "nodes": 24,
+        "deployment_seed": 71729883,
+        "source_seed": 71926739
+      },
+      {
+        "id": "g40-train-S13-W71013622-N36",
+        "scene": 13,
+        "seed": 71013622,
+        "nodes": 36,
+        "deployment_seed": 71718338,
+        "source_seed": 71913622
+      },
+      {
+        "id": "g40-train-S20-W71020685-N48",
+        "scene": 20,
+        "seed": 71020685,
+        "nodes": 48,
+        "deployment_seed": 71726973,
+        "source_seed": 71920685
+      },
+      {
+        "id": "g40-train-S21-W71021694-N24",
+        "scene": 21,
+        "seed": 71021694,
+        "nodes": 24,
+        "deployment_seed": 71724838,
+        "source_seed": 71921694
+      },
+      {
+        "id": "g40-train-S24-W71024721-N36",
+        "scene": 24,
+        "seed": 71024721,
+        "nodes": 36,
+        "deployment_seed": 71729437,
+        "source_seed": 71924721
+      },
+      {
+        "id": "g40-train-S15-W71015640-N48",
+        "scene": 15,
+        "seed": 71015640,
+        "nodes": 48,
+        "deployment_seed": 71721928,
+        "source_seed": 71915640
+      },
+      {
+        "id": "g40-train-S16-W71016649-N24",
+        "scene": 16,
+        "seed": 71016649,
+        "nodes": 24,
+        "deployment_seed": 71719793,
+        "source_seed": 71916649
+      },
+      {
+        "id": "g40-train-S18-W71018667-N36",
+        "scene": 18,
+        "seed": 71018667,
+        "nodes": 36,
+        "deployment_seed": 71723383,
+        "source_seed": 71918667
+      },
+      {
+        "id": "g40-train-S00-W71000505-N48",
+        "scene": 0,
+        "seed": 71000505,
+        "nodes": 48,
+        "deployment_seed": 71706793,
+        "source_seed": 71900505
+      },
+      {
+        "id": "g40-train-S01-W71001514-N24",
+        "scene": 1,
+        "seed": 71001514,
+        "nodes": 24,
+        "deployment_seed": 71704658,
+        "source_seed": 71901514
+      },
+      {
+        "id": "g40-train-S02-W71002523-N36",
+        "scene": 2,
+        "seed": 71002523,
+        "nodes": 36,
+        "deployment_seed": 71707239,
+        "source_seed": 71902523
+      },
+      {
+        "id": "g40-train-S03-W71003532-N48",
+        "scene": 3,
+        "seed": 71003532,
+        "nodes": 48,
+        "deployment_seed": 71709820,
+        "source_seed": 71903532
+      },
+      {
+        "id": "g40-train-S04-W71004541-N24",
+        "scene": 4,
+        "seed": 71004541,
+        "nodes": 24,
+        "deployment_seed": 71707685,
+        "source_seed": 71904541
+      },
+      {
+        "id": "g40-train-S05-W71005550-N36",
+        "scene": 5,
+        "seed": 71005550,
+        "nodes": 36,
+        "deployment_seed": 71710266,
+        "source_seed": 71905550
+      },
+      {
+        "id": "g40-train-S06-W71006559-N48",
+        "scene": 6,
+        "seed": 71006559,
+        "nodes": 48,
+        "deployment_seed": 71712847,
+        "source_seed": 71906559
+      },
+      {
+        "id": "g40-train-S07-W71007568-N24",
+        "scene": 7,
+        "seed": 71007568,
+        "nodes": 24,
+        "deployment_seed": 71710712,
+        "source_seed": 71907568
+      },
+      {
+        "id": "g40-train-S08-W71008577-N36",
+        "scene": 8,
+        "seed": 71008577,
+        "nodes": 36,
+        "deployment_seed": 71713293,
+        "source_seed": 71908577
+      },
+      {
+        "id": "g40-train-S09-W71009586-N48",
+        "scene": 9,
+        "seed": 71009586,
+        "nodes": 48,
+        "deployment_seed": 71715874,
+        "source_seed": 71909586
+      },
+      {
+        "id": "g40-train-S10-W71010595-N24",
+        "scene": 10,
+        "seed": 71010595,
+        "nodes": 24,
+        "deployment_seed": 71713739,
+        "source_seed": 71910595
+      },
+      {
+        "id": "g40-train-S11-W71011604-N36",
+        "scene": 11,
+        "seed": 71011604,
+        "nodes": 36,
+        "deployment_seed": 71716320,
+        "source_seed": 71911604
+      },
+      {
+        "id": "g40-train-S12-W71012613-N48",
+        "scene": 12,
+        "seed": 71012613,
+        "nodes": 48,
+        "deployment_seed": 71718901,
+        "source_seed": 71912613
+      },
+      {
+        "id": "g40-train-S14-W71014631-N24",
+        "scene": 14,
+        "seed": 71014631,
+        "nodes": 24,
+        "deployment_seed": 71717775,
+        "source_seed": 71914631
+      }
+    ]
+  },
+  "summary": {
+    "cases": 138,
+    "macro_iou": 0.9588043708857901,
+    "micro_iou": 0.9549904214064784,
+    "minimum_case_iou": 0.8901644128806304,
+    "human_precision": 0.788659793814433,
+    "human_recall": 0.9107142857142857,
+    "matched": 153,
+    "false_alarms": 41,
+    "people": 168
+  },
+  "by_node_count": {
+    "24": {
+      "cases": 46,
+      "macro_iou": 0.9524862786202751,
+      "micro_iou": 0.9477542151867089,
+      "minimum_case_iou": 0.8901644128806304,
+      "human_precision": 0.7123287671232876,
+      "human_recall": 0.9285714285714286,
+      "matched": 52,
+      "false_alarms": 21,
+      "people": 56
+    },
+    "36": {
+      "cases": 46,
+      "macro_iou": 0.9591613214428972,
+      "micro_iou": 0.9555052042328174,
+      "minimum_case_iou": 0.9192242515533797,
+      "human_precision": 0.8833333333333333,
+      "human_recall": 0.9464285714285714,
+      "matched": 53,
+      "false_alarms": 7,
+      "people": 56
+    },
+    "48": {
+      "cases": 46,
+      "macro_iou": 0.9647655125941977,
+      "micro_iou": 0.9617627675051915,
+      "minimum_case_iou": 0.9257754800590842,
+      "human_precision": 0.7868852459016393,
+      "human_recall": 0.8571428571428571,
+      "matched": 48,
+      "false_alarms": 13,
+      "people": 56
+    }
+  },
+  "by_area": {
+    "E01": {
+      "cases": 6,
+      "macro_iou": 0.9699964758414038,
+      "micro_iou": 0.9699682182081506,
+      "minimum_case_iou": 0.9548286604361371,
+      "human_precision": 1.0,
+      "human_recall": 1.0,
+      "matched": 6,
+      "false_alarms": 0,
+      "people": 6
+    },
+    "E02": {
+      "cases": 6,
+      "macro_iou": 0.9722119324119779,
+      "micro_iou": 0.9722033466406184,
+      "minimum_case_iou": 0.9670163022873752,
+      "human_precision": 0.8571428571428571,
+      "human_recall": 1.0,
+      "matched": 6,
+      "false_alarms": 1,
+      "people": 6
+    },
+    "E03": {
+      "cases": 6,
+      "macro_iou": 0.9721618446404955,
+      "micro_iou": 0.9721407018559087,
+      "minimum_case_iou": 0.9519861403291672,
+      "human_precision": 0.8571428571428571,
+      "human_recall": 1.0,
+      "matched": 6,
+      "false_alarms": 1,
+      "people": 6
+    },
+    "E04": {
+      "cases": 6,
+      "macro_iou": 0.9764821525794067,
+      "micro_iou": 0.9764702823566117,
+      "minimum_case_iou": 0.9733928022147031,
+      "human_precision": 1.0,
+      "human_recall": 1.0,
+      "matched": 6,
+      "false_alarms": 0,
+      "people": 6
+    },
+    "E05": {
+      "cases": 6,
+      "macro_iou": 0.9702798905061577,
+      "micro_iou": 0.9702511393386988,
+      "minimum_case_iou": 0.9569669773328731,
+      "human_precision": 0.0,
+      "human_recall": null,
+      "matched": 0,
+      "false_alarms": 3,
+      "people": 0
+    },
+    "E06": {
+      "cases": 6,
+      "macro_iou": 0.9857108106133979,
+      "micro_iou": 0.9857101195683873,
+      "minimum_case_iou": 0.9842726081258192,
+      "human_precision": 1.0,
+      "human_recall": 1.0,
+      "matched": 6,
+      "false_alarms": 0,
+      "people": 6
+    },
+    "E07": {
+      "cases": 6,
+      "macro_iou": 0.9846300341008088,
+      "micro_iou": 0.9846043680630147,
+      "minimum_case_iou": 0.9770895205770047,
+      "human_precision": 0.8571428571428571,
+      "human_recall": 1.0,
+      "matched": 6,
+      "false_alarms": 1,
+      "people": 6
+    },
+    "E09": {
+      "cases": 6,
+      "macro_iou": 0.9877607728165256,
+      "micro_iou": 0.9877532732613132,
+      "minimum_case_iou": 0.9842543077837196,
+      "human_precision": 1.0,
+      "human_recall": 1.0,
+      "matched": 6,
+      "false_alarms": 0,
+      "people": 6
+    },
+    "H01": {
+      "cases": 6,
+      "macro_iou": 0.9446161479437335,
+      "micro_iou": 0.9445891228011223,
+      "minimum_case_iou": 0.9311488591818273,
+      "human_precision": 0.4666666666666667,
+      "human_recall": 0.5833333333333334,
+      "matched": 7,
+      "false_alarms": 8,
+      "people": 12
+    },
+    "H02": {
+      "cases": 6,
+      "macro_iou": 0.935304128920858,
+      "micro_iou": 0.934909940411701,
+      "minimum_case_iou": 0.8901644128806304,
+      "human_precision": 0.6666666666666666,
+      "human_recall": 1.0,
+      "matched": 6,
+      "false_alarms": 3,
+      "people": 6
+    },
+    "H03": {
+      "cases": 6,
+      "macro_iou": 0.9321406972903011,
+      "micro_iou": 0.9319941756568932,
+      "minimum_case_iou": 0.8954389406571849,
+      "human_precision": 0.6,
+      "human_recall": 1.0,
+      "matched": 6,
+      "false_alarms": 4,
+      "people": 6
+    },
+    "H04": {
+      "cases": 6,
+      "macro_iou": 0.9438010727942375,
+      "micro_iou": 0.9437964774951076,
+      "minimum_case_iou": 0.9352678571428571,
+      "human_precision": 0.625,
+      "human_recall": 0.8333333333333334,
+      "matched": 10,
+      "false_alarms": 6,
+      "people": 12
+    },
+    "H05": {
+      "cases": 6,
+      "macro_iou": 0.9263348468343483,
+      "micro_iou": 0.9263112064810064,
+      "minimum_case_iou": 0.9192242515533797,
+      "human_precision": 0.375,
+      "human_recall": 0.5,
+      "matched": 3,
+      "false_alarms": 5,
+      "people": 6
+    },
+    "H06": {
+      "cases": 6,
+      "macro_iou": 0.9449061606194729,
+      "micro_iou": 0.9448408431890007,
+      "minimum_case_iou": 0.9323586744639376,
+      "human_precision": 1.0,
+      "human_recall": 0.9444444444444444,
+      "matched": 17,
+      "false_alarms": 0,
+      "people": 18
+    },
+    "H07": {
+      "cases": 6,
+      "macro_iou": 0.9404276646857509,
+      "micro_iou": 0.9403156917363046,
+      "minimum_case_iou": 0.9221621621621622,
+      "human_precision": 0.9166666666666666,
+      "human_recall": 0.9166666666666666,
+      "matched": 11,
+      "false_alarms": 1,
+      "people": 12
+    },
+    "M01": {
+      "cases": 6,
+      "macro_iou": 0.9545473940742634,
+      "micro_iou": 0.9544544173280914,
+      "minimum_case_iou": 0.9297047157338034,
+      "human_precision": 1.0,
+      "human_recall": 0.8333333333333334,
+      "matched": 5,
+      "false_alarms": 0,
+      "people": 6
+    },
+    "M02": {
+      "cases": 6,
+      "macro_iou": 0.9588171599039867,
+      "micro_iou": 0.9587897357334355,
+      "minimum_case_iou": 0.9530946116005033,
+      "human_precision": 0.8571428571428571,
+      "human_recall": 1.0,
+      "matched": 12,
+      "false_alarms": 2,
+      "people": 12
+    },
+    "M03": {
+      "cases": 6,
+      "macro_iou": 0.9589665513852466,
+      "micro_iou": 0.958962184161438,
+      "minimum_case_iou": 0.9498264083324001,
+      "human_precision": 1.0,
+      "human_recall": 1.0,
+      "matched": 6,
+      "false_alarms": 0,
+      "people": 6
+    },
+    "M04": {
+      "cases": 6,
+      "macro_iou": 0.9549365574126396,
+      "micro_iou": 0.9549119072421758,
+      "minimum_case_iou": 0.9411685514270328,
+      "human_precision": 1.0,
+      "human_recall": 1.0,
+      "matched": 6,
+      "false_alarms": 0,
+      "people": 6
+    },
+    "M05": {
+      "cases": 6,
+      "macro_iou": 0.9556651893276271,
+      "micro_iou": 0.9556416957536,
+      "minimum_case_iou": 0.9470038828838283,
+      "human_precision": 0.0,
+      "human_recall": null,
+      "matched": 0,
+      "false_alarms": 3,
+      "people": 0
+    },
+    "M06": {
+      "cases": 6,
+      "macro_iou": 0.9634158666419727,
+      "micro_iou": 0.9633782877579912,
+      "minimum_case_iou": 0.9538631346578367,
+      "human_precision": 0.9230769230769231,
+      "human_recall": 1.0,
+      "matched": 12,
+      "false_alarms": 1,
+      "people": 12
+    },
+    "M07": {
+      "cases": 6,
+      "macro_iou": 0.9623302272647293,
+      "micro_iou": 0.9622884680040346,
+      "minimum_case_iou": 0.9514531043593131,
+      "human_precision": 0.8333333333333334,
+      "human_recall": 0.8333333333333334,
+      "matched": 10,
+      "false_alarms": 2,
+      "people": 12
+    },
+    "M10": {
+      "cases": 6,
+      "macro_iou": 0.9570569517638275,
+      "micro_iou": 0.9570354076491875,
+      "minimum_case_iou": 0.9471440750213129,
+      "human_precision": null,
+      "human_recall": null,
+      "matched": 0,
+      "false_alarms": 0,
+      "people": 0
+    }
+  },
+  "all_95": false,
+  "rows": [
+    {
+      "id": "g40-train-S25-W71025225-N24",
+      "scene": "H06",
+      "nodes": 24,
+      "iou": 0.9323586744639376,
+      "intersection": 4783,
+      "union": 5130,
+      "predicted": 4928,
+      "occupied": 4985,
+      "matched": 3,
+      "false_alarms": 0,
+      "people": 3,
+      "lost_nodes": 5,
+      "active_height_10cm_bins": {
+        "0": 3,
+        "2": 9,
+        "5": 7
+      },
+      "model_version": "generic-v40-acquisition-r24-fused",
+      "map_sha256": "a194805bfa45c69f4030b851b6a2d0aee30f35eaf8f0d8346e63549d7dacb85b"
+    },
+    {
+      "id": "g40-train-S26-W71026234-N36",
+      "scene": "H07",
+      "nodes": 36,
+      "iou": 0.9462222222222222,
+      "intersection": 4258,
+      "union": 4500,
+      "predicted": 4365,
+      "occupied": 4393,
+      "matched": 2,
+      "false_alarms": 0,
+      "people": 2,
+      "lost_nodes": 13,
+      "active_height_10cm_bins": {
+        "0": 14,
+        "2": 7,
+        "5": 2
+      },
+      "model_version": "generic-v40-acquisition-r24-fused",
+      "map_sha256": "79fc25910a213bf346b4ea2a334fdb68eece045d4a45dd8957af7a8f9023886b"
+    },
+    {
+      "id": "g40-train-S13-W71013117-N48",
+      "scene": "H04",
+      "nodes": 48,
+      "iou": 0.9512137914858684,
+      "intersection": 8111,
+      "union": 8527,
+      "predicted": 8339,
+      "occupied": 8299,
+      "matched": 0,
+      "false_alarms": 3,
+      "people": 2,
+      "lost_nodes": 0,
+      "active_height_10cm_bins": {
+        "0": 48
+      },
+      "model_version": "generic-v40-acquisition-r24-fused",
+      "map_sha256": "4ed264c50adce1778ca798013ab0412dbb405607901df0a516b0df04ce7844e3"
+    },
+    {
+      "id": "g40-train-S20-W71020180-N24",
+      "scene": "M06",
+      "nodes": 24,
+      "iou": 0.9538631346578367,
+      "intersection": 4321,
+      "union": 4530,
+      "predicted": 4418,
+      "occupied": 4433,
+      "matched": 2,
+      "false_alarms": 0,
+      "people": 2,
+      "lost_nodes": 9,
+      "active_height_10cm_bins": {
+        "0": 6,
+        "2": 9
+      },
+      "model_version": "generic-v40-acquisition-r24-fused",
+      "map_sha256": "31632ef7080095db2615e10cb39583c5afa85f802f22ddda93ea207d13cb9f5c"
+    },
+    {
+      "id": "g40-train-S21-W71021189-N36",
+      "scene": "M07",
+      "nodes": 36,
+      "iou": 0.9648584100989424,
+      "intersection": 2828,
+      "union": 2931,
+      "predicted": 2891,
+      "occupied": 2868,
+      "matched": 2,
+      "false_alarms": 0,
+      "people": 2,
+      "lost_nodes": 15,
+      "active_height_10cm_bins": {
+        "0": 10,
+        "2": 11
+      },
+      "model_version": "generic-v40-acquisition-r24-fused",
+      "map_sha256": "1cbbf15061e5bafad60f718bd1b469668abe01c76c1e6d456e47e7d8e35adee9"
+    },
+    {
+      "id": "g40-train-S24-W71024216-N48",
+      "scene": "M10",
+      "nodes": 48,
+      "iou": 0.9619332763045337,
+      "intersection": 4498,
+      "union": 4676,
+      "predicted": 4564,
+      "occupied": 4610,
+      "matched": 0,
+      "false_alarms": 0,
+      "people": 0,
+      "lost_nodes": 21,
+      "active_height_10cm_bins": {
+        "-2": 1,
+        "0": 12,
+        "2": 14
+      },
+      "model_version": "generic-v40-acquisition-r24-fused",
+      "map_sha256": "9ac47c6e3188adc92d829cad2fc2389250f99228e745f434750b2d156b93fe34"
+    },
+    {
+      "id": "g40-train-S15-W71015135-N24",
+      "scene": "E06",
+      "nodes": 24,
+      "iou": 0.9876434245366285,
+      "intersection": 2238,
+      "union": 2266,
+      "predicted": 2252,
+      "occupied": 2252,
+      "matched": 1,
+      "false_alarms": 0,
+      "people": 1,
+      "lost_nodes": 2,
+      "active_height_10cm_bins": {
+        "0": 22
+      },
+      "model_version": "generic-v40-acquisition-r24-fused",
+      "map_sha256": "9465c22fddbb1585661ec756f4de5075f5abe0ad39621168efe207f928838b66"
+    },
+    {
+      "id": "g40-train-S16-W71016144-N36",
+      "scene": "E07",
+      "nodes": 36,
+      "iou": 0.9828913601368692,
+      "intersection": 2298,
+      "union": 2338,
+      "predicted": 2308,
+      "occupied": 2328,
+      "matched": 1,
+      "false_alarms": 0,
+      "people": 1,
+      "lost_nodes": 1,
+      "active_height_10cm_bins": {
+        "0": 35
+      },
+      "model_version": "generic-v40-acquisition-r24-fused",
+      "map_sha256": "fbb8e6b537c9bfcf445afc4e68a83233bd7ca24965509c98a15de502c18f0849"
+    },
+    {
+      "id": "g40-train-S18-W71018162-N48",
+      "scene": "E09",
+      "nodes": 48,
+      "iou": 0.9880739415623137,
+      "intersection": 3314,
+      "union": 3354,
+      "predicted": 3323,
+      "occupied": 3345,
+      "matched": 1,
+      "false_alarms": 0,
+      "people": 1,
+      "lost_nodes": 6,
+      "active_height_10cm_bins": {
+        "0": 42
+      },
+      "model_version": "generic-v40-acquisition-r24-fused",
+      "map_sha256": "c648dfe5c579df5f58d133eb30e28084bdb4d878d67d8d3c529ad00683fd0323"
+    },
+    {
+      "id": "g40-train-S00-W71000000-N24",
+      "scene": "E01",
+      "nodes": 24,
+      "iou": 0.9730217993496326,
+      "intersection": 8079,
+      "union": 8303,
+      "predicted": 8187,
+      "occupied": 8195,
+      "matched": 1,
+      "false_alarms": 0,
+      "people": 1,
+      "lost_nodes": 0,
+      "active_height_10cm_bins": {
+        "0": 19,
+        "1": 4,
+        "2": 1
+      },
+      "model_version": "generic-v40-acquisition-r24-fused",
+      "map_sha256": "21f669cd741a8be0451ded562bbba0cc84fe92e766b335dac01dd993572b73e3"
+    },
+    {
+      "id": "g40-train-S01-W71001009-N36",
+      "scene": "E02",
+      "nodes": 36,
+      "iou": 0.9754202750891493,
+      "intersection": 7659,
+      "union": 7852,
+      "predicted": 7765,
+      "occupied": 7746,
+      "matched": 1,
+      "false_alarms": 0,
+      "people": 1,
+      "lost_nodes": 0,
+      "active_height_10cm_bins": {
+        "0": 36
+      },
+      "model_version": "generic-v40-acquisition-r24-fused",
+      "map_sha256": "a2165e079c794b8c57720232f4f8b38b4d84c38ed6a004f79deedd8236a73842"
+    },
+    {
+      "id": "g40-train-S02-W71002018-N48",
+      "scene": "E03",
+      "nodes": 48,
+      "iou": 0.9814538212596465,
+      "intersection": 7885,
+      "union": 8034,
+      "predicted": 7961,
+      "occupied": 7958,
+      "matched": 1,
+      "false_alarms": 0,
+      "people": 1,
+      "lost_nodes": 0,
+      "active_height_10cm_bins": {
+        "0": 48
+      },
+      "model_version": "generic-v40-acquisition-r24-fused",
+      "map_sha256": "a9a5f1096ba730f06d630372339d015fdd2756be2214e93309e3cc9cf613edfa"
+    },
+    {
+      "id": "g40-train-S03-W71003027-N24",
+      "scene": "E04",
+      "nodes": 24,
+      "iou": 0.978021978021978,
+      "intersection": 6230,
+      "union": 6370,
+      "predicted": 6319,
+      "occupied": 6281,
+      "matched": 1,
+      "false_alarms": 0,
+      "people": 1,
+      "lost_nodes": 0,
+      "active_height_10cm_bins": {
+        "0": 24
+      },
+      "model_version": "generic-v40-acquisition-r24-fused",
+      "map_sha256": "cd30e737aabe6b02bad3cd47a472af9b70bbe6245761957c4fe1f6af50054553"
+    },
+    {
+      "id": "g40-train-S04-W71004036-N36",
+      "scene": "E05",
+      "nodes": 36,
+      "iou": 0.9678434113946173,
+      "intersection": 8307,
+      "union": 8583,
+      "predicted": 8482,
+      "occupied": 8408,
+      "matched": 0,
+      "false_alarms": 0,
+      "people": 0,
+      "lost_nodes": 0,
+      "active_height_10cm_bins": {
+        "0": 31,
+        "3": 5
+      },
+      "model_version": "generic-v40-acquisition-r24-fused",
+      "map_sha256": "daa3c63071b90a8196daf14362b253e7971908fe72e7863b30d08c0652c4973b"
+    },
+    {
+      "id": "g40-train-S05-W71005045-N48",
+      "scene": "M01",
+      "nodes": 48,
+      "iou": 0.9660161507402423,
+      "intersection": 8613,
+      "union": 8916,
+      "predicted": 8752,
+      "occupied": 8777,
+      "matched": 1,
+      "false_alarms": 0,
+      "people": 1,
+      "lost_nodes": 0,
+      "active_height_10cm_bins": {
+        "0": 43,
+        "1": 5
+      },
+      "model_version": "generic-v40-acquisition-r24-fused",
+      "map_sha256": "3d7cc6a0637fbd2cba957c79fbfc85eca370a0b1600f43a230ec2a0611aadb67"
+    },
+    {
+      "id": "g40-train-S06-W71006054-N24",
+      "scene": "M02",
+      "nodes": 24,
+      "iou": 0.9567064768029399,
+      "intersection": 8331,
+      "union": 8708,
+      "predicted": 8500,
+      "occupied": 8539,
+      "matched": 2,
+      "false_alarms": 1,
+      "people": 2,
+      "lost_nodes": 0,
+      "active_height_10cm_bins": {
+        "0": 23,
+        "1": 1
+      },
+      "model_version": "generic-v40-acquisition-r24-fused",
+      "map_sha256": "68f7794a59468bf33b4df957753a95aa7066897cc62be5283b1c994b5b4eba63"
+    },
+    {
+      "id": "g40-train-S07-W71007063-N36",
+      "scene": "M03",
+      "nodes": 36,
+      "iou": 0.960799819249887,
+      "intersection": 8505,
+      "union": 8852,
+      "predicted": 8684,
+      "occupied": 8673,
+      "matched": 1,
+      "false_alarms": 0,
+      "people": 1,
+      "lost_nodes": 0,
+      "active_height_10cm_bins": {
+        "0": 36
+      },
+      "model_version": "generic-v40-acquisition-r24-fused",
+      "map_sha256": "bcb8c94015ddd8a2e30d516955ef18955e95fa69815690bac0354b15fa93a8a1"
+    },
+    {
+      "id": "g40-train-S08-W71008072-N48",
+      "scene": "M04",
+      "nodes": 48,
+      "iou": 0.9597451883979399,
+      "intersection": 7081,
+      "union": 7378,
+      "predicted": 7255,
+      "occupied": 7204,
+      "matched": 1,
+      "false_alarms": 0,
+      "people": 1,
+      "lost_nodes": 0,
+      "active_height_10cm_bins": {
+        "0": 48
+      },
+      "model_version": "generic-v40-acquisition-r24-fused",
+      "map_sha256": "02c94436c83644b18446a7f169191f4cd28a395f0e680cc6a3de59ef5eb24032"
+    },
+    {
+      "id": "g40-train-S09-W71009081-N24",
+      "scene": "M05",
+      "nodes": 24,
+      "iou": 0.9583465818759936,
+      "intersection": 9042,
+      "union": 9435,
+      "predicted": 9283,
+      "occupied": 9194,
+      "matched": 0,
+      "false_alarms": 1,
+      "people": 0,
+      "lost_nodes": 0,
+      "active_height_10cm_bins": {
+        "0": 21,
+        "2": 1,
+        "3": 2
+      },
+      "model_version": "generic-v40-acquisition-r24-fused",
+      "map_sha256": "095b8f508c6b70de1ebe011023103aa3064bd943ac10fa46b4245e246e125bf6"
+    },
+    {
+      "id": "g40-train-S10-W71010090-N36",
+      "scene": "H01",
+      "nodes": 36,
+      "iou": 0.9393393393393393,
+      "intersection": 9384,
+      "union": 9990,
+      "predicted": 9665,
+      "occupied": 9709,
+      "matched": 2,
+      "false_alarms": 1,
+      "people": 2,
+      "lost_nodes": 0,
+      "active_height_10cm_bins": {
+        "0": 36
+      },
+      "model_version": "generic-v40-acquisition-r24-fused",
+      "map_sha256": "de9c00c366a68fe5f18c320579c684f045ecb39d4497ca67418d921850b8a2dc"
+    },
+    {
+      "id": "g40-train-S11-W71011099-N48",
+      "scene": "H02",
+      "nodes": 48,
+      "iou": 0.9392504118616145,
+      "intersection": 9122,
+      "union": 9712,
+      "predicted": 9384,
+      "occupied": 9450,
+      "matched": 1,
+      "false_alarms": 0,
+      "people": 1,
+      "lost_nodes": 0,
+      "active_height_10cm_bins": {
+        "0": 47,
+        "1": 1
+      },
+      "model_version": "generic-v40-acquisition-r24-fused",
+      "map_sha256": "2c91cc3d9f893b17e43e64dd348937afb39c17539e63db5510f73e31b4aa483c"
+    },
+    {
+      "id": "g40-train-S12-W71012108-N24",
+      "scene": "H03",
+      "nodes": 24,
+      "iou": 0.8954389406571849,
+      "intersection": 9129,
+      "union": 10195,
+      "predicted": 9593,
+      "occupied": 9731,
+      "matched": 1,
+      "false_alarms": 1,
+      "people": 1,
+      "lost_nodes": 0,
+      "active_height_10cm_bins": {
+        "0": 23,
+        "1": 1
+      },
+      "model_version": "generic-v40-acquisition-r24-fused",
+      "map_sha256": "2b0c84d8736f8a762d0a7c9d8463906921e35add9426ac38728e2001f662eb57"
+    },
+    {
+      "id": "g40-train-S14-W71014126-N36",
+      "scene": "H05",
+      "nodes": 36,
+      "iou": 0.9213816094082785,
+      "intersection": 9950,
+      "union": 10799,
+      "predicted": 10476,
+      "occupied": 10273,
+      "matched": 1,
+      "false_alarms": 0,
+      "people": 1,
+      "lost_nodes": 0,
+      "active_height_10cm_bins": {
+        "0": 28,
+        "2": 1,
+        "3": 7
+      },
+      "model_version": "generic-v40-acquisition-r24-fused",
+      "map_sha256": "768b3621e7654a86542b7b28c87e7cba1f3183cf94b8f40f8241d62d235a6abe"
+    },
+    {
+      "id": "g40-train-S25-W71025326-N36",
+      "scene": "H06",
+      "nodes": 36,
+      "iou": 0.9448450594426038,
+      "intersection": 4848,
+      "union": 5131,
+      "predicted": 4964,
+      "occupied": 5015,
+      "matched": 3,
+      "false_alarms": 0,
+      "people": 3,
+      "lost_nodes": 15,
+      "active_height_10cm_bins": {
+        "0": 6,
+        "2": 10,
+        "5": 5
+      },
+      "model_version": "generic-v40-acquisition-r24-fused",
+      "map_sha256": "795abea0a5bc4a2fa02dd2d2f22048591e0d32f004edfb03c9c0a3c313d7b0b0"
+    },
+    {
+      "id": "g40-train-S26-W71026335-N48",
+      "scene": "H07",
+      "nodes": 48,
+      "iou": 0.943544759334233,
+      "intersection": 4195,
+      "union": 4446,
+      "predicted": 4286,
+      "occupied": 4355,
+      "matched": 2,
+      "false_alarms": 0,
+      "people": 2,
+      "lost_nodes": 18,
+      "active_height_10cm_bins": {
+        "0": 13,
+        "2": 9,
+        "3": 1,
+        "5": 7
+      },
+      "model_version": "generic-v40-acquisition-r24-fused",
+      "map_sha256": "9b5b962025c2449f9705a3e6bc627e304bcaed7450cf1e14eba194693bee29d5"
+    },
+    {
+      "id": "g40-train-S13-W71013218-N24",
+      "scene": "H04",
+      "nodes": 24,
+      "iou": 0.9352678571428571,
+      "intersection": 7961,
+      "union": 8512,
+      "predicted": 8246,
+      "occupied": 8227,
+      "matched": 2,
+      "false_alarms": 1,
+      "people": 2,
+      "lost_nodes": 0,
+      "active_height_10cm_bins": {
+        "0": 24
+      },
+      "model_version": "generic-v40-acquisition-r24-fused",
+      "map_sha256": "9d2b21ec436e8fffed4e86e0a177fcdd29bc0c4e765c76025494522ca01b0bc6"
+    },
+    {
+      "id": "g40-train-S20-W71020281-N36",
+      "scene": "M06",
+      "nodes": 36,
+      "iou": 0.9615992771628642,
+      "intersection": 4257,
+      "union": 4427,
+      "predicted": 4328,
+      "occupied": 4356,
+      "matched": 2,
+      "false_alarms": 0,
+      "people": 2,
+      "lost_nodes": 10,
+      "active_height_10cm_bins": {
+        "0": 11,
+        "2": 15
+      },
+      "model_version": "generic-v40-acquisition-r24-fused",
+      "map_sha256": "84dc97f8f83cf8c27af4611fda75b959e36883f5798eeddce5ed291a0a38c42c"
+    },
+    {
+      "id": "g40-train-S21-W71021290-N48",
+      "scene": "M07",
+      "nodes": 48,
+      "iou": 0.967677440853049,
+      "intersection": 2904,
+      "union": 3001,
+      "predicted": 2945,
+      "occupied": 2960,
+      "matched": 2,
+      "false_alarms": 0,
+      "people": 2,
+      "lost_nodes": 19,
+      "active_height_10cm_bins": {
+        "-2": 1,
+        "0": 15,
+        "1": 1,
+        "2": 12
+      },
+      "model_version": "generic-v40-acquisition-r24-fused",
+      "map_sha256": "ee891b40ce4b7b39dd1e873befe3acc0d745e08b26f1da75f366a9a448b83b8e"
+    },
+    {
+      "id": "g40-train-S24-W71024317-N24",
+      "scene": "M10",
+      "nodes": 24,
+      "iou": 0.9599828803766317,
+      "intersection": 4486,
+      "union": 4673,
+      "predicted": 4550,
+      "occupied": 4609,
+      "matched": 0,
+      "false_alarms": 0,
+      "people": 0,
+      "lost_nodes": 2,
+      "active_height_10cm_bins": {
+        "0": 12,
+        "2": 10
+      },
+      "model_version": "generic-v40-acquisition-r24-fused",
+      "map_sha256": "b16ffff5c88e7b9cd7912de1536e9a85aff18ec6f6b8b5d85e33508cd0aff0ee"
+    },
+    {
+      "id": "g40-train-S15-W71015236-N36",
+      "scene": "E06",
+      "nodes": 36,
+      "iou": 0.9850549450549451,
+      "intersection": 2241,
+      "union": 2275,
+      "predicted": 2256,
+      "occupied": 2260,
+      "matched": 1,
+      "false_alarms": 0,
+      "people": 1,
+      "lost_nodes": 7,
+      "active_height_10cm_bins": {
+        "-2": 1,
+        "0": 28
+      },
+      "model_version": "generic-v40-acquisition-r24-fused",
+      "map_sha256": "dbcb88b8fea907d3ef46a0ea273338546de341f0d3c546a54b27f0415fdcab2e"
+    },
+    {
+      "id": "g40-train-S16-W71016245-N48",
+      "scene": "E07",
+      "nodes": 48,
+      "iou": 0.9896238651102465,
+      "intersection": 2289,
+      "union": 2313,
+      "predicted": 2297,
+      "occupied": 2305,
+      "matched": 1,
+      "false_alarms": 0,
+      "people": 1,
+      "lost_nodes": 0,
+      "active_height_10cm_bins": {
+        "0": 48
+      },
+      "model_version": "generic-v40-acquisition-r24-fused",
+      "map_sha256": "89b18014e964f50d2f4df350ec3ec69be2cc562fc3c72f2387b3bcc68b5e5580"
+    },
+    {
+      "id": "g40-train-S18-W71018263-N24",
+      "scene": "E09",
+      "nodes": 24,
+      "iou": 0.987518573551263,
+      "intersection": 3323,
+      "union": 3365,
+      "predicted": 3339,
+      "occupied": 3349,
+      "matched": 1,
+      "false_alarms": 0,
+      "people": 1,
+      "lost_nodes": 2,
+      "active_height_10cm_bins": {
+        "0": 22
+      },
+      "model_version": "generic-v40-acquisition-r24-fused",
+      "map_sha256": "3121ce155e351040c6a08ec98aac6e30abc3fb329b319e532d8d803ece53da9a"
+    },
+    {
+      "id": "g40-train-S00-W71000101-N36",
+      "scene": "E01",
+      "nodes": 36,
+      "iou": 0.9750605326876514,
+      "intersection": 8054,
+      "union": 8260,
+      "predicted": 8160,
+      "occupied": 8154,
+      "matched": 1,
+      "false_alarms": 0,
+      "people": 1,
+      "lost_nodes": 0,
+      "active_height_10cm_bins": {
+        "0": 34,
+        "1": 2
+      },
+      "model_version": "generic-v40-acquisition-r24-fused",
+      "map_sha256": "45acdfd4d64b62a78e73214fc55939dc45b11a77df5d9a5024caa4dafbcea46b"
+    },
+    {
+      "id": "g40-train-S01-W71001110-N48",
+      "scene": "E02",
+      "nodes": 48,
+      "iou": 0.9720127795527157,
+      "intersection": 7606,
+      "union": 7825,
+      "predicted": 7730,
+      "occupied": 7701,
+      "matched": 1,
+      "false_alarms": 0,
+      "people": 1,
+      "lost_nodes": 0,
+      "active_height_10cm_bins": {
+        "0": 48
+      },
+      "model_version": "generic-v40-acquisition-r24-fused",
+      "map_sha256": "02f04069df7953b88c9e22a2e0c815b94a3fdc362b33ac69e1ddd395e71ee7a7"
+    },
+    {
+      "id": "g40-train-S02-W71002119-N24",
+      "scene": "E03",
+      "nodes": 24,
+      "iou": 0.9519861403291672,
+      "intersection": 7693,
+      "union": 8081,
+      "predicted": 7798,
+      "occupied": 7976,
+      "matched": 1,
+      "false_alarms": 1,
+      "people": 1,
+      "lost_nodes": 0,
+      "active_height_10cm_bins": {
+        "0": 24
+      },
+      "model_version": "generic-v40-acquisition-r24-fused",
+      "map_sha256": "e131e5240ecec18ce533c73829b0a8f56b667398eee7d2de335172c8d2e1e439"
+    },
+    {
+      "id": "g40-train-S03-W71003128-N36",
+      "scene": "E04",
+      "nodes": 36,
+      "iou": 0.9762314308053166,
+      "intersection": 6243,
+      "union": 6395,
+      "predicted": 6339,
+      "occupied": 6299,
+      "matched": 1,
+      "false_alarms": 0,
+      "people": 1,
+      "lost_nodes": 0,
+      "active_height_10cm_bins": {
+        "0": 36
+      },
+      "model_version": "generic-v40-acquisition-r24-fused",
+      "map_sha256": "fa9f6d2e99e0d03874277359abc750e039524b7da51d4f65361c38d340df434f"
+    },
+    {
+      "id": "g40-train-S04-W71004137-N48",
+      "scene": "E05",
+      "nodes": 48,
+      "iou": 0.9754479869676519,
+      "intersection": 8383,
+      "union": 8594,
+      "predicted": 8494,
+      "occupied": 8483,
+      "matched": 0,
+      "false_alarms": 1,
+      "people": 0,
+      "lost_nodes": 0,
+      "active_height_10cm_bins": {
+        "0": 43,
+        "2": 2,
+        "3": 3
+      },
+      "model_version": "generic-v40-acquisition-r24-fused",
+      "map_sha256": "9e7d18cadd3c48f8ceba83a0415642c04dda6512eba45e4ece46bcdf4e1f4ed0"
+    },
+    {
+      "id": "g40-train-S05-W71005146-N24",
+      "scene": "M01",
+      "nodes": 24,
+      "iou": 0.9639358860195903,
+      "intersection": 8660,
+      "union": 8984,
+      "predicted": 8814,
+      "occupied": 8830,
+      "matched": 1,
+      "false_alarms": 0,
+      "people": 1,
+      "lost_nodes": 0,
+      "active_height_10cm_bins": {
+        "0": 20,
+        "1": 4
+      },
+      "model_version": "generic-v40-acquisition-r24-fused",
+      "map_sha256": "f0d4535ef8ecb011f25d36a8065d841bb0e80a7d7609994dbe1032a466f13599"
+    },
+    {
+      "id": "g40-train-S06-W71006155-N36",
+      "scene": "M02",
+      "nodes": 36,
+      "iou": 0.9568551155870909,
+      "intersection": 8361,
+      "union": 8738,
+      "predicted": 8561,
+      "occupied": 8538,
+      "matched": 2,
+      "false_alarms": 0,
+      "people": 2,
+      "lost_nodes": 0,
+      "active_height_10cm_bins": {
+        "0": 35,
+        "1": 1
+      },
+      "model_version": "generic-v40-acquisition-r24-fused",
+      "map_sha256": "adff0f06c0165c6d9981236af375cd1acbad6f838c2db726be4befe8763678eb"
+    },
+    {
+      "id": "g40-train-S07-W71007164-N48",
+      "scene": "M03",
+      "nodes": 48,
+      "iou": 0.9674539495988247,
+      "intersection": 8561,
+      "union": 8849,
+      "predicted": 8720,
+      "occupied": 8690,
+      "matched": 1,
+      "false_alarms": 0,
+      "people": 1,
+      "lost_nodes": 0,
+      "active_height_10cm_bins": {
+        "0": 47,
+        "1": 1
+      },
+      "model_version": "generic-v40-acquisition-r24-fused",
+      "map_sha256": "b8eedf14bfd9f174641aaf91b008464aeccfea7dd2f446d49d66ab1755ed3f66"
+    },
+    {
+      "id": "g40-train-S08-W71008173-N24",
+      "scene": "M04",
+      "nodes": 24,
+      "iou": 0.9564623993448887,
+      "intersection": 7008,
+      "union": 7327,
+      "predicted": 7216,
+      "occupied": 7119,
+      "matched": 1,
+      "false_alarms": 0,
+      "people": 1,
+      "lost_nodes": 0,
+      "active_height_10cm_bins": {
+        "0": 24
+      },
+      "model_version": "generic-v40-acquisition-r24-fused",
+      "map_sha256": "38ee531a5f5b324726551875dfd502859896d55ee9cad2f5b02108d8c22b5f4a"
+    },
+    {
+      "id": "g40-train-S09-W71009182-N36",
+      "scene": "M05",
+      "nodes": 36,
+      "iou": 0.9470038828838283,
+      "intersection": 9024,
+      "union": 9529,
+      "predicted": 9289,
+      "occupied": 9264,
+      "matched": 0,
+      "false_alarms": 1,
+      "people": 0,
+      "lost_nodes": 0,
+      "active_height_10cm_bins": {
+        "0": 30,
+        "3": 6
+      },
+      "model_version": "generic-v40-acquisition-r24-fused",
+      "map_sha256": "9c223ce4f2ec012b85325495295af6d561f3394baaa638eac8e8f8fb082195a0"
+    },
+    {
+      "id": "g40-train-S10-W71010191-N48",
+      "scene": "H01",
+      "nodes": 48,
+      "iou": 0.9523141654978962,
+      "intersection": 9506,
+      "union": 9982,
+      "predicted": 9726,
+      "occupied": 9762,
+      "matched": 0,
+      "false_alarms": 1,
+      "people": 2,
+      "lost_nodes": 0,
+      "active_height_10cm_bins": {
+        "0": 48
+      },
+      "model_version": "generic-v40-acquisition-r24-fused",
+      "map_sha256": "29f7246f4a234a229f6ed123cd7e74f59d5e4de15871044b182a751bccbd2799"
+    },
+    {
+      "id": "g40-train-S11-W71011200-N24",
+      "scene": "H02",
+      "nodes": 24,
+      "iou": 0.9367892633951439,
+      "intersection": 9144,
+      "union": 9761,
+      "predicted": 9441,
+      "occupied": 9464,
+      "matched": 1,
+      "false_alarms": 0,
+      "people": 1,
+      "lost_nodes": 0,
+      "active_height_10cm_bins": {
+        "0": 24
+      },
+      "model_version": "generic-v40-acquisition-r24-fused",
+      "map_sha256": "5689ddfb84f549322630ba251daf5039672a8957af0cb153609d9a53c00f55d7"
+    },
+    {
+      "id": "g40-train-S12-W71012209-N36",
+      "scene": "H03",
+      "nodes": 36,
+      "iou": 0.9538492341575733,
+      "intersection": 9528,
+      "union": 9989,
+      "predicted": 9729,
+      "occupied": 9788,
+      "matched": 1,
+      "false_alarms": 1,
+      "people": 1,
+      "lost_nodes": 0,
+      "active_height_10cm_bins": {
+        "0": 36
+      },
+      "model_version": "generic-v40-acquisition-r24-fused",
+      "map_sha256": "dcdf95480c18b7b021bd4a84b6a0d39ccd688c15703a17d96d7a658ff81eb559"
+    },
+    {
+      "id": "g40-train-S14-W71014227-N48",
+      "scene": "H05",
+      "nodes": 48,
+      "iou": 0.9379063412795628,
+      "intersection": 9954,
+      "union": 10613,
+      "predicted": 10324,
+      "occupied": 10243,
+      "matched": 0,
+      "false_alarms": 2,
+      "people": 1,
+      "lost_nodes": 0,
+      "active_height_10cm_bins": {
+        "0": 40,
+        "2": 2,
+        "3": 6
+      },
+      "model_version": "generic-v40-acquisition-r24-fused",
+      "map_sha256": "7aa3cac65ac31f8be95d971fd8c64572c52bfa89c2f2332ed566c34aa3425f17"
+    },
+    {
+      "id": "g40-train-S25-W71025427-N48",
+      "scene": "H06",
+      "nodes": 48,
+      "iou": 0.9543495297805643,
+      "intersection": 4871,
+      "union": 5104,
+      "predicted": 4991,
+      "occupied": 4984,
+      "matched": 3,
+      "false_alarms": 0,
+      "people": 3,
+      "lost_nodes": 19,
+      "active_height_10cm_bins": {
+        "0": 12,
+        "2": 13,
+        "5": 4
+      },
+      "model_version": "generic-v40-acquisition-r24-fused",
+      "map_sha256": "d1e633dec132200fc886c0a217bc27e07a2a95a22cfd05c35b993c2b34a2d10b"
+    },
+    {
+      "id": "g40-train-S26-W71026436-N24",
+      "scene": "H07",
+      "nodes": 24,
+      "iou": 0.9221621621621622,
+      "intersection": 4265,
+      "union": 4625,
+      "predicted": 4430,
+      "occupied": 4460,
+      "matched": 2,
+      "false_alarms": 1,
+      "people": 2,
+      "lost_nodes": 12,
+      "active_height_10cm_bins": {
+        "0": 6,
+        "2": 3,
+        "5": 3
+      },
+      "model_version": "generic-v40-acquisition-r24-fused",
+      "map_sha256": "5eaba25e1b363e33952ef46599f23831d1dff93db24b591f851ffd5f35497dfd"
+    },
+    {
+      "id": "g40-train-S13-W71013319-N36",
+      "scene": "H04",
+      "nodes": 36,
+      "iou": 0.9402020676691729,
+      "intersection": 8003,
+      "union": 8512,
+      "predicted": 8301,
+      "occupied": 8214,
+      "matched": 2,
+      "false_alarms": 0,
+      "people": 2,
+      "lost_nodes": 0,
+      "active_height_10cm_bins": {
+        "0": 36
+      },
+      "model_version": "generic-v40-acquisition-r24-fused",
+      "map_sha256": "69bf4077ad5abaa1c23e35caa57b4c9430d6905805fa4e7649c9ca362831a5a8"
+    },
+    {
+      "id": "g40-train-S20-W71020382-N48",
+      "scene": "M06",
+      "nodes": 48,
+      "iou": 0.9714028371988291,
+      "intersection": 4314,
+      "union": 4441,
+      "predicted": 4367,
+      "occupied": 4388,
+      "matched": 2,
+      "false_alarms": 0,
+      "people": 2,
+      "lost_nodes": 10,
+      "active_height_10cm_bins": {
+        "0": 11,
+        "2": 27
+      },
+      "model_version": "generic-v40-acquisition-r24-fused",
+      "map_sha256": "de25e9bd0fc1f879e10f0530d2382918173553f00225a13371c150f3afc1f9a0"
+    },
+    {
+      "id": "g40-train-S21-W71021391-N24",
+      "scene": "M07",
+      "nodes": 24,
+      "iou": 0.9634641407307172,
+      "intersection": 2848,
+      "union": 2956,
+      "predicted": 2887,
+      "occupied": 2917,
+      "matched": 1,
+      "false_alarms": 2,
+      "people": 2,
+      "lost_nodes": 15,
+      "active_height_10cm_bins": {
+        "0": 5,
+        "2": 4
+      },
+      "model_version": "generic-v40-acquisition-r24-fused",
+      "map_sha256": "53ffb633f1cbbbaa55eda3c791b1ce7e8a437b731cbb0f65e20789abc81af5ac"
+    },
+    {
+      "id": "g40-train-S24-W71024418-N36",
+      "scene": "M10",
+      "nodes": 36,
+      "iou": 0.9527295544865091,
+      "intersection": 4555,
+      "union": 4781,
+      "predicted": 4643,
+      "occupied": 4693,
+      "matched": 0,
+      "false_alarms": 0,
+      "people": 0,
+      "lost_nodes": 17,
+      "active_height_10cm_bins": {
+        "0": 10,
+        "2": 9
+      },
+      "model_version": "generic-v40-acquisition-r24-fused",
+      "map_sha256": "28d4c21a702cc885d0774cbf83eedc5b4e5ba766ba4fb178bfcf52658b67fd30"
+    },
+    {
+      "id": "g40-train-S15-W71015337-N48",
+      "scene": "E06",
+      "nodes": 48,
+      "iou": 0.9846894138232721,
+      "intersection": 2251,
+      "union": 2286,
+      "predicted": 2260,
+      "occupied": 2277,
+      "matched": 1,
+      "false_alarms": 0,
+      "people": 1,
+      "lost_nodes": 2,
+      "active_height_10cm_bins": {
+        "0": 46
+      },
+      "model_version": "generic-v40-acquisition-r24-fused",
+      "map_sha256": "51045bb3e6f18545f90a5c8e881f7e89f790bb3505f830c941abcc1dc6909d30"
+    },
+    {
+      "id": "g40-train-S16-W71016346-N24",
+      "scene": "E07",
+      "nodes": 24,
+      "iou": 0.9862365591397849,
+      "intersection": 2293,
+      "union": 2325,
+      "predicted": 2308,
+      "occupied": 2310,
+      "matched": 1,
+      "false_alarms": 0,
+      "people": 1,
+      "lost_nodes": 1,
+      "active_height_10cm_bins": {
+        "0": 23
+      },
+      "model_version": "generic-v40-acquisition-r24-fused",
+      "map_sha256": "d20c307970d643cb1c3f8f0832a876b4f44d736b3f1339d62efee80ff7465a9d"
+    },
+    {
+      "id": "g40-train-S18-W71018364-N36",
+      "scene": "E09",
+      "nodes": 36,
+      "iou": 0.9842543077837196,
+      "intersection": 3313,
+      "union": 3366,
+      "predicted": 3324,
+      "occupied": 3355,
+      "matched": 1,
+      "false_alarms": 0,
+      "people": 1,
+      "lost_nodes": 1,
+      "active_height_10cm_bins": {
+        "0": 35
+      },
+      "model_version": "generic-v40-acquisition-r24-fused",
+      "map_sha256": "f0c66e73565676107e1fe5b2c3ef6551ef68828e5c9abc2ca24e655a29173932"
+    },
+    {
+      "id": "g40-train-S00-W71000202-N48",
+      "scene": "E01",
+      "nodes": 48,
+      "iou": 0.9806318847597143,
+      "intersection": 8101,
+      "union": 8261,
+      "predicted": 8193,
+      "occupied": 8169,
+      "matched": 1,
+      "false_alarms": 0,
+      "people": 1,
+      "lost_nodes": 0,
+      "active_height_10cm_bins": {
+        "0": 44,
+        "1": 2,
+        "2": 2
+      },
+      "model_version": "generic-v40-acquisition-r24-fused",
+      "map_sha256": "03c5840f592e6639ab412a28c96a22133613c4e91f9ef95be11b11144936af22"
+    },
+    {
+      "id": "g40-train-S01-W71001211-N24",
+      "scene": "E02",
+      "nodes": 24,
+      "iou": 0.971967380224261,
+      "intersection": 7628,
+      "union": 7848,
+      "predicted": 7730,
+      "occupied": 7746,
+      "matched": 1,
+      "false_alarms": 1,
+      "people": 1,
+      "lost_nodes": 0,
+      "active_height_10cm_bins": {
+        "0": 24
+      },
+      "model_version": "generic-v40-acquisition-r24-fused",
+      "map_sha256": "a529e5c44e2839363b59a691619a30efd96ce7b32ac530d1dc7fb314e8b010a9"
+    },
+    {
+      "id": "g40-train-S02-W71002220-N36",
+      "scene": "E03",
+      "nodes": 36,
+      "iou": 0.9773293472845043,
+      "intersection": 7846,
+      "union": 8028,
+      "predicted": 7925,
+      "occupied": 7949,
+      "matched": 1,
+      "false_alarms": 0,
+      "people": 1,
+      "lost_nodes": 0,
+      "active_height_10cm_bins": {
+        "0": 36
+      },
+      "model_version": "generic-v40-acquisition-r24-fused",
+      "map_sha256": "d1a64d6899c1c3c39e39b1d04f6d63ab1f2bc8d7e232a1a6c3cd520b009f06b1"
+    },
+    {
+      "id": "g40-train-S03-W71003229-N48",
+      "scene": "E04",
+      "nodes": 48,
+      "iou": 0.9801220848333072,
+      "intersection": 6262,
+      "union": 6389,
+      "predicted": 6335,
+      "occupied": 6316,
+      "matched": 1,
+      "false_alarms": 0,
+      "people": 1,
+      "lost_nodes": 0,
+      "active_height_10cm_bins": {
+        "0": 48
+      },
+      "model_version": "generic-v40-acquisition-r24-fused",
+      "map_sha256": "64a38780497f75ff45cd933fd9f2f2eef3f430f0ea45121590b9cfc86c4f3b4a"
+    },
+    {
+      "id": "g40-train-S04-W71004238-N24",
+      "scene": "E05",
+      "nodes": 24,
+      "iou": 0.9569669773328731,
+      "intersection": 8317,
+      "union": 8691,
+      "predicted": 8500,
+      "occupied": 8508,
+      "matched": 0,
+      "false_alarms": 0,
+      "people": 0,
+      "lost_nodes": 0,
+      "active_height_10cm_bins": {
+        "0": 19,
+        "3": 5
+      },
+      "model_version": "generic-v40-acquisition-r24-fused",
+      "map_sha256": "083caa6053d2c653908cc7a1a2426f2a84f0002e5381372f81d19abab67bbc9f"
+    },
+    {
+      "id": "g40-train-S05-W71005247-N36",
+      "scene": "M01",
+      "nodes": 36,
+      "iou": 0.9496115427302997,
+      "intersection": 8556,
+      "union": 9010,
+      "predicted": 8796,
+      "occupied": 8770,
+      "matched": 1,
+      "false_alarms": 0,
+      "people": 1,
+      "lost_nodes": 0,
+      "active_height_10cm_bins": {
+        "0": 34,
+        "1": 2
+      },
+      "model_version": "generic-v40-acquisition-r24-fused",
+      "map_sha256": "0fb87e97487e5be29b1edcc3ae918f14c13b05d6490e2b88519bc7ec326b49fb"
+    },
+    {
+      "id": "g40-train-S06-W71006256-N48",
+      "scene": "M02",
+      "nodes": 48,
+      "iou": 0.9598666053357866,
+      "intersection": 8347,
+      "union": 8696,
+      "predicted": 8546,
+      "occupied": 8497,
+      "matched": 2,
+      "false_alarms": 0,
+      "people": 2,
+      "lost_nodes": 0,
+      "active_height_10cm_bins": {
+        "0": 48
+      },
+      "model_version": "generic-v40-acquisition-r24-fused",
+      "map_sha256": "95463aed456c012ada030cc91c0e18d83a4aae621ae44dd8dbb269855aafbeec"
+    },
+    {
+      "id": "g40-train-S07-W71007265-N24",
+      "scene": "M03",
+      "nodes": 24,
+      "iou": 0.9529895025102693,
+      "intersection": 8352,
+      "union": 8764,
+      "predicted": 8496,
+      "occupied": 8620,
+      "matched": 1,
+      "false_alarms": 0,
+      "people": 1,
+      "lost_nodes": 0,
+      "active_height_10cm_bins": {
+        "0": 23,
+        "1": 1
+      },
+      "model_version": "generic-v40-acquisition-r24-fused",
+      "map_sha256": "f41997230975462c2f52e2a531b7840b54e535edf448348640cd1ae7252dadeb"
+    },
+    {
+      "id": "g40-train-S08-W71008274-N36",
+      "scene": "M04",
+      "nodes": 36,
+      "iou": 0.9594353844045498,
+      "intersection": 7001,
+      "union": 7297,
+      "predicted": 7148,
+      "occupied": 7150,
+      "matched": 1,
+      "false_alarms": 0,
+      "people": 1,
+      "lost_nodes": 0,
+      "active_height_10cm_bins": {
+        "0": 36
+      },
+      "model_version": "generic-v40-acquisition-r24-fused",
+      "map_sha256": "4166a0226765453def5871d9a500b85d38ad43b0cc872f0f138b25b91bff8245"
+    },
+    {
+      "id": "g40-train-S09-W71009283-N48",
+      "scene": "M05",
+      "nodes": 48,
+      "iou": 0.9565997888067582,
+      "intersection": 9059,
+      "union": 9470,
+      "predicted": 9230,
+      "occupied": 9299,
+      "matched": 0,
+      "false_alarms": 0,
+      "people": 0,
+      "lost_nodes": 0,
+      "active_height_10cm_bins": {
+        "0": 40,
+        "2": 1,
+        "3": 7
+      },
+      "model_version": "generic-v40-acquisition-r24-fused",
+      "map_sha256": "8d50103cc10be64be4b1d64ed3f27103b1ae4e0c6ee47aecd07fe472d3e678f5"
+    },
+    {
+      "id": "g40-train-S10-W71010292-N24",
+      "scene": "H01",
+      "nodes": 24,
+      "iou": 0.9311488591818273,
+      "intersection": 9264,
+      "union": 9949,
+      "predicted": 9623,
+      "occupied": 9590,
+      "matched": 2,
+      "false_alarms": 1,
+      "people": 2,
+      "lost_nodes": 0,
+      "active_height_10cm_bins": {
+        "0": 24
+      },
+      "model_version": "generic-v40-acquisition-r24-fused",
+      "map_sha256": "3f4704c428b49a7af02ef2a94297a2de150f6d25c52ffd9e55c903b941445314"
+    },
+    {
+      "id": "g40-train-S11-W71011301-N36",
+      "scene": "H02",
+      "nodes": 36,
+      "iou": 0.9478827361563518,
+      "intersection": 9312,
+      "union": 9824,
+      "predicted": 9522,
+      "occupied": 9614,
+      "matched": 1,
+      "false_alarms": 1,
+      "people": 1,
+      "lost_nodes": 0,
+      "active_height_10cm_bins": {
+        "0": 36
+      },
+      "model_version": "generic-v40-acquisition-r24-fused",
+      "map_sha256": "44e950abf47429de04e26aa63083ba8a303e077b0bafb17084e2fca39e04d1f7"
+    },
+    {
+      "id": "g40-train-S12-W71012310-N48",
+      "scene": "H03",
+      "nodes": 48,
+      "iou": 0.9510175578611333,
+      "intersection": 9533,
+      "union": 10024,
+      "predicted": 9745,
+      "occupied": 9812,
+      "matched": 1,
+      "false_alarms": 1,
+      "people": 1,
+      "lost_nodes": 0,
+      "active_height_10cm_bins": {
+        "0": 48
+      },
+      "model_version": "generic-v40-acquisition-r24-fused",
+      "map_sha256": "4f3c4fbf8e6448d99bb056b98c59a6f6ffe8a7d0e51e5e586ff8385239c423e8"
+    },
+    {
+      "id": "g40-train-S14-W71014328-N24",
+      "scene": "H05",
+      "nodes": 24,
+      "iou": 0.931150923928337,
+      "intersection": 9927,
+      "union": 10661,
+      "predicted": 10322,
+      "occupied": 10266,
+      "matched": 1,
+      "false_alarms": 1,
+      "people": 1,
+      "lost_nodes": 0,
+      "active_height_10cm_bins": {
+        "0": 20,
+        "3": 4
+      },
+      "model_version": "generic-v40-acquisition-r24-fused",
+      "map_sha256": "166d20c2cdeaf9295c1cc9eaeacf96671e8142dbc7a10ec0901b3d522651975f"
+    },
+    {
+      "id": "g40-train-S25-W71025528-N24",
+      "scene": "H06",
+      "nodes": 24,
+      "iou": 0.936223506743738,
+      "intersection": 4859,
+      "union": 5190,
+      "predicted": 5028,
+      "occupied": 5021,
+      "matched": 3,
+      "false_alarms": 0,
+      "people": 3,
+      "lost_nodes": 13,
+      "active_height_10cm_bins": {
+        "0": 5,
+        "2": 3,
+        "3": 1,
+        "5": 2
+      },
+      "model_version": "generic-v40-acquisition-r24-fused",
+      "map_sha256": "aed604f1c6013bb0b4d542ee532894400e2200dc87260a891a8e69c16c706152"
+    },
+    {
+      "id": "g40-train-S26-W71026537-N36",
+      "scene": "H07",
+      "nodes": 36,
+      "iou": 0.945503476115721,
+      "intersection": 4216,
+      "union": 4459,
+      "predicted": 4313,
+      "occupied": 4362,
+      "matched": 2,
+      "false_alarms": 0,
+      "people": 2,
+      "lost_nodes": 14,
+      "active_height_10cm_bins": {
+        "0": 13,
+        "1": 1,
+        "2": 4,
+        "5": 4
+      },
+      "model_version": "generic-v40-acquisition-r24-fused",
+      "map_sha256": "31ef813df3ef0735aec4b8d86e5d123435fddf5283e4381b2e2a56f093f719e8"
+    },
+    {
+      "id": "g40-train-S13-W71013420-N48",
+      "scene": "H04",
+      "nodes": 48,
+      "iou": 0.9412177164894239,
+      "intersection": 8054,
+      "union": 8557,
+      "predicted": 8291,
+      "occupied": 8320,
+      "matched": 2,
+      "false_alarms": 0,
+      "people": 2,
+      "lost_nodes": 0,
+      "active_height_10cm_bins": {
+        "0": 48
+      },
+      "model_version": "generic-v40-acquisition-r24-fused",
+      "map_sha256": "f6db3646d0dfbfb53c4f08d838e06f347812f2c005ad63e4ea524a92e2816cbd"
+    },
+    {
+      "id": "g40-train-S20-W71020483-N24",
+      "scene": "M06",
+      "nodes": 24,
+      "iou": 0.958139534883721,
+      "intersection": 4326,
+      "union": 4515,
+      "predicted": 4406,
+      "occupied": 4435,
+      "matched": 2,
+      "false_alarms": 1,
+      "people": 2,
+      "lost_nodes": 8,
+      "active_height_10cm_bins": {
+        "0": 5,
+        "2": 11
+      },
+      "model_version": "generic-v40-acquisition-r24-fused",
+      "map_sha256": "8bba8cf68ff424288bf84b311a02d01f225dad7cd136bbddedc09db9f743b362"
+    },
+    {
+      "id": "g40-train-S21-W71021492-N36",
+      "scene": "M07",
+      "nodes": 36,
+      "iou": 0.9580536912751678,
+      "intersection": 2855,
+      "union": 2980,
+      "predicted": 2918,
+      "occupied": 2917,
+      "matched": 2,
+      "false_alarms": 0,
+      "people": 2,
+      "lost_nodes": 9,
+      "active_height_10cm_bins": {
+        "0": 17,
+        "1": 1,
+        "2": 9
+      },
+      "model_version": "generic-v40-acquisition-r24-fused",
+      "map_sha256": "44e65730184921463b859ffab223a3a454f749af85f87661c769421d6b7dca82"
+    },
+    {
+      "id": "g40-train-S24-W71024519-N48",
+      "scene": "M10",
+      "nodes": 48,
+      "iou": 0.9599745870393901,
+      "intersection": 4533,
+      "union": 4722,
+      "predicted": 4613,
+      "occupied": 4642,
+      "matched": 0,
+      "false_alarms": 0,
+      "people": 0,
+      "lost_nodes": 21,
+      "active_height_10cm_bins": {
+        "0": 17,
+        "2": 10
+      },
+      "model_version": "generic-v40-acquisition-r24-fused",
+      "map_sha256": "51206f5016d49c090fad92a52f0241b675f02ba20b7af1ee3f19264cd6d2ead5"
+    },
+    {
+      "id": "g40-train-S15-W71015438-N24",
+      "scene": "E06",
+      "nodes": 24,
+      "iou": 0.9856083733100741,
+      "intersection": 2260,
+      "union": 2293,
+      "predicted": 2274,
+      "occupied": 2279,
+      "matched": 1,
+      "false_alarms": 0,
+      "people": 1,
+      "lost_nodes": 1,
+      "active_height_10cm_bins": {
+        "0": 23
+      },
+      "model_version": "generic-v40-acquisition-r24-fused",
+      "map_sha256": "62981b9d8feae3f27de2e4ab68fbc18865052ee01e650048122be816616244cc"
+    },
+    {
+      "id": "g40-train-S16-W71016447-N36",
+      "scene": "E07",
+      "nodes": 36,
+      "iou": 0.984920292977165,
+      "intersection": 2286,
+      "union": 2321,
+      "predicted": 2302,
+      "occupied": 2305,
+      "matched": 1,
+      "false_alarms": 0,
+      "people": 1,
+      "lost_nodes": 2,
+      "active_height_10cm_bins": {
+        "0": 34
+      },
+      "model_version": "generic-v40-acquisition-r24-fused",
+      "map_sha256": "85d921cb534fee60fc7bef08787da4cd67b22d7c8ae0f2226d659760799d5bd8"
+    },
+    {
+      "id": "g40-train-S18-W71018465-N48",
+      "scene": "E09",
+      "nodes": 48,
+      "iou": 0.9903788334335538,
+      "intersection": 3294,
+      "union": 3326,
+      "predicted": 3304,
+      "occupied": 3316,
+      "matched": 1,
+      "false_alarms": 0,
+      "people": 1,
+      "lost_nodes": 0,
+      "active_height_10cm_bins": {
+        "0": 48
+      },
+      "model_version": "generic-v40-acquisition-r24-fused",
+      "map_sha256": "5900f0af2054644739451cd4cb7af2c997c2f545d11ecf631fae3538de085233"
+    },
+    {
+      "id": "g40-train-S00-W71000303-N24",
+      "scene": "E01",
+      "nodes": 24,
+      "iou": 0.9548286604361371,
+      "intersection": 7969,
+      "union": 8346,
+      "predicted": 8156,
+      "occupied": 8159,
+      "matched": 1,
+      "false_alarms": 0,
+      "people": 1,
+      "lost_nodes": 0,
+      "active_height_10cm_bins": {
+        "0": 22,
+        "1": 2
+      },
+      "model_version": "generic-v40-acquisition-r24-fused",
+      "map_sha256": "7473804de8d6460e5edaccff870eb172044f85d2ccd3c8e24c5713916c47f75b"
+    },
+    {
+      "id": "g40-train-S01-W71001312-N36",
+      "scene": "E02",
+      "nodes": 36,
+      "iou": 0.97452636968766,
+      "intersection": 7613,
+      "union": 7812,
+      "predicted": 7705,
+      "occupied": 7720,
+      "matched": 1,
+      "false_alarms": 0,
+      "people": 1,
+      "lost_nodes": 0,
+      "active_height_10cm_bins": {
+        "0": 36
+      },
+      "model_version": "generic-v40-acquisition-r24-fused",
+      "map_sha256": "55fd25aa0b3b4448b23ce7bc175774d591dd91579313105e669ac232c4b08f9a"
+    },
+    {
+      "id": "g40-train-S02-W71002321-N48",
+      "scene": "E03",
+      "nodes": 48,
+      "iou": 0.9807477332008446,
+      "intersection": 7896,
+      "union": 8051,
+      "predicted": 7985,
+      "occupied": 7962,
+      "matched": 1,
+      "false_alarms": 0,
+      "people": 1,
+      "lost_nodes": 0,
+      "active_height_10cm_bins": {
+        "0": 48
+      },
+      "model_version": "generic-v40-acquisition-r24-fused",
+      "map_sha256": "e79c50457e2e7d3be97ae8aa0e0bd1e5f8a2d5a62219be8bca3f3e30e189bcf9"
+    },
+    {
+      "id": "g40-train-S03-W71003330-N24",
+      "scene": "E04",
+      "nodes": 24,
+      "iou": 0.9741473290764678,
+      "intersection": 6255,
+      "union": 6421,
+      "predicted": 6374,
+      "occupied": 6302,
+      "matched": 1,
+      "false_alarms": 0,
+      "people": 1,
+      "lost_nodes": 0,
+      "active_height_10cm_bins": {
+        "0": 24
+      },
+      "model_version": "generic-v40-acquisition-r24-fused",
+      "map_sha256": "40465eb1610623cc0954b0470f0566c9f1318b3765bad2662da597cf27d95b56"
+    },
+    {
+      "id": "g40-train-S04-W71004339-N36",
+      "scene": "E05",
+      "nodes": 36,
+      "iou": 0.973083674663546,
+      "intersection": 8315,
+      "union": 8545,
+      "predicted": 8462,
+      "occupied": 8398,
+      "matched": 0,
+      "false_alarms": 0,
+      "people": 0,
+      "lost_nodes": 0,
+      "active_height_10cm_bins": {
+        "0": 32,
+        "2": 2,
+        "3": 2
+      },
+      "model_version": "generic-v40-acquisition-r24-fused",
+      "map_sha256": "c06df6fff060f63f709e31d3289d8a9c219c10b70ff895d934f9a7af215966b4"
+    },
+    {
+      "id": "g40-train-S05-W71005348-N48",
+      "scene": "M01",
+      "nodes": 48,
+      "iou": 0.9726058156506119,
+      "intersection": 8663,
+      "union": 8907,
+      "predicted": 8811,
+      "occupied": 8759,
+      "matched": 1,
+      "false_alarms": 0,
+      "people": 1,
+      "lost_nodes": 0,
+      "active_height_10cm_bins": {
+        "0": 45,
+        "1": 3
+      },
+      "model_version": "generic-v40-acquisition-r24-fused",
+      "map_sha256": "691cb3764e07aa23eec05a88851a56fc19566316a3d0c40ae6522682301b967d"
+    },
+    {
+      "id": "g40-train-S06-W71006357-N24",
+      "scene": "M02",
+      "nodes": 24,
+      "iou": 0.9564719358533792,
+      "intersection": 8350,
+      "union": 8730,
+      "predicted": 8536,
+      "occupied": 8544,
+      "matched": 2,
+      "false_alarms": 1,
+      "people": 2,
+      "lost_nodes": 0,
+      "active_height_10cm_bins": {
+        "0": 24
+      },
+      "model_version": "generic-v40-acquisition-r24-fused",
+      "map_sha256": "3a1b5339e1aab5cfb6ec140f0aa9ae073d14f0af75df5b7df15d375625c63b3f"
+    },
+    {
+      "id": "g40-train-S07-W71007366-N36",
+      "scene": "M03",
+      "nodes": 36,
+      "iou": 0.955075251782279,
+      "intersection": 8440,
+      "union": 8837,
+      "predicted": 8636,
+      "occupied": 8641,
+      "matched": 1,
+      "false_alarms": 0,
+      "people": 1,
+      "lost_nodes": 0,
+      "active_height_10cm_bins": {
+        "0": 36
+      },
+      "model_version": "generic-v40-acquisition-r24-fused",
+      "map_sha256": "9e36c3e10d9ef2144991c8f80a1964814b49ad45116556b01f51c7f06ed6af86"
+    },
+    {
+      "id": "g40-train-S08-W71008375-N48",
+      "scene": "M04",
+      "nodes": 48,
+      "iou": 0.9596041751389454,
+      "intersection": 7079,
+      "union": 7377,
+      "predicted": 7263,
+      "occupied": 7193,
+      "matched": 1,
+      "false_alarms": 0,
+      "people": 1,
+      "lost_nodes": 0,
+      "active_height_10cm_bins": {
+        "0": 48
+      },
+      "model_version": "generic-v40-acquisition-r24-fused",
+      "map_sha256": "1c739576062df26354f3b70f0b94717096e34b6aa327c1585bf337e08680008b"
+    },
+    {
+      "id": "g40-train-S09-W71009384-N24",
+      "scene": "M05",
+      "nodes": 24,
+      "iou": 0.952134272689598,
+      "intersection": 9190,
+      "union": 9652,
+      "predicted": 9484,
+      "occupied": 9358,
+      "matched": 0,
+      "false_alarms": 1,
+      "people": 0,
+      "lost_nodes": 0,
+      "active_height_10cm_bins": {
+        "0": 20,
+        "2": 1,
+        "3": 3
+      },
+      "model_version": "generic-v40-acquisition-r24-fused",
+      "map_sha256": "343964371570b9383bd937b584c8a48233332dd374a640b045ca002724299952"
+    },
+    {
+      "id": "g40-train-S10-W71010393-N36",
+      "scene": "H01",
+      "nodes": 36,
+      "iou": 0.9437771272837387,
+      "intersection": 9350,
+      "union": 9907,
+      "predicted": 9625,
+      "occupied": 9632,
+      "matched": 1,
+      "false_alarms": 1,
+      "people": 2,
+      "lost_nodes": 0,
+      "active_height_10cm_bins": {
+        "0": 35,
+        "1": 1
+      },
+      "model_version": "generic-v40-acquisition-r24-fused",
+      "map_sha256": "93927d200f367cb0d228d7748c153b7a5d13ab256c6d01d32f36add7b3faa3a0"
+    },
+    {
+      "id": "g40-train-S11-W71011402-N48",
+      "scene": "H02",
+      "nodes": 48,
+      "iou": 0.9506490830414177,
+      "intersection": 9227,
+      "union": 9706,
+      "predicted": 9431,
+      "occupied": 9502,
+      "matched": 1,
+      "false_alarms": 1,
+      "people": 1,
+      "lost_nodes": 0,
+      "active_height_10cm_bins": {
+        "0": 48
+      },
+      "model_version": "generic-v40-acquisition-r24-fused",
+      "map_sha256": "926f28b1a7ea057d8b74ab2a8062ad59e005745bfd32c6f62cfc0630394ecd4b"
+    },
+    {
+      "id": "g40-train-S12-W71012411-N24",
+      "scene": "H03",
+      "nodes": 24,
+      "iou": 0.9083811029847796,
+      "intersection": 9191,
+      "union": 10118,
+      "predicted": 9520,
+      "occupied": 9789,
+      "matched": 1,
+      "false_alarms": 1,
+      "people": 1,
+      "lost_nodes": 0,
+      "active_height_10cm_bins": {
+        "0": 24
+      },
+      "model_version": "generic-v40-acquisition-r24-fused",
+      "map_sha256": "b18de837a9543c697ed840869cbea411f3dbdcf138552d16065eb72f9349cbff"
+    },
+    {
+      "id": "g40-train-S14-W71014429-N36",
+      "scene": "H05",
+      "nodes": 36,
+      "iou": 0.9192242515533797,
+      "intersection": 9764,
+      "union": 10622,
+      "predicted": 10190,
+      "occupied": 10196,
+      "matched": 0,
+      "false_alarms": 1,
+      "people": 1,
+      "lost_nodes": 0,
+      "active_height_10cm_bins": {
+        "0": 31,
+        "2": 2,
+        "3": 3
+      },
+      "model_version": "generic-v40-acquisition-r24-fused",
+      "map_sha256": "85c50df64229be0b79c71c16c0b0ec399afac1ec1af68c3ab0852008f3e398ce"
+    },
+    {
+      "id": "g40-train-S25-W71025629-N36",
+      "scene": "H06",
+      "nodes": 36,
+      "iou": 0.9448356807511737,
+      "intersection": 4830,
+      "union": 5112,
+      "predicted": 4941,
+      "occupied": 5001,
+      "matched": 2,
+      "false_alarms": 0,
+      "people": 3,
+      "lost_nodes": 13,
+      "active_height_10cm_bins": {
+        "0": 8,
+        "2": 7,
+        "5": 8
+      },
+      "model_version": "generic-v40-acquisition-r24-fused",
+      "map_sha256": "93831b2454f719720231e58aef5b240adcfdc0ab7eb3d6d6e6599e9b5b5aeada"
+    },
+    {
+      "id": "g40-train-S26-W71026638-N48",
+      "scene": "H07",
+      "nodes": 48,
+      "iou": 0.9409536541889483,
+      "intersection": 4223,
+      "union": 4488,
+      "predicted": 4333,
+      "occupied": 4378,
+      "matched": 1,
+      "false_alarms": 0,
+      "people": 2,
+      "lost_nodes": 22,
+      "active_height_10cm_bins": {
+        "0": 11,
+        "2": 9,
+        "5": 6
+      },
+      "model_version": "generic-v40-acquisition-r24-fused",
+      "map_sha256": "6fffb564e5e3a73ed774f5e479b465e2ee7bd327ac75a2fe0b88b509b02b601b"
+    },
+    {
+      "id": "g40-train-S13-W71013521-N24",
+      "scene": "H04",
+      "nodes": 24,
+      "iou": 0.9497107779482942,
+      "intersection": 8045,
+      "union": 8471,
+      "predicted": 8271,
+      "occupied": 8245,
+      "matched": 2,
+      "false_alarms": 1,
+      "people": 2,
+      "lost_nodes": 0,
+      "active_height_10cm_bins": {
+        "0": 24
+      },
+      "model_version": "generic-v40-acquisition-r24-fused",
+      "map_sha256": "ffbda5e6a732d84274dfff22e467c120fb50cfe17d36f17de8a5980791055bd3"
+    },
+    {
+      "id": "g40-train-S20-W71020584-N36",
+      "scene": "M06",
+      "nodes": 36,
+      "iou": 0.9678499665103818,
+      "intersection": 4335,
+      "union": 4479,
+      "predicted": 4402,
+      "occupied": 4412,
+      "matched": 2,
+      "false_alarms": 0,
+      "people": 2,
+      "lost_nodes": 13,
+      "active_height_10cm_bins": {
+        "0": 9,
+        "2": 14
+      },
+      "model_version": "generic-v40-acquisition-r24-fused",
+      "map_sha256": "831bc2ca3ecfd689632a80eaa86552876ce5b2797c24c848e90c3e52cdb31326"
+    },
+    {
+      "id": "g40-train-S21-W71021593-N48",
+      "scene": "M07",
+      "nodes": 48,
+      "iou": 0.9684745762711865,
+      "intersection": 2857,
+      "union": 2950,
+      "predicted": 2899,
+      "occupied": 2908,
+      "matched": 2,
+      "false_alarms": 0,
+      "people": 2,
+      "lost_nodes": 23,
+      "active_height_10cm_bins": {
+        "0": 14,
+        "2": 11
+      },
+      "model_version": "generic-v40-acquisition-r24-fused",
+      "map_sha256": "f33f5e8fb43fb93ad488c8155246f46c1067bb3b4ba731c7d214a45840640188"
+    },
+    {
+      "id": "g40-train-S24-W71024620-N24",
+      "scene": "M10",
+      "nodes": 24,
+      "iou": 0.9471440750213129,
+      "intersection": 4444,
+      "union": 4692,
+      "predicted": 4537,
+      "occupied": 4599,
+      "matched": 0,
+      "false_alarms": 0,
+      "people": 0,
+      "lost_nodes": 10,
+      "active_height_10cm_bins": {
+        "0": 7,
+        "2": 7
+      },
+      "model_version": "generic-v40-acquisition-r24-fused",
+      "map_sha256": "8e207b07c2d83efe714e8d947f138f54167407eeb035b19222a3cb06642ec33c"
+    },
+    {
+      "id": "g40-train-S15-W71015539-N36",
+      "scene": "E06",
+      "nodes": 36,
+      "iou": 0.9842726081258192,
+      "intersection": 2253,
+      "union": 2289,
+      "predicted": 2269,
+      "occupied": 2273,
+      "matched": 1,
+      "false_alarms": 0,
+      "people": 1,
+      "lost_nodes": 1,
+      "active_height_10cm_bins": {
+        "0": 35
+      },
+      "model_version": "generic-v40-acquisition-r24-fused",
+      "map_sha256": "c34d093edb35592d4183c1e19a8dd3f1f230ea18047566385ca27e6341088a4c"
+    },
+    {
+      "id": "g40-train-S16-W71016548-N48",
+      "scene": "E07",
+      "nodes": 48,
+      "iou": 0.9870186066637819,
+      "intersection": 2281,
+      "union": 2311,
+      "predicted": 2291,
+      "occupied": 2301,
+      "matched": 1,
+      "false_alarms": 0,
+      "people": 1,
+      "lost_nodes": 3,
+      "active_height_10cm_bins": {
+        "0": 45
+      },
+      "model_version": "generic-v40-acquisition-r24-fused",
+      "map_sha256": "bd16a9d038de7740b00b08f2a4f70eed33438df48c7f4848bac5f14432b8e59c"
+    },
+    {
+      "id": "g40-train-S18-W71018566-N24",
+      "scene": "E09",
+      "nodes": 24,
+      "iou": 0.9865430622009569,
+      "intersection": 3299,
+      "union": 3344,
+      "predicted": 3314,
+      "occupied": 3329,
+      "matched": 1,
+      "false_alarms": 0,
+      "people": 1,
+      "lost_nodes": 0,
+      "active_height_10cm_bins": {
+        "0": 24
+      },
+      "model_version": "generic-v40-acquisition-r24-fused",
+      "map_sha256": "4d0d656d4146169f36fa33d67e48a8c63ffddde695cac7de45f0e31d3d8ffbd8"
+    },
+    {
+      "id": "g40-train-S00-W71000404-N36",
+      "scene": "E01",
+      "nodes": 36,
+      "iou": 0.9637087050880154,
+      "intersection": 7993,
+      "union": 8294,
+      "predicted": 8149,
+      "occupied": 8138,
+      "matched": 1,
+      "false_alarms": 0,
+      "people": 1,
+      "lost_nodes": 0,
+      "active_height_10cm_bins": {
+        "0": 33,
+        "1": 3
+      },
+      "model_version": "generic-v40-acquisition-r24-fused",
+      "map_sha256": "dc7f8353fc841464a92303284d7dff0d3508022dfd43c8cf73cf6cff8811b10b"
+    },
+    {
+      "id": "g40-train-S01-W71001413-N48",
+      "scene": "E02",
+      "nodes": 48,
+      "iou": 0.9723284876307065,
+      "intersection": 7625,
+      "union": 7842,
+      "predicted": 7759,
+      "occupied": 7708,
+      "matched": 1,
+      "false_alarms": 0,
+      "people": 1,
+      "lost_nodes": 0,
+      "active_height_10cm_bins": {
+        "0": 48
+      },
+      "model_version": "generic-v40-acquisition-r24-fused",
+      "map_sha256": "b291f0428601e8be65198a60e98bfda7776728b21e9205d2be34d54436fe3f23"
+    },
+    {
+      "id": "g40-train-S02-W71002422-N24",
+      "scene": "E03",
+      "nodes": 24,
+      "iou": 0.9687615755031486,
+      "intersection": 7846,
+      "union": 8099,
+      "predicted": 8000,
+      "occupied": 7945,
+      "matched": 1,
+      "false_alarms": 0,
+      "people": 1,
+      "lost_nodes": 0,
+      "active_height_10cm_bins": {
+        "0": 24
+      },
+      "model_version": "generic-v40-acquisition-r24-fused",
+      "map_sha256": "b8207a08d8ecb46101a349d71d1c4e00de7a198e9c0f1387f92d7b6c09a6fcb2"
+    },
+    {
+      "id": "g40-train-S03-W71003431-N36",
+      "scene": "E04",
+      "nodes": 36,
+      "iou": 0.9733928022147031,
+      "intersection": 6329,
+      "union": 6502,
+      "predicted": 6452,
+      "occupied": 6379,
+      "matched": 1,
+      "false_alarms": 0,
+      "people": 1,
+      "lost_nodes": 0,
+      "active_height_10cm_bins": {
+        "0": 36
+      },
+      "model_version": "generic-v40-acquisition-r24-fused",
+      "map_sha256": "5755396816c6f426a8d4309a8e248229566cf5206d213e79b2c88ae81a142b00"
+    },
+    {
+      "id": "g40-train-S04-W71004440-N48",
+      "scene": "E05",
+      "nodes": 48,
+      "iou": 0.976024208566108,
+      "intersection": 8386,
+      "union": 8592,
+      "predicted": 8513,
+      "occupied": 8465,
+      "matched": 0,
+      "false_alarms": 1,
+      "people": 0,
+      "lost_nodes": 0,
+      "active_height_10cm_bins": {
+        "0": 42,
+        "3": 6
+      },
+      "model_version": "generic-v40-acquisition-r24-fused",
+      "map_sha256": "0e433c43b117b43d17fea0c70c51adef424ebae6c55304c563e23028d15e7e36"
+    },
+    {
+      "id": "g40-train-S05-W71005449-N24",
+      "scene": "M01",
+      "nodes": 24,
+      "iou": 0.9297047157338034,
+      "intersection": 8438,
+      "union": 9076,
+      "predicted": 8727,
+      "occupied": 8787,
+      "matched": 0,
+      "false_alarms": 0,
+      "people": 1,
+      "lost_nodes": 0,
+      "active_height_10cm_bins": {
+        "0": 21,
+        "1": 3
+      },
+      "model_version": "generic-v40-acquisition-r24-fused",
+      "map_sha256": "3609eea1ec8884d7dd37e4688db95436a31910ea6f34fc3a2f3f9b682b48c101"
+    },
+    {
+      "id": "g40-train-S06-W71006458-N36",
+      "scene": "M02",
+      "nodes": 36,
+      "iou": 0.9530946116005033,
+      "intersection": 8331,
+      "union": 8741,
+      "predicted": 8542,
+      "occupied": 8530,
+      "matched": 2,
+      "false_alarms": 0,
+      "people": 2,
+      "lost_nodes": 0,
+      "active_height_10cm_bins": {
+        "0": 35,
+        "1": 1
+      },
+      "model_version": "generic-v40-acquisition-r24-fused",
+      "map_sha256": "77c84cc97f74b4d7a2bb4ef70aa0a098cff87efdf53d344790c0f964985120f7"
+    },
+    {
+      "id": "g40-train-S07-W71007467-N48",
+      "scene": "M03",
+      "nodes": 48,
+      "iou": 0.9676543768378195,
+      "intersection": 8556,
+      "union": 8842,
+      "predicted": 8693,
+      "occupied": 8705,
+      "matched": 1,
+      "false_alarms": 0,
+      "people": 1,
+      "lost_nodes": 0,
+      "active_height_10cm_bins": {
+        "0": 48
+      },
+      "model_version": "generic-v40-acquisition-r24-fused",
+      "map_sha256": "a9c548557c4ac342448aa91eda6821f3a9615ba6de06354819352325f67dc76d"
+    },
+    {
+      "id": "g40-train-S08-W71008476-N24",
+      "scene": "M04",
+      "nodes": 24,
+      "iou": 0.9411685514270328,
+      "intersection": 6991,
+      "union": 7428,
+      "predicted": 7242,
+      "occupied": 7177,
+      "matched": 1,
+      "false_alarms": 0,
+      "people": 1,
+      "lost_nodes": 0,
+      "active_height_10cm_bins": {
+        "0": 24
+      },
+      "model_version": "generic-v40-acquisition-r24-fused",
+      "map_sha256": "bafa8d964e1607607b345829ee0a7e0b9ee822e3872bf537d17cca654467a4ea"
+    },
+    {
+      "id": "g40-train-S09-W71009485-N36",
+      "scene": "M05",
+      "nodes": 36,
+      "iou": 0.9589748998101666,
+      "intersection": 9093,
+      "union": 9482,
+      "predicted": 9309,
+      "occupied": 9266,
+      "matched": 0,
+      "false_alarms": 0,
+      "people": 0,
+      "lost_nodes": 0,
+      "active_height_10cm_bins": {
+        "0": 33,
+        "2": 1,
+        "3": 2
+      },
+      "model_version": "generic-v40-acquisition-r24-fused",
+      "map_sha256": "cae43daa0ba434e1eae9d33b79275b212d2dc34034cb296b18f85ba65666aad9"
+    },
+    {
+      "id": "g40-train-S10-W71010494-N48",
+      "scene": "H01",
+      "nodes": 48,
+      "iou": 0.9537595907928389,
+      "intersection": 9323,
+      "union": 9775,
+      "predicted": 9502,
+      "occupied": 9596,
+      "matched": 1,
+      "false_alarms": 2,
+      "people": 2,
+      "lost_nodes": 0,
+      "active_height_10cm_bins": {
+        "0": 42,
+        "1": 6
+      },
+      "model_version": "generic-v40-acquisition-r24-fused",
+      "map_sha256": "c65e19a27a03c272b458ba656a95b00c3d031f646db026abb4d0b3504cdda159"
+    },
+    {
+      "id": "g40-train-S11-W71011503-N24",
+      "scene": "H02",
+      "nodes": 24,
+      "iou": 0.8901644128806304,
+      "intersection": 9150,
+      "union": 10279,
+      "predicted": 9957,
+      "occupied": 9472,
+      "matched": 1,
+      "false_alarms": 1,
+      "people": 1,
+      "lost_nodes": 0,
+      "active_height_10cm_bins": {
+        "0": 24
+      },
+      "model_version": "generic-v40-acquisition-r24-fused",
+      "map_sha256": "68c5481dcfaf0fca6858c913eff5e2bf5a5967a8275ee5c3453e4691eefec89c"
+    },
+    {
+      "id": "g40-train-S12-W71012512-N36",
+      "scene": "H03",
+      "nodes": 36,
+      "iou": 0.9364638141566564,
+      "intersection": 9433,
+      "union": 10073,
+      "predicted": 9691,
+      "occupied": 9815,
+      "matched": 1,
+      "false_alarms": 0,
+      "people": 1,
+      "lost_nodes": 0,
+      "active_height_10cm_bins": {
+        "0": 36
+      },
+      "model_version": "generic-v40-acquisition-r24-fused",
+      "map_sha256": "5eeee60e12c50bb5cf0c6b07ae3a8cf4dff997a75798e2b505da917ff086df37"
+    },
+    {
+      "id": "g40-train-S14-W71014530-N48",
+      "scene": "H05",
+      "nodes": 48,
+      "iou": 0.9257754800590842,
+      "intersection": 10028,
+      "union": 10832,
+      "predicted": 10556,
+      "occupied": 10304,
+      "matched": 0,
+      "false_alarms": 1,
+      "people": 1,
+      "lost_nodes": 0,
+      "active_height_10cm_bins": {
+        "0": 39,
+        "3": 9
+      },
+      "model_version": "generic-v40-acquisition-r24-fused",
+      "map_sha256": "a48958eb1296f2466180fe76b30d708e41b22d8fafe7cd34eaffe3ce33382b5a"
+    },
+    {
+      "id": "g40-train-S25-W71025730-N48",
+      "scene": "H06",
+      "nodes": 48,
+      "iou": 0.9568245125348189,
+      "intersection": 4809,
+      "union": 5026,
+      "predicted": 4909,
+      "occupied": 4926,
+      "matched": 3,
+      "false_alarms": 0,
+      "people": 3,
+      "lost_nodes": 15,
+      "active_height_10cm_bins": {
+        "0": 7,
+        "2": 15,
+        "5": 11
+      },
+      "model_version": "generic-v40-acquisition-r24-fused",
+      "map_sha256": "24688695c364f5de6fb2ba1aa2f65b18f27490cdf8773e13e3f61bf4fd13acec"
+    },
+    {
+      "id": "g40-train-S26-W71026739-N24",
+      "scene": "H07",
+      "nodes": 24,
+      "iou": 0.9441797140912185,
+      "intersection": 4161,
+      "union": 4407,
+      "predicted": 4257,
+      "occupied": 4311,
+      "matched": 2,
+      "false_alarms": 0,
+      "people": 2,
+      "lost_nodes": 10,
+      "active_height_10cm_bins": {
+        "0": 5,
+        "2": 7,
+        "5": 2
+      },
+      "model_version": "generic-v40-acquisition-r24-fused",
+      "map_sha256": "ff92b8410b0477ac1de0dc3318b27af41a516ca26c93e5d56a05c1cab30eca86"
+    },
+    {
+      "id": "g40-train-S13-W71013622-N36",
+      "scene": "H04",
+      "nodes": 36,
+      "iou": 0.9451942260298087,
+      "intersection": 8054,
+      "union": 8521,
+      "predicted": 8291,
+      "occupied": 8284,
+      "matched": 2,
+      "false_alarms": 1,
+      "people": 2,
+      "lost_nodes": 0,
+      "active_height_10cm_bins": {
+        "0": 36
+      },
+      "model_version": "generic-v40-acquisition-r24-fused",
+      "map_sha256": "8596347f2478f402038674436b95971ff85462d2f8af0ba6b4d34bd1b3226fb0"
+    },
+    {
+      "id": "g40-train-S20-W71020685-N48",
+      "scene": "M06",
+      "nodes": 48,
+      "iou": 0.9676404494382023,
+      "intersection": 4306,
+      "union": 4450,
+      "predicted": 4365,
+      "occupied": 4391,
+      "matched": 2,
+      "false_alarms": 0,
+      "people": 2,
+      "lost_nodes": 9,
+      "active_height_10cm_bins": {
+        "0": 15,
+        "2": 24
+      },
+      "model_version": "generic-v40-acquisition-r24-fused",
+      "map_sha256": "d9675e1d5d74d0ded8d9dda28b226d81f22b782eeba765a6b1af67f7a34f6f3e"
+    },
+    {
+      "id": "g40-train-S21-W71021694-N24",
+      "scene": "M07",
+      "nodes": 24,
+      "iou": 0.9514531043593131,
+      "intersection": 2881,
+      "union": 3028,
+      "predicted": 2963,
+      "occupied": 2946,
+      "matched": 1,
+      "false_alarms": 0,
+      "people": 2,
+      "lost_nodes": 12,
+      "active_height_10cm_bins": {
+        "0": 7,
+        "1": 2,
+        "2": 3
+      },
+      "model_version": "generic-v40-acquisition-r24-fused",
+      "map_sha256": "847dbd192cdcbee2434bdf69aa69f67c900edc746e470c2fa748efdaca840593"
+    },
+    {
+      "id": "g40-train-S24-W71024721-N36",
+      "scene": "M10",
+      "nodes": 36,
+      "iou": 0.9605773373545885,
+      "intersection": 4459,
+      "union": 4642,
+      "predicted": 4547,
+      "occupied": 4554,
+      "matched": 0,
+      "false_alarms": 0,
+      "people": 0,
+      "lost_nodes": 17,
+      "active_height_10cm_bins": {
+        "0": 13,
+        "2": 6
+      },
+      "model_version": "generic-v40-acquisition-r24-fused",
+      "map_sha256": "2a1c72a8672215591f621e61f5cd8f3a7eb70ca1979f83f2217939a26568310e"
+    },
+    {
+      "id": "g40-train-S15-W71015640-N48",
+      "scene": "E06",
+      "nodes": 48,
+      "iou": 0.9869960988296489,
+      "intersection": 2277,
+      "union": 2307,
+      "predicted": 2292,
+      "occupied": 2292,
+      "matched": 1,
+      "false_alarms": 0,
+      "people": 1,
+      "lost_nodes": 2,
+      "active_height_10cm_bins": {
+        "0": 46
+      },
+      "model_version": "generic-v40-acquisition-r24-fused",
+      "map_sha256": "879a32619f7ae981f78406cbfac6eb1bdb84abbdb4563de9a524e18a3ac013f8"
+    },
+    {
+      "id": "g40-train-S16-W71016649-N24",
+      "scene": "E07",
+      "nodes": 24,
+      "iou": 0.9770895205770047,
+      "intersection": 2303,
+      "union": 2357,
+      "predicted": 2325,
+      "occupied": 2335,
+      "matched": 1,
+      "false_alarms": 1,
+      "people": 1,
+      "lost_nodes": 0,
+      "active_height_10cm_bins": {
+        "0": 24
+      },
+      "model_version": "generic-v40-acquisition-r24-fused",
+      "map_sha256": "64a2ef53eb44f64b117f5d5e017c185b1fba76af325ba41870027c74a202787f"
+    },
+    {
+      "id": "g40-train-S18-W71018667-N36",
+      "scene": "E09",
+      "nodes": 36,
+      "iou": 0.9897959183673469,
+      "intersection": 3298,
+      "union": 3332,
+      "predicted": 3307,
+      "occupied": 3323,
+      "matched": 1,
+      "false_alarms": 0,
+      "people": 1,
+      "lost_nodes": 4,
+      "active_height_10cm_bins": {
+        "0": 32
+      },
+      "model_version": "generic-v40-acquisition-r24-fused",
+      "map_sha256": "c94d94e3d4d81b933ce2a05740315dbfefad3fe51208c1d6738322cd4ab93560"
+    },
+    {
+      "id": "g40-train-S00-W71000505-N48",
+      "scene": "E01",
+      "nodes": 48,
+      "iou": 0.9727272727272728,
+      "intersection": 8025,
+      "union": 8250,
+      "predicted": 8150,
+      "occupied": 8125,
+      "matched": 1,
+      "false_alarms": 0,
+      "people": 1,
+      "lost_nodes": 0,
+      "active_height_10cm_bins": {
+        "0": 44,
+        "1": 4
+      },
+      "model_version": "generic-v40-acquisition-r24-fused",
+      "map_sha256": "24840afa63b0e8a5b53a0f6bcdb62cf3af028064db1d72cb8e17c5656b083991"
+    },
+    {
+      "id": "g40-train-S01-W71001514-N24",
+      "scene": "E02",
+      "nodes": 24,
+      "iou": 0.9670163022873752,
+      "intersection": 7652,
+      "union": 7913,
+      "predicted": 7825,
+      "occupied": 7740,
+      "matched": 1,
+      "false_alarms": 0,
+      "people": 1,
+      "lost_nodes": 0,
+      "active_height_10cm_bins": {
+        "0": 24
+      },
+      "model_version": "generic-v40-acquisition-r24-fused",
+      "map_sha256": "fbb945df4d06c71cf2e4e1fc57252ab6ba061f766e4b6a95d2e65f5113b66417"
+    },
+    {
+      "id": "g40-train-S02-W71002523-N36",
+      "scene": "E03",
+      "nodes": 36,
+      "iou": 0.9726924502656616,
+      "intersection": 7872,
+      "union": 8093,
+      "predicted": 7995,
+      "occupied": 7970,
+      "matched": 1,
+      "false_alarms": 0,
+      "people": 1,
+      "lost_nodes": 0,
+      "active_height_10cm_bins": {
+        "0": 36
+      },
+      "model_version": "generic-v40-acquisition-r24-fused",
+      "map_sha256": "26781ad73e590d651f84117ee81a69c8eec73fb7d6150bfb68bcc0afba5fbe90"
+    },
+    {
+      "id": "g40-train-S03-W71003532-N48",
+      "scene": "E04",
+      "nodes": 48,
+      "iou": 0.9769772905246672,
+      "intersection": 6238,
+      "union": 6385,
+      "predicted": 6326,
+      "occupied": 6297,
+      "matched": 1,
+      "false_alarms": 0,
+      "people": 1,
+      "lost_nodes": 0,
+      "active_height_10cm_bins": {
+        "0": 48
+      },
+      "model_version": "generic-v40-acquisition-r24-fused",
+      "map_sha256": "6f331a8c1a87dcdffc97fbaf4f9cd5de71042a2c8e2161a5b7b0f57b2456f83b"
+    },
+    {
+      "id": "g40-train-S04-W71004541-N24",
+      "scene": "E05",
+      "nodes": 24,
+      "iou": 0.9723130841121496,
+      "intersection": 8323,
+      "union": 8560,
+      "predicted": 8436,
+      "occupied": 8447,
+      "matched": 0,
+      "false_alarms": 1,
+      "people": 0,
+      "lost_nodes": 0,
+      "active_height_10cm_bins": {
+        "0": 18,
+        "3": 6
+      },
+      "model_version": "generic-v40-acquisition-r24-fused",
+      "map_sha256": "434584057ddaae5457ec8bca52c2f6a7c40f2ee97b023d8eda3108a3e4944c14"
+    },
+    {
+      "id": "g40-train-S05-W71005550-N36",
+      "scene": "M01",
+      "nodes": 36,
+      "iou": 0.9454102535710331,
+      "intersection": 8538,
+      "union": 9031,
+      "predicted": 8783,
+      "occupied": 8786,
+      "matched": 1,
+      "false_alarms": 0,
+      "people": 1,
+      "lost_nodes": 0,
+      "active_height_10cm_bins": {
+        "0": 33,
+        "1": 3
+      },
+      "model_version": "generic-v40-acquisition-r24-fused",
+      "map_sha256": "e3330d6fbe15a44c23c7bfee05a951b28b53c79b6a2adf21fb140e4acfbee8f5"
+    },
+    {
+      "id": "g40-train-S06-W71006559-N48",
+      "scene": "M02",
+      "nodes": 48,
+      "iou": 0.9699082142442198,
+      "intersection": 8348,
+      "union": 8607,
+      "predicted": 8464,
+      "occupied": 8491,
+      "matched": 2,
+      "false_alarms": 0,
+      "people": 2,
+      "lost_nodes": 0,
+      "active_height_10cm_bins": {
+        "0": 48
+      },
+      "model_version": "generic-v40-acquisition-r24-fused",
+      "map_sha256": "0a246e72eb2ed28caf20d7a5ee67efdbeb0bfd29366b6e1ced95c78408242cc4"
+    },
+    {
+      "id": "g40-train-S07-W71007568-N24",
+      "scene": "M03",
+      "nodes": 24,
+      "iou": 0.9498264083324001,
+      "intersection": 8481,
+      "union": 8929,
+      "predicted": 8755,
+      "occupied": 8655,
+      "matched": 1,
+      "false_alarms": 0,
+      "people": 1,
+      "lost_nodes": 0,
+      "active_height_10cm_bins": {
+        "0": 24
+      },
+      "model_version": "generic-v40-acquisition-r24-fused",
+      "map_sha256": "ec4419c1ad46672456fa78b4875a268f59a02e4770180b37c1449364c98ddd18"
+    },
+    {
+      "id": "g40-train-S08-W71008577-N36",
+      "scene": "M04",
+      "nodes": 36,
+      "iou": 0.9532036457624813,
+      "intersection": 7007,
+      "union": 7351,
+      "predicted": 7217,
+      "occupied": 7141,
+      "matched": 1,
+      "false_alarms": 0,
+      "people": 1,
+      "lost_nodes": 0,
+      "active_height_10cm_bins": {
+        "0": 36
+      },
+      "model_version": "generic-v40-acquisition-r24-fused",
+      "map_sha256": "d7895e74123f431531c23048c2ec44389a1039594429ac8022a39e57439a7606"
+    },
+    {
+      "id": "g40-train-S09-W71009586-N48",
+      "scene": "M05",
+      "nodes": 48,
+      "iou": 0.9609317098994177,
+      "intersection": 9076,
+      "union": 9445,
+      "predicted": 9269,
+      "occupied": 9252,
+      "matched": 0,
+      "false_alarms": 0,
+      "people": 0,
+      "lost_nodes": 0,
+      "active_height_10cm_bins": {
+        "0": 41,
+        "2": 1,
+        "3": 6
+      },
+      "model_version": "generic-v40-acquisition-r24-fused",
+      "map_sha256": "871a22824c5aee6665151316d6313a28e83c7f7082364055ae87e3bc5578b27c"
+    },
+    {
+      "id": "g40-train-S10-W71010595-N24",
+      "scene": "H01",
+      "nodes": 24,
+      "iou": 0.9473578055667607,
+      "intersection": 9394,
+      "union": 9916,
+      "predicted": 9691,
+      "occupied": 9619,
+      "matched": 1,
+      "false_alarms": 2,
+      "people": 2,
+      "lost_nodes": 0,
+      "active_height_10cm_bins": {
+        "0": 23,
+        "1": 1
+      },
+      "model_version": "generic-v40-acquisition-r24-fused",
+      "map_sha256": "deb8e536dcabbece4e829dbb73f47cdae313e7e8e571138e4462cd44ee9cb8be"
+    },
+    {
+      "id": "g40-train-S11-W71011604-N36",
+      "scene": "H02",
+      "nodes": 36,
+      "iou": 0.9470888661899898,
+      "intersection": 9272,
+      "union": 9790,
+      "predicted": 9567,
+      "occupied": 9495,
+      "matched": 1,
+      "false_alarms": 0,
+      "people": 1,
+      "lost_nodes": 0,
+      "active_height_10cm_bins": {
+        "0": 36
+      },
+      "model_version": "generic-v40-acquisition-r24-fused",
+      "map_sha256": "621ff5f0b39dc4ba13e76d672f4b593c474ffa4cd480a19d9494a8a5fc256870"
+    },
+    {
+      "id": "g40-train-S12-W71012613-N48",
+      "scene": "H03",
+      "nodes": 48,
+      "iou": 0.9476935339244794,
+      "intersection": 9512,
+      "union": 10037,
+      "predicted": 9760,
+      "occupied": 9789,
+      "matched": 1,
+      "false_alarms": 0,
+      "people": 1,
+      "lost_nodes": 0,
+      "active_height_10cm_bins": {
+        "0": 48
+      },
+      "model_version": "generic-v40-acquisition-r24-fused",
+      "map_sha256": "22e9d8c37b2893efdd70775e4922b40434daa19644b3491fcc77673747cf6c58"
+    },
+    {
+      "id": "g40-train-S14-W71014631-N24",
+      "scene": "H05",
+      "nodes": 24,
+      "iou": 0.922570474777448,
+      "intersection": 9949,
+      "union": 10784,
+      "predicted": 10439,
+      "occupied": 10294,
+      "matched": 1,
+      "false_alarms": 0,
+      "people": 1,
+      "lost_nodes": 0,
+      "active_height_10cm_bins": {
+        "0": 21,
+        "3": 3
+      },
+      "model_version": "generic-v40-acquisition-r24-fused",
+      "map_sha256": "1ad3ad3a661795c7b1279f49ef7b8124455627733871335ae2d56da31f91216c"
+    }
+  ]
+}

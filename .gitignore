@@ -6,9 +6,14 @@
 /unity/UserSettings/
 /unity/Assets/StreamingAssets/inference/
 /build/
+/build-generic-*/
+/models/generic-*/
+/reports/**/*.dll
+/reports/**/*.onnx
 /tmp/
 /datasets/generated/
 /experiments/raw/
+/experiments/*/truth/
 /media/frames/
 /media/purumogu-concept-film.mp4
 /media/concept_film_sources/robot-stage/

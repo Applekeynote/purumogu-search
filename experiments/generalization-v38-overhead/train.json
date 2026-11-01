@@ -1,0 +1,228 @@
+{
+  "version": 2,
+  "steps": 6000,
+  "inference_map_interval": 100,
+  "geometry_revision": "ramp-clearance-v1",
+  "geometry_sources": {
+    "RescueComplexScenes.cs": "170d79564076cd16ec4c9441c225cdee6921cdecc2b60886e469321e3f1547e0",
+    "RescueController.cs": "ea4a17be9deaec48acf96308b540e8a42648027adbc1ec0bd93a6d507235294e",
+    "RescueDeployment.cs": "c8afe1e0fc298937f612769ee2762793c62cdabb0b0446d7a27b825e3e636703",
+    "RescueEchoWireMap.cs": "ecca2c71b9bb740ef7fbbe0140d3ae263bf538dbceb353d6bc339cafb4cc739d",
+    "RescueFloorOpenings.cs": "df9727dff2f04ae36fa020a5ccd507d3b9ea47e817050b070ab14cfe7161f067",
+    "RescueMapDashboard.cs": "74a626b7e9984a9060c1c788e75d349bb27b307be721802caca0a52a8b9df11d",
+    "RescueMapKnowledge.cs": "e4451ca0664e165ff3c2a69cb1da26d8b57f0a6928b4e8f8af54a3527037ce67",
+    "RescueMapView.cs": "4956713c06bbfa34670c66ad06eb8deaf7a7339f4592fca158dc04fe0f4da422",
+    "RescueRobot.cs": "bd485f3c1d310637e25f7afc3b4fae238a6603cd289276a065cf9bbb6348a39e",
+    "RescueScene.cs": "2eb390ca02c75b9f0301adb22526f2d0d6b17d86d74a8b7b9bfee4aff171ddbd",
+    "RescueSimulation.cs": "87dc44c54772fc3a3e9a23c0ac7742f675ba1b33f536553ed0de5efa756431a9",
+    "RescueSurfaceLattice.cs": "59933137e0aadc8d589a10d3c31c93c38fd49723862674b3888e2d20e78dbbf8",
+    "RescueViewport.cs": "3f4c0fa0851fbf3bb699c2c78dd2285e729c16602958ba9c87fea9acdb203f2e"
+  },
+  "acquisition_sources": {
+    "unity/Assets/Editor/RescueGeneralization.cs": "595e5540eb42777a5a51e5180dc59cc0fe9784b68058534030fd527be4290671",
+    "unity/Assets/Editor/ProjectTools.cs": "cde8c99f3208a705683a344c889562d59fec745caebdead57db5e96e6f36c4ab",
+    "scripts/collect_rescue_registered.py": "c21d66f1eb9d51a1912252f1db8b3ac8a1ac5c85b392f89f2f5bfe5b49d86d12",
+    "scripts/plan_rescue_registered.py": "f25195d8a5a12cfe982e9b16fa9474a658b382afea4bd4420261b374682bcade"
+  },
+  "model_sha256": "47e5f78d8fb5497af8abf08a843aadc439c977dee9102f1fbb2aff86c99517f8",
+  "server_sha256": "54978ccbec94ba36e663f9c516c7c9ab27e7e42129e27241ba129b88648dc624",
+  "sensor_source_sha256": "bd485f3c1d310637e25f7afc3b4fae238a6603cd289276a065cf9bbb6348a39e",
+  "deployment": "WholeSceneDrop: original overhead scattering; no facade deployment",
+  "test_opened": false,
+  "split": "train",
+  "output": "C:\\Users\\rynat\\OneDrive\\ドキュメント\\ChatGPT\\松尾研\\purumogu-search\\experiments\\raw\\rescue\\generalization-v38-overhead\\train",
+  "cases": [
+    {
+      "id": "g38-train-S25-W51025225-N24",
+      "scene": 25,
+      "seed": 51025225,
+      "nodes": 24,
+      "deployment_seed": 51728369,
+      "source_seed": 51925225
+    },
+    {
+      "id": "g38-train-S26-W51026234-N36",
+      "scene": 26,
+      "seed": 51026234,
+      "nodes": 36,
+      "deployment_seed": 51730950,
+      "source_seed": 51926234
+    },
+    {
+      "id": "g38-train-S15-W51015135-N48",
+      "scene": 15,
+      "seed": 51015135,
+      "nodes": 48,
+      "deployment_seed": 51721423,
+      "source_seed": 51915135
+    },
+    {
+      "id": "g38-train-S16-W51016144-N24",
+      "scene": 16,
+      "seed": 51016144,
+      "nodes": 24,
+      "deployment_seed": 51719288,
+      "source_seed": 51916144
+    },
+    {
+      "id": "g38-train-S18-W51018162-N36",
+      "scene": 18,
+      "seed": 51018162,
+      "nodes": 36,
+      "deployment_seed": 51722878,
+      "source_seed": 51918162
+    },
+    {
+      "id": "g38-train-S20-W51020180-N48",
+      "scene": 20,
+      "seed": 51020180,
+      "nodes": 48,
+      "deployment_seed": 51726468,
+      "source_seed": 51920180
+    },
+    {
+      "id": "g38-train-S21-W51021189-N24",
+      "scene": 21,
+      "seed": 51021189,
+      "nodes": 24,
+      "deployment_seed": 51724333,
+      "source_seed": 51921189
+    },
+    {
+      "id": "g38-train-S24-W51024216-N36",
+      "scene": 24,
+      "seed": 51024216,
+      "nodes": 36,
+      "deployment_seed": 51728932,
+      "source_seed": 51924216
+    },
+    {
+      "id": "g38-train-S25-W51025326-N36",
+      "scene": 25,
+      "seed": 51025326,
+      "nodes": 36,
+      "deployment_seed": 51730042,
+      "source_seed": 51925326
+    },
+    {
+      "id": "g38-train-S26-W51026335-N48",
+      "scene": 26,
+      "seed": 51026335,
+      "nodes": 48,
+      "deployment_seed": 51732623,
+      "source_seed": 51926335
+    },
+    {
+      "id": "g38-train-S15-W51015236-N24",
+      "scene": 15,
+      "seed": 51015236,
+      "nodes": 24,
+      "deployment_seed": 51718380,
+      "source_seed": 51915236
+    },
+    {
+      "id": "g38-train-S16-W51016245-N36",
+      "scene": 16,
+      "seed": 51016245,
+      "nodes": 36,
+      "deployment_seed": 51720961,
+      "source_seed": 51916245
+    },
+    {
+      "id": "g38-train-S18-W51018263-N48",
+      "scene": 18,
+      "seed": 51018263,
+      "nodes": 48,
+      "deployment_seed": 51724551,
+      "source_seed": 51918263
+    },
+    {
+      "id": "g38-train-S20-W51020281-N24",
+      "scene": 20,
+      "seed": 51020281,
+      "nodes": 24,
+      "deployment_seed": 51723425,
+      "source_seed": 51920281
+    },
+    {
+      "id": "g38-train-S21-W51021290-N36",
+      "scene": 21,
+      "seed": 51021290,
+      "nodes": 36,
+      "deployment_seed": 51726006,
+      "source_seed": 51921290
+    },
+    {
+      "id": "g38-train-S24-W51024317-N48",
+      "scene": 24,
+      "seed": 51024317,
+      "nodes": 48,
+      "deployment_seed": 51730605,
+      "source_seed": 51924317
+    },
+    {
+      "id": "g38-train-S25-W51025427-N48",
+      "scene": 25,
+      "seed": 51025427,
+      "nodes": 48,
+      "deployment_seed": 51731715,
+      "source_seed": 51925427
+    },
+    {
+      "id": "g38-train-S26-W51026436-N24",
+      "scene": 26,
+      "seed": 51026436,
+      "nodes": 24,
+      "deployment_seed": 51729580,
+      "source_seed": 51926436
+    },
+    {
+      "id": "g38-train-S15-W51015337-N36",
+      "scene": 15,
+      "seed": 51015337,
+      "nodes": 36,
+      "deployment_seed": 51720053,
+      "source_seed": 51915337
+    },
+    {
+      "id": "g38-train-S16-W51016346-N48",
+      "scene": 16,
+      "seed": 51016346,
+      "nodes": 48,
+      "deployment_seed": 51722634,
+      "source_seed": 51916346
+    },
+    {
+      "id": "g38-train-S18-W51018364-N24",
+      "scene": 18,
+      "seed": 51018364,
+      "nodes": 24,
+      "deployment_seed": 51721508,
+      "source_seed": 51918364
+    },
+    {
+      "id": "g38-train-S20-W51020382-N36",
+      "scene": 20,
+      "seed": 51020382,
+      "nodes": 36,
+      "deployment_seed": 51725098,
+      "source_seed": 51920382
+    },
+    {
+      "id": "g38-train-S21-W51021391-N48",
+      "scene": 21,
+      "seed": 51021391,
+      "nodes": 48,
+      "deployment_seed": 51727679,
+      "source_seed": 51921391
+    },
+    {
+      "id": "g38-train-S24-W51024418-N24",
+      "scene": 24,
+      "seed": 51024418,
+      "nodes": 24,
+      "deployment_seed": 51727562,
+      "source_seed": 51924418
+    }
+  ]
+}

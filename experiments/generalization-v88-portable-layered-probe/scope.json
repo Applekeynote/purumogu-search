@@ -1,0 +1,10 @@
+{
+  "status": "pass",
+  "package": "dist/PurumoguSearch-Development-Layered-R36",
+  "manifest_sha256": "1d404061d1a3d2179f7eeba4f1eb51afaf629a89919873272f984044a43bba53",
+  "qa_sha256": "186c28e1c7743149341213044cbb87fa6a86d34d795167bc06ffd5b9a7d1ac14",
+  "scenes": 36,
+  "purpose": "Portability and lifecycle only; model accuracy evaluation still in progress",
+  "publicly_released": false,
+  "final_test_opened": false
+}

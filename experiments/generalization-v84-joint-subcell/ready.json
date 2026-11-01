@@ -1,0 +1,8 @@
+{
+  "status": "complete",
+  "manifest_sha256": "f8c4371d64c81480c049fed533053ee51b56d3d85eb8edd9a513aac89a45d94b",
+  "worlds": 132,
+  "coordinate_views": 264,
+  "snapshots": 528,
+  "final_test_opened": false
+}

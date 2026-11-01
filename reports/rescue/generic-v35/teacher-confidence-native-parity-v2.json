@@ -1,0 +1,35 @@
+{
+  "status": "pass",
+  "case": "g60-train-S33-W123033499-N48",
+  "sensor_packets_sha256": "a83f4d99fde493dc84d06c73eda35ab5ffb8a1e6c19c9d7bdcc313780e71e8aa",
+  "source_model_sha256": "88ecd0f873dc5f261fd039bc94d1af18410f314db5e14157d28ae2bf99ceab49",
+  "server_sha256": "4ec0430f3379fccb64c5955ed4cff584840862864a251bb6a29c04d1baaacef8",
+  "feature_map": "thermal-spectral-teacher33-v5",
+  "rows": [
+    {
+      "step": 1500,
+      "proposals": 83,
+      "maximum_context_error": 8.881784197001252e-16,
+      "unchanged_prefix": true,
+      "unchanged_control": true
+    },
+    {
+      "step": 6000,
+      "proposals": 199,
+      "maximum_context_error": 1.3322676295501878e-15,
+      "unchanged_prefix": true,
+      "unchanged_control": true
+    },
+    {
+      "step": 18000,
+      "proposals": 307,
+      "maximum_context_error": 1.3322676295501878e-15,
+      "unchanged_prefix": true,
+      "unchanged_control": true
+    }
+  ],
+  "truth_to_native": false,
+  "final_test_opened": false,
+  "closed_loop_acceptance": false,
+  "teacher_base_sha256": "cdb54f5d6bd73e2b9c3acd122ff10d8adc8eb7184f016bcfc3f2350fe8f5048b"
+}

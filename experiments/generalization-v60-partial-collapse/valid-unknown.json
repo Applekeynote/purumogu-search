@@ -1,0 +1,89 @@
+{
+  "version": 2,
+  "steps": 18000,
+  "inference_map_interval": 100,
+  "geometry_revision": "layered-partial-collapse-variable-storeys-v2",
+  "geometry_sources": {
+    "RescueComplexScenes.cs": "6e696d3ed00f290e9a7b4bf9d95d570db884360c00659dd04440e8d6a171f583",
+    "RescueController.cs": "9e1acc4afa0ddd5116613a37be5d6ef90df7207156e48c9e7e1323936b1b461b",
+    "RescueDeployment.cs": "357f833e13ba430a3a345136ba160fdc4413f4b32448f6b2daf8480e69f1f907",
+    "RescueEchoWireMap.cs": "ecca2c71b9bb740ef7fbbe0140d3ae263bf538dbceb353d6bc339cafb4cc739d",
+    "RescueExteriorDeployment.cs": "0d97b1016c2bb6ae0b81604474fe5af6978b723c9e1927598285f329ea4c2d12",
+    "RescueFloorOpenings.cs": "df9727dff2f04ae36fa020a5ccd507d3b9ea47e817050b070ab14cfe7161f067",
+    "RescueMapDashboard.cs": "74a626b7e9984a9060c1c788e75d349bb27b307be721802caca0a52a8b9df11d",
+    "RescueMapKnowledge.cs": "e4451ca0664e165ff3c2a69cb1da26d8b57f0a6928b4e8f8af54a3527037ce67",
+    "RescueMapView.cs": "4956713c06bbfa34670c66ad06eb8deaf7a7339f4592fca158dc04fe0f4da422",
+    "RescuePartialCollapse.cs": "fc0d5063f16bc65f8557176fce380ccb9ecc9d220aa575da552b37056b8d104e",
+    "RescueRobot.cs": "bd485f3c1d310637e25f7afc3b4fae238a6603cd289276a065cf9bbb6348a39e",
+    "RescueScene.cs": "d933ed02b267aedfdd6a99bc8f829796b1436ce191c749504ea9ef0514d86f58",
+    "RescueSimulation.cs": "5263de7cef8df646804ab9ea9c0d951c3c17f1026fa63e8cd28276ca98c325eb",
+    "RescueSurfaceLattice.cs": "59933137e0aadc8d589a10d3c31c93c38fd49723862674b3888e2d20e78dbbf8",
+    "RescueViewport.cs": "3f4c0fa0851fbf3bb699c2c78dd2285e729c16602958ba9c87fea9acdb203f2e"
+  },
+  "acquisition_sources": {
+    "unity/Assets/Editor/RescueGeneralization.cs": "257946e2cbe19577df3425b447b91f69f19ba3e2d11630ba9f5209fa87f2eb93",
+    "unity/Assets/Editor/ProjectTools.cs": "32545299690da1aaabfe00b7f772dd63e64dd1a468d8f0853b785186d1888460",
+    "scripts/collect_rescue_registered.py": "c21d66f1eb9d51a1912252f1db8b3ac8a1ac5c85b392f89f2f5bfe5b49d86d12",
+    "scripts/plan_rescue_collapse.py": "50917036217bc566e2ba5dd989d26170560faeb0afc14136426ff4d4364dabec"
+  },
+  "model": "models/generic-v47-acquisition-r28-long/model.json",
+  "server": "tmp/generic-tsdf-rust-target/release/rescue_server.exe",
+  "model_sha256": "95714618c3351c5bc38eb8f48eee7a181f454ea18ada0acdfc44bd00e34928b5",
+  "server_sha256": "b02e4f418646a4cc1600537952b4014be7433eb1413c8c1a99a75370344cdaa7",
+  "sensor_source_sha256": "bd485f3c1d310637e25f7afc3b4fae238a6603cd289276a065cf9bbb6348a39e",
+  "deployment_mode": "RoofAndFacadeDrop",
+  "deployment": "One third roof, two thirds real visible exterior openings on all storeys",
+  "test_opened": false,
+  "split": "valid-unknown",
+  "output": "C:\\Users\\rynat\\OneDrive\\ドキュメント\\ChatGPT\\松尾研\\purumogu-search\\experiments\\raw\\rescue\\generalization-v60-partial-collapse\\valid-unknown",
+  "cases": [
+    {
+      "id": "g60-valid-unknown-S34-W125034306-N24",
+      "scene": 34,
+      "seed": 125034306,
+      "nodes": 24,
+      "deployment_seed": 125737450,
+      "source_seed": 125934306
+    },
+    {
+      "id": "g60-valid-unknown-S34-W125034306-N36",
+      "scene": 34,
+      "seed": 125034306,
+      "nodes": 36,
+      "deployment_seed": 125739022,
+      "source_seed": 125934306
+    },
+    {
+      "id": "g60-valid-unknown-S34-W125034306-N48",
+      "scene": 34,
+      "seed": 125034306,
+      "nodes": 48,
+      "deployment_seed": 125740594,
+      "source_seed": 125934306
+    },
+    {
+      "id": "g60-valid-unknown-S35-W125035315-N24",
+      "scene": 35,
+      "seed": 125035315,
+      "nodes": 24,
+      "deployment_seed": 125738459,
+      "source_seed": 125935315
+    },
+    {
+      "id": "g60-valid-unknown-S35-W125035315-N36",
+      "scene": 35,
+      "seed": 125035315,
+      "nodes": 36,
+      "deployment_seed": 125740031,
+      "source_seed": 125935315
+    },
+    {
+      "id": "g60-valid-unknown-S35-W125035315-N48",
+      "scene": 35,
+      "seed": 125035315,
+      "nodes": 48,
+      "deployment_seed": 125741603,
+      "source_seed": 125935315
+    }
+  ]
+}

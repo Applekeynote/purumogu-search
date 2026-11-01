@@ -8,3 +8,5 @@ license.workspace = true
 serde.workspace = true
 serde_json.workspace = true
 anyhow.workspace = true
+ort = { version = "=2.0.0-rc.10", default-features = false, features = ["std", "load-dynamic"] }
+sha2 = "=0.10.9"

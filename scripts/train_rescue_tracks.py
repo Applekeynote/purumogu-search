@@ -31,10 +31,18 @@ def choose(rows,model,threshold,nms):
         candidates=[]
         for p in row['proposals']:
             score=score_model(model,p['features'])
-            if score>=threshold:candidates.append(dict(position=p['position'],score=score))
-        candidates.sort(key=lambda p:-p['score']);cues=[]
+            candidates.append(dict(position=p['position'],score=score))
+        candidates.sort(key=lambda p:-p['score']);cues=[];seeds=[]
+        def distance(a,b):return math.sqrt(sum((x-y)**2*(model.get('track_height_scale',1)**2 if i==1 else 1) for i,(x,y) in enumerate(zip(a,b))))
         for p in candidates:
-            if all(math.dist(p['position'],q['position'])>nms for q in cues):cues.append(p)
+            if p['score']<threshold:break
+            if any(distance(p['position'],q['position'])<=nms for q in seeds):continue
+            seeds.append(p);cue=dict(p);radius=model.get('track_refine_radius_m',0)
+            if radius>0:
+                neighbors=[q for q in candidates if distance(p['position'],q['position'])<=radius]
+                weights=[max(1e-9,q['score'])**model.get('track_refine_score_power',1) for q in neighbors]
+                cue['position']=[sum(q['position'][i]*w for q,w in zip(neighbors,weights))/sum(weights) for i in range(3)]
+            cues.append(cue)
             if len(cues)==3:break
         count,_=match(cues,row['victim_positions']);false=len(cues)-count
         tp+=count;fp+=false;people+=len(row['victim_positions'])

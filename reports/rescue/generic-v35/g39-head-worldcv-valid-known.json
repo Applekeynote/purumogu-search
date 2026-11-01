@@ -1,0 +1,325 @@
+{
+  "purpose": "Fixed development proposals; not closed-loop acceptance",
+  "test_opened": false,
+  "split": "valid-known",
+  "step": 6000,
+  "model": "models/generic-v40-tracks-worldcv/model.json",
+  "model_sha256": "cdb54f5d6bd73e2b9c3acd122ff10d8adc8eb7184f016bcfc3f2350fe8f5048b",
+  "summary": {
+    "precision": 0.9302325581395349,
+    "recall": 0.9523809523809523,
+    "matched": 40,
+    "false_alarms": 3,
+    "people": 42
+  },
+  "by_area": {
+    "0": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "matched": 3,
+      "false_alarms": 0,
+      "people": 3
+    },
+    "3": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "matched": 3,
+      "false_alarms": 0,
+      "people": 3
+    },
+    "8": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "matched": 3,
+      "false_alarms": 0,
+      "people": 3
+    },
+    "13": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "matched": 6,
+      "false_alarms": 0,
+      "people": 6
+    },
+    "15": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "matched": 3,
+      "false_alarms": 0,
+      "people": 3
+    },
+    "18": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "matched": 3,
+      "false_alarms": 0,
+      "people": 3
+    },
+    "20": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "matched": 6,
+      "false_alarms": 0,
+      "people": 6
+    },
+    "25": {
+      "precision": 0.8888888888888888,
+      "recall": 0.8888888888888888,
+      "matched": 8,
+      "false_alarms": 1,
+      "people": 9
+    },
+    "26": {
+      "precision": 0.7142857142857143,
+      "recall": 0.8333333333333334,
+      "matched": 5,
+      "false_alarms": 2,
+      "people": 6
+    }
+  },
+  "rows": [
+    {
+      "id": "g39-valid-known-S00-W62000000-N24",
+      "area": 0,
+      "nodes": 24,
+      "matched": 1,
+      "false_alarms": 0,
+      "people": 1,
+      "map_sha256": "b89f6ed6b7e91c7c2123d130c9a67c1bfb4f1dc44d603884a40c4ac187ce706e"
+    },
+    {
+      "id": "g39-valid-known-S00-W62000000-N36",
+      "area": 0,
+      "nodes": 36,
+      "matched": 1,
+      "false_alarms": 0,
+      "people": 1,
+      "map_sha256": "37ded8209ab8c7a3450d6bc870e002fed99adc98909f0a803ba50c7af7454c2b"
+    },
+    {
+      "id": "g39-valid-known-S00-W62000000-N48",
+      "area": 0,
+      "nodes": 48,
+      "matched": 1,
+      "false_alarms": 0,
+      "people": 1,
+      "map_sha256": "3304a474b6b4c482edf02e12dec303fdd2565763b989da41d9e8ffe423d93918"
+    },
+    {
+      "id": "g39-valid-known-S03-W62003027-N24",
+      "area": 3,
+      "nodes": 24,
+      "matched": 1,
+      "false_alarms": 0,
+      "people": 1,
+      "map_sha256": "849ef5d1e3596832dd7baef3a3621f29dce7a55fb98fa22267aed62a0d39f863"
+    },
+    {
+      "id": "g39-valid-known-S03-W62003027-N36",
+      "area": 3,
+      "nodes": 36,
+      "matched": 1,
+      "false_alarms": 0,
+      "people": 1,
+      "map_sha256": "8540e36dafec5b5bbab0d5d7d77cec8427ae8f91897f8cba99f2e59098b35aa7"
+    },
+    {
+      "id": "g39-valid-known-S03-W62003027-N48",
+      "area": 3,
+      "nodes": 48,
+      "matched": 1,
+      "false_alarms": 0,
+      "people": 1,
+      "map_sha256": "de8654d4fdaa8c47ca91333ba60cf5b72cf898cd2cb679957f3d9a27ae9e750e"
+    },
+    {
+      "id": "g39-valid-known-S08-W62008072-N24",
+      "area": 8,
+      "nodes": 24,
+      "matched": 1,
+      "false_alarms": 0,
+      "people": 1,
+      "map_sha256": "0b83e13049d31a1eea3f3a3306e03ab29d8db7cc7a825f53b4cc23130bf4ffd5"
+    },
+    {
+      "id": "g39-valid-known-S08-W62008072-N36",
+      "area": 8,
+      "nodes": 36,
+      "matched": 1,
+      "false_alarms": 0,
+      "people": 1,
+      "map_sha256": "018b1b10924aa05baf70949558d373b40043754c08fb8476db93b251293bbfc2"
+    },
+    {
+      "id": "g39-valid-known-S08-W62008072-N48",
+      "area": 8,
+      "nodes": 48,
+      "matched": 1,
+      "false_alarms": 0,
+      "people": 1,
+      "map_sha256": "8fde45481f184aa7ebf8edfa1e05fddb4724a33b45f4406dc877608f49b1d131"
+    },
+    {
+      "id": "g39-valid-known-S13-W62013117-N24",
+      "area": 13,
+      "nodes": 24,
+      "matched": 2,
+      "false_alarms": 0,
+      "people": 2,
+      "map_sha256": "c004faf5c1974502461ab90c6fc6c8803fa5a1f196db95e98e51530120e7990a"
+    },
+    {
+      "id": "g39-valid-known-S13-W62013117-N36",
+      "area": 13,
+      "nodes": 36,
+      "matched": 2,
+      "false_alarms": 0,
+      "people": 2,
+      "map_sha256": "4c3639123a113795ea67b65a4d7178afbe0bc2fd3d3c39d4225bf0b389c17d5d"
+    },
+    {
+      "id": "g39-valid-known-S13-W62013117-N48",
+      "area": 13,
+      "nodes": 48,
+      "matched": 2,
+      "false_alarms": 0,
+      "people": 2,
+      "map_sha256": "2d1edcf35e8cba0dacabd810168a0a6518c121685762af0c0ad2147b5098ca09"
+    },
+    {
+      "id": "g39-valid-known-S15-W62015135-N24",
+      "area": 15,
+      "nodes": 24,
+      "matched": 1,
+      "false_alarms": 0,
+      "people": 1,
+      "map_sha256": "76c5de0d66dfcf93cca567604e360aa7a0e62f0f8875b97d7ac886a86d1aad0f"
+    },
+    {
+      "id": "g39-valid-known-S15-W62015135-N36",
+      "area": 15,
+      "nodes": 36,
+      "matched": 1,
+      "false_alarms": 0,
+      "people": 1,
+      "map_sha256": "f915ef44f37b24a04f7eecd54cebe9c96b26d5d772b938f6a209559ce394d40d"
+    },
+    {
+      "id": "g39-valid-known-S15-W62015135-N48",
+      "area": 15,
+      "nodes": 48,
+      "matched": 1,
+      "false_alarms": 0,
+      "people": 1,
+      "map_sha256": "ed1d375e621a6d85864856325051d7807ee4af93780fd894add35cf1c35b8a27"
+    },
+    {
+      "id": "g39-valid-known-S18-W62018162-N24",
+      "area": 18,
+      "nodes": 24,
+      "matched": 1,
+      "false_alarms": 0,
+      "people": 1,
+      "map_sha256": "0bc1b1a58b34fbf80ac74fdb9f74689487c6cbfa39136f417a68179a9923644f"
+    },
+    {
+      "id": "g39-valid-known-S18-W62018162-N36",
+      "area": 18,
+      "nodes": 36,
+      "matched": 1,
+      "false_alarms": 0,
+      "people": 1,
+      "map_sha256": "6ee3602c55203bb7c11849492b10aa76a978f5b3d850f72a04808604e21c328e"
+    },
+    {
+      "id": "g39-valid-known-S18-W62018162-N48",
+      "area": 18,
+      "nodes": 48,
+      "matched": 1,
+      "false_alarms": 0,
+      "people": 1,
+      "map_sha256": "ead7dcff5075e0d3c7046ef0fcbb3843af4950cee12416263c92bf8f2f4495bd"
+    },
+    {
+      "id": "g39-valid-known-S20-W62020180-N24",
+      "area": 20,
+      "nodes": 24,
+      "matched": 2,
+      "false_alarms": 0,
+      "people": 2,
+      "map_sha256": "fc86302ad3a91bedc5a182ac0a67e013ab1e4bc7caa5ce854233f7c0d4bb9d8f"
+    },
+    {
+      "id": "g39-valid-known-S20-W62020180-N36",
+      "area": 20,
+      "nodes": 36,
+      "matched": 2,
+      "false_alarms": 0,
+      "people": 2,
+      "map_sha256": "80bc3d3a8282213991acf2894a3e698829a8bc998840ef7ad1857df32a7b83f1"
+    },
+    {
+      "id": "g39-valid-known-S20-W62020180-N48",
+      "area": 20,
+      "nodes": 48,
+      "matched": 2,
+      "false_alarms": 0,
+      "people": 2,
+      "map_sha256": "e7d17bfe4a1337d9540acf38392dc4a3f1ff1a45fcce5b5c6d332a4dc96695b8"
+    },
+    {
+      "id": "g39-valid-known-S25-W62025225-N24",
+      "area": 25,
+      "nodes": 24,
+      "matched": 2,
+      "false_alarms": 1,
+      "people": 3,
+      "map_sha256": "6a1c1bab214279aabd880dd6c07311ca9328335c5a1bb90d5496c454f44029ee"
+    },
+    {
+      "id": "g39-valid-known-S25-W62025225-N36",
+      "area": 25,
+      "nodes": 36,
+      "matched": 3,
+      "false_alarms": 0,
+      "people": 3,
+      "map_sha256": "e09857efc3549908346081eff6e9bd3bf51aff6c1601671ca013188c0fcc110e"
+    },
+    {
+      "id": "g39-valid-known-S25-W62025225-N48",
+      "area": 25,
+      "nodes": 48,
+      "matched": 3,
+      "false_alarms": 0,
+      "people": 3,
+      "map_sha256": "b5f0061e4508431bbf6c2c9f22f5664a1e5de07041dbc8cee921b0bff5800359"
+    },
+    {
+      "id": "g39-valid-known-S26-W62026234-N24",
+      "area": 26,
+      "nodes": 24,
+      "matched": 1,
+      "false_alarms": 1,
+      "people": 2,
+      "map_sha256": "ff43e22cc079abd4f243e57b43c16718061f549eed8ac5d8dd0d6adb6cccd3ce"
+    },
+    {
+      "id": "g39-valid-known-S26-W62026234-N36",
+      "area": 26,
+      "nodes": 36,
+      "matched": 2,
+      "false_alarms": 0,
+      "people": 2,
+      "map_sha256": "fbb8dc4dc723db3a650d544e7d41c2f6de3962adbe03396106d65eac1a03a8ef"
+    },
+    {
+      "id": "g39-valid-known-S26-W62026234-N48",
+      "area": 26,
+      "nodes": 48,
+      "matched": 2,
+      "false_alarms": 1,
+      "people": 2,
+      "map_sha256": "e6efbd579777ceb231d38b19d96bd34106034fe803b104f40645483a0a9d5d2f"
+    }
+  ]
+}

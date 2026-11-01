@@ -1,0 +1,15 @@
+{
+  "status": "pass",
+  "purpose": "Causal coordinate-augmentation prefix parity; not accuracy",
+  "case": "g47-train-S25-W94025225-N24",
+  "coordinate_view": 0,
+  "step": 6000,
+  "comparison": "Full360-second replay snapshot versus independently truncated120-second replay",
+  "all_cells_and_estimated_poses_equal": true,
+  "maximum_90_feature_error": 0.0,
+  "model_sha256": "299d8452bb8eefd5452fc27a26867cb57f0ebff74a9f61c3cadd52a030325273",
+  "binary_sha256": "a7837d32f75b76233823812b436993f7524b47860d0c23cffe2e1ffd7967f302",
+  "source_packets_sha256": "ccf7904a8cf6f277cd97075b21176db180abd8f85ead1e21f0578a26192228e0",
+  "truth_to_native": false,
+  "final_test_opened": false
+}

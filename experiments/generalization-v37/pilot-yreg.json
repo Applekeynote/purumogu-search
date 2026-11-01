@@ -1,0 +1,60 @@
+{
+  "version": 1,
+  "split": "valid-pilot-yreg",
+  "steps": 6000,
+  "output": "C:\\Users\\rynat\\OneDrive\\\u30c9\u30ad\u30e5\u30e1\u30f3\u30c8\\ChatGPT\\\u677e\u5c3e\u7814\\purumogu-search\\experiments\\raw\\rescue\\generalization-v37\\pilot-yreg",
+  "cases": [
+    {
+      "id": "valid-known-S25-W42025225-N24",
+      "scene": 25,
+      "seed": 42025225,
+      "nodes": 24,
+      "deployment_seed": 42728369,
+      "source_seed": 42925225
+    },
+    {
+      "id": "valid-known-S25-W42025225-N48",
+      "scene": 25,
+      "seed": 42025225,
+      "nodes": 48,
+      "deployment_seed": 42731513,
+      "source_seed": 42925225
+    },
+    {
+      "id": "valid-known-S26-W42026234-N24",
+      "scene": 26,
+      "seed": 42026234,
+      "nodes": 24,
+      "deployment_seed": 42729378,
+      "source_seed": 42926234
+    },
+    {
+      "id": "valid-known-S26-W42026234-N48",
+      "scene": 26,
+      "seed": 42026234,
+      "nodes": 48,
+      "deployment_seed": 42732522,
+      "source_seed": 42926234
+    },
+    {
+      "id": "valid-unknown-S29-W43029261-N24",
+      "scene": 29,
+      "seed": 43029261,
+      "nodes": 24,
+      "deployment_seed": 43732405,
+      "source_seed": 43929261
+    },
+    {
+      "id": "valid-unknown-S29-W43029261-N48",
+      "scene": 29,
+      "seed": 43029261,
+      "nodes": 48,
+      "deployment_seed": 43735549,
+      "source_seed": 43929261
+    }
+  ],
+  "purpose": "Fresh closed-loop paired VALID pilot, unchanged sensors/noise/physics",
+  "model_sha256": "744d0826c912eba4a3007a9846a0258734622348a684d3ec344830ebec56444a",
+  "server_sha256": "7e48b9862bc66584e1fb133371ddcf617bbdda286ffd3ef7a86feec8e7069710",
+  "test_opened": false
+}

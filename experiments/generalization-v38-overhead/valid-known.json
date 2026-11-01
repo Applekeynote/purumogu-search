@@ -1,0 +1,252 @@
+{
+  "version": 2,
+  "steps": 6000,
+  "inference_map_interval": 100,
+  "geometry_revision": "ramp-clearance-v1",
+  "geometry_sources": {
+    "RescueComplexScenes.cs": "170d79564076cd16ec4c9441c225cdee6921cdecc2b60886e469321e3f1547e0",
+    "RescueController.cs": "ea4a17be9deaec48acf96308b540e8a42648027adbc1ec0bd93a6d507235294e",
+    "RescueDeployment.cs": "c8afe1e0fc298937f612769ee2762793c62cdabb0b0446d7a27b825e3e636703",
+    "RescueEchoWireMap.cs": "ecca2c71b9bb740ef7fbbe0140d3ae263bf538dbceb353d6bc339cafb4cc739d",
+    "RescueFloorOpenings.cs": "df9727dff2f04ae36fa020a5ccd507d3b9ea47e817050b070ab14cfe7161f067",
+    "RescueMapDashboard.cs": "74a626b7e9984a9060c1c788e75d349bb27b307be721802caca0a52a8b9df11d",
+    "RescueMapKnowledge.cs": "e4451ca0664e165ff3c2a69cb1da26d8b57f0a6928b4e8f8af54a3527037ce67",
+    "RescueMapView.cs": "4956713c06bbfa34670c66ad06eb8deaf7a7339f4592fca158dc04fe0f4da422",
+    "RescueRobot.cs": "bd485f3c1d310637e25f7afc3b4fae238a6603cd289276a065cf9bbb6348a39e",
+    "RescueScene.cs": "2eb390ca02c75b9f0301adb22526f2d0d6b17d86d74a8b7b9bfee4aff171ddbd",
+    "RescueSimulation.cs": "87dc44c54772fc3a3e9a23c0ac7742f675ba1b33f536553ed0de5efa756431a9",
+    "RescueSurfaceLattice.cs": "59933137e0aadc8d589a10d3c31c93c38fd49723862674b3888e2d20e78dbbf8",
+    "RescueViewport.cs": "3f4c0fa0851fbf3bb699c2c78dd2285e729c16602958ba9c87fea9acdb203f2e"
+  },
+  "acquisition_sources": {
+    "unity/Assets/Editor/RescueGeneralization.cs": "595e5540eb42777a5a51e5180dc59cc0fe9784b68058534030fd527be4290671",
+    "unity/Assets/Editor/ProjectTools.cs": "cde8c99f3208a705683a344c889562d59fec745caebdead57db5e96e6f36c4ab",
+    "scripts/collect_rescue_registered.py": "c21d66f1eb9d51a1912252f1db8b3ac8a1ac5c85b392f89f2f5bfe5b49d86d12",
+    "scripts/plan_rescue_registered.py": "f25195d8a5a12cfe982e9b16fa9474a658b382afea4bd4420261b374682bcade"
+  },
+  "model_sha256": "47e5f78d8fb5497af8abf08a843aadc439c977dee9102f1fbb2aff86c99517f8",
+  "server_sha256": "54978ccbec94ba36e663f9c516c7c9ab27e7e42129e27241ba129b88648dc624",
+  "sensor_source_sha256": "bd485f3c1d310637e25f7afc3b4fae238a6603cd289276a065cf9bbb6348a39e",
+  "deployment": "WholeSceneDrop: original overhead scattering; no facade deployment",
+  "test_opened": false,
+  "split": "valid-known",
+  "output": "C:\\Users\\rynat\\OneDrive\\ドキュメント\\ChatGPT\\松尾研\\purumogu-search\\experiments\\raw\\rescue\\generalization-v38-overhead\\valid-known",
+  "cases": [
+    {
+      "id": "g38-valid-known-S00-W52000000-N24",
+      "scene": 0,
+      "seed": 52000000,
+      "nodes": 24,
+      "deployment_seed": 52703144,
+      "source_seed": 52900000
+    },
+    {
+      "id": "g38-valid-known-S00-W52000000-N36",
+      "scene": 0,
+      "seed": 52000000,
+      "nodes": 36,
+      "deployment_seed": 52704716,
+      "source_seed": 52900000
+    },
+    {
+      "id": "g38-valid-known-S00-W52000000-N48",
+      "scene": 0,
+      "seed": 52000000,
+      "nodes": 48,
+      "deployment_seed": 52706288,
+      "source_seed": 52900000
+    },
+    {
+      "id": "g38-valid-known-S03-W52003027-N24",
+      "scene": 3,
+      "seed": 52003027,
+      "nodes": 24,
+      "deployment_seed": 52706171,
+      "source_seed": 52903027
+    },
+    {
+      "id": "g38-valid-known-S03-W52003027-N36",
+      "scene": 3,
+      "seed": 52003027,
+      "nodes": 36,
+      "deployment_seed": 52707743,
+      "source_seed": 52903027
+    },
+    {
+      "id": "g38-valid-known-S03-W52003027-N48",
+      "scene": 3,
+      "seed": 52003027,
+      "nodes": 48,
+      "deployment_seed": 52709315,
+      "source_seed": 52903027
+    },
+    {
+      "id": "g38-valid-known-S08-W52008072-N24",
+      "scene": 8,
+      "seed": 52008072,
+      "nodes": 24,
+      "deployment_seed": 52711216,
+      "source_seed": 52908072
+    },
+    {
+      "id": "g38-valid-known-S08-W52008072-N36",
+      "scene": 8,
+      "seed": 52008072,
+      "nodes": 36,
+      "deployment_seed": 52712788,
+      "source_seed": 52908072
+    },
+    {
+      "id": "g38-valid-known-S08-W52008072-N48",
+      "scene": 8,
+      "seed": 52008072,
+      "nodes": 48,
+      "deployment_seed": 52714360,
+      "source_seed": 52908072
+    },
+    {
+      "id": "g38-valid-known-S13-W52013117-N24",
+      "scene": 13,
+      "seed": 52013117,
+      "nodes": 24,
+      "deployment_seed": 52716261,
+      "source_seed": 52913117
+    },
+    {
+      "id": "g38-valid-known-S13-W52013117-N36",
+      "scene": 13,
+      "seed": 52013117,
+      "nodes": 36,
+      "deployment_seed": 52717833,
+      "source_seed": 52913117
+    },
+    {
+      "id": "g38-valid-known-S13-W52013117-N48",
+      "scene": 13,
+      "seed": 52013117,
+      "nodes": 48,
+      "deployment_seed": 52719405,
+      "source_seed": 52913117
+    },
+    {
+      "id": "g38-valid-known-S15-W52015135-N24",
+      "scene": 15,
+      "seed": 52015135,
+      "nodes": 24,
+      "deployment_seed": 52718279,
+      "source_seed": 52915135
+    },
+    {
+      "id": "g38-valid-known-S15-W52015135-N36",
+      "scene": 15,
+      "seed": 52015135,
+      "nodes": 36,
+      "deployment_seed": 52719851,
+      "source_seed": 52915135
+    },
+    {
+      "id": "g38-valid-known-S15-W52015135-N48",
+      "scene": 15,
+      "seed": 52015135,
+      "nodes": 48,
+      "deployment_seed": 52721423,
+      "source_seed": 52915135
+    },
+    {
+      "id": "g38-valid-known-S18-W52018162-N24",
+      "scene": 18,
+      "seed": 52018162,
+      "nodes": 24,
+      "deployment_seed": 52721306,
+      "source_seed": 52918162
+    },
+    {
+      "id": "g38-valid-known-S18-W52018162-N36",
+      "scene": 18,
+      "seed": 52018162,
+      "nodes": 36,
+      "deployment_seed": 52722878,
+      "source_seed": 52918162
+    },
+    {
+      "id": "g38-valid-known-S18-W52018162-N48",
+      "scene": 18,
+      "seed": 52018162,
+      "nodes": 48,
+      "deployment_seed": 52724450,
+      "source_seed": 52918162
+    },
+    {
+      "id": "g38-valid-known-S20-W52020180-N24",
+      "scene": 20,
+      "seed": 52020180,
+      "nodes": 24,
+      "deployment_seed": 52723324,
+      "source_seed": 52920180
+    },
+    {
+      "id": "g38-valid-known-S20-W52020180-N36",
+      "scene": 20,
+      "seed": 52020180,
+      "nodes": 36,
+      "deployment_seed": 52724896,
+      "source_seed": 52920180
+    },
+    {
+      "id": "g38-valid-known-S20-W52020180-N48",
+      "scene": 20,
+      "seed": 52020180,
+      "nodes": 48,
+      "deployment_seed": 52726468,
+      "source_seed": 52920180
+    },
+    {
+      "id": "g38-valid-known-S25-W52025225-N24",
+      "scene": 25,
+      "seed": 52025225,
+      "nodes": 24,
+      "deployment_seed": 52728369,
+      "source_seed": 52925225
+    },
+    {
+      "id": "g38-valid-known-S25-W52025225-N36",
+      "scene": 25,
+      "seed": 52025225,
+      "nodes": 36,
+      "deployment_seed": 52729941,
+      "source_seed": 52925225
+    },
+    {
+      "id": "g38-valid-known-S25-W52025225-N48",
+      "scene": 25,
+      "seed": 52025225,
+      "nodes": 48,
+      "deployment_seed": 52731513,
+      "source_seed": 52925225
+    },
+    {
+      "id": "g38-valid-known-S26-W52026234-N24",
+      "scene": 26,
+      "seed": 52026234,
+      "nodes": 24,
+      "deployment_seed": 52729378,
+      "source_seed": 52926234
+    },
+    {
+      "id": "g38-valid-known-S26-W52026234-N36",
+      "scene": 26,
+      "seed": 52026234,
+      "nodes": 36,
+      "deployment_seed": 52730950,
+      "source_seed": 52926234
+    },
+    {
+      "id": "g38-valid-known-S26-W52026234-N48",
+      "scene": 26,
+      "seed": 52026234,
+      "nodes": 48,
+      "deployment_seed": 52732522,
+      "source_seed": 52926234
+    }
+  ]
+}
