@@ -14,9 +14,11 @@ namespace Purumogu.Editor
         public void OnPreprocessBuild(BuildReport report)
         {
             string root=Path.GetFullPath(Path.Combine(Application.dataPath,"../.."));
-            string server=Path.GetFullPath(Arg("-purumoguServer",Path.Combine(root,"rust/target/release/rescue_server.exe")));
-            string model=Path.GetFullPath(Arg("-purumoguModel",Path.Combine(root,"models/swarm-v35-generic/model.json")));
             string prepared=Path.Combine(Application.streamingAssetsPath,"inference");
+            // Keep the distributed, verified runtime when rebuilding an existing app.
+            // A developer can explicitly select a newly compiled server with -purumoguServer.
+            string server=Path.GetFullPath(Arg("-purumoguServer",File.Exists(Path.Combine(prepared,"rescue_server.exe"))?Path.Combine(prepared,"rescue_server.exe"):Path.Combine(root,"rust/target/release/rescue_server.exe")));
+            string model=Path.GetFullPath(Arg("-purumoguModel",Path.Combine(root,"models/swarm-v35-generic/model.json")));
             // A distributed Unity project already has the verified CPU bundle.
             // Explicit command-line overrides still fail if their files are missing.
             if(!File.Exists(server)&&Arg("-purumoguServer",null)==null)server=Path.Combine(prepared,"rescue_server.exe");

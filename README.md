@@ -1,5 +1,7 @@
 # ぷるもぐサーチ
 
+**ウィンドウ対応版3.5.1（2026年11月2日）**：[ダウンロード](https://github.com/Applekeynote/purumogu-search/releases/tag/v0.3.5.1)。枠のドラッグでサイズを変更でき、最大化・元に戻す操作に対応します。初期サイズは最大1280×720で、以前のフルスクリーン設定も起動時に解除します。学習済みモデルと36シーンは3.5と同じです。
+
 **現時点完成版3.5（2026年11月1日）**：[WindowsアプリとUnityプロジェクトをダウンロード](https://github.com/Applekeynote/purumogu-search/releases/tag/v0.3.5)。Windows版はZIP全体を展開し、`PurumoguSearch.exe`を起動します。Unity・Rust・Pythonの追加導入は不要です。36シーンと学習済みCPU推論を同梱しています。
 
 部分崩落を層構造で表すC01〜C06を追加しました。残存床、欠損、落下床片、層状瓦礫を衝突・遮蔽にも使い、層間隔・人物位置も変えます。利用者の指定により、完成した機能と検証済みのR36モデルで作業を完了しました。追加学習と途中の長時間検証は停止し、途中モデルは採用していません。[完成範囲・到達精度・使い方](docs/v35-completion.md)、[部分崩落の条件](docs/rescue-layered-collapse.md)、[学習記録](docs/rescue-generic-learning.md)を参照してください。**全エリアで地図IoU・人物の適合率・再現率がすべて95%以上という合格を確認した版ではありません。**

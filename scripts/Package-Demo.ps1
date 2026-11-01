@@ -1,8 +1,9 @@
-param([string]$Model='models/swarm-v35-generic/model.json',[string]$Output='dist/PurumoguSearch-Windows-v3.5.zip',[string]$Folder='dist/PurumoguSearch-Windows-v3.5',[string]$Server='rust/target/release/rescue_server.exe',[string]$Version='3.5',[string]$Player='build',[ValidateSet('WholeSceneDrop','RoofAndFacadeDrop')][string]$Deployment='RoofAndFacadeDrop',[ValidateRange(15,256)][int]$Scenes=36)
+param([string]$Model='models/swarm-v35-generic/model.json',[string]$Output='dist/PurumoguSearch-Windows-v3.5.1.zip',[string]$Folder='dist/PurumoguSearch-Windows-v3.5.1',[string]$Server='',[string]$Version='3.5.1',[string]$Player='build',[ValidateSet('WholeSceneDrop','RoofAndFacadeDrop')][string]$Deployment='RoofAndFacadeDrop',[ValidateRange(15,256)][int]$Scenes=36)
 $ErrorActionPreference='Stop'
 $projectRoot=Split-Path $PSScriptRoot -Parent
 $playerFolder=if([IO.Path]::IsPathRooted($Player)){$Player}else{Join-Path $projectRoot $Player}
 if(!(Test-Path -LiteralPath (Join-Path $playerFolder 'PurumoguSearch.exe'))){throw 'Build the Unity player first'}
+if(!$Server){$Server=Join-Path $playerFolder 'PurumoguSearch_Data/StreamingAssets/inference/rescue_server.exe'}
 $stage=Join-Path $projectRoot $Folder
 $outputPath=Join-Path $projectRoot $Output
 if((Test-Path -LiteralPath $stage) -or (Test-Path -LiteralPath $outputPath)){throw 'Package output already exists; choose new Folder and Output names'}
@@ -52,6 +53,8 @@ $instructions=@"
 
 ZIPをフォルダーごと展開し、PurumoguSearch.exe をダブルクリックしてください。
 「散布・探索を開始」で開始します。
+通常のウィンドウで起動します。初期サイズは最大1280×720です。
+画面の枠・角のドラッグでサイズ変更、右上のボタンで最大化・元に戻す操作ができます。
 
 Unity・Unity Hub・Rust・Python・PowerShellの別途インストールは不要です。
 同梱のRust推論プロセスはアプリが自動起動し、アプリ終了時に停止します。

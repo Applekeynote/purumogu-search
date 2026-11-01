@@ -22,7 +22,8 @@ namespace Purumogu.Editor {
             var go=new GameObject("PurumoguApplication");go.AddComponent<Purumogu.Rescue.RescueController>();
             EditorSceneManager.SaveScene(SceneManager.GetActiveScene(),"Assets/Scenes/Main.unity");
             EditorBuildSettings.scenes=new[]{new EditorBuildSettingsScene("Assets/Scenes/Main.unity",true)};
-            PlayerSettings.companyName="Purumogu Research";PlayerSettings.productName="Purumogu Search";PlayerSettings.bundleVersion="3.5";PlayerSettings.defaultScreenWidth=1600;PlayerSettings.defaultScreenHeight=900;PlayerSettings.runInBackground=true;
+            PlayerSettings.companyName="Purumogu Research";PlayerSettings.productName="Purumogu Search";PlayerSettings.bundleVersion="3.5.1";PlayerSettings.defaultScreenWidth=1280;PlayerSettings.defaultScreenHeight=720;PlayerSettings.runInBackground=true;
+            PlayerSettings.fullScreenMode=FullScreenMode.Windowed;PlayerSettings.resizableWindow=true;PlayerSettings.allowFullscreenSwitch=false;PlayerSettings.defaultIsNativeResolution=false;
             PlayerSettings.colorSpace=ColorSpace.Linear;
             Directory.CreateDirectory("Assets/Resources");
             foreach(string shader in new[]{"Standard","Sprites/Default"}){string asset="Assets/Resources/"+shader.Replace('/','_')+".mat";if(!File.Exists(asset))AssetDatabase.CreateAsset(new Material(Shader.Find(shader)),asset);}

@@ -17,7 +17,8 @@ try {
         if($rustProcess.WaitForExit(150)){throw 'Inference server exited during startup'}
         $demoArgs=@('--port',$Port,'--scene',$Scene,'--nodes',$Nodes,'--deployment-seed',$DeploymentSeed,'--steps',$Steps)
         if($PSBoundParameters.ContainsKey('Seed')){$demoArgs+=@('--seed',$Seed)}
-        $player=Join-Path $projectRoot 'dist\PurumoguSearch-Windows-v3.5\PurumoguSearch.exe'
+        $player=Join-Path $projectRoot 'dist\PurumoguSearch-Windows-v3.5.1\PurumoguSearch.exe'
+        if(!(Test-Path -LiteralPath $player)){$player=Join-Path $projectRoot 'dist\PurumoguSearch-Windows-v3.5\PurumoguSearch.exe'}
         if(!(Test-Path -LiteralPath $player)){$player=Join-Path $projectRoot 'build\PurumoguSearch.exe'}
         if(Test-Path -LiteralPath $player){Start-Process -FilePath $player -ArgumentList $demoArgs -WindowStyle Normal -Wait}
         else {Start-Process -FilePath $Unity -ArgumentList (@('-projectPath',"`"$(Join-Path $projectRoot 'unity')`"")+$demoArgs) -WindowStyle Normal -Wait}
