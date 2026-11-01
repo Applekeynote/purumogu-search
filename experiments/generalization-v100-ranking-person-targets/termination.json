@@ -1,0 +1,6 @@
+{
+  "status": "stopped-by-user-completion-scope",
+  "reason": "User requested completion with already finished functions; no additional learning or full-matrix collection required",
+  "unfinished_weights_adopted": false,
+  "final_test_opened": false
+}

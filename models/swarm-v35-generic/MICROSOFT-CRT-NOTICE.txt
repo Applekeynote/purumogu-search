@@ -1,0 +1,6 @@
+Microsoft Visual C++ Runtime / x64 release redistributable
+Copyright (c) Microsoft Corporation. All rights reserved.
+These binaries are distributed under Microsoft Visual Studio license terms, not the project MIT license.
+Source: installed Visual Studio release redist 14.51.36231
+https://learn.microsoft.com/cpp/windows/redistributing-visual-cpp-files
+https://visualstudio.microsoft.com/license-terms/

@@ -1,0 +1,27 @@
+{
+  "purpose": "Train relative ordering of separate true source hypotheses above high-ranked acoustic aliases while retaining a binary false-alarm anchor",
+  "training_worlds": 426,
+  "validation_cases": 54,
+  "inputs": "Existing native33 frozen TRAIN teacher prefix; no new runtime features",
+  "variants_ranking_strength": [
+    0.5,
+    1
+  ],
+  "positive_mass": 0.5,
+  "correction_rounds": [
+    28,
+    56
+  ],
+  "leaves": [
+    7,
+    15
+  ],
+  "objective": "Binary Bernoulli anchor plus NDCG-weighted positive/negative pairwise Newton corrections; max32 hard negatives plus exact ties per causal TRAIN snapshot",
+  "labels": "Same TRAIN-only maximum-cardinality one-to-one source assignment as G90; .08m nearby aliases retain zero gradient/weight",
+  "normalization": "Each snapshot keeps the same total original world budget; pair gradients sum to zero within a query",
+  "negative_worlds": "No ranking pairs, so the binary anchor still learns absolute false-alarm rejection",
+  "primary_reference": "https://www.microsoft.com/en-us/research/publication/from-ranknet-to-lambdarank-to-lambdamart-an-overview/",
+  "reference_scope": "RankNet/LambdaRank pairwise gradient principle; anchor, normalization and hard-negative cap are project-specific",
+  "final_test_opened": false,
+  "closed_loop_acceptance": false
+}

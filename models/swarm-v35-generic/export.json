@@ -1,0 +1,34 @@
+{
+  "status": "pass",
+  "checkpoint": "models/generic-v64-volume-r36-collapse-adapted/volume.pt",
+  "checkpoint_sha256": "a8a099953be68bf8282833f2345737995da2ca55b8cdd1f1d5cb72334df01536",
+  "onnx_sha256": "c5fe7d184ae3337f1791e37dc456438d40851b3286798a861cdd2f657feefa2e",
+  "map": "experiments/raw/rescue/generalization-v53-current-passes/registered-temporal-tsdf/train/g47-train-S00-W94000000-N24/map-18000.json",
+  "maximum_probability_error": 0.00019371509552001953,
+  "class_disagreements": 0,
+  "cpu_runtime": "1.23.2",
+  "requires_python": false,
+  "requires_cuda": false,
+  "epoch": 65,
+  "numerical_tolerance": 0.001,
+  "channels": 90,
+  "architecture": "subvoxel-unet-refinement-v3",
+  "probe_map": "tmp\\generic-v79-acquisition-r36-frozen-nav-probe-map.json",
+  "microsoft_crt": {
+    "version": "14.51.36231",
+    "files": {
+      "msvcp140.dll": "7c26614e1d733892c2deac7e245ce115504b1d80592dd0a01b08e3e5a55f89ca",
+      "msvcp140_1.dll": "206c931bf90fdad8816de3b5e2ef80b2bcaa9406c89ecc05fe6fddffe251e982",
+      "vcruntime140.dll": "d1f4225df2cd877dbf130d5668a021dce3f94118455ff5ec952061c30afc9ce7",
+      "vcruntime140_1.dll": "a7146c08f89fe5b04541ab507cdb59ff7b44534d4ba3c668a426c6450a03434e"
+    }
+  },
+  "retired_train_development_holdouts": [],
+  "navigation": {
+    "source_model": "models/generic-v47-acquisition-r28-long/model.json",
+    "source_model_sha256": "95714618c3351c5bc38eb8f48eee7a181f454ea18ada0acdfc44bd00e34928b5",
+    "onnx_sha256": "45b4327841d356f7407f8f9af382ee5f392f08d4a1f4cf0fa122cfd94a46b882",
+    "channels": 74,
+    "purpose": "Frozen sensor-only exploration; independent of updated map decoder"
+  }
+}

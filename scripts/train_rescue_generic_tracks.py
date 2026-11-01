@@ -77,6 +77,7 @@ def main():
     p.add_argument('--person-balanced',action='store_true',help='Balance positive TRAIN proposal mass per person within each world snapshot')
     p.add_argument('--positive-mass',type=float,default=.5)
     p.add_argument('--unique-person-targets',action='store_true',help='TRAIN-only one-to-one source targets and normalized positive/negative budgets')
+    p.add_argument('--ranking-strength',type=float,default=0,help='TRAIN query-local pairwise ranking strength with a binary false-alarm anchor')
     p.add_argument('--neighbor-context',action='store_true',help='Research: relative context among inferred proposals; native parity required')
     a=p.parse_args()
     if a.neighbor_context:a.teacher_feature=True;a.spectral_local=True
@@ -87,6 +88,7 @@ def main():
     if not math.isfinite(a.positive_mass) or not 0<a.positive_mass<1:raise ValueError('Bounded positive TRAIN mass required')
     if a.person_balanced and (a.stale_augmentation or a.refit_all_train or a.soft_localization):raise ValueError('Person weighting requires direct binary TRAIN fitting')
     if a.unique_person_targets and (a.person_balanced or a.stale_augmentation or a.refit_all_train or a.soft_localization or not a.residual_logit):raise ValueError('Unique source targets require direct residual binary fitting without another target weighting mode')
+    if not math.isfinite(a.ranking_strength) or not 0<=a.ranking_strength<=2 or a.ranking_strength and not a.unique_person_targets:raise ValueError('Bounded ranking strength requires one-to-one TRAIN targets')
     if a.refit_all_train and a.selection_valid:raise ValueError('Refitting is for TRAIN-internal world selection only')
     if a.validation_step!=6000 and not a.selection_valid:raise ValueError('Long mission validation requires the explicit formal VALID role')
     if not math.isfinite(a.hard_example_weight) or not 0<=a.hard_example_weight<=100 or a.hard_example_weight and a.soft_localization:raise ValueError('Bounded classification error weighting required')
@@ -227,7 +229,7 @@ def main():
             for rounds in round_counts:
                 if a.residual_logit:
                     from rescue_residual_head import ResidualHead
-                    fit=ResidualHead(base,rounds,leaves).fit(np.array(x),target,np.array(weights)*len(y)/sum(weights))
+                    fit=ResidualHead(base,rounds,leaves).fit(np.array(x),target,np.array(weights)*len(y)/sum(weights),ranking_groups=[len(r['proposals']) for r in training] if a.ranking_strength else None,ranking_strength=a.ranking_strength)
                 else:fit=fit_head(np.array(x),target,np.array(weights)*len(y)/sum(weights),leaves,rounds,a.soft_localization,a.hard_example_weight)
                 print(json.dumps(dict(stage='head-fit',leaves=leaves,rounds=rounds,train_proposals=len(y))),flush=True)
                 model=dict(base);model.update(track_weights=[],track_trees=fit.trees if a.residual_logit else [export_tree(t[0]) for t in fit._predictors],
@@ -298,6 +300,7 @@ def main():
     if a.person_balanced:report['source_weighting']=dict(positive_mass=a.positive_mass,method='Equal positive mass per represented TRAIN person within each snapshot; remaining mass to negatives; unchanged normalized world budgets',truth_used_only_for_training_labels_and_weights=True)
     if a.map_context:report['native_support_requires_separate_validation']=True
     if a.residual_logit:report.update(label_method='Binary TRAIN Bernoulli Newton residuals; frozen base forest plus <=56 correction trees',frozen_base_sha256=hashlib.sha256((ROOT/a.base/'model.json').read_bytes()).hexdigest(),frozen_base_trees=len(base['track_trees']),exported_trees=len(model['track_trees']))
+    if a.ranking_strength:report.update(label_method='TRAIN one-to-one source labels; binary anchor plus query-local NDCG-weighted pairwise Newton corrections',ranking_objective=dict(strength=a.ranking_strength,top_negative=32,normalization='Per snapshot, preserving the original world budget; zero-weight aliases ignored',reference='https://www.microsoft.com/en-us/research/publication/from-ranknet-to-lambdarank-to-lambdamart-an-overview/',reference_scope='Pairwise ranking gradient principle; binary anchor and normalization are project-specific'))
     (out/'track-development.json').write_text(json.dumps(report,indent=2)+'\n')
     print(json.dumps({k:report[k] for k in ['training_worlds','validation_worlds','samples','chosen']}))
     print(json.dumps({k:metric[k] for k in ['human_precision','human_recall']}))

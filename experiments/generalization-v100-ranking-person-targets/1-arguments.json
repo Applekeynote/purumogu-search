@@ -1,0 +1,59 @@
+{
+  "arguments": {
+    "base": "models/generic-v40-tracks-worldcv",
+    "name": "generic-v100-tracks-ranking-1",
+    "radii": ".25",
+    "thermal": true,
+    "selection_valid": true,
+    "proposal_pool": "experiments/raw/rescue/generalization-v35/registered-joint-v7",
+    "thermal_local": true,
+    "spectral_local": true,
+    "worst_strata": true,
+    "data_root": "experiments/raw/rescue/generalization-v35",
+    "extra_train_root": [
+      "experiments/raw/rescue/generalization-v38-overhead/train",
+      "experiments/raw/rescue/generalization-v39-mixed/train",
+      "experiments/raw/rescue/generalization-v40-mixed/train",
+      "experiments/raw/rescue/generalization-v44-long-train/train",
+      "experiments/raw/rescue/generalization-v44-long-aftershock/train",
+      "experiments/raw/rescue/generalization-v47-long-diverse/train",
+      "experiments/raw/rescue/generalization-v50-long-diverse2/train",
+      "experiments/raw/rescue/generalization-v60-partial-collapse/train"
+    ],
+    "extra_acquisition_model": [
+      "models/generic-v35-pilot-yreg-scout/model.json",
+      "models/generic-v39-acquisition-r21/model.json",
+      "models/generic-v40-acquisition-r24-fused/model.json",
+      "models/generic-v44-acquisition-r25-cv/model.json",
+      "models/generic-v44-acquisition-r25-cv/model.json",
+      "models/generic-v47-acquisition-r28-long/model.json",
+      "models/generic-v47-acquisition-r28-long/model.json",
+      "models/generic-v47-acquisition-r28-long/model.json"
+    ],
+    "validation_root": "experiments/raw/rescue/generalization-v41-mission360",
+    "validation_acquisition_model": "models/generic-v41-acquisition-r25-fused/model.json",
+    "extra_validation_root": [
+      "experiments/raw/rescue/generalization-v60-partial-collapse"
+    ],
+    "extra_validation_acquisition_model": [
+      "models/generic-v47-acquisition-r28-long/model.json"
+    ],
+    "stale_augmentation": false,
+    "refit_all_train": false,
+    "leaves": "7,15",
+    "rounds": "28,56",
+    "hard_example_weight": 0.0,
+    "validation_step": 18000,
+    "long_world_share": 0.5,
+    "soft_localization": false,
+    "residual_logit": true,
+    "map_context": false,
+    "teacher_feature": true,
+    "person_balanced": false,
+    "positive_mass": 0.5,
+    "unique_person_targets": true,
+    "neighbor_context": false,
+    "ranking_strength": 1
+  },
+  "parent_report_sha256": "24abe68de8320b028ea95940a3fb56f1e0bcea1859c924eff4ad67e072b6f8d4"
+}

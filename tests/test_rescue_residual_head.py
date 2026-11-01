@@ -63,5 +63,13 @@ class ResidualHeadTests(unittest.TestCase):
         with self.assertRaises(ValueError):ResidualHead(base,56,7)
         with self.assertRaises(ValueError):ResidualHead(fixture(),2,4).fit([[0],[1]],[0,.5],[1,1])
 
+    def test_pairwise_updates_keep_the_same_portable_forest_contract(self):
+        rng=np.random.default_rng(7);x=rng.uniform(0,1,(240,2));y=(x[:,1]>.5).astype(int);base=fixture()
+        with threadpool_limits(limits=1):head=ResidualHead(base,6,4).fit(x,y,np.ones(len(x)),ranking_groups=[60]*4,ranking_strength=.5)
+        exported=dict(track_bias=head.bias,track_trees=head.trees)
+        self.assertEqual(exported['track_trees'][0],base['track_trees'][0])
+        np.testing.assert_allclose(head.training_logits,forest_logits(exported,x),rtol=1e-10,atol=1e-10)
+        np.testing.assert_allclose(head.predict_proba(x[:8])[:,1],[score_model(exported,row) for row in x[:8]],rtol=1e-12)
+
 
 if __name__=='__main__':unittest.main(verbosity=2)

@@ -1,0 +1,27 @@
+{
+  "purpose": "Fit one global reconstruction-logit intercept on TRAIN only, freeze it before loading VALID labels, preserve occupancy scoring threshold.6",
+  "checkpoint": "models/generic-v64-volume-r36-collapse-adapted/volume.pt",
+  "train_cases": 506,
+  "train_worlds": 453,
+  "biases": [
+    -0.5,
+    -0.4,
+    -0.3,
+    -0.2,
+    -0.1,
+    0.0,
+    0.1,
+    0.2,
+    0.3,
+    0.4,
+    0.5
+  ],
+  "selection": "Maximum minimum TRAIN area IoU; tie global world mean, then smallest absolute intercept",
+  "world_budgets": "Equal per world; node-count cases averaged within world",
+  "validation_cases": 54,
+  "workers": 3,
+  "worker_type": "CPU threads with independent thread-local models; no processes or AI agents",
+  "no_sensor_or_noise_changes": true,
+  "no_per_area_inference_parameters": true,
+  "final_test_opened": false
+}

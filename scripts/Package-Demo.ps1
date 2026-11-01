@@ -1,4 +1,4 @@
-param([string]$Model='models/swarm-v34-local/model.json',[string]$Output='dist/PurumoguSearch-Windows-v3.4.zip',[string]$Folder='dist/PurumoguSearch-Windows-v3.4',[string]$Server='rust/target/release/rescue_server.exe',[string]$Version='3.4',[string]$Player='build',[ValidateSet('WholeSceneDrop','RoofAndFacadeDrop')][string]$Deployment='WholeSceneDrop',[ValidateRange(15,256)][int]$Scenes=30)
+param([string]$Model='models/swarm-v35-generic/model.json',[string]$Output='dist/PurumoguSearch-Windows-v3.5.zip',[string]$Folder='dist/PurumoguSearch-Windows-v3.5',[string]$Server='rust/target/release/rescue_server.exe',[string]$Version='3.5',[string]$Player='build',[ValidateSet('WholeSceneDrop','RoofAndFacadeDrop')][string]$Deployment='RoofAndFacadeDrop',[ValidateRange(15,256)][int]$Scenes=36)
 $ErrorActionPreference='Stop'
 $projectRoot=Split-Path $PSScriptRoot -Parent
 $playerFolder=if([IO.Path]::IsPathRooted($Player)){$Player}else{Join-Path $projectRoot $Player}

@@ -1,0 +1,13 @@
+{
+  "status": "pass",
+  "unity_project": "dist/PurumoguSearch-Unity-v3.5",
+  "compiled_player": "tmp/final-v35-player/PurumoguSearch.exe",
+  "build_log_sha256": "79c197e75ae1bcf331ecf9875d8c662336c3ffbab4f3b03f45cf93dab1585165",
+  "standalone_project_build_succeeded": true,
+  "used_prepared_bundle_without_repo_model_paths": true,
+  "scene_count": 36,
+  "source_archive_sha256": "d22253bf0e3c86747bd6dbd7b23243d9ccc34cb2bfce48a2038dbca31e841b74",
+  "source_archive_bytes": 29432506,
+  "archive_members": 148,
+  "archive_contents_verified": true
+}

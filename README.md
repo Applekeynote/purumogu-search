@@ -1,6 +1,12 @@
 # ぷるもぐサーチ
 
-**開発中（2026年11月1日）**：部分崩落を層構造で表すC01〜C06を追加し、ソース側は36シーンになりました。床の重なり、片側・V字落下、複数階の欠損を実際の衝突形状で再現し、崩落後の層間隔と人物位置も変えます。[追加条件と検査](docs/rescue-layered-collapse.md)、[汎用モデルの学習記録](docs/rescue-generic-learning.md)を参照してください。下の公開済み3.4配布物は30シーンの版です。追加条件を含む学習・実探索評価は進行中で、95%到達を示す更新ではありません。
+**現時点完成版3.5（2026年11月1日）**：[WindowsアプリとUnityプロジェクトをダウンロード](https://github.com/Applekeynote/purumogu-search/releases/tag/v0.3.5)。Windows版はZIP全体を展開し、`PurumoguSearch.exe`を起動します。Unity・Rust・Pythonの追加導入は不要です。36シーンと学習済みCPU推論を同梱しています。
+
+部分崩落を層構造で表すC01〜C06を追加しました。残存床、欠損、落下床片、層状瓦礫を衝突・遮蔽にも使い、層間隔・人物位置も変えます。利用者の指定により、完成した機能と検証済みのR36モデルで作業を完了しました。追加学習と途中の長時間検証は停止し、途中モデルは採用していません。[完成範囲・到達精度・使い方](docs/v35-completion.md)、[部分崩落の条件](docs/rescue-layered-collapse.md)、[学習記録](docs/rescue-generic-learning.md)を参照してください。**全エリアで地図IoU・人物の適合率・再現率がすべて95%以上という合格を確認した版ではありません。**
+
+Unity Hubを使う場合は、同じリリースの `PurumoguSearch-Unity-v3.5.zip` を展開し、`PurumoguSearch-Unity-v3.5` フォルダーをプロジェクトとして追加します。Unity 6000.4.1f1で `Assets/Scenes/Main.unity` を開き、再生します。このZIPには推論実行物も含めています。
+
+以下は旧版3.4の記録です。
 
 [Windows配布版3.4をダウンロード](https://github.com/Applekeynote/purumogu-search/releases/tag/v0.3.4)。ZIPをすべて展開し、`PurumoguSearch.exe`を開くと同梱の推論が起動します。周辺観測から欠測を補完し、推定部分は暗い破線、人候補は橙、浸水は青、ガスは赤の格子で表示します。L/T/Y/U字・中庭・二層・三層など15エリアを追加し、全30シーンにしました。[推論方式・実行結果・制限](docs/complex-mapping-v34.md)を確認してください。新形状を含む95%条件は未達成の開発版です。
 

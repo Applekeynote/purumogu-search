@@ -1,0 +1,49 @@
+{
+  "status": "completed-under-user-revised-scope",
+  "user_instruction": "現在の状態でできているところだけで完了させてください。",
+  "version": "3.5",
+  "selected_model": "models/swarm-v35-generic/model.json",
+  "selected_components": {
+    "mapping": "Completed R36",
+    "person": "G75 spectral32",
+    "exploration": "Frozen R28"
+  },
+  "model_sha256": "475dc3e5366cc95f68a5dffb5af9ffe6c31c75c3fe8e61bd3e705370640754ac",
+  "sensors_unchanged": true,
+  "scene_count": 36,
+  "node_counts": [
+    24,
+    36,
+    48
+  ],
+  "all_95_acceptance_established": false,
+  "final_test_opened": false,
+  "completed_fixed_valid_cases": 54,
+  "completed_live_pilot_cases": 6,
+  "stopped_full_matrix": {
+    "expected_cases": 54,
+    "completed_cases": 22,
+    "by_split": {
+      "valid-known": 14,
+      "valid-unknown": 8
+    },
+    "excluded_from_full_acceptance": true
+  },
+  "stopped_incomplete": [
+    "R39 phase/subcell training",
+    "G100 pairwise person ranking fits",
+    "G93 queued full-matrix preparation"
+  ],
+  "completed_rejected_comparisons": {
+    "R38": {
+      "epochs": 240,
+      "selected_epoch": 160,
+      "minimum_area_iou": 0.9425057112702078
+    },
+    "TRAIN_intercept": {
+      "bias": -0.2,
+      "minimum_valid_area_iou": 0.9435629438105417
+    }
+  },
+  "native_and_app_provenance": "Verified G79 CPU runtime and complete R36/G75/frozen R28 bundle; no unfinished weights used"
+}

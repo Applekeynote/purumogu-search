@@ -1,0 +1,6 @@
+{
+  "parent_checkpoint_sha256": "a8a099953be68bf8282833f2345737995da2ca55b8cdd1f1d5cb72334df01536",
+  "prior_R38_history_sha256": "20734a7870f4d12979e5ff2c046041253870a2a9fec439ba56e9a830a1bb785e",
+  "prior_R38_epochs": 240,
+  "subcell_manifest_sha256": "f8c4371d64c81480c049fed533053ee51b56d3d85eb8edd9a513aac89a45d94b"
+}
