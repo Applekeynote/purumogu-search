@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -13,6 +14,24 @@ namespace Purumogu.Rescue
         readonly Mesh wire=new Mesh{name="ContinuousSurfaceQuadGrid",indexFormat=IndexFormat.UInt32};
         readonly Material depthMaterial,wireMaterial;
         readonly Dictionary<Vector3Int,float> settled=new Dictionary<Vector3Int,float>();
+        readonly Queue<MapFrame> queued=new Queue<MapFrame>();
+        Task<Geometry> building;
+        bool disposed;
+        sealed class MapFrame
+        {
+            public float Cell;public bool Learned;public JArray Cells,Cues,Hazards;
+            public MapFrame(JObject reply)
+            {
+                Cell=(float)reply["cell_m"];Cells=(JArray)reply["cells"];Cues=reply["cues"] as JArray;Hazards=reply["hazards"] as JArray;
+                Learned=(string)reply["completion_family"]=="volume-unet-v1"||(string)reply["completion_family"]=="local-learned-v1";
+            }
+        }
+        sealed class Geometry
+        {
+            public List<Vector3> Surface,Vertices,Tangents;
+            public List<Vector2> Sides,Estimates;public List<Color> Colors;public List<int> Triangles,Indices;
+            public int Inferred,Quads,People,Water,Gas;public float Relaxation;
+        }
         public int InferredCells{get;private set;}
         public int PersonSegments{get;private set;}
         public int WaterSegments{get;private set;}
@@ -33,6 +52,7 @@ namespace Purumogu.Rescue
         static readonly int[,] CubeEdges={{0,1},{2,3},{4,5},{6,7},{0,2},{1,3},{4,6},{5,7},{0,4},{1,5},{2,6},{3,7}};
         public RescueEchoWireMap()
         {
+            surface.MarkDynamic();wire.MarkDynamic();
             depthMaterial=new Material(Resources.Load<Shader>("RescueEchoDepth"));
             wireMaterial=new Material(Resources.Load<Shader>("RescueEchoWire"));
             Add("DepthOnly",surface,depthMaterial);Add("GreenQuadGrid",wire,wireMaterial);
@@ -46,8 +66,27 @@ namespace Purumogu.Rescue
         {wireMaterial.SetVector("_ViewportSize",new Vector4(Mathf.Max(1,width),Mathf.Max(1,height),0,0));}
         public void Update(JObject reply)
         {
-            float cell=(float)reply["cell_m"];
-            foreach(var item in (JArray)reply["cells"])
+            if(building!=null)throw new System.InvalidOperationException("Cannot mix synchronous and asynchronous map updates");
+            Upload(BuildGeometry(new MapFrame(reply)));
+        }
+        // The worker only reads immutable child arrays and builds plain mesh data.
+        // Unity objects, mesh uploads and disposal stay on the main thread.
+        public void ScheduleUpdate(JObject reply)
+        {
+            if(disposed)return;
+            if(queued.Count>=4)throw new System.InvalidOperationException("Display reconstruction queue full");
+            queued.Enqueue(new MapFrame(reply));StartNext();
+        }
+        void StartNext(){if(building==null&&queued.Count>0){var frame=queued.Dequeue();building=Task.Run(()=>BuildGeometry(frame));}}
+        public bool PresentCompleted()
+        {
+            if(disposed||building==null||!building.IsCompleted)return false;
+            var completed=building;building=null;var geometry=completed.GetAwaiter().GetResult();Upload(geometry);StartNext();return true;
+        }
+        Geometry BuildGeometry(MapFrame frame)
+        {
+            float cell=frame.Cell;
+            foreach(var item in frame.Cells)
             {
                 int count=(int)item["observations"];if(count<2||item["sensor_occupancy"]==null||item["sensor_occupancy"].Type==JTokenType.Null)continue;
                 float value=(float)item["sensor_occupancy"];var k=item["key"];var key=new Vector3Int((int)k[0],(int)k[1],(int)k[2]);
@@ -57,12 +96,12 @@ namespace Purumogu.Rescue
                 else if(value>=.70f||value<=.30f)settled[key]=value>.5f?.95f:.05f;
             }
             zones.Clear();
-            if(reply["cues"] is JArray cues)foreach(var cue in cues)zones.Add(new WireZone(RescueEvaluation.Vector(cue["position"]),Mathf.Clamp((float)cue["radius_m"],.15f,.32f),1));
-            if(reply["hazards"] is JArray hazards)foreach(var hazard in hazards)
+            if(frame.Cues!=null)foreach(var cue in frame.Cues)zones.Add(new WireZone(RescueEvaluation.Vector(cue["position"]),Mathf.Clamp((float)cue["radius_m"],.15f,.32f),1));
+            if(frame.Hazards!=null)foreach(var hazard in frame.Hazards)
                 zones.Add(new WireZone(RescueEvaluation.Vector(hazard["position"]),Mathf.Clamp((float)hazard["radius_m"],.09f,.4f),(string)hazard["kind"]=="gas"?3:2));
             var merged=new Dictionary<Vector3Int,float>(settled);var inferred=new HashSet<Vector3Int>();
-            bool learnedVolume=(string)reply["completion_family"]=="volume-unet-v1"||(string)reply["completion_family"]=="local-learned-v1";
-            foreach(var item in (JArray)reply["cells"])
+            bool learnedVolume=frame.Learned;
+            foreach(var item in frame.Cells)
             {
                 if((string)item["source"]!="local_surface_completion")continue;var k=item["key"];var key=new Vector3Int((int)k[0],(int)k[1],(int)k[2]);
                 float probability=(float)item["occupancy"];
@@ -74,32 +113,36 @@ namespace Purumogu.Rescue
                 }
                 merged[key]=probability;inferred.Add(key);
             }
-            InferredCells=inferred.Count;PersonSegments=WaterSegments=GasSegments=0;
+            var result=new Geometry{Inferred=inferred.Count};
             var builder=new SurfaceNet(merged,cell,inferred);
-            builder.Build();Quads=builder.Quads.Count;MaximumRelaxation=builder.MaximumRelaxation;
+            builder.Build();result.Quads=builder.Quads.Count;result.Relaxation=builder.MaximumRelaxation;
             var triangles=new List<int>();var segments=new HashSet<(int,int)>();
             foreach(var face in builder.Quads)
             {
-                triangles.AddRange(new[]{face[0],face[1],face[2],face[0],face[2],face[3]});
+                triangles.Add(face[0]);triangles.Add(face[1]);triangles.Add(face[2]);triangles.Add(face[0]);triangles.Add(face[2]);triangles.Add(face[3]);
                 for(int i=0;i<4;i++){int a=face[i],b=face[(i+1)%4];segments.Add(a<b?(a,b):(b,a));}
             }
-            surface.Clear();surface.SetVertices(builder.Positions);surface.SetTriangles(triangles,0);surface.RecalculateBounds();
-            var vertices=new List<Vector3>();var tangents=new List<Vector3>();var sides=new List<Vector2>();var estimates=new List<Vector2>();var colors=new List<Color>();var indices=new List<int>();
+            var vertices=new List<Vector3>(segments.Count*4);var tangents=new List<Vector3>(segments.Count*4);var sides=new List<Vector2>(segments.Count*4);var estimates=new List<Vector2>(segments.Count*4);var colors=new List<Color>(segments.Count*4);var indices=new List<int>(segments.Count*6);
             foreach(var segment in segments)
             {
                 var a=builder.Positions[segment.Item1];var b=builder.Positions[segment.Item2];if((a-b).sqrMagnitude<1e-10f)continue;
                 int index=vertices.Count;var tangent=b-a;
-                vertices.AddRange(new[]{a,a,b,b});tangents.AddRange(new[]{tangent,tangent,tangent,tangent});
+                vertices.Add(a);vertices.Add(a);vertices.Add(b);vertices.Add(b);for(int j=0;j<4;j++)tangents.Add(tangent);
                 bool estimated=builder.Estimated[segment.Item1]||builder.Estimated[segment.Item2];float length=tangent.magnitude;
-                sides.AddRange(new[]{new Vector2(-1,0),new Vector2(1,0),new Vector2(-1,length),new Vector2(1,length)});
-                var flag=new Vector2(estimated?1:0,0);estimates.AddRange(new[]{flag,flag,flag,flag});
+                sides.Add(new Vector2(-1,0));sides.Add(new Vector2(1,0));sides.Add(new Vector2(-1,length));sides.Add(new Vector2(1,length));
+                var flag=new Vector2(estimated?1:0,0);for(int j=0;j<4;j++)estimates.Add(flag);
                 int kind=ZoneAt((a+b)*.5f);Color color=kind==3?new Color(.95f,.025f,.09f,.95f):kind==2?new Color(.025f,.37f,.95f,.95f):kind==1?new Color(1,.52f,.025f,.98f):new Color(.025f,.62f,.075f,.84f);
-                if(estimated)color.a*=.48f;colors.AddRange(new[]{color,color,color,color});
-                if(kind==1)PersonSegments++;else if(kind==2)WaterSegments++;else if(kind==3)GasSegments++;
-                indices.AddRange(new[]{index,index+1,index+2,index+2,index+1,index+3});
+                if(estimated)color.a*=.48f;for(int j=0;j<4;j++)colors.Add(color);
+                if(kind==1)result.People++;else if(kind==2)result.Water++;else if(kind==3)result.Gas++;
+                indices.Add(index);indices.Add(index+1);indices.Add(index+2);indices.Add(index+2);indices.Add(index+1);indices.Add(index+3);
             }
-            Segments=vertices.Count/4;
-            wire.Clear();wire.SetVertices(vertices);wire.SetNormals(tangents);wire.SetUVs(0,sides);wire.SetUVs(1,estimates);wire.SetColors(colors);wire.SetTriangles(indices,0);wire.RecalculateBounds();
+            result.Surface=builder.Positions;result.Triangles=triangles;result.Vertices=vertices;result.Tangents=tangents;result.Sides=sides;result.Estimates=estimates;result.Colors=colors;result.Indices=indices;return result;
+        }
+        void Upload(Geometry data)
+        {
+            InferredCells=data.Inferred;Quads=data.Quads;MaximumRelaxation=data.Relaxation;PersonSegments=data.People;WaterSegments=data.Water;GasSegments=data.Gas;Segments=data.Vertices.Count/4;
+            surface.Clear();surface.SetVertices(data.Surface);surface.SetTriangles(data.Triangles,0);surface.RecalculateBounds();
+            wire.Clear();wire.SetVertices(data.Vertices);wire.SetNormals(data.Tangents);wire.SetUVs(0,data.Sides);wire.SetUVs(1,data.Estimates);wire.SetColors(data.Colors);wire.SetTriangles(data.Indices,0);wire.RecalculateBounds();
         }
         int ZoneAt(Vector3 point)
         {
@@ -120,6 +163,7 @@ namespace Purumogu.Rescue
             readonly HashSet<Vector3Int> rejected=new HashSet<Vector3Int>();
             readonly float cell;
             readonly HashSet<Vector3Int> inferred;
+            readonly bool[] known=new bool[8];readonly float[] values=new float[8];
             public readonly List<bool> Estimated=new List<bool>();
             public readonly List<Vector3> Positions=new List<Vector3>();
             public readonly List<int[]> Quads=new List<int[]>();
@@ -129,8 +173,8 @@ namespace Purumogu.Rescue
             int Vertex(Vector3Int cube)
             {
                 if(vertexIds.TryGetValue(cube,out int existing))return existing;if(rejected.Contains(cube))return -1;
-                var known=new bool[8];var values=new float[8];int count=0;
-                for(int i=0;i<8;i++)if(evidence.TryGetValue(cube+Corners[i],out values[i])){known[i]=true;count++;}
+                int count=0;
+                for(int i=0;i<8;i++){known[i]=evidence.TryGetValue(cube+Corners[i],out values[i]);if(known[i])count++;}
                 if(count<4){rejected.Add(cube);return -1;}
                 var sum=Vector3.zero;int crossings=0;
                 for(int edge=0;edge<12;edge++)
@@ -148,7 +192,7 @@ namespace Purumogu.Rescue
                     var k=sample.Key;if(!evidence.TryGetValue(k+Axes[axis],out float other)||(sample.Value>.5f)==(other>.5f))continue;
                     var a=Axes[(axis+1)%3];var b=Axes[(axis+2)%3];
                     var face=new[]{Vertex(k-a-b),Vertex(k-b),Vertex(k),Vertex(k-a)};
-                    if(System.Array.Exists(face,index=>index<0))continue;Quads.Add(face);
+                if(face[0]<0||face[1]<0||face[2]<0||face[3]<0)continue;Quads.Add(face);
                 }
                 // Relax the connected surface, not independent voxel boxes. Keep holes at observation frontiers.
                 var adjacent=new List<HashSet<int>>();for(int i=0;i<Positions.Count;i++)adjacent.Add(new HashSet<int>());
@@ -170,6 +214,10 @@ namespace Purumogu.Rescue
             }
         }
         public void Dispose()
-        {if(Root)Object.DestroyImmediate(Root);Object.DestroyImmediate(surface);Object.DestroyImmediate(wire);Object.DestroyImmediate(depthMaterial);Object.DestroyImmediate(wireMaterial);}
+        {
+            disposed=true;queued.Clear();
+            if(building!=null)building.ContinueWith(t=>{var ignored=t.Exception;},TaskContinuationOptions.OnlyOnFaulted);
+            if(Root)Object.DestroyImmediate(Root);Object.DestroyImmediate(surface);Object.DestroyImmediate(wire);Object.DestroyImmediate(depthMaterial);Object.DestroyImmediate(wireMaterial);
+        }
     }
 }

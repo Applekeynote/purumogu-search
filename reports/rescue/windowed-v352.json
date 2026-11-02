@@ -1,0 +1,43 @@
+{
+  "status": "pass",
+  "native_resizable_border": true,
+  "native_maximize_button": true,
+  "normal_framed_window": true,
+  "initial_client": [
+    1280,
+    720
+  ],
+  "resize_measurements": [
+    {
+      "requested": [
+        960,
+        600
+      ],
+      "actual": [
+        960,
+        600
+      ]
+    },
+    {
+      "requested": [
+        1280,
+        720
+      ],
+      "actual": [
+        1280,
+        720
+      ]
+    },
+    {
+      "requested": [
+        1440,
+        810
+      ],
+      "actual": [
+        1440,
+        810
+      ]
+    }
+  ],
+  "user_resize_preserved": true
+}

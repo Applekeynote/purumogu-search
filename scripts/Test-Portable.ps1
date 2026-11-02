@@ -1,4 +1,4 @@
-param([string]$Folder='dist/PurumoguSearch-Windows-v3.5.1',[string]$Output='reports/rescue/portable-package-v351.json')
+param([string]$Folder='dist/PurumoguSearch-Windows-v3.5.2',[string]$Output='reports/rescue/portable-package-v352.json')
 $ErrorActionPreference='Stop'
 $root=Split-Path $PSScriptRoot -Parent
 $folderPath=[IO.Path]::GetFullPath((Join-Path $root $Folder))

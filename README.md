@@ -1,5 +1,7 @@
 # ぷるもぐサーチ
 
+**描画改善版3.5.2（2026年11月2日）**：[ダウンロード](https://github.com/Applekeynote/purumogu-search/releases/tag/v0.3.5.2)。地図の格子生成と評価を別スレッドで処理し、描画専用の機体補間を加えました。マップの粒度・モデル・センサー条件を維持しています。[実測と検証](docs/releases/v3.5.2.md)。
+
 **ウィンドウ対応版3.5.1（2026年11月2日）**：[ダウンロード](https://github.com/Applekeynote/purumogu-search/releases/tag/v0.3.5.1)。枠のドラッグでサイズを変更でき、最大化・元に戻す操作に対応します。初期サイズは最大1280×720で、以前のフルスクリーン設定も起動時に解除します。学習済みモデルと36シーンは3.5と同じです。
 
 **現時点完成版3.5（2026年11月1日）**：[WindowsアプリとUnityプロジェクトをダウンロード](https://github.com/Applekeynote/purumogu-search/releases/tag/v0.3.5)。Windows版はZIP全体を展開し、`PurumoguSearch.exe`を起動します。Unity・Rust・Pythonの追加導入は不要です。36シーンと学習済みCPU推論を同梱しています。

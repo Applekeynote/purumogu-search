@@ -13,6 +13,8 @@ namespace Purumogu.Rescue
         public GameObject Root;
         public Rigidbody Core;
         public readonly Rigidbody[] Cones = new Rigidbody[2];
+        // Render-only children. Their poses never move colliders, joints or sensors.
+        public readonly Transform[] Visuals=new Transform[3];
         public readonly ConfigurableJoint[] Hinges = new ConfigurableJoint[2];
         public const int PortCount=6; // Two cone tips and four exposed spherical faces.
         public readonly bool[] PortBusy = new bool[PortCount];
@@ -54,13 +56,15 @@ namespace Purumogu.Rescue
             var trim=MakeMaterial(new Color(.14f,.85f,.72f),.35f,.7f);
             var contact=new PhysicsMaterial("RobotGrip"){dynamicFriction=.17f,staticFriction=.28f,bounciness=.01f};resources.Add(contact);
             var ball=new GameObject("CentralSphericalJoint");ball.transform.SetParent(Root.transform,false);ball.transform.position=position;
-            var sphere=GameObject.CreatePrimitive(PrimitiveType.Sphere);sphere.transform.SetParent(ball.transform,false);sphere.transform.localScale=Vector3.one*.019f;sphere.GetComponent<Renderer>().sharedMaterial=dark;UnityEngine.Object.DestroyImmediate(sphere.GetComponent<Collider>());
+            Visuals[0]=new GameObject("BallVisual").transform;Visuals[0].SetParent(ball.transform,false);
+            var sphere=GameObject.CreatePrimitive(PrimitiveType.Sphere);sphere.transform.SetParent(Visuals[0],false);sphere.transform.localScale=Vector3.one*.019f;sphere.GetComponent<Renderer>().sharedMaterial=dark;UnityEngine.Object.DestroyImmediate(sphere.GetComponent<Collider>());
             Core=Body(ball,.008f);var ballCollider=ball.AddComponent<SphereCollider>();ballCollider.radius=.0095f;ballCollider.sharedMaterial=contact;
             for(int side=0;side<2;side++)
             {
                 int sign=side==0?1:-1;
                 var g=new GameObject(side==0?"FrontTaperedCone":"RearTaperedCone");g.transform.SetParent(Root.transform,false);g.transform.position=position+Vector3.forward*(sign*.0075f);
-                var mesh=ConeMesh(sign);resources.Add(mesh);g.AddComponent<MeshFilter>().sharedMesh=mesh;g.AddComponent<MeshRenderer>().sharedMaterial=shell;
+                var visual=new GameObject("ConeVisual");visual.transform.SetParent(g.transform,false);Visuals[side+1]=visual.transform;
+                var mesh=ConeMesh(sign);resources.Add(mesh);visual.AddComponent<MeshFilter>().sharedMesh=mesh;visual.AddComponent<MeshRenderer>().sharedMaterial=shell;
                 var collider=g.AddComponent<MeshCollider>();collider.sharedMesh=mesh;collider.convex=true;collider.sharedMaterial=contact;Cones[side]=Body(g,.008f);
                 var joint=g.AddComponent<ConfigurableJoint>();joint.connectedBody=Core;joint.autoConfigureConnectedAnchor=false;joint.anchor=Vector3.zero;joint.connectedAnchor=Vector3.forward*(sign*.0075f);
                 joint.xMotion=joint.yMotion=joint.zMotion=ConfigurableJointMotion.Locked;
@@ -71,13 +75,13 @@ namespace Purumogu.Rescue
                 joint.slerpDrive=new JointDrive{positionSpring=.010f,positionDamper=.00012f,maximumForce=.005f};
                 joint.enableCollision=false;joint.projectionMode=JointProjectionMode.PositionAndRotation;joint.projectionDistance=.001f;joint.projectionAngle=8;Hinges[side]=joint;
                 // Spherical seating rings and the dark flattened inner panel of the reference.
-                var ring=GameObject.CreatePrimitive(PrimitiveType.Sphere);ring.name="BallSeat";ring.transform.SetParent(g.transform,false);ring.transform.localScale=new Vector3(.018f,.018f,.009f);ring.GetComponent<Renderer>().sharedMaterial=shell;UnityEngine.Object.DestroyImmediate(ring.GetComponent<Collider>());
-                var panel=GameObject.CreatePrimitive(PrimitiveType.Cube);panel.name="ConeSensorPanel";panel.transform.SetParent(g.transform,false);panel.transform.localPosition=new Vector3(0,.0067f,sign*.0115f);panel.transform.localScale=new Vector3(.0095f,.0005f,.014f);panel.transform.localRotation=Quaternion.Euler(sign*12,0,0);panel.GetComponent<Renderer>().sharedMaterial=dark;UnityEngine.Object.DestroyImmediate(panel.GetComponent<Collider>());
-                var tip=GameObject.CreatePrimitive(PrimitiveType.Sphere);tip.name="MagneticDockPort";tip.transform.SetParent(g.transform,false);tip.transform.localPosition=Vector3.forward*(sign*.0265f);tip.transform.localScale=new Vector3(.0045f,.0045f,.002f);tip.GetComponent<Renderer>().sharedMaterial=trim;UnityEngine.Object.DestroyImmediate(tip.GetComponent<Collider>());
+                var ring=GameObject.CreatePrimitive(PrimitiveType.Sphere);ring.name="BallSeat";ring.transform.SetParent(visual.transform,false);ring.transform.localScale=new Vector3(.018f,.018f,.009f);ring.GetComponent<Renderer>().sharedMaterial=shell;UnityEngine.Object.DestroyImmediate(ring.GetComponent<Collider>());
+                var panel=GameObject.CreatePrimitive(PrimitiveType.Cube);panel.name="ConeSensorPanel";panel.transform.SetParent(visual.transform,false);panel.transform.localPosition=new Vector3(0,.0067f,sign*.0115f);panel.transform.localScale=new Vector3(.0095f,.0005f,.014f);panel.transform.localRotation=Quaternion.Euler(sign*12,0,0);panel.GetComponent<Renderer>().sharedMaterial=dark;UnityEngine.Object.DestroyImmediate(panel.GetComponent<Collider>());
+                var tip=GameObject.CreatePrimitive(PrimitiveType.Sphere);tip.name="MagneticDockPort";tip.transform.SetParent(visual.transform,false);tip.transform.localPosition=Vector3.forward*(sign*.0265f);tip.transform.localScale=new Vector3(.0045f,.0045f,.002f);tip.GetComponent<Renderer>().sharedMaterial=trim;UnityEngine.Object.DestroyImmediate(tip.GetComponent<Collider>());
             }
             for(int port=2;port<PortCount;port++)
             {
-                var pad=GameObject.CreatePrimitive(PrimitiveType.Sphere);pad.name="SphericalMagneticPort_"+(port-2);pad.transform.SetParent(Core.transform,false);
+                var pad=GameObject.CreatePrimitive(PrimitiveType.Sphere);pad.name="SphericalMagneticPort_"+(port-2);pad.transform.SetParent(Visuals[0],false);
                 pad.transform.localPosition=SphereNormals[port-2]*.0096f;pad.transform.localRotation=Quaternion.FromToRotation(Vector3.forward,SphereNormals[port-2]);pad.transform.localScale=new Vector3(.0034f,.0034f,.0007f);
                 pad.GetComponent<Renderer>().sharedMaterial=trim;UnityEngine.Object.DestroyImmediate(pad.GetComponent<Collider>());
             }

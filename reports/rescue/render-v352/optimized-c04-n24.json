@@ -1,0 +1,78 @@
+{
+  "unity": "6000.4.1f1",
+  "scene": "C04",
+  "nodes": 24,
+  "graphics": "NVIDIA GeForce RTX 5080",
+  "processor": "Intel(R) Core(TM) Ultra 7 265K",
+  "seconds": 35.0000412,
+  "warmup_seconds": 5,
+  "steps": 900,
+  "waiting_frames": 296672,
+  "last_inference_ms": 6.111145,
+  "failure": "",
+  "frame": {
+    "count": 486704,
+    "mean_ms": 0.061638402396530845,
+    "p50_ms": 0.050800000000350565,
+    "p95_ms": 0.1163999999995724,
+    "p99_ms": 0.23520000000232244,
+    "max_ms": 10.29929999999979,
+    "over_33ms": 0,
+    "over_50ms": 0
+  },
+  "stages": {
+    "camera": {
+      "count": 486705,
+      "mean_ms": 0.0032551785989501595,
+      "p50_ms": 0.0025,
+      "p95_ms": 0.0062,
+      "p99_ms": 0.0075,
+      "max_ms": 3.3367,
+      "over_33ms": 0,
+      "over_50ms": 0
+    },
+    "physics_tick": {
+      "count": 772,
+      "mean_ms": 0.7869901554404146,
+      "p50_ms": 0.8092,
+      "p95_ms": 1.0838,
+      "p99_ms": 1.3069,
+      "max_ms": 5.1101,
+      "over_33ms": 0,
+      "over_50ms": 0
+    },
+    "map_submit": {
+      "count": 7,
+      "mean_ms": 0.017057142857142858,
+      "p50_ms": 0.0171,
+      "p95_ms": 0.0219,
+      "p99_ms": 0.0219,
+      "max_ms": 0.0233,
+      "over_33ms": 0,
+      "over_50ms": 0
+    },
+    "evaluation_submit": {
+      "count": 7,
+      "mean_ms": 1.4899857142857142,
+      "p50_ms": 0.6913,
+      "p95_ms": 1.0278,
+      "p99_ms": 1.0278,
+      "max_ms": 7.0471,
+      "over_33ms": 0,
+      "over_50ms": 0
+    },
+    "map_upload": {
+      "count": 7,
+      "mean_ms": 1.5909285714285715,
+      "p50_ms": 1.4907,
+      "p95_ms": 2.0098,
+      "p99_ms": 2.0098,
+      "max_ms": 2.0426,
+      "over_33ms": 0,
+      "over_50ms": 0
+    }
+  },
+  "visibility": "hidden",
+  "presented_fps_measured": false,
+  "frame_statistics_kind": "Unity LateUpdate intervals; not visible presentation FPS"
+}

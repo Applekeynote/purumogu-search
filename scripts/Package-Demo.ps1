@@ -1,4 +1,4 @@
-param([string]$Model='models/swarm-v35-generic/model.json',[string]$Output='dist/PurumoguSearch-Windows-v3.5.1.zip',[string]$Folder='dist/PurumoguSearch-Windows-v3.5.1',[string]$Server='',[string]$Version='3.5.1',[string]$Player='build',[ValidateSet('WholeSceneDrop','RoofAndFacadeDrop')][string]$Deployment='RoofAndFacadeDrop',[ValidateRange(15,256)][int]$Scenes=36)
+param([string]$Model='models/swarm-v35-generic/model.json',[string]$Output='dist/PurumoguSearch-Windows-v3.5.2.zip',[string]$Folder='dist/PurumoguSearch-Windows-v3.5.2',[string]$Server='',[string]$Version='3.5.2',[string]$Player='build',[ValidateSet('WholeSceneDrop','RoofAndFacadeDrop')][string]$Deployment='RoofAndFacadeDrop',[ValidateRange(15,256)][int]$Scenes=36)
 $ErrorActionPreference='Stop'
 $projectRoot=Split-Path $PSScriptRoot -Parent
 $playerFolder=if([IO.Path]::IsPathRooted($Player)){$Player}else{Join-Path $projectRoot $Player}
@@ -71,6 +71,8 @@ $deploymentInstruction
 $sceneInstruction
 ・判断欄・断面・候補マーカー・波紋・点群は右上に表示しません。
 ・両3D画面をドラッグで回転、ホイールで拡大・縮小できます。
+・地図の格子生成と評価計算を別スレッドで処理し、描画を止めにくくしています。
+・機体の見た目を物理ステップ間で補間します。衝突・センサー・接続点は物理計算の位置を使います。
 $completionInstruction
 ・複数階では、観測された床支持と自由空間を使って3D経路を推定します。
 ・右下の評価は元の推論データで計算し、表示の滑らかさとは区別します。

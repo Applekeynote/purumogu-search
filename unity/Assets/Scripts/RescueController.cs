@@ -11,6 +11,7 @@ namespace Purumogu.Rescue
     public sealed partial class RescueController : MonoBehaviour
     {
         RescueSimulation simulation;
+        RescueVisualMotion visualMotion;
         RescueEchoWireMap map;
         readonly RescueEvaluation evaluation=new RescueEvaluation();
         UnityRustBridge bridge;
@@ -19,6 +20,11 @@ namespace Purumogu.Rescue
         int sourceSeed;
         Camera physicalCamera,mapCamera,robotCamera;
         Font font;
+        Renderer[][] robotRenderers;
+        int renderedSelection=-1;
+        readonly Dictionary<(int,bool),GUIStyle> textStyles=new Dictionary<(int,bool),GUIStyle>();
+        GUIStyle standardButton,primaryButton;
+        readonly List<string> nodeRows=new List<string>();float nextNodeRows;
         int sceneIndex=15,seed=20261027,port=47120,selectedNode,maxSteps=18000;
         int nodeCount=24,deploymentSeed=907231,mapInterval=100;
         bool entranceDeployment;
@@ -32,6 +38,7 @@ namespace Purumogu.Rescue
         float accumulator,lastSent,lastReply,latency,entropy=1,speed=1;
         JObject lastMap;
         readonly List<string> audit=new List<string>();
+        bool exportWhenReady;
         bool record;string frameFolder;int frame,maxFrames=1400;float captureAt;
         string filmView="";
         readonly List<string> frameTimes=new List<string>{"frame_index,wall_time_s,sim_step"};
@@ -40,7 +47,7 @@ namespace Purumogu.Rescue
 
         void Start()
         {
-            Application.runInBackground=true;QualitySettings.antiAliasing=4;Application.targetFrameRate=60;font=Font.CreateDynamicFontFromOSFont(new[]{"Yu Gothic","Segoe UI"},18);
+            Application.runInBackground=true;useGUILayout=false;QualitySettings.antiAliasing=4;QualitySettings.vSyncCount=1;Application.targetFrameRate=60;font=Font.CreateDynamicFontFromOSFont(new[]{"Yu Gothic","Segoe UI"},18);
             var args=Environment.GetCommandLineArgs();for(int i=0;i<args.Length-1;i++){if(args[i]=="--closeup")closeup=args[i+1]=="true";if(args[i]=="--port")int.TryParse(args[i+1],out port);if(args[i]=="--steps")int.TryParse(args[i+1],out maxSteps);if(args[i]=="--seed")int.TryParse(args[i+1],out seed);if(args[i]=="--scene")int.TryParse(args[i+1],out sceneIndex);if(args[i]=="--frames"){record=true;frameFolder=args[i+1];Directory.CreateDirectory(frameFolder);}if(args[i]=="--capture-count")int.TryParse(args[i+1],out maxFrames);if(args[i]=="--speed")float.TryParse(args[i+1],NumberStyles.Float,CultureInfo.InvariantCulture,out speed);}
             for(int i=0;i<args.Length-1;i++){if(args[i]=="--nodes")int.TryParse(args[i+1],out nodeCount);if(args[i]=="--map-interval")int.TryParse(args[i+1],out mapInterval);if(args[i]=="--deployment-seed")int.TryParse(args[i+1],out deploymentSeed);if(args[i]=="--deployment"){entranceDeployment=args[i+1]=="entrance";exteriorDeployment=args[i+1]=="openings";}if(args[i]=="--film-view")filmView=args[i+1];}
             nodeCount=nodeCount==36?36:nodeCount==48?48:entranceDeployment&&nodeCount==12?12:24;
@@ -55,11 +62,15 @@ namespace Purumogu.Rescue
             }
             Debug.Log($"RESCUE_START nodes={nodeCount} cameras={Camera.allCamerasCount} film={filmView??"<null>"} gui={useGUILayout} inference={(externalInference?"external":bundled!=null&&bundled.Alive?"bundled":"unavailable")}");
             if(record&&failure=="")Begin();
+            ConfigurePerformance(args);
         }
         void Build()
         {
             bridge?.Dispose();bridge=null;simulation?.Dispose();map?.Dispose();
+            evaluation.ResetDisplay();exportWhenReady=false;
             simulation=new RescueSimulation(sceneIndex,seed,nodeCount,entranceDeployment?RescueDeploymentMode.EntranceGrid:exteriorDeployment?RescueDeploymentMode.RoofAndFacadeDrop:RescueDeploymentMode.WholeSceneDrop,deploymentSeed,sourceSeed);map=new RescueEchoWireMap();lastMap=null;expected=-1;waiting=false;running=false;failure="";status="READY";audit.Clear();selectedNode=Mathf.Clamp(selectedNode,0,nodeCount-1);nodeScroll=Vector2.zero;
+            robotRenderers=new Renderer[simulation.Robots.Count][];for(int i=0;i<robotRenderers.Length;i++)robotRenderers[i]=simulation.Robots[i].Root.GetComponentsInChildren<Renderer>();renderedSelection=-1;nodeRows.Clear();nextNodeRows=0;
+            visualMotion=new RescueVisualMotion(simulation.Robots);
             if(!physicalCamera)
             {
                 physicalCamera=new GameObject("PhysicalSimulationCamera").AddComponent<Camera>();physicalCamera.clearFlags=CameraClearFlags.SolidColor;physicalCamera.backgroundColor=new Color(.17f,.21f,.22f);physicalCamera.cullingMask=~(1<<8);physicalCamera.orthographic=true;physicalCamera.nearClipPlane=.005f;physicalCamera.farClipPlane=30;
@@ -88,7 +99,7 @@ namespace Purumogu.Rescue
                         if((string)reply["protocol_version"]!="2.0"||(string)reply["run_id"]!=run||(long)reply["seq_no"]!=expected)throw new IOException("map response contract mismatch");
                         if(!entranceDeployment&&(bool?)reply["distributed_swarm"]!=true)throw new IOException("この散布設定に対応するモデルが必要です。");
                         waiting=false;lastReply=Time.realtimeSinceStartup;latency=(lastReply-lastSent)*1000;
-                        if(reply["cells"] is JArray cells&&cells.Count>0){lastMap=reply;entropy=(float)reply["mean_entropy_bits"];map.Update(reply);evaluation.Evaluate(simulation,reply);}
+                        if(reply["cells"] is JArray cells&&cells.Count>0){lastMap=reply;entropy=(float)reply["mean_entropy_bits"];long stamp=MeasureStart();map.ScheduleUpdate(reply);MeasureEnd("map_submit",stamp);stamp=MeasureStart();evaluation.Schedule(simulation,reply);MeasureEnd("evaluation_submit",stamp);}
                         else if(lastMap!=null)lastMap["nodes"]=reply["nodes"].DeepClone();
                         simulation.ApplyGuidance(reply);status=paused?"PAUSED":"EXPLORING";
                     }
@@ -101,9 +112,10 @@ namespace Purumogu.Rescue
                         if(!paused&&!waiting&&simulation.Step<maxSteps)
                         {
                             accumulator=Mathf.Min(.24f,accumulator+Time.deltaTime*speed);int count=0;
-                            while(accumulator>=.02f&&count++<12&&simulation.Step<maxSteps)
+                            long physicsStart=System.Diagnostics.Stopwatch.GetTimestamp();
+                            while(accumulator>=.02f&&count++<12&&simulation.Step<maxSteps&&(count==1||(System.Diagnostics.Stopwatch.GetTimestamp()-physicsStart)*1000d/System.Diagnostics.Stopwatch.Frequency<4))
                             {
-                                accumulator-=.02f;simulation.Tick();
+                                accumulator-=.02f;long tickStamp=MeasureStart();simulation.Tick();visualMotion.Capture();MeasureEnd("physics_tick",tickStamp);
                                 if(simulation.Step%25==0&&!waiting)
                                 {
                                     var packet=simulation.Observe(run,sequence++);packet.request_map=simulation.Step%mapInterval==0||simulation.Step==maxSteps;string json=JsonConvert.SerializeObject(packet);bridge.SendJson(json);audit.Add(json);expected=packet.seq_no;waiting=true;lastSent=Time.realtimeSinceStartup;break;
@@ -119,12 +131,19 @@ namespace Purumogu.Rescue
                     {
                         simulation.Power(false);
                         if(!waiting&&(lastMap==null||(long)lastMap["sim_step"]<maxSteps)){var packet=simulation.Observe(run,sequence++);string json=JsonConvert.SerializeObject(packet);bridge.SendJson(json);audit.Add(json);expected=packet.seq_no;waiting=true;lastSent=Time.realtimeSinceStartup;}
-                        if(!waiting&&lastMap!=null&&(long)lastMap["sim_step"]>=maxSteps){running=false;status="TIME BUDGET COMPLETE";Export();}
+                        if(!waiting&&!evaluation.Pending&&lastMap!=null&&(long)lastMap["sim_step"]>=maxSteps){running=false;status="TIME BUDGET COMPLETE";Export();}
                     }
                 }
                 catch(Exception e){failure=e.Message;status="SAFE STOP";running=false;simulation.Power(false);simulation.ReleaseAll();bridge?.Dispose();bridge=null;Export();}
             }
-            UpdateCameras();
+            try{long stamp=MeasureStart();if(map.PresentCompleted())MeasureEnd("map_upload",stamp);evaluation.PresentCompleted();if(exportWhenReady&&!evaluation.Pending){exportWhenReady=false;Export();}}
+            catch(Exception e){failure=e.Message;status="DISPLAY STOP";running=false;simulation.Power(false);bridge?.Dispose();bridge=null;}
+            if(Time.unscaledTime>=nextNodeRows)
+            {
+                nextNodeRows=Time.unscaledTime+.1f;nodeRows.Clear();
+                foreach(var node in simulation.Robots)nodeRows.Add($"{node.Id}     {node.Energy*100,3:F0}%     {node.BendDegrees,3:F0}°/{node.SpinDegrees,3:F0}°     {node.ConnectionCount}        {node.Peers,2}          {node.Signal,4:F0}       {node.LastSnr,4:F1}       {node.Temperature,4:F1}°     {(!node.Released?"投下待機":node.Lost?"喪失":node.Verifying?"確認中":node.Stuck?"停滞":node.Powered?"稼働":"停止")}");
+            }
+            visualMotion.Present(speed);long cameraStamp=MeasureStart();UpdateCameras();MeasureEnd("camera",cameraStamp);
             if(record&&Time.realtimeSinceStartup>=captureAt)
             {
                 captureAt=Time.realtimeSinceStartup+.05f;frameTimes.Add(frame+","+Time.realtimeSinceStartup.ToString("F5",CultureInfo.InvariantCulture)+","+simulation.Step);ScreenCapture.CaptureScreenshot(Path.Combine(frameFolder,$"frame-{frame++:D5}.png"));if(frame>=maxFrames){Export();Application.Quit();}
@@ -134,13 +153,13 @@ namespace Purumogu.Rescue
         {
             if(!physicalCamera||simulation==null)return;
             physicalView.Step(Time.unscaledDeltaTime);inferenceView.Step(Time.unscaledDeltaTime);
-            var target=closeup?simulation.Robots[Mathf.Clamp(selectedNode,0,simulation.Robots.Count-1)].Core.position:new Vector3(0,entranceDeployment?.06f:.32f,1.30f);
+            var target=closeup?simulation.Robots[Mathf.Clamp(selectedNode,0,simulation.Robots.Count-1)].Visuals[0].position:new Vector3(0,entranceDeployment?.06f:.32f,1.30f);
             var initialOffset=closeup?new Vector3(.085f,.065f,-.065f):new Vector3(2.05f,2f,-.6f)-target;
             physicalView.Apply(physicalCamera,target,initialOffset,closeup?.072f:entranceDeployment?1.12f:1.38f);
             ApplyMapCamera();
             map.SetViewport(MapRenderArea.width/1600f*Screen.width,MapRenderArea.height/900f*Screen.height,1.30f/mapCamera.orthographicSize);
-            var robotTarget=simulation.Robots[Mathf.Clamp(selectedNode,0,simulation.Robots.Count-1)].Core.position;robotCamera.enabled=!closeup;robotCamera.transform.position=robotTarget+new Vector3(.060f,.055f,-.065f);robotCamera.transform.LookAt(robotTarget);
-            for(int i=0;i<simulation.Robots.Count;i++)foreach(var renderer in simulation.Robots[i].Root.GetComponentsInChildren<Renderer>())renderer.gameObject.layer=i==selectedNode?9:0;
+            var robotTarget=simulation.Robots[Mathf.Clamp(selectedNode,0,simulation.Robots.Count-1)].Visuals[0].position;robotCamera.enabled=!closeup;robotCamera.transform.position=robotTarget+new Vector3(.060f,.055f,-.065f);robotCamera.transform.LookAt(robotTarget);
+            if(renderedSelection!=selectedNode){for(int i=0;i<robotRenderers.Length;i++)foreach(var renderer in robotRenderers[i])renderer.gameObject.layer=i==selectedNode?9:0;renderedSelection=selectedNode;}
             if(filmView!="")
             {
                 bool mapping=filmView=="map",macro=filmView=="robot";
@@ -156,13 +175,15 @@ namespace Purumogu.Rescue
         void OnApplicationFocus(bool focused){if(!focused){physicalView.Cancel();inferenceView.Cancel();}}
         void Export()
         {
+            if(evaluation.Pending){exportWhenReady=true;return;}
             if(audit.Count==0)return;string path=Path.Combine(Application.persistentDataPath,"rescue-runs");Directory.CreateDirectory(path);var output=Path.Combine(path,run+".jsonl");File.WriteAllLines(output,audit);if(lastMap!=null)File.AppendAllText(output,lastMap.ToString(Formatting.None)+Environment.NewLine);File.WriteAllText(Path.Combine(path,run+"-evaluation.json"),JsonConvert.SerializeObject(evaluation.Snapshot(simulation),Formatting.Indented));
         }
         void OnDestroy(){if(record&&frameFolder!=null)File.WriteAllLines(Path.Combine(frameFolder,"timestamps.csv"),frameTimes);bridge?.Dispose();bundled?.Dispose();simulation?.Dispose();map?.Dispose();}
         void Fill(Rect r,Color c){GUI.color=c;GUI.DrawTexture(r,Texture2D.whiteTexture);GUI.color=Color.white;}
         void Text(float x,float y,float w,float h,string value,int size,Color color,bool bold=false)
         {
-            var style=new GUIStyle(GUI.skin.label){font=font,fontSize=size,fontStyle=bold?FontStyle.Bold:FontStyle.Normal,wordWrap=true};style.normal.textColor=color;GUI.Label(new Rect(x,y,w,h),value,style);
+            if(!textStyles.TryGetValue((size,bold),out var style)){style=new GUIStyle(GUI.skin.label){font=font,fontSize=size,fontStyle=bold?FontStyle.Bold:FontStyle.Normal,wordWrap=true};textStyles[(size,bold)]=style;}
+            style.normal.textColor=color;GUI.Label(new Rect(x,y,w,h),value,style);
         }
         void Rounded(Rect area,Color color)
         {
@@ -172,7 +193,8 @@ namespace Purumogu.Rescue
         {
             var rect=new Rect(x,y,width,height);var bg=primary?Mint:selected?new Color(.13f,.29f,.27f):new Color(.105f,.145f,.17f);
             if(rect.Contains(Event.current.mousePosition)&&GUI.enabled)bg=Color.Lerp(bg,Color.white,.07f);Rounded(rect,bg);
-            var style=new GUIStyle(GUI.skin.button){font=font,fontSize=primary?15:12,fontStyle=primary?FontStyle.Bold:FontStyle.Normal};style.normal.background=null;style.hover.background=null;style.active.background=null;style.focused.background=null;
+            var style=primary?primaryButton:standardButton;
+            if(style==null){style=new GUIStyle(GUI.skin.button){font=font,fontSize=primary?15:12,fontStyle=primary?FontStyle.Bold:FontStyle.Normal};style.normal.background=null;style.hover.background=null;style.active.background=null;style.focused.background=null;if(primary)primaryButton=style;else standardButton=style;}
             style.normal.textColor=primary?Background:selected?Mint:Ink;style.hover.textColor=style.normal.textColor;style.active.textColor=style.normal.textColor;
             return GUI.Button(rect,label,style);
         }
@@ -210,6 +232,7 @@ namespace Purumogu.Rescue
         void OnGUI()
         {
             if(filmView!="")return;
+            if(Event.current.type==EventType.Layout)return;
             if(simulation==null)return;GUI.matrix=Matrix4x4.Scale(new Vector3(Screen.width/1600f,Screen.height/900f,1));
             // Automated frame capture must not drift when unrelated mouse input arrives.
             if(record&&Event.current.type!=EventType.Repaint&&Event.current.type!=EventType.Layout)Event.current.Use();
@@ -244,8 +267,8 @@ namespace Purumogu.Rescue
             nodeScroll=GUI.BeginScrollView(new Rect(36,690,744,178),nodeScroll,new Rect(0,0,722,Mathf.Max(178,simulation.Robots.Count*17)),false,true);
             for(int i=0;i<simulation.Robots.Count;i++)
             {
-                var node=simulation.Robots[i];float y=i*17;if(i==selectedNode)Fill(new Rect(0,y,722,17),new Color(.10f,.20f,.22f));
-                string row=$"{node.Id}     {node.Energy*100,3:F0}%     {node.BendDegrees,3:F0}°/{node.SpinDegrees,3:F0}°     {node.ConnectionCount}        {node.Peers,2}          {node.Signal,4:F0}       {node.LastSnr,4:F1}       {node.Temperature,4:F1}°     {(!node.Released?"投下待機":node.Lost?"喪失":node.Verifying?"確認中":node.Stuck?"停滞":node.Powered?"稼働":"停止")}";
+                var node=simulation.Robots[i];float y=i*17;if(y+17<nodeScroll.y||y>nodeScroll.y+178)continue;if(i==selectedNode)Fill(new Rect(0,y,722,17),new Color(.10f,.20f,.22f));
+                string row=i<nodeRows.Count?nodeRows[i]:node.Id;
                 Text(6,y,710,20,row,11,node.Lost||node.Stuck?Amber:Ink);if(GUI.Button(new Rect(0,y,722,17),GUIContent.none,GUIStyle.none))selectedNode=i;
             }
             GUI.EndScrollView();

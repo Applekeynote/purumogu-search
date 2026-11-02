@@ -140,12 +140,52 @@ namespace Purumogu.Rescue
         int observedCorrect,observedPredicted,observedTrue;
         readonly HashSet<Vector3Int> truthGrid=new HashSet<Vector3Int>();
         int truthStep=-1000;
+        sealed class EvaluationFrame
+        {
+            public RescueEvaluation Result;public JArray Cells,Nodes,Cues;
+            public Dictionary<string,Vector3> Positions;public List<Vector3> Victims;
+        }
+        readonly Queue<EvaluationFrame> queued=new Queue<EvaluationFrame>();
+        System.Threading.Tasks.Task<RescueEvaluation> calculating;
+        public bool Pending=>calculating!=null||queued.Count>0;
+        public void ResetDisplay()
+        {
+            if(calculating!=null)calculating.ContinueWith(t=>{var ignored=t.Exception;},System.Threading.Tasks.TaskContinuationOptions.OnlyOnFaulted);
+            calculating=null;queued.Clear();truthGrid.Clear();truthStep=-1000;Adopt(new RescueEvaluation());
+        }
+        public void Schedule(RescueSimulation simulation,JObject reply)
+        {
+            if(queued.Count>=4)throw new InvalidOperationException("Evaluation queue full");
+            PrepareTruth(simulation,(float)reply["cell_m"]);
+            var result=new RescueEvaluation();result.truthGrid.UnionWith(truthGrid);
+            var positions=new Dictionary<string,Vector3>();foreach(var robot in simulation.Robots)positions[robot.Id]=robot.Core.position;
+            queued.Enqueue(new EvaluationFrame{Result=result,Cells=(JArray)reply["cells"],Nodes=(JArray)reply["nodes"],Cues=(JArray)reply["cues"],Positions=positions,Victims=new List<Vector3>(simulation.Scene.VictimPositions)});
+            StartNext();
+        }
+        void StartNext()
+        {
+            if(calculating!=null||queued.Count==0)return;var frame=queued.Dequeue();
+            calculating=System.Threading.Tasks.Task.Run(()=>{frame.Result.EvaluateData(frame.Cells,frame.Nodes,frame.Cues,frame.Positions,frame.Victims);return frame.Result;});
+        }
+        public bool PresentCompleted()
+        {
+            if(calculating==null||!calculating.IsCompleted)return false;
+            var completed=calculating;calculating=null;Adopt(completed.GetAwaiter().GetResult());StartNext();return true;
+        }
+        void Adopt(RescueEvaluation result)
+        {
+            Observed=result.Observed;PredictedOccupied=result.PredictedOccupied;CorrectOccupied=result.CorrectOccupied;TrueOccupied=result.TrueOccupied;CueCount=result.CueCount;Matched=result.Matched;FalseAlarms=result.FalseAlarms;
+            IoU=result.IoU;GlobalIoU=result.GlobalIoU;Precision=result.Precision;Recall=result.Recall;Coverage=result.Coverage;PoseRmse=result.PoseRmse;LocalizationError=result.LocalizationError;TruthOccupiedTotal=result.TruthOccupiedTotal;
+        }
         public int[][] TrainingTruthGrid(){var keys=new List<int[]>();foreach(var key in truthGrid)keys.Add(new[]{key.x,key.y,key.z});return keys.ToArray();}
         public void Evaluate(RescueSimulation simulation,JObject reply)
         {
-            Observed=PredictedOccupied=CorrectOccupied=TrueOccupied=Matched=FalseAlarms=0;
-            observedCorrect=observedPredicted=observedTrue=0;
-            float cell=(float)reply["cell_m"];
+            PrepareTruth(simulation,(float)reply["cell_m"]);
+            var positions=new Dictionary<string,Vector3>();foreach(var robot in simulation.Robots)positions[robot.Id]=robot.Core.position;
+            EvaluateData((JArray)reply["cells"],(JArray)reply["nodes"],(JArray)reply["cues"],positions,simulation.Scene.VictimPositions);
+        }
+        void PrepareTruth(RescueSimulation simulation,float cell)
+        {
             if(simulation.Step-truthStep>=500)
             {
                 truthGrid.Clear();
@@ -156,10 +196,15 @@ namespace Purumogu.Rescue
                 }
                 truthStep=simulation.Step;
             }
+        }
+        void EvaluateData(JArray cells,JArray nodes,JArray cues,Dictionary<string,Vector3> positions,List<Vector3> victims)
+        {
+            Observed=PredictedOccupied=CorrectOccupied=TrueOccupied=Matched=FalseAlarms=0;
+            observedCorrect=observedPredicted=observedTrue=0;
             TruthOccupiedTotal=truthGrid.Count;
-            foreach(var c in (JArray)reply["cells"])
+            foreach(var c in cells)
             {
-                var key=(JArray)c["key"];var p=new Vector3(((int)key[0]+.5f)*cell,((int)key[1]+.5f)*cell,((int)key[2]+.5f)*cell);
+                var key=(JArray)c["key"];
                 bool truth=truthGrid.Contains(new Vector3Int((int)key[0],(int)key[1],(int)key[2]));bool predicted=(float)c["occupancy"]>.6f;
                 if(truth)TrueOccupied++;if(predicted)PredictedOccupied++;if(truth&&predicted)CorrectOccupied++;
                 if((int)c["observations"]>0){Observed++;if(truth)observedTrue++;if(predicted)observedPredicted++;if(truth&&predicted)observedCorrect++;}
@@ -167,16 +212,16 @@ namespace Purumogu.Rescue
             Precision=PredictedOccupied>0?(float)CorrectOccupied/PredictedOccupied:0;Recall=TruthOccupiedTotal>0?(float)CorrectOccupied/TruthOccupiedTotal:0;
             int union=observedTrue+observedPredicted-observedCorrect;IoU=union>0?(float)observedCorrect/union:0;Coverage=Observed/(32f*21*70);
             int globalUnion=TruthOccupiedTotal+PredictedOccupied-CorrectOccupied;GlobalIoU=globalUnion>0?(float)CorrectOccupied/globalUnion:0;
-            float squared=0;int count=0;foreach(var n in (JArray)reply["nodes"])
+            float squared=0;int count=0;foreach(var n in nodes)
             {
-                var robot=simulation.Robots.Find(r=>r.Id==(string)n["node_id"]);if(robot==null)continue;var p=Vector(n["estimated_position"]);squared+=(p-robot.Core.position).sqrMagnitude;count++;
+                if(!positions.TryGetValue((string)n["node_id"],out var position))continue;var p=Vector(n["estimated_position"]);squared+=(p-position).sqrMagnitude;count++;
             }
             PoseRmse=count>0?Mathf.Sqrt(squared/count):0;
-            var used=new HashSet<int>();float error=0;CueCount=((JArray)reply["cues"]).Count;
-            foreach(var cue in (JArray)reply["cues"])
+            var used=new HashSet<int>();float error=0;CueCount=cues.Count;
+            foreach(var cue in cues)
             {
                 var p=Vector(cue["position"]);int best=-1;float distance=float.PositiveInfinity;
-                for(int i=0;i<simulation.Scene.VictimPositions.Count;i++){if(used.Contains(i))continue;float d=Vector3.Distance(p,simulation.Scene.VictimPositions[i]);if(d<distance){distance=d;best=i;}}
+                for(int i=0;i<victims.Count;i++){if(used.Contains(i))continue;float d=Vector3.Distance(p,victims[i]);if(d<distance){distance=d;best=i;}}
                 if(best>=0&&distance<.25f){used.Add(best);Matched++;error+=distance;}else FalseAlarms++;
             }
             LocalizationError=Matched>0?error/Matched:float.NaN;

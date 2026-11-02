@@ -1,0 +1,64 @@
+{
+  "unity": "6000.4.1f1",
+  "seconds": 50.0000621,
+  "warmup_seconds": 5,
+  "steps": 1194,
+  "waiting_frames": 228551,
+  "last_inference_ms": 74.73755,
+  "failure": "",
+  "frame": {
+    "count": 431673,
+    "mean_ms": 0.10421314907350061,
+    "p50_ms": 0.08350000000234559,
+    "p95_ms": 0.1686000000002963,
+    "p99_ms": 0.3037999999992991,
+    "max_ms": 157.17980000000153,
+    "over_33ms": 10,
+    "over_50ms": 10
+  },
+  "stages": {
+    "evaluation": {
+      "count": 11,
+      "mean_ms": 25.714863636363635,
+      "p50_ms": 24.5563,
+      "p95_ms": 29.8393,
+      "p99_ms": 29.8393,
+      "max_ms": 30.6439,
+      "over_33ms": 0,
+      "over_50ms": 0
+    },
+    "camera": {
+      "count": 431674,
+      "mean_ms": 0.050557016869213184,
+      "p50_ms": 0.0433,
+      "p95_ms": 0.0773,
+      "p99_ms": 0.1258,
+      "max_ms": 12.762,
+      "over_33ms": 0,
+      "over_50ms": 0
+    },
+    "physics_tick": {
+      "count": 1094,
+      "mean_ms": 1.2608172760511904,
+      "p50_ms": 1.2644,
+      "p95_ms": 1.7929,
+      "p99_ms": 2.0656,
+      "max_ms": 5.1108,
+      "over_33ms": 0,
+      "over_50ms": 0
+    },
+    "map": {
+      "count": 10,
+      "mean_ms": 108.36049,
+      "p50_ms": 102.1794,
+      "p95_ms": 128.1826,
+      "p99_ms": 128.1826,
+      "max_ms": 129.2949,
+      "over_33ms": 10,
+      "over_50ms": 10
+    }
+  },
+  "visibility": "hidden",
+  "presented_fps_measured": false,
+  "frame_statistics_kind": "Unity LateUpdate intervals; not visible presentation FPS"
+}

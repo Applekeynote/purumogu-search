@@ -1,0 +1,19 @@
+{
+  "measurement": "main-thread CPU stages, hidden native player; not monitor FPS",
+  "date_jst": "2026-11-02",
+  "scene": "E06",
+  "nodes": 48,
+  "map_and_source_seed": 20261027,
+  "baseline_seconds": 50.0000621,
+  "optimized_seconds": 50.000019699999996,
+  "warmup_seconds": 5,
+  "baseline_map_main_mean_ms": 108.36049,
+  "optimized_map_main_mean_ms": 0.6621400000000001,
+  "baseline_evaluation_main_mean_ms": 25.714863636363635,
+  "optimized_evaluation_main_mean_ms": 1.29484,
+  "baseline_over_50ms": 10,
+  "optimized_over_50ms": 0,
+  "cases_passed": 3,
+  "model_and_sensor_contract_unchanged": true,
+  "additional_training": false
+}

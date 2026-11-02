@@ -1,0 +1,28 @@
+{
+  "status": "pass",
+  "checks": [
+    "synchronous/asynchronous vertex, index, normal, UV and color buffers identical",
+    "ordered observation hysteresis preserved",
+    "metric values and pose snapshot identical",
+    "reset/dispose rejects stale results",
+    "visual interpolation leaves bodies, collider bounds and dock ports unchanged",
+    "tip-tip, sphere-sphere, tip-sphere docking and separation",
+    "81 Python regression tests without skips",
+    "portable CPU inference and forced-exit cleanup"
+  ],
+  "source_files_sha256": {
+    "unity/Assets/Scripts/RescueController.cs": "d931e82985fdf795605b92f5c9b3b0030a1515ea37bbde74b65628d07949a3fd",
+    "unity/Assets/Scripts/RescueEchoWireMap.cs": "1e2c330f2f50fd3ba9f676998943a39d4454c489ba9c9bbe942f13dbbad307a7",
+    "unity/Assets/Scripts/RescueRobot.cs": "ce31a849644afb748d7d260ee54df33e19192f65b69c26b0c8ae59bab7bf6c2b",
+    "unity/Assets/Scripts/RescueSimulation.cs": "69c852fdadb08fc7f47be2e28fb904f2ac138207c2631b292086196fd92450c6",
+    "unity/Assets/Scripts/RescueVisualMotion.cs": "845c7d3ef940efc6a70cc9095405527b2a2debd5c45b8dd52c33fa53a7975927",
+    "unity/Assets/Scripts/RescuePerformance.cs": "f6da5435f8a3a3b50d8467621f623f31837d07012c3dbc8a8e72f65f4c12ad84",
+    "unity/Assets/Editor/RescueRenderTests.cs": "c455eac77f1b9b058a8b377cb20726461b735df8c13bdedbfaeafdefbdf8a016"
+  },
+  "unity_test_logs_sha256": {
+    "tmp/v352-rescue-render-smoke-final.log": "31a4d72476bd032f8b4be1478f6e359c566a10230b68fa124c3148674c1871f4",
+    "tmp/v352-rescue-docking-smoke-final.log": "21dc4b21c8bc38b2561b5960c5ce3d75c6d886ed232a7c53af56126c56831546"
+  },
+  "unchanged_inference_files": 13,
+  "additional_training": false
+}
